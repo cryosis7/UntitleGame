@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .game-container {
+    width: 750px;
+    height: 500px;
+    display: flex;
+  }
+}
