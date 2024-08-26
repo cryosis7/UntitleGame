@@ -2,6 +2,11 @@
   flex-grow: 1;
 }
 
+.center-content {
+  text-align: center;
+  align-content: center;
+}
+
 .border {
   &-red {
     border: 1px solid red;

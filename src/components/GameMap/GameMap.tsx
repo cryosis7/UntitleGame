@@ -7,9 +7,7 @@ import { getMap } from '../../redux/slices/mapSlice';
 export const GameMap: React.FC = () => {
   const map = useAppSelector(getMap);
 
-  const tileComponents = map.map((tile, i) => (
-    <Tile index={i} walkable={tile.isWalkable()} key={i} />
-  ));
+  const tiles = map.map((tile, i) => <Tile key={i} tile={tile} index={i} />);
 
-  return <div className='game-map'>{tileComponents}</div>;
+  return <div className='game-map'>{tiles}</div>;
 };

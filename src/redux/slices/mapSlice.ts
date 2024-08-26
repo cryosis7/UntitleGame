@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TileModel } from '../../models/TileModel';
+import {
+  GroundModel,
+  groundModelCreator,
+} from '../../models/physical/GroundModel';
 
 export interface MapState {
   settings: {
@@ -7,7 +10,7 @@ export interface MapState {
     tileSize: number;
     tilesPerRow: number;
   };
-  map: TileModel[];
+  map: GroundModel[];
 }
 
 const initialState: MapState = {
@@ -39,7 +42,7 @@ export const mapSlice = createSlice({
     setTile: create.reducer(
       (
         state,
-        { payload }: PayloadAction<{ tile: TileModel; index: number }>,
+        { payload }: PayloadAction<{ tile: GroundModel; index: number }>,
       ) => {
         if (payload.index < 0 || payload.index > state.map.length) {
           console.error(
@@ -50,10 +53,10 @@ export const mapSlice = createSlice({
         state.map[payload.index] = payload.tile;
       },
     ),
-    initialiseMap: create.reducer((state, { payload }: PayloadAction) => {
+    initialiseMap: create.reducer((state) => {
       state.map = Array(
         state.settings.tilesPerRow * state.settings.tilesPerRow,
-      ).fill(new TileModel());
+      ).fill(groundModelCreator());
     }),
   }),
   selectors: {

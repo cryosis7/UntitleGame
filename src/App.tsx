@@ -2,13 +2,13 @@ import { Game } from "./components/Game";
 import "./App.scss";
 import './utils/common.scss';
 import { setTile } from "./redux/slices/mapSlice";
-import { TileModel } from "./models/TileModel";
+import { GroundModel, groundModelCreator } from "./models/physical/GroundModel";
 import { useAppDispatch } from "./redux/hooks";
 
 const App = () => {
   const dispatch = useAppDispatch();
 
-  const tileModel = new TileModel(false);
+  const tileModel = groundModelCreator({ walkable: false });
   console.log(tileModel);
   return (
     <div className="root">
