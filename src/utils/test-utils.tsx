@@ -3,8 +3,8 @@ import { render } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import type { PropsWithChildren, ReactElement } from "react"
 import { Provider } from "react-redux"
-import type { AppStore, RootState } from "../app/store"
-import { makeStore } from "../app/store"
+import type { AppStore, RootState } from "../redux/store"
+import { makeStore } from "../redux/store"
 
 /**
  * This type extends the default options for
@@ -41,7 +41,7 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
  * @param extendedRenderOptions - Optional configuration options for rendering. This includes `preloadedState` for initial Redux state and `store` for a specific Redux store instance. Any additional properties are passed to React Testing Library's render function.
  * @returns An object containing the Redux store used in the render, User event API for simulating user interactions in tests, and all of React Testing Library's query functions for testing the component.
  */
-export const renderWithProviders = (
+export const renderWithStore = (
   ui: ReactElement,
   extendedRenderOptions: ExtendedRenderOptions = {},
 ) => {
