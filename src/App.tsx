@@ -1,22 +1,25 @@
-import { Game } from "./components/Game";
-import "./App.scss";
+import { Game } from './components/Game';
+import './App.scss';
 import './utils/common.scss';
-import { setTile } from "./redux/slices/mapSlice";
-import { GroundModel, groundModelCreator } from "./models/physical/GroundModel";
-import { useAppDispatch } from "./redux/hooks";
+import { Route, Routes } from "react-router-dom";
+import { Editor } from "./components/Editor/Editor";
 
 const App = () => {
-  const dispatch = useAppDispatch();
-
-  const tileModel = groundModelCreator({ walkable: false });
-  console.log(tileModel);
   return (
-    <div className="root">
-      <div className="game-container">
-        <Game />
-      </div>
-      <button onClick={() => dispatch(setTile({tile: tileModel, index: 50}))}>Click</button>
-    </div>
+    <Routes>
+      <Route
+        path='/'
+        element={
+          <div className='root'>
+            <div className='game-container'>
+              <Game />
+            </div>
+          </div>
+        }
+      />
+      <Route path='/editor' element={<Editor />} />
+      <Route path='*' element={<div>No Route Match</div>} />
+    </Routes>
   );
 };
 

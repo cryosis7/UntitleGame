@@ -26,19 +26,6 @@ export const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: (create) => ({
-    // setMapSettings: create.reducer(
-    //   (
-    //     state,
-    //     { payload }: PayloadAction<{ mapSize: number; tilesPerRow: number }>,
-    //   ) => {
-    //     state.settings.mapSize = payload.mapSize;
-    //     state.settings.tilesPerRow = payload.tilesPerRow;
-    //     state.settings.tileSize = payload.mapSize / payload.tilesPerRow;
-    //   },
-    // ),
-    // setMap: create.reducer((state, { payload }: PayloadAction<TileModel[]>) => {
-    //   state.map = payload;
-    // }),
     setTile: create.reducer(
       (
         state,
