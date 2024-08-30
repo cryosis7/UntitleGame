@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { DynamicForm } from './DynamicForm';
-import { objectSchemas } from "../../models/schemas";
+import type { GameObjectSchema } from '../../models/Schemas';
+import { createGameObjectSchema } from '../../utils/schemaUtils';
 
 export const Editor: React.FC = () => {
-  const [selectedType, setSelectedType] = useState<string>('ground');
+  const [gameObjects, setGameObjects] = useState<GameObjectSchema[]>([createGameObjectSchema()]);
+  const [currentGameObjectIndex, setCurrentGameObjectIndex] = useState<number>(0);
+
+  const handleClick = () => {
+    const newGameObjects = [...gameObjects, createGameObjectSchema()];
+    setGameObjects(gameObjects);
+    setCurrentGameObjectIndex(newGameObjects.length - 1);
+  }
 
   return (
     <div>
       <h1>Create Game Object</h1>
-        <select
-          onChange={(e) => setSelectedType(e.target.value)}
-          value={selectedType}
-        >
-          {objectSchemas.map((schema) => (
-            <option key={schema.type} value={schema.type}>
-              {schema.type}
-            </option>
-          ))}
-        </select>
-      <DynamicForm objectType={selectedType} />
+      <button onClick={handleClick}>Create a new GameObject</button>
+      <button onClick={() => console.log(JSON.stringify(gameObjects, undefined, 2))}>Print All</button>
+      <DynamicForm baseObject={gameObjects[currentGameObjectIndex]}/>
     </div>
   );
 };

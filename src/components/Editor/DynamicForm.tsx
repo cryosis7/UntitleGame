@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { objectSchemas } from "../../models/schemas";
+import type React from 'react';
+import { useMemo, useState } from 'react';
+import type { BaseObjectSchema, PropertySection, ValueSchema } from '../../models/Schemas';
+import { isValueSchema } from '../../utils/schemaUtils';
+import { GameObject, MandatoryProperties } from '../../models/GameObject';
 
 interface DynamicFormProps {
-  objectType: string
+  baseObject: BaseObjectSchema;
 }
 
-export const DynamicForm: React.FC<DynamicFormProps> = ({ objectType}) => {
-  const schema = objectSchemas.find(schema => schema.type === objectType);
+export const DynamicForm: React.FC<DynamicFormProps> = ({ baseObject }) => {
   const [formData, setFormData] = useState<any>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,33 +18,62 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({ objectType}) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    // Handle form submission logic here
+
+    const mandatoryKeys: (keyof MandatoryProperties)[] = ['name', 'isCollidable', 'isInteractable'];
+
+    for (const key of mandatoryKeys) {
+      if (!(key in formData)) {
+        console.error(`Missing mandatory property: ${key}`);
+        return;
+      }
+    }
+
+    const gameObject: GameObject = {
+      id: crypto.randomUUID(),
+      properties: {
+        ...formData
+      }
+    }
+    console.log('New GameObject Created:', gameObject);
   };
 
-  if (!schema) {
-    return <div>Invalid object type</div>;
-  }
+  const renderProperty = useMemo(() => (name: string, propertyConfig: ValueSchema): React.ReactNode => {
+    const inputType = {
+      boolean: 'checkbox',
+      string: 'text',
+      number: 'number'
+    };
 
-  const inputType = {
-    boolean: 'checkbox',
-    string: 'text',
-    number: 'number',
-  }
+    return (
+      <label key={name}>
+        {name} {propertyConfig.required && propertyConfig.type !== 'boolean' && <span>*</span>}
+        <input
+          type={inputType[propertyConfig.type]}
+          name={name}
+          autoComplete="off"
+          required={propertyConfig.required && propertyConfig.type !== 'boolean'}
+          onChange={handleChange}
+        />
+      </label>
+    );
+  }, []);
+
+  const renderSection = useMemo(() => (name: string, sectionProperties: PropertySection) => {
+    return (
+      <div>
+        Section: {name}
+        <div>
+          {Object.entries(sectionProperties).map(([name, propertyConfig]) => renderProperty(name, propertyConfig))}
+        </div>
+      </div>);
+  }, [renderProperty]);
+
 
   return (
     <form onSubmit={handleSubmit}>
-      {schema.properties.map(prop => (
-        <div key={prop.name}>
-          <label>
-            {prop.name} {prop.required && prop.type !== 'boolean' && <span>*</span>}
-            <input
-              type={inputType[prop.type]}
-              name={prop.name}
-              required={prop.required && prop.type !== 'boolean'}
-              onChange={handleChange}
-            />
-          </label>
+      {Object.entries(baseObject.properties).map(([name, value]) => (
+        <div key={name}>
+          {isValueSchema(value) ? renderProperty(name, value) : renderSection(name, value)}
         </div>
       ))}
       <button type="submit">Create Object</button>
