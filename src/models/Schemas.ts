@@ -4,19 +4,40 @@ export interface ValueSchema {
   type: SupportedValueTypes;
   required?: boolean;
   description?: string;
-  // dependantProperty?: string // This would only enable this property if the dependant property is enabled.
-}
-
-export interface PropertySection {
-  [key: string]: ValueSchema
 }
 
 export interface PropertiesSchema {
-  [key: string]: ValueSchema | PropertySection;
+  [key: string]: ValueSchema | PropertiesSchema;
 }
 
 export interface BaseObjectSchema {
   properties: PropertiesSchema,
 }
-
-export interface GameObjectSchema extends BaseObjectSchema {}
+// Example:
+// {
+//   properties: {
+//     name: {
+//       type: 'string',
+//       required: true,
+//     },
+//     physical: {
+//       location: {
+//         x: { type: 'number' },
+//         y: { type: 'number' },
+//       },
+//       size: {
+//         width: { type: 'number' },
+//         height: { type: 'number' },
+//       },
+//     },
+//     colour: { type: 'string' },
+//     isCollidable: {
+//       type: 'boolean',
+//       required: true,
+//     },
+//     isInteractable: {
+//       type: 'boolean',
+//       required: true
+//     },
+//   }
+// }

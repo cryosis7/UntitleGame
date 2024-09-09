@@ -1,16 +1,16 @@
 import type { SupportedValueTypes } from './Schemas';
 
-export type MandatoryProperties = {
+export type GameObjectMandatoryProperties = {
   name: string,
   isCollidable: boolean,
   isInteractable: boolean,
 };
 
-type CustomProperties = {
+export type CustomProperties = {
   [key: string]: SupportedValueTypes;
 };
 
 export interface GameObject {
   id: string;
-  properties: MandatoryProperties & CustomProperties
+  properties: GameObjectMandatoryProperties & CustomProperties
 }

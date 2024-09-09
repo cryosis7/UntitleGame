@@ -1,13 +1,36 @@
 import type React from 'react';
+import { useEffect } from 'react';
 import './GameMap.scss';
+import { useDispatch, useSelector } from '../../redux/hooks';
+import { getMap, initialiseMap, setTile } from '../../redux/slices/mapSlice';
 import { Tile } from './Tile';
-import { useAppSelector } from '../../redux/hooks';
-import { getMap } from '../../redux/slices/mapSlice';
+import { Player } from './Player';
 
 export const GameMap: React.FC = () => {
-  const map = useAppSelector(getMap);
+  const dispatch = useDispatch();
+  const map = useSelector(getMap);
 
-  const tiles = map.map((tile, i) => <Tile key={i} tile={tile} index={i} />);
+  useEffect(() => {
+    dispatch(initialiseMap());
+  }, [dispatch]);
 
-  return <div className='game-map'>{tiles}</div>;
+  return (
+    <div className='game-map'>
+      {map.map((row, y) => (
+        <div key={y} className='game-map-row'>
+          {row.map((tile, x) => (
+            <Tile
+              key={x}
+              tile={tile}
+              updateTile={(tile) =>
+                dispatch(setTile({ tile, position: { x, y } }))
+              }
+              position={{ x, y }}
+            />
+          ))}
+        </div>
+      ))}
+      <Player />
+    </div>
+  );
 };

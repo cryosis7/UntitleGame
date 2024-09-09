@@ -1,4 +1,4 @@
-import { GameObjectSchema, PropertiesSchema, PropertySection, ValueSchema } from '../models/Schemas';
+import type { ValueSchema } from '../models/Schemas';
 
 export const isValueSchema = (property: any): property is ValueSchema => {
   return (
@@ -9,31 +9,23 @@ export const isValueSchema = (property: any): property is ValueSchema => {
   );
 };
 
-export const isPropertySection = (property: any): property is PropertySection => {
-  return (
-    typeof property === 'object' &&
-    property !== null &&
-    !isValueSchema(property)
-  );
-};
-
-export const createGameObjectSchema = (properties?: PropertiesSchema): GameObjectSchema => {
-  return {
-    properties: {
-      name: {
-        type: 'string',
-        required: true,
-      },
-      colour: { type: 'string' },
-      isCollidable: {
-        type: 'boolean',
-        required: true,
-      },
-      isInteractable: {
-        type: 'boolean',
-        required: true
-      },
-      ...properties
-    }
-  };
-};
+// export const createGameObjectSchema = (properties?: PropertiesSchema): BaseObjectSchema => {
+//   return {
+//     properties: {
+//       name: {
+//         type: 'string',
+//         required: true,
+//       },
+//       colour: { type: 'string' },
+//       isCollidable: {
+//         type: 'boolean',
+//         required: true,
+//       },
+//       isInteractable: {
+//         type: 'boolean',
+//         required: true
+//       },
+//       ...properties
+//     }
+//   };
+// };
