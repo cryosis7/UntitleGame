@@ -1,8 +1,18 @@
 import type React from 'react';
 import { useMemo, useState } from 'react';
-import type { BaseObjectSchema, PropertySection, ValueSchema } from '../../models/Schemas';
+import type {
+  BaseObjectSchema,
+  PropertySection,
+  ValueSchema,
+} from '../../models/schemas/coreSchemas';
 import { isValueSchema } from '../../utils/schemaUtils';
-import { GameObject, MandatoryProperties } from '../../models/GameObject';
+import type { GameObject, MandatoryProperties } from '../../models/GameObject';
+import Box from '@mui/material/Box/Box';
+import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox/Checkbox';
+import TextField from '@mui/material/TextField/TextField';
+import Typography from '@mui/material/Typography/Typography';
+import { Button } from '@mui/material';
 
 interface DynamicFormProps {
   baseObject: BaseObjectSchema;
@@ -19,64 +29,84 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({ baseObject }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const mandatoryKeys: (keyof MandatoryProperties)[] = ['name', 'isCollidable', 'isInteractable'];
-
-    for (const key of mandatoryKeys) {
-      if (!(key in formData)) {
-        console.error(`Missing mandatory property: ${key}`);
-        return;
-      }
-    }
-
     const gameObject: GameObject = {
       id: crypto.randomUUID(),
       properties: {
-        ...formData
-      }
-    }
+        ...formData,
+      },
+    };
     console.log('New GameObject Created:', gameObject);
   };
 
-  const renderProperty = useMemo(() => (name: string, propertyConfig: ValueSchema): React.ReactNode => {
-    const inputType = {
-      boolean: 'checkbox',
-      string: 'text',
-      number: 'number'
-    };
+  const renderProperty = useMemo(
+    () =>
+      (name: string, propertyConfig: ValueSchema): React.ReactNode => {
+        const inputType = {
+          boolean: 'checkbox',
+          string: 'text',
+          number: 'number',
+        };
 
-    return (
-      <label key={name}>
-        {name} {propertyConfig.required && propertyConfig.type !== 'boolean' && <span>*</span>}
-        <input
-          type={inputType[propertyConfig.type]}
-          name={name}
-          autoComplete="off"
-          required={propertyConfig.required && propertyConfig.type !== 'boolean'}
-          onChange={handleChange}
-        />
-      </label>
-    );
-  }, []);
+        return (
+          <Box key={name} mb={1}>
+            {propertyConfig.type === 'boolean' ? (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name={name}
+                    onChange={handleChange}
+                    required={propertyConfig.required}
+                  />
+                }
+                label={name}
+              />
+            ) : (
+              <TextField
+                type={inputType[propertyConfig.type]}
+                name={name}
+                label={name}
+                variant='outlined'
+                fullWidth
+                required={propertyConfig.required}
+                onChange={handleChange}
+              />
+            )}
+          </Box>
+        );
+      },
+    [],
+  );
 
-  const renderSection = useMemo(() => (name: string, sectionProperties: PropertySection) => {
-    return (
-      <div>
-        Section: {name}
-        <div>
-          {Object.entries(sectionProperties).map(([name, propertyConfig]) => renderProperty(name, propertyConfig))}
-        </div>
-      </div>);
-  }, [renderProperty]);
-
+  const renderSection = useMemo(
+    () => (name: string, sectionProperties: PropertySection) => {
+      return (
+        <Box key={name} mb={3}>
+          <Typography variant='h6'>Section: {name}</Typography>
+          <Box>
+            {Object.entries(sectionProperties).map(([name, propertyConfig]) =>
+              renderProperty(name, propertyConfig),
+            )}
+          </Box>
+        </Box>
+      );
+    },
+    [renderProperty],
+  );
 
   return (
     <form onSubmit={handleSubmit}>
-      {Object.entries(baseObject.properties).map(([name, value]) => (
-        <div key={name}>
-          {isValueSchema(value) ? renderProperty(name, value) : renderSection(name, value)}
-        </div>
-      ))}
-      <button type="submit">Create Object</button>
+      <Box display='flex' flexDirection='column' justifyContent='center'>
+        {Object.entries(baseObject.properties).map(([name, value]) => (
+          <Box key={name} mb={2}>
+            {isValueSchema(value)
+              ? renderProperty(name, value)
+              : renderSection(name, value)}
+          </Box>
+        ))}
+        <Button type='submit' variant='contained'>
+          Create Object
+        </Button>
+      </Box>
     </form>
   );
 };

@@ -1,9 +1,7 @@
-import type { SupportedValueTypes } from './Schemas';
+import type { SupportedValueTypes } from './schemas/coreSchemas';
 
 export type MandatoryProperties = {
   name: string,
-  isCollidable: boolean,
-  isInteractable: boolean,
 };
 
 type CustomProperties = {

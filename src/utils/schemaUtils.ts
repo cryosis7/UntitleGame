@@ -1,4 +1,4 @@
-import { GameObjectSchema, PropertiesSchema, PropertySection, ValueSchema } from '../models/Schemas';
+import type { GameObjectSchema, PropertiesSchema, PropertySection, ValueSchema } from '../models/schemas/coreSchemas';
 
 export const isValueSchema = (property: any): property is ValueSchema => {
   return (
@@ -25,14 +25,6 @@ export const createGameObjectSchema = (properties?: PropertiesSchema): GameObjec
         required: true,
       },
       colour: { type: 'string' },
-      isCollidable: {
-        type: 'boolean',
-        required: true,
-      },
-      isInteractable: {
-        type: 'boolean',
-        required: true
-      },
       ...properties
     }
   };
