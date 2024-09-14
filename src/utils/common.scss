@@ -1,7 +1,3 @@
-.flex-grow {
-  flex-grow: 1;
-}
-
 .center-content {
   text-align: center;
   align-content: center;
@@ -11,12 +7,15 @@
   &-red {
     border: 1px solid red;
   }
+
   &-blue {
     border: 1px solid blue;
   }
+
   &-green {
     border: 1px solid green;
   }
+
   &-black {
     border: 1px solid black;
   }

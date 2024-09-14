@@ -1,10 +1,11 @@
-import type { RenderOptions } from "@testing-library/react"
-import { render } from "@testing-library/react"
-import userEvent from "@testing-library/user-event"
-import type { PropsWithChildren, ReactElement } from "react"
-import { Provider } from "react-redux"
-import type { AppStore, RootState } from "../redux/store"
-import { makeStore } from "../redux/store"
+import type { RenderOptions } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import type { PropsWithChildren, ReactElement } from 'react';
+import { Provider } from 'react-redux';
+import type { AppStore, RootState } from '../redux/store';
+import { makeStore } from '../redux/store';
+import { MemoryRouter } from 'react-router-dom';
 
 /**
  * This type extends the default options for
@@ -12,14 +13,14 @@ import { makeStore } from "../redux/store"
  * additional configuration such as specifying an initial Redux state and
  * a custom store instance.
  */
-interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
+interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   /**
    * Defines a specific portion or the entire initial state for the Redux store.
    * This is particularly useful for initializing the state in a
    * controlled manner during testing, allowing components to be rendered
    * with predetermined state conditions.
    */
-  preloadedState?: Partial<RootState>
+  preloadedState?: Partial<RootState>;
 
   /**
    * Allows the use of a specific Redux store instance instead of a
@@ -30,7 +31,7 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
    *
    * @default makeStore(preloadedState)
    */
-  store?: AppStore
+  store?: AppStore;
 }
 
 /**
@@ -43,23 +44,54 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
  */
 export const renderWithStore = (
   ui: ReactElement,
-  extendedRenderOptions: ExtendedRenderOptions = {},
+  extendedRenderOptions: ExtendedRenderOptions = {}
 ) => {
   const {
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
     store = makeStore(preloadedState),
     ...renderOptions
-  } = extendedRenderOptions
+  } = extendedRenderOptions;
 
   const Wrapper = ({ children }: PropsWithChildren) => (
     <Provider store={store}>{children}</Provider>
-  )
+  );
 
   // Return an object with the store and all of RTL's query functions
   return {
     store,
     user: userEvent.setup(),
-    ...render(ui, { wrapper: Wrapper, ...renderOptions }),
-  }
-}
+    ...render(ui, { wrapper: Wrapper, ...renderOptions })
+  };
+};
+
+/**
+ * Renders the given React element with Redux Provider, custom store, and MemoryRouter.
+ * @param ui - The React component or element to render.
+ * @param extendedRenderOptions - Optional configuration options for rendering. This includes `preloadedState` for initial Redux state, `store` for a specific Redux store instance, and `route` for the initial route of the MemoryRouter. Any additional properties are passed to React Testing Library's render function.
+ * @returns An object containing the Redux store used in the render, User event API for simulating user interactions in tests, and all of React Testing Library's query functions for testing the component.
+ */
+export const renderWithStoreAndRouter = (
+  ui: ReactElement,
+  extendedRenderOptions: ExtendedRenderOptions & { route: string } = { route: '/'}
+) => {
+  const {
+    preloadedState = {},
+    // Automatically create a store instance if no store was passed in
+    store = makeStore(preloadedState),
+    route,
+    ...renderOptions
+  } = extendedRenderOptions;
+
+  const Wrapper = ({ children }: PropsWithChildren) => (
+    <Provider store={store}>
+      <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
+    </Provider>
+  );
+
+  return {
+    store,
+    user: userEvent.setup(),
+    ...render(ui, { wrapper: Wrapper, ...renderOptions })
+  };
+};

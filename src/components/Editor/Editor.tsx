@@ -1,24 +1,17 @@
-import React, { useState } from 'react';
+import type React from 'react';
 import { DynamicForm } from './DynamicForm';
-import { objectSchemas } from "../../models/schemas";
 
 export const Editor: React.FC = () => {
-  const [selectedType, setSelectedType] = useState<string>('ground');
+
+  const handleClick = () => {
+    alert('Not implemented');
+  }
 
   return (
     <div>
-      <h1>Create Game Object</h1>
-        <select
-          onChange={(e) => setSelectedType(e.target.value)}
-          value={selectedType}
-        >
-          {objectSchemas.map((schema) => (
-            <option key={schema.type} value={schema.type}>
-              {schema.type}
-            </option>
-          ))}
-        </select>
-      <DynamicForm objectType={selectedType} />
+      <h1>Level Editor</h1>
+      <button onClick={handleClick}>Create a new GameObject</button>
+      <DynamicForm/>
     </div>
   );
 };

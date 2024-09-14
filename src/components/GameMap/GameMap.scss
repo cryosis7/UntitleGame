@@ -1,6 +1,13 @@
 .game-map {
-  width: 500px;
-  height: 500px;
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.game-map-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }

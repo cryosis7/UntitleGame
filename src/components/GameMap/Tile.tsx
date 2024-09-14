@@ -1,32 +1,35 @@
 import type React from 'react';
 import './Tile.scss';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { getTileSize, setTile } from '../../redux/slices/mapSlice';
-import { GroundModel } from '../../models/physical/GroundModel';
-import { isWalkable } from '../../utils/interactionHelpers';
+import { useSelector } from '../../redux/hooks';
+import { getTileSize } from '../../redux/slices/mapSlice';
+import type { TileModel } from '../../models/TileModel';
 
 interface TileProps {
-  tile: GroundModel;
-  index: number;
+  tile: TileModel;
+  updateTile: (tile: TileModel) => void;
+  position: { x: number; y: number };
 }
 
-export const Tile: React.FC<TileProps> = ({ tile, index }) => {
-  const dispatch = useAppDispatch();
-  const tileSize = useAppSelector(getTileSize);
+export const Tile: React.FC<TileProps> = ({ tile, updateTile, position }) => {
+  const tileSize = useSelector(getTileSize);
 
-  const className = `${isWalkable(tile) ? '' : 'not-'}walkable`;
+  const walkableClassName = `${tile.properties.walkable ? '' : 'not-'}walkable`;
   return (
-    <div
-      className={`${className} center-content`}
+    <button
+      className={`${walkableClassName} center-content`}
       style={{
         width: `${tileSize}px`,
         height: `${tileSize}px`,
       }}
       onClick={() =>
-        dispatch(setTile({ tile: { ...tile, walkable: false }, index: index }))
+        updateTile({
+          ...tile,
+          properties: {
+            ...tile.properties,
+            walkable: !tile.properties.walkable,
+          },
+        })
       }
-    >
-      x
-    </div>
+    />
   );
 };

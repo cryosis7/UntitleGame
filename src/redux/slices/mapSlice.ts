@@ -1,8 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  GroundModel,
-  groundModelCreator,
-} from '../../models/physical/GroundModel';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import type { TileModel } from '../../models/TileModel';
+import type { Position } from '../../utils/mapUtils';
+import { initMap, isPositionInMap } from '../../utils/mapUtils';
+import type { PlayerModel } from '../../models/PlayerModel';
+import { createPlayerObject } from '../../models/PlayerModel';
 
 export interface MapState {
   settings: {
@@ -10,49 +12,68 @@ export interface MapState {
     tileSize: number;
     tilesPerRow: number;
   };
-  map: GroundModel[];
+  map: TileModel[][];
+  player: PlayerModel;
 }
 
-const initialState: MapState = {
+export const initialMapState: MapState = {
   settings: {
     mapSize: 500,
     tileSize: 50,
     tilesPerRow: 10,
   },
   map: [],
+  player: createPlayerObject(),
 };
 
 export const mapSlice = createSlice({
   name: 'map',
-  initialState,
+  initialState: initialMapState,
   reducers: (create) => ({
     setTile: create.reducer(
       (
         state,
-        { payload }: PayloadAction<{ tile: GroundModel; index: number }>,
+        { payload }: PayloadAction<{ tile: TileModel; position: Position }>,
       ) => {
-        if (payload.index < 0 || payload.index > state.map.length) {
+        const { position, tile } = payload;
+        if (!isPositionInMap(state.map, payload.position)) {
           console.error(
-            'Index out of bounds - tried to set Maps index of ' + payload.index,
+            `Position out of bounds - tried to set Maps position of (${position.x}, ${position.y})`,
           );
           return;
         }
-        state.map[payload.index] = payload.tile;
+        state.map[position.y][position.x] = tile;
       },
     ),
     initialiseMap: create.reducer((state) => {
-      state.map = Array(
-        state.settings.tilesPerRow * state.settings.tilesPerRow,
-      ).fill(groundModelCreator());
+      state.map = initMap(
+        state.settings.tilesPerRow,
+        state.settings.tilesPerRow,
+      );
     }),
+    setPlayerPosition: create.reducer(
+      (state, { payload }: PayloadAction<Position>) => {
+        if (state.player) {
+          state.player.properties.position = payload;
+        }
+      },
+    ),
+    setPlayer: create.reducer(
+      (state, { payload }: PayloadAction<PlayerModel>) => {
+        state.player = payload;
+      },
+    ),
   }),
   selectors: {
     getTileSize: (mapState) => mapState.settings.tileSize,
     getTilesPerRow: (mapState) => mapState.settings.tilesPerRow,
     getMap: (mapState) => mapState.map,
+    getPlayer: (mapState) => mapState.player,
   },
 });
 
-export const { initialiseMap, setTile } = mapSlice.actions;
+export const { initialiseMap, setTile, setPlayerPosition, setPlayer } =
+  mapSlice.actions;
 
-export const { getTileSize, getTilesPerRow, getMap } = mapSlice.selectors;
+export const { getTileSize, getTilesPerRow, getMap, getPlayer } =
+  mapSlice.selectors;
