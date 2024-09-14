@@ -50,6 +50,7 @@ export const Player: React.FC = () => {
   return (
     <div
       className='player'
+      aria-label='player'
       style={{
         top: `${player.properties.position.y * tileSize}px`,
         left: `${player.properties.position.x * tileSize}px`,

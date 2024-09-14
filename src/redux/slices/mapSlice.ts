@@ -16,7 +16,7 @@ export interface MapState {
   player: PlayerModel;
 }
 
-const initialState: MapState = {
+export const initialMapState: MapState = {
   settings: {
     mapSize: 500,
     tileSize: 50,
@@ -28,7 +28,7 @@ const initialState: MapState = {
 
 export const mapSlice = createSlice({
   name: 'map',
-  initialState,
+  initialState: initialMapState,
   reducers: (create) => ({
     setTile: create.reducer(
       (

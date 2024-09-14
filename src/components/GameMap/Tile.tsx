@@ -15,7 +15,7 @@ export const Tile: React.FC<TileProps> = ({ tile, updateTile, position }) => {
 
   const walkableClassName = `${tile.properties.walkable ? '' : 'not-'}walkable`;
   return (
-    <div
+    <button
       className={`${walkableClassName} center-content`}
       style={{
         width: `${tileSize}px`,
@@ -27,7 +27,6 @@ export const Tile: React.FC<TileProps> = ({ tile, updateTile, position }) => {
           properties: {
             ...tile.properties,
             walkable: !tile.properties.walkable,
-            color: tile.properties.color === 'black' ? 'white' : 'black',
           },
         })
       }
