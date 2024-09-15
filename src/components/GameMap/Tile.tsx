@@ -4,7 +4,7 @@ import { useSelector } from '../../redux/hooks';
 import { getTileSize } from '../../redux/slices/mapSlice';
 import type { TileModel } from '../../models/TileModel';
 
-interface TileProps {
+export interface TileProps {
   tile: TileModel;
   updateTile: (tile: TileModel) => void;
   position: { x: number; y: number };

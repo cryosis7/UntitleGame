@@ -40,6 +40,19 @@ describe('Tile Component', () => {
     expect(tileElement).toHaveStyle({ width: '10px', height: '10px' });
   });
 
+  it('renders with not-walkable class when walkable is false', () => {
+    renderWithStore(
+      <Tile
+        tile={{ ...mockTile, properties: { ...mockTile.properties, walkable: false } }}
+        updateTile={mockUpdateTile}
+        position={{ x: 0, y: 0 }}
+      />
+    );
+
+    const tileElement = screen.getByRole('button');
+    expect(tileElement).toHaveClass('not-walkable');
+  });
+
   it('calls updateTile with correct arguments when clicked', async () => {
     renderWithStore(
       <Tile

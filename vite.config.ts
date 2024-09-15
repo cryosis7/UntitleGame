@@ -13,7 +13,10 @@ export default defineConfig({
     setupFiles: 'src/setupTests',
     mockReset: true,
     coverage: {
-      provider: 'v8',
+      enabled: true,
+      provider: 'istanbul',
+      include: ['src/**/*.ts', 'src/**/*.tsx'],
+      reporter: ['text', 'html'],
     },
   },
 });
