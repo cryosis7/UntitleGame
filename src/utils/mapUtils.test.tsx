@@ -6,7 +6,9 @@ import {
   getAdjacentPosition,
   isTileWalkable,
   canMoveInDirection,
-  movePlayer, initMap
+  movePlayer,
+  initMap,
+  Direction,
 } from './mapUtils';
 import type { TileModel } from '../models/TileModel';
 import type { PlayerModel } from '../models/PlayerModel';
@@ -16,24 +18,36 @@ const mockTile: TileModel = {
   properties: {
     position: { x: 0, y: 0 },
     color: 'black',
-    walkable: true
-  }
+    walkable: true,
+  },
 };
 
 const mockPlayer: PlayerModel = {
   id: 'player1',
   properties: {
     position: { x: 0, y: 0 },
-    name: 'Player1'
-  }
+    name: 'Player1',
+  },
 };
 
 const mockMap: TileModel[][] = [
-  [mockTile, { ...mockTile, properties: { ...mockTile.properties, position: { x: 1, y: 0 } } }],
-  [{ ...mockTile, properties: { ...mockTile.properties, position: { x: 0, y: 1 } } }, {
-    ...mockTile,
-    properties: { ...mockTile.properties, position: { x: 1, y: 1 } }
-  }]
+  [
+    mockTile,
+    {
+      ...mockTile,
+      properties: { ...mockTile.properties, position: { x: 1, y: 0 } },
+    },
+  ],
+  [
+    {
+      ...mockTile,
+      properties: { ...mockTile.properties, position: { x: 0, y: 1 } },
+    },
+    {
+      ...mockTile,
+      properties: { ...mockTile.properties, position: { x: 1, y: 1 } },
+    },
+  ],
 ];
 
 describe('mapUtils', () => {
@@ -56,7 +70,7 @@ describe('mapUtils', () => {
       expect(getTileAtPosition(mockMap, { x: 0, y: 0 })).toEqual(mockTile);
       expect(getTileAtPosition(mockMap, { x: 1, y: 1 })).toEqual({
         ...mockTile,
-        properties: { ...mockTile.properties, position: { x: 1, y: 1 } }
+        properties: { ...mockTile.properties, position: { x: 1, y: 1 } },
       });
     });
 
@@ -74,7 +88,7 @@ describe('mapUtils', () => {
     it('getTileAtPlayerPosition should return null for invalid player position', () => {
       const invalidPlayer = {
         ...mockPlayer,
-        properties: { ...mockPlayer.properties, position: { x: -1, y: 0 } }
+        properties: { ...mockPlayer.properties, position: { x: -1, y: 0 } },
       };
       expect(getTileAtPlayerPosition(mockMap, invalidPlayer)).toBeNull();
     });
@@ -82,12 +96,29 @@ describe('mapUtils', () => {
 
   describe('getAdjacentPosition', () => {
     it('getAdjacentPosition should return the correct adjacent position', () => {
-      expect(getAdjacentPosition({ x: 0, y: 0 }, 'up')).toEqual({ x: 0, y: -1 });
-      expect(getAdjacentPosition({ x: 0, y: 0 }, 'down')).toEqual({ x: 0, y: 1 });
-      expect(getAdjacentPosition({ x: 0, y: 0 }, 'left')).toEqual({ x: -1, y: 0 });
-      expect(getAdjacentPosition({ x: 0, y: 0 }, 'right')).toEqual({ x: 1, y: 0 });
+      expect(getAdjacentPosition({ x: 0, y: 0 }, 'up')).toEqual({
+        x: 0,
+        y: -1,
+      });
+      expect(getAdjacentPosition({ x: 0, y: 0 }, 'down')).toEqual({
+        x: 0,
+        y: 1,
+      });
+      expect(getAdjacentPosition({ x: 0, y: 0 }, 'left')).toEqual({
+        x: -1,
+        y: 0,
+      });
+      expect(getAdjacentPosition({ x: 0, y: 0 }, 'right')).toEqual({
+        x: 1,
+        y: 0,
+      });
     });
 
+    it('getAdjacentPosition should return the same position for invalid direction', () => {
+      expect(
+        getAdjacentPosition({ x: 0, y: 0 }, 'invalid' as unknown as Direction),
+      ).toEqual({ x: 0, y: 0 });
+    });
   });
 
   describe('isTileWalkable', () => {
@@ -97,7 +128,12 @@ describe('mapUtils', () => {
 
     it('isTileWalkable should return false for non-walkable tiles', () => {
       const nonWalkableTileMap = [
-        [{ ...mockTile, properties: { ...mockTile.properties, walkable: false } }]
+        [
+          {
+            ...mockTile,
+            properties: { ...mockTile.properties, walkable: false },
+          },
+        ],
       ];
       expect(isTileWalkable(nonWalkableTileMap, { x: 0, y: 0 })).toBe(false);
     });
@@ -110,9 +146,16 @@ describe('mapUtils', () => {
 
     it('canMoveInDirection should return false if player cannot move in the given direction', () => {
       const nonWalkableTileMap = [
-        [{ ...mockTile, properties: { ...mockTile.properties, walkable: false } }]
+        [
+          {
+            ...mockTile,
+            properties: { ...mockTile.properties, walkable: false },
+          },
+        ],
       ];
-      expect(canMoveInDirection(nonWalkableTileMap, mockPlayer, 'right')).toBe(false);
+      expect(canMoveInDirection(nonWalkableTileMap, mockPlayer, 'right')).toBe(
+        false,
+      );
     });
 
     it('canMoveInDirection should return false if player is at the edge of the map', () => {
@@ -126,16 +169,23 @@ describe('mapUtils', () => {
         ...mockPlayer,
         properties: {
           ...mockPlayer.properties,
-          position: { x: 1, y: 0 }
-        }
+          position: { x: 1, y: 0 },
+        },
       });
     });
 
     it('movePlayer should return the player with the same position if move is invalid', () => {
       const nonWalkableTileMap = [
-        [{ ...mockTile, properties: { ...mockTile.properties, walkable: false } }]
+        [
+          {
+            ...mockTile,
+            properties: { ...mockTile.properties, walkable: false },
+          },
+        ],
       ];
-      expect(movePlayer(nonWalkableTileMap, mockPlayer, 'right')).toEqual(mockPlayer);
+      expect(movePlayer(nonWalkableTileMap, mockPlayer, 'right')).toEqual(
+        mockPlayer,
+      );
     });
 
     it('movePlayer should return the player with the same position if player is at the edge of the map', () => {

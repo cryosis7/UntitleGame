@@ -5,11 +5,3 @@ export interface BaseModel {
   id: string;
   properties: BaseModelProperty;
 }
-
-// Deprecated
-export const createBaseModel = (properties: BaseModelProperty = {}): BaseModel => {
-  return {
-    id: crypto.randomUUID(),
-    properties,
-  };
-};
