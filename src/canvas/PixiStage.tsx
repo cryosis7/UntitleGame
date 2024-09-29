@@ -1,13 +1,15 @@
+import type { Ticker } from 'pixi.js';
 import { Application, Assets, Sprite } from 'pixi.js';
 import { useEffect, useRef } from 'react';
-import type { Entity, System } from '../models/ECS/ECS';
-import { createEntity } from '../models/ECS/ECS';
 import {
   PlayerComponent,
   PositionComponent,
   SpriteComponent,
 } from '../models/ECS/Components';
-import { getComponent } from '../utils/common';
+import type { Entity} from '../utils/ecsUtils';
+import { createEntity, getComponent } from '../utils/ecsUtils';
+import { KeyboardInputSystem } from '../models/ECS/Systems/KeyboardInputSystem';
+import type { System } from '../models/ECS/Systems/Systems';
 
 export const pixiApp = new Application();
 
@@ -17,6 +19,7 @@ async function initApp(appContainer: HTMLDivElement) {
     resizeTo: appContainer,
   });
   appContainer.appendChild(pixiApp.canvas);
+  globalThis.__PIXI_APP__ = pixiApp;
 }
 
 async function preload() {
@@ -52,23 +55,31 @@ const createWalls = () => {
 };
 
 const createPlayer = () => {
-  let playerX = Math.floor(Math.random() * 10);
-  let playerY = Math.floor(Math.random() * 10);
+  let playerX: number;
+  let playerY: number;
+  let isOccupied: boolean;
 
-  while (
-    entities.some((entity) => {
+  do {
+    playerX = Math.floor(Math.random() * 10);
+    playerY = Math.floor(Math.random() * 10);
+    isOccupied = false;
+
+    for (let i = 0; i < entities.length; i++) {
+      const entity = entities[i];
       const positionComponent = getComponent<PositionComponent>(
         entity,
         'position',
       );
-      return (
-        positionComponent?.x === playerX && positionComponent?.y === playerY
-      );
-    })
-  ) {
-    playerX = Math.floor(Math.random() * 10);
-    playerY = Math.floor(Math.random() * 10);
-  }
+      if (
+        positionComponent &&
+        positionComponent.x === playerX &&
+        positionComponent.y === playerY
+      ) {
+        isOccupied = true;
+        break;
+      }
+    }
+  } while (isOccupied);
 
   const player = createEntity([
     new PositionComponent(playerX, playerY),
@@ -105,6 +116,16 @@ const addEntities = () => {
   });
 };
 
+const addSystems = () => {
+  systems.push(new KeyboardInputSystem());
+};
+
+const gameLoop = (ticker: Ticker) => {
+  systems.forEach((system) => {
+    system.update(ticker, entities);
+  });
+};
+
 export const PixiStage = () => {
   const appRef = useRef<HTMLDivElement | null>(null);
   const hasInitialised = useRef(false);
@@ -121,11 +142,10 @@ export const PixiStage = () => {
       await preload();
 
       addEntities();
+      addSystems();
 
-      systems.forEach((system) => {
-        pixiApp.ticker.add((time) => {
-          system.update(time, entities);
-        });
+      pixiApp.ticker.add((time) => {
+        gameLoop(time);
       });
     })();
   }, []);
