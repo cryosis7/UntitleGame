@@ -1,7 +1,12 @@
-import type { System, Ticker } from 'pixi.js';
+import type { Ticker } from 'pixi.js';
 import type { Entity } from '../../../utils/ecsUtils';
-import { getComponent, hasComponent, setComponent } from '../../../utils/ecsUtils';
+import {
+  getComponent,
+  hasComponent,
+  setComponent,
+} from '../../../utils/ecsUtils';
 import type { PositionComponent } from '../Components';
+import type { System } from './Systems';
 
 export class KeyboardInputSystem implements System {
   private keys: { [key: string]: boolean } = {};
@@ -18,11 +23,7 @@ export class KeyboardInputSystem implements System {
     });
   }
 
-  init() {
-    // Should constructor stuff be in here? Should I remove the init function?
-  }
-
-  update(_time: Ticker, entities: Entity[]) {
+  update(entities: Entity[]) {
     if (!this.hasChanged) return;
 
     const playerEntity = entities.find((entity) =>

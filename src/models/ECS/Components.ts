@@ -1,6 +1,8 @@
+import { Sprite } from "pixi.js";
+
 export type Component = {
   type: string;
-};
+}; // TODO: Revist this and see if I can remove type in favor of instanceof checks
 
 export class PositionComponent implements Component {
   type = 'position';
@@ -15,10 +17,10 @@ export class PositionComponent implements Component {
 
 export class SpriteComponent implements Component {
   type = 'sprite';
-  sprite: string;
+  sprite: Sprite
 
   constructor(sprite: string) {
-    this.sprite = sprite;
+    this.sprite = Sprite.from(sprite);
   }
 }
 

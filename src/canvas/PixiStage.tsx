@@ -10,6 +10,7 @@ import type { Entity} from '../utils/ecsUtils';
 import { createEntity, getComponent } from '../utils/ecsUtils';
 import { KeyboardInputSystem } from '../models/ECS/Systems/KeyboardInputSystem';
 import type { System } from '../models/ECS/Systems/Systems';
+import { RenderSystem } from '../models/ECS/Systems/RenderSystem';
 
 export const pixiApp = new Application();
 
@@ -104,25 +105,25 @@ const addEntities = () => {
     const spriteComponent = getComponent<SpriteComponent>(entity, 'sprite');
 
     if (positionComponent && spriteComponent) {
-      const sprite = Sprite.from(spriteComponent.sprite);
-      sprite.width = tileWidth;
-      sprite.height = tileHeight;
-      sprite.position.set(
+      spriteComponent.sprite.width = tileWidth;
+      spriteComponent.sprite.height = tileHeight;
+      spriteComponent.sprite.position.set(
         positionComponent.x * tileWidth,
         positionComponent.y * tileHeight,
       );
-      pixiApp.stage.addChild(sprite);
+      pixiApp.stage.addChild(spriteComponent.sprite);
     }
   });
 };
 
 const addSystems = () => {
   systems.push(new KeyboardInputSystem());
+  systems.push(new RenderSystem());
 };
 
 const gameLoop = (ticker: Ticker) => {
   systems.forEach((system) => {
-    system.update(ticker, entities);
+    system.update(entities, ticker);
   });
 };
 

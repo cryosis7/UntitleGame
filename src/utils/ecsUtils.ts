@@ -17,7 +17,6 @@ export const setComponent = <T extends Component>(
   entity: Entity,
   component: T,
 ) => {
-  console.log('setting component', component);
   entity.components[component.type] = component;
 };
 
