@@ -1,7 +1,3 @@
-import type { PlayerModel } from '../models/PlayerModel';
-import type { TileModel } from '../models/TileModel';
-import { createTileModel } from '../models/TileModel';
-
 export type Position = { x: number; y: number };
 
 export type Direction = 'up' | 'down' | 'left' | 'right';
