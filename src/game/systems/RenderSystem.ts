@@ -1,8 +1,8 @@
-import type { Entity } from '../../../utils/ecsUtils';
-import { getComponent } from '../../../utils/ecsUtils';
+import type { Entity } from '../utils/ecsUtils';
+import { getComponent } from '../utils/ecsUtils';
 import type { System } from './Systems';
-import type { PositionComponent, SpriteComponent } from '../Components';
-import { pixiApp } from '../../../canvas/PixiStage';
+import type { PositionComponent, SpriteComponent } from '../components/Components';
+import { pixiApp } from '../PixiStage';
 
 export class RenderSystem implements System {
   update(entities: Entity[]) {

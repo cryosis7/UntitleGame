@@ -1,6 +1,5 @@
-import { Game } from './components/Game';
+import { Game } from './react/components/Game';
 import './App.scss';
-import './utils/common.scss';
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
