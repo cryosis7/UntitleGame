@@ -1,12 +1,7 @@
-import type { Ticker } from 'pixi.js';
-import type { Entity } from '../../../utils/ecsUtils';
-import {
-  getComponent,
-  hasComponent,
-  setComponent,
-} from '../../../utils/ecsUtils';
-import type { PositionComponent } from '../Components';
+import type { PositionComponent } from '../components/Components';
 import type { System } from './Systems';
+import type { Entity } from '../utils/ecsUtils';
+import { getComponent, hasComponent, setComponent } from '../utils/ecsUtils';
 
 export class KeyboardInputSystem implements System {
   private keys: { [key: string]: boolean } = {};

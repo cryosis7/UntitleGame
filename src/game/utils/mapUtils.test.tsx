@@ -8,10 +8,8 @@ import {
   canMoveInDirection,
   movePlayer,
   initMap,
-  Direction,
 } from './mapUtils';
-import type { TileModel } from '../models/TileModel';
-import type { PlayerModel } from '../models/PlayerModel';
+import type { Direction } from './mapUtils';
 
 const mockTile: TileModel = {
   id: '1',

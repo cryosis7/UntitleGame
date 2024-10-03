@@ -1,16 +1,16 @@
 import type { Ticker } from 'pixi.js';
-import { Application, Assets, Sprite } from 'pixi.js';
+import { Application, Assets } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import {
   PlayerComponent,
   PositionComponent,
   SpriteComponent,
-} from '../models/ECS/Components';
-import type { Entity} from '../utils/ecsUtils';
-import { createEntity, getComponent } from '../utils/ecsUtils';
-import { KeyboardInputSystem } from '../models/ECS/Systems/KeyboardInputSystem';
-import type { System } from '../models/ECS/Systems/Systems';
-import { RenderSystem } from '../models/ECS/Systems/RenderSystem';
+} from './components/Components';
+import type { Entity} from './utils/ecsUtils';
+import { createEntity, getComponent } from './utils/ecsUtils';
+import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
+import type { System } from './systems/Systems';
+import { RenderSystem } from './systems/RenderSystem';
 
 export const pixiApp = new Application();
 
@@ -27,11 +27,11 @@ async function preload() {
   const assets = [
     {
       alias: 'wall',
-      src: '../../assets/wall.png',
+      src: '/public/assets/images/wall.png',
     },
     {
       alias: 'player',
-      src: '../../assets/player.png',
+      src: '/public/assets/images/player.png',
     },
   ];
 

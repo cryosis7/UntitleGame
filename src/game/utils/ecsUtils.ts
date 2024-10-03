@@ -1,4 +1,4 @@
-import type { Component } from '../models/ECS/Components';
+import type { Component } from '../components/Components';
 
 export type Entity = {
   id: string;
