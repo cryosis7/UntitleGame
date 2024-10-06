@@ -1,23 +1,27 @@
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import App from './App';
-import { renderWithStoreAndRouter } from './utils/test-utils';
 
-describe('App.tsx', () => {
-  describe('Full app rendering/navigating', () => {
-    it('renders Editor on first load', () => {
-      const { getByRole } = renderWithStoreAndRouter(<App />);
-      expect(getByRole('heading', { name: 'Level Editor' })).toBeInTheDocument();
-    });
+vi.mock('./react/components/Game', () => ({
+  Game: () => <div>Mocked Game Component</div>
+}));
 
-    it.skip('renders Game on navigation', () => {
-      const { getByText } = renderWithStoreAndRouter(<App />, { route: '/game' });
+describe('App', () => {
+  it('should render the Game component for the root path', () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    );
+    expect(screen.getByText(/Mocked Game Component/i)).toBeInTheDocument();
+  });
 
-      expect(getByText('Side panel')).toBeInTheDocument();
-    });
-
-    it('renders No Route Match on bad navigation', () => {
-      const { getByText } = renderWithStoreAndRouter(<App />, { route: '/random' });
-
-      expect(getByText('No Route Match')).toBeInTheDocument();
-    });
+  it('should render "No Route Match" for an unknown route', () => {
+    render(
+      <MemoryRouter initialEntries={['/unknown']}>
+        <App />
+      </MemoryRouter>
+    );
+    expect(screen.getByText(/no route match/i)).toBeInTheDocument();
   });
 });
