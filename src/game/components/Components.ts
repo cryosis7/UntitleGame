@@ -1,4 +1,5 @@
 import { Sprite } from "pixi.js";
+import { pixiApp } from "../PixiStage";
 
 export type Component = {
   type: string;
@@ -21,6 +22,7 @@ export class SpriteComponent implements Component {
 
   constructor(sprite: string) {
     this.sprite = Sprite.from(sprite);
+    this.sprite.setSize(pixiApp.stage.width / 10);
   }
 }
 

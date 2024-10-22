@@ -1,16 +1,17 @@
 import type { Ticker } from 'pixi.js';
-import { Application, Assets } from 'pixi.js';
+import { Application, Assets, Sprite } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import {
   PlayerComponent,
   PositionComponent,
   SpriteComponent,
 } from './components/Components';
-import type { Entity} from './utils/ecsUtils';
+import type { Entity } from './utils/ecsUtils';
 import { createEntity, getComponent } from './utils/ecsUtils';
 import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
 import type { System } from './systems/Systems';
 import { RenderSystem } from './systems/RenderSystem';
+import { GameMap } from './map/GameMap';
 
 export const pixiApp = new Application();
 
@@ -30,6 +31,10 @@ async function preload() {
       src: '/public/assets/images/wall.png',
     },
     {
+      alias: 'dirt',
+      src: '/public/assets/images/dirt.png',
+    },
+    {
       alias: 'player',
       src: '/public/assets/images/player.png',
     },
@@ -41,19 +46,23 @@ async function preload() {
 const systems: System[] = [];
 const entities: Entity[] = [];
 
-const createWalls = () => {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
-      if (Math.random() < 0.15) {
-        const wall = createEntity([
-          new PositionComponent(i, j),
-          new SpriteComponent('wall'),
-        ]);
-        entities.push(wall);
-      }
-    }
-  }
-};
+// const createMap = () => {
+//   const tiles: Tile[][] = [];
+
+//   for (let y = 0; y < 10; y++) {
+//     const row: Tile[] = [];
+//     for (let x = 0; x < 10; x++) {
+//       if (Math.random() < 0.85) {
+//         row.push({ tileType: TileType.Dirt, sprite: Sprite.from('dirt') });
+//       } else {
+//         row.push({ tileType: TileType.Wall, sprite: Sprite.from('wall') });
+//       }
+//     }
+//     tiles.push(row);
+//   }
+  
+//   return tiles;
+// };
 
 const createPlayer = () => {
   let playerX: number;
@@ -91,7 +100,6 @@ const createPlayer = () => {
 };
 
 const addEntities = () => {
-  createWalls();
   createPlayer();
 
   const tileWidth = pixiApp.screen.width / 10;
@@ -121,9 +129,9 @@ const addSystems = () => {
   systems.push(new RenderSystem());
 };
 
-const gameLoop = (ticker: Ticker) => {
+const gameLoop = (ticker: Ticker, map: GameMap) => {
   systems.forEach((system) => {
-    system.update(entities, ticker);
+    system.update({entities, time: ticker, map});
   });
 };
 
@@ -142,11 +150,15 @@ export const PixiStage = () => {
       await initApp(appContainer);
       await preload();
 
+      const map = new GameMap();
+      map.init(10, 10);
+      pixiApp.stage.addChild(map.getSpriteContainer())
+
       addEntities();
       addSystems();
 
       pixiApp.ticker.add((time) => {
-        gameLoop(time);
+        gameLoop(time, map);
       });
     })();
   }, []);
