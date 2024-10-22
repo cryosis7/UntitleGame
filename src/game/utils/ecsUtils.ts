@@ -1,4 +1,5 @@
-import type { Component } from '../components/Components';
+import type { Component, PositionComponent } from '../components/Components';
+import { Direction, GameMap } from '../map/GameMap';
 
 export type Entity = {
   id: string;
@@ -29,4 +30,18 @@ export const getComponent = <T extends Component>(
 
 export const hasComponent = (entity: Entity, type: string): boolean => {
   return entity.components[type] !== undefined;
+};
+
+export const canMoveInDirection = (
+  map: GameMap,
+  entity: Entity,
+  direction: Direction,
+): boolean => {
+  const positionComponent = getComponent<PositionComponent>(entity, 'position');
+  if (!positionComponent) {
+    return false;
+  }
+
+  const adjacentPosition = map.getAdjacentPosition(positionComponent, direction);
+  return map.isTileWalkable(adjacentPosition);
 };
