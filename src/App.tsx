@@ -1,6 +1,10 @@
 import { Game } from './react/components/Game';
 import './App.scss';
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
+import { SidePanel } from './react/components/SidePanel';
+import { createStore, Provider } from 'jotai';
+
+export const store = createStore();
 
 const App = () => {
   return (
@@ -9,9 +13,12 @@ const App = () => {
         path='/'
         element={
           <div className='root'>
-            <div className='game-container'>
-              <Game />
-            </div>
+            <Provider store={store}>
+              <div className='game-container'>
+                <Game />
+                <SidePanel />
+              </div>
+            </Provider>
           </div>
         }
       />

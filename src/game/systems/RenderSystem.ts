@@ -1,7 +1,10 @@
 import { getComponent } from '../utils/ecsUtils';
 import type { System, UpdateArgs } from './Systems';
-import type { PositionComponent, SpriteComponent } from '../components/Components';
-import { pixiApp } from '../PixiStage';
+import type {
+  PositionComponent,
+  SpriteComponent,
+} from '../components/Components';
+import { pixiApp } from '../Pixi';
 
 export class RenderSystem implements System {
   update({ entities }: UpdateArgs) {
