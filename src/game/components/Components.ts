@@ -1,5 +1,5 @@
-import { Sprite } from "pixi.js";
-import { pixiApp } from "../PixiStage";
+import { Sprite } from 'pixi.js';
+import { pixiApp } from '../Pixi';
 
 export type Component = {
   type: string;
@@ -18,7 +18,7 @@ export class PositionComponent implements Component {
 
 export class SpriteComponent implements Component {
   type = 'sprite';
-  sprite: Sprite
+  sprite: Sprite;
 
   constructor(sprite: string) {
     this.sprite = Sprite.from(sprite);
@@ -28,4 +28,8 @@ export class SpriteComponent implements Component {
 
 export class PlayerComponent implements Component {
   type = 'player';
+}
+
+export class MovableComponent implements Component {
+  type = 'movable';
 }

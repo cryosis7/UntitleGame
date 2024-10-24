@@ -1,12 +1,37 @@
 import type React from 'react';
-import { SidePanel } from './SidePanel';
-import { GameMap } from './GameMap';
+import { useEffect, useRef } from 'react';
+import { initPixiApp, pixiApp, preload } from '../../game/Pixi';
+import {
+  addEntities,
+  addMap,
+  addSystems,
+  gameLoop,
+} from '../../game/GameSystem';
 
 export const Game: React.FC = () => {
-  return (
-    <>
-      <GameMap />
-      <SidePanel />
-    </>
-  );
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const hasInitialised = useRef(false);
+
+  useEffect(() => {
+    const gameContainer = containerRef.current;
+    if (!gameContainer || hasInitialised.current) {
+      return;
+    }
+
+    (async () => {
+      hasInitialised.current = true;
+      await initPixiApp(gameContainer);
+      await preload();
+
+      addMap();
+      addEntities();
+      addSystems();
+
+      pixiApp.ticker.add((time) => {
+        gameLoop(time);
+      });
+    })();
+  }, []);
+
+  return <div ref={containerRef} style={{ width: '500px', height: '500px' }} />;
 };

@@ -1,5 +1,7 @@
 import type { Component, PositionComponent } from '../components/Components';
-import { Direction, GameMap } from '../map/GameMap';
+import type { Direction } from '../map/GameMap';
+import { store } from '../../App';
+import { entitiesAtom, mapAtom } from '../GameSystem';
 
 export type Entity = {
   id: string;
@@ -18,7 +20,20 @@ export const setComponent = <T extends Component>(
   entity: Entity,
   component: T,
 ) => {
-  entity.components[component.type] = component;
+  store.set(entitiesAtom, (entities) => {
+    return entities.map((e) => {
+      if (e.id === entity.id) {
+        return {
+          ...e,
+          components: {
+            ...e.components,
+            [component.type]: component,
+          },
+        };
+      }
+      return e;
+    });
+  });
 };
 
 export const getComponent = <T extends Component>(
@@ -33,15 +48,32 @@ export const hasComponent = (entity: Entity, type: string): boolean => {
 };
 
 export const canMoveInDirection = (
-  map: GameMap,
   entity: Entity,
   direction: Direction,
 ): boolean => {
+  const map = store.get(mapAtom);
   const positionComponent = getComponent<PositionComponent>(entity, 'position');
   if (!positionComponent) {
     return false;
   }
 
-  const adjacentPosition = map.getAdjacentPosition(positionComponent, direction);
-  return map.isTileWalkable(adjacentPosition);
+  const adjacentPosition = map.getAdjacentPosition(
+    positionComponent,
+    direction,
+  );
+
+  const entities = store.get(entitiesAtom).filter((entity) => {
+    const position = getComponent<PositionComponent>(entity, 'position');
+    return (
+      position?.x === adjacentPosition.x && position?.y === adjacentPosition.y
+    );
+  });
+  const entitiesAreMoveable = entities.reduce(
+    (accumulation, entity) => accumulation && hasComponent(entity, 'moveable'),
+    true,
+  );
+
+  const isMapTileWalkable = map.isTileWalkable(adjacentPosition);
+
+  return isMapTileWalkable && entitiesAreMoveable;
 };

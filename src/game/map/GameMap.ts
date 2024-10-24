@@ -1,10 +1,7 @@
 import { Container, Sprite } from 'pixi.js';
-import type { PositionComponent } from '../components/Components';
-import type { Entity } from '../utils/ecsUtils';
-import { getComponent } from '../utils/ecsUtils';
 import type { Tile } from './TileProperties';
 import { tileProperties, TileType } from './TileProperties';
-import { pixiApp } from '../PixiStage';
+import { pixiApp } from '../Pixi';
 
 export type Direction = 'up' | 'down' | 'left' | 'right';
 
@@ -16,24 +13,28 @@ export interface Position {
 export class GameMap {
   private tiles: Tile[][];
 
-  constructor() {
+  constructor(rows?: number, columns?: number) {
     this.tiles = [];
+
+    if (rows && columns) {
+      this.init(rows, columns);
+    }
   }
 
   init(rows: number, columns: number) {
-    const tileWidth = (pixiApp.screen.width / 10);
+    const tileWidth = pixiApp.screen.width / 10;
     for (let y = 0; y < rows; y++) {
       const row: Tile[] = [];
       for (let x = 0; x < columns; x++) {
         if (Math.random() < 0.85) {
           const sprite: Sprite = Sprite.from('dirt');
           sprite.position = { x: x * tileWidth, y: y * tileWidth };
-          sprite.setSize(tileWidth)
+          sprite.setSize(tileWidth);
           row.push({ tileType: TileType.Dirt, sprite });
         } else {
           const sprite: Sprite = Sprite.from('wall');
           sprite.position = { x: x * tileWidth, y: y * tileWidth };
-          sprite.setSize(tileWidth)
+          sprite.setSize(tileWidth);
           row.push({ tileType: TileType.Wall, sprite });
         }
       }
@@ -93,18 +94,5 @@ export class GameMap {
   isTileWalkable({ x, y }: Position): boolean {
     const tile = this.getTile({ x, y });
     return tile ? tileProperties[tile.tileType].walkable : false;
-  }
-
-  // TODO: Consider moving this into the ecs utils
-  canMoveInDirection(entity: Entity, direction: Direction): boolean {
-    const positionComponent = getComponent<PositionComponent>(
-      entity,
-      'position',
-    );
-    if (!positionComponent) {
-      return false;
-    }
-    const { x, y } = this.getAdjacentPosition(positionComponent, direction);
-    return this.isTileWalkable({ x, y });
   }
 }
