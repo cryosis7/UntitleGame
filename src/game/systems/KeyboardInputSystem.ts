@@ -1,4 +1,4 @@
-import type { PositionComponent } from '../components/Components';
+import type { VelocityComponent } from '../components/Components';
 import type { System, UpdateArgs } from './Systems';
 import {
   canMoveInDirection,
@@ -31,34 +31,30 @@ export class KeyboardInputSystem implements System {
 
     if (!playerEntity) return;
 
-    const positionComponent = getComponent<PositionComponent>(
+    const velocityComponent = getComponent<VelocityComponent>(
       playerEntity,
-      'position',
-    );
+      'velocity',
+    )
 
-    if (!positionComponent) return;
+    if (!velocityComponent) return;
 
-    let updated = false;
-    if (this.keys['ArrowUp'] && canMoveInDirection(playerEntity, 'up')) {
-      positionComponent.y -= 1;
-      updated = true;
+    velocityComponent.vx = 0;
+    velocityComponent.vy = 0;
+
+    if (this.keys['ArrowUp']) {
+      velocityComponent.vy = -1;
     }
-    if (this.keys['ArrowDown'] && canMoveInDirection(playerEntity, 'down')) {
-      positionComponent.y += 1;
-      updated = true;
+    if (this.keys['ArrowDown']) {
+      velocityComponent.vy = 1;
     }
-    if (this.keys['ArrowLeft'] && canMoveInDirection(playerEntity, 'left')) {
-      positionComponent.x -= 1;
-      updated = true;
+    if (this.keys['ArrowLeft']) {
+      velocityComponent.vx = -1;
     }
-    if (this.keys['ArrowRight'] && canMoveInDirection(playerEntity, 'right')) {
-      positionComponent.x += 1;
-      updated = true;
+    if (this.keys['ArrowRight']) {
+      velocityComponent.vx = 1;
     }
 
-    if (updated) {
-      setComponent(playerEntity, positionComponent);
-    }
+    setComponent(playerEntity, velocityComponent);
 
     this.hasChanged = false;
   }

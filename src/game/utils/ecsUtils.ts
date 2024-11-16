@@ -47,6 +47,13 @@ export const hasComponent = (entity: Entity, type: string): boolean => {
   return entity.components[type] !== undefined;
 };
 
+export const hasComponents = (entity: Entity, ...types: string[]): boolean => {
+  return types.reduce(
+    (accumulation, type) => accumulation && hasComponent(entity, type),
+    true,
+  );
+}
+
 export const canMoveInDirection = (
   entity: Entity,
   direction: Direction,

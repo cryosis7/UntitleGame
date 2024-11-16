@@ -95,4 +95,8 @@ export class GameMap {
     const tile = this.getTile({ x, y });
     return tile ? tileProperties[tile.tileType].walkable : false;
   }
+
+  isValidPosition({ x, y }: Position): boolean {
+    return this.isPositionInMap({ x, y }) && this.isTileWalkable({ x, y });
+  }
 }

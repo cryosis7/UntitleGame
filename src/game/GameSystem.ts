@@ -2,9 +2,11 @@ import type { Entity } from './utils/ecsUtils';
 import { createEntity, getComponent, hasComponent } from './utils/ecsUtils';
 import { store } from '../App';
 import {
+  MovableComponent,
   PlayerComponent,
   PositionComponent,
   SpriteComponent,
+  VelocityComponent,
 } from './components/Components';
 import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
 import { RenderSystem } from './systems/RenderSystem';
@@ -13,6 +15,7 @@ import { pixiApp } from './Pixi';
 import { atom } from 'jotai/index';
 import type { System } from './systems/Systems';
 import { GameMap } from './map/GameMap';
+import { MovementSystem } from './systems/MovementSystem';
 
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<System[]>([]);
@@ -38,11 +41,34 @@ const createPlayer = () => {
     new PositionComponent(playerX, playerY),
     new SpriteComponent('player'),
     new PlayerComponent(),
+    new VelocityComponent(0, 0),
   ]);
 
   // entities.push(player);
   store.set(entitiesAtom, (entities) => [...entities, player]);
 };
+
+const createBoulder = () => {
+  let boulderX: number;
+  let boulderY: number;
+  let isOccupied: boolean;
+  const map = store.get(mapAtom);
+
+  do {
+    boulderX = Math.floor(Math.random() * 10);
+    boulderY = Math.floor(Math.random() * 10);
+    isOccupied = !map.isTileWalkable({ x: boulderX, y: boulderY });
+  } while (isOccupied);
+
+  const boulder = createEntity([
+    new PositionComponent(boulderX, boulderY),
+    new SpriteComponent('boulder'),
+    new MovableComponent(),
+  ]);
+
+  // entities.push(boulder);
+  store.set(entitiesAtom, (entities) => [...entities, boulder]);
+}
 
 export const addMap = () => {
   const map = store.get(mapAtom);
@@ -52,6 +78,7 @@ export const addMap = () => {
 
 export const addEntities = () => {
   createPlayer();
+  createBoulder();
 
   const tileWidth = pixiApp.screen.width / 10;
   const tileHeight = pixiApp.screen.height / 10;
@@ -79,6 +106,7 @@ export const addEntities = () => {
 export const addSystems = () => {
   const systems = store.get(systemsAtom);
   systems.push(new KeyboardInputSystem());
+  systems.push(new MovementSystem());
   systems.push(new RenderSystem());
 };
 

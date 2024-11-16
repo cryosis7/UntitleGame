@@ -33,3 +33,14 @@ export class PlayerComponent implements Component {
 export class MovableComponent implements Component {
   type = 'movable';
 }
+
+export class VelocityComponent implements Component {
+  type = 'velocity';
+  vx: number;
+  vy: number;
+
+  constructor(vx: number, vy: number) {
+    this.vx = vx;
+    this.vy = vy;
+  }
+}

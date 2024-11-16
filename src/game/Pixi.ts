@@ -26,6 +26,10 @@ export const preload = async () => {
       alias: 'player',
       src: '/public/assets/images/player.png',
     },
+    {
+      alias: 'boulder',
+      src: '/public/assets/images/boulder.png',
+    }
   ];
 
   await Assets.load(assets);
