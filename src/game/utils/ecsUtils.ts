@@ -8,6 +8,11 @@ export type Entity = {
   components: { [key: string]: Component };
 };
 
+export type EntityTemplate = {
+  name: string;
+  components: { [type: string]: Component };
+};
+
 export function createEntity(components: Component[]): Entity {
   const componentDict: { [key: string]: Component } = {};
   components.forEach((component) => {
@@ -52,7 +57,7 @@ export const hasComponents = (entity: Entity, ...types: string[]): boolean => {
     (accumulation, type) => accumulation && hasComponent(entity, type),
     true,
   );
-}
+};
 
 export const canMoveInDirection = (
   entity: Entity,

@@ -3,6 +3,7 @@ import './App.scss';
 import { Route, Routes } from 'react-router-dom';
 import { SidePanel } from './react/components/SidePanel';
 import { createStore, Provider } from 'jotai';
+import { Editor } from './react/components/Editor/Editor';
 
 export const store = createStore();
 
@@ -22,6 +23,7 @@ const App = () => {
           </div>
         }
       />
+      <Route path='/editor' element={<Editor />} />
       <Route path='*' element={<div>No Route Match</div>} />
     </Routes>
   );

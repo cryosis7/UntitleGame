@@ -1,12 +1,20 @@
 import { Sprite } from 'pixi.js';
 import { pixiApp } from '../Pixi';
 
+export enum ComponentType {
+  Position = 'position',
+  Sprite = 'sprite',
+  Player = 'player',
+  Movable = 'movable',
+  Velocity = 'velocity',
+}
+
 export type Component = {
-  type: string;
+  type: ComponentType;
 }; // TODO: Revist this and see if I can remove type in favor of instanceof checks
 
 export class PositionComponent implements Component {
-  type = 'position';
+  type = ComponentType.Position;
   x: number;
   y: number;
 
@@ -17,7 +25,7 @@ export class PositionComponent implements Component {
 }
 
 export class SpriteComponent implements Component {
-  type = 'sprite';
+  type = ComponentType.Sprite;
   sprite: Sprite;
 
   constructor(sprite: string) {
@@ -27,15 +35,15 @@ export class SpriteComponent implements Component {
 }
 
 export class PlayerComponent implements Component {
-  type = 'player';
+  type = ComponentType.Player;
 }
 
 export class MovableComponent implements Component {
-  type = 'movable';
+  type = ComponentType.Movable;
 }
 
 export class VelocityComponent implements Component {
-  type = 'velocity';
+  type = ComponentType.Velocity;
   vx: number;
   vy: number;
 

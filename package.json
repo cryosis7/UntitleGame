@@ -16,6 +16,11 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/roboto": "^5.1.0",
+    "@mui/icons-material": "^6.1.7",
+    "@mui/material": "^6.1.7",
     "jotai": "^2.10.1",
     "pixi.js": "^8.4.1",
     "react": "^18.2.0",
