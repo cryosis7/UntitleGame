@@ -8,19 +8,6 @@ export type Entity = {
   components: { [key: string]: Component };
 };
 
-export type EntityTemplate = {
-  name: string;
-  components: { [type: string]: Component };
-};
-
-export function createEntity(components: Component[]): Entity {
-  const componentDict: { [key: string]: Component } = {};
-  components.forEach((component) => {
-    componentDict[component.type] = component;
-  });
-  return { id: crypto.randomUUID(), components: componentDict };
-}
-
 export const setComponent = <T extends Component>(
   entity: Entity,
   component: T,

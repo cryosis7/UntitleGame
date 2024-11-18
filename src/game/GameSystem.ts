@@ -1,5 +1,5 @@
 import type { Entity } from './utils/ecsUtils';
-import { createEntity, getComponent, hasComponent } from './utils/ecsUtils';
+import { getComponent, hasComponent } from './utils/ecsUtils';
 import { store } from '../App';
 import {
   MovableComponent,
@@ -16,6 +16,7 @@ import { atom } from 'jotai/index';
 import type { System } from './systems/Systems';
 import { GameMap } from './map/GameMap';
 import { MovementSystem } from './systems/MovementSystem';
+import { createEntity } from './utils/EntityFactory';
 
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<System[]>([]);
@@ -68,7 +69,7 @@ const createBoulder = () => {
 
   // entities.push(boulder);
   store.set(entitiesAtom, (entities) => [...entities, boulder]);
-}
+};
 
 export const addMap = () => {
   const map = store.get(mapAtom);

@@ -9,11 +9,18 @@ export enum ComponentType {
   Velocity = 'velocity',
 }
 
-export type Component = {
+type ComponentBase = {
   type: ComponentType;
 }; // TODO: Revist this and see if I can remove type in favor of instanceof checks
 
-export class PositionComponent implements Component {
+export type Component =
+  | PositionComponent
+  | SpriteComponent
+  | PlayerComponent
+  | MovableComponent
+  | VelocityComponent;
+
+export class PositionComponent implements ComponentBase {
   type = ComponentType.Position;
   x: number;
   y: number;
@@ -24,7 +31,7 @@ export class PositionComponent implements Component {
   }
 }
 
-export class SpriteComponent implements Component {
+export class SpriteComponent implements ComponentBase {
   type = ComponentType.Sprite;
   sprite: Sprite;
 
@@ -34,15 +41,15 @@ export class SpriteComponent implements Component {
   }
 }
 
-export class PlayerComponent implements Component {
+export class PlayerComponent implements ComponentBase {
   type = ComponentType.Player;
 }
 
-export class MovableComponent implements Component {
+export class MovableComponent implements ComponentBase {
   type = ComponentType.Movable;
 }
 
-export class VelocityComponent implements Component {
+export class VelocityComponent implements ComponentBase {
   type = ComponentType.Velocity;
   vx: number;
   vy: number;

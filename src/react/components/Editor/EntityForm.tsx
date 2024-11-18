@@ -1,13 +1,16 @@
 import type React from 'react';
 import { useState } from 'react';
 import { Box, Button, Paper, TextField } from '@mui/material';
-import type { Component } from '../../../game/components/Components';
-import { ComponentType } from '../../../game/components/Components';
+import type {
+  Component,
+  ComponentType,
+} from '../../../game/components/Components';
 import { ComponentSelector } from './ComponentSelector';
 import { ComponentList } from './ComponentList';
 import type { EntitiesComponentsSchema } from './ComponentSchemas';
 import { DefaultComponentSchemas } from './ComponentSchemas';
-import type { EntityTemplate } from '../../../game/utils/ecsUtils';
+
+import type { EntityTemplate } from '../../../game/utils/EntityFactory';
 
 interface EntityFormProps {
   setEntityJson: (json: string | null) => void;
@@ -58,7 +61,7 @@ export const EntityForm: React.FC<EntityFormProps> = ({ setEntityJson }) => {
     const components: { [type: string]: Component } = {};
     for (const [type, componentProperty] of Object.entries(entityTemplate)) {
       components[type] = {
-        type: ComponentType[type as keyof typeof ComponentType],
+        type: type as ComponentType,
         ...Object.fromEntries(
           Object.entries(componentProperty).map(
             ([key, { default: defaultValue }]) => [key, defaultValue],
