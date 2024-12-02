@@ -1,10 +1,21 @@
 import type { System, UpdateArgs } from './Systems';
 import type {
-  PositionComponent,
-  VelocityComponent,
+  VelocityComponent} from '../components/Components';
+import {
+  ComponentType,
+  PositionComponent
 } from '../components/Components';
-import type { Entity } from '../utils/ecsUtils';
-import { getComponent, hasComponent, setComponent } from '../utils/ecsUtils';
+import type {
+  Entity} from '../utils/ecsUtils';
+import {
+  getComponent,
+  hasAnyComponent,
+  setComponent,
+} from '../utils/ecsUtils';
+import {
+  getEntitiesWithComponent,
+  hasEntitiesAtPosition,
+} from '../utils/EntityUtils';
 
 export class MovementSystem implements System {
   update({ entities, map }: UpdateArgs) {
@@ -12,7 +23,7 @@ export class MovementSystem implements System {
 
     const resetVelocity = (entity: Entity) => {
       setComponent(entity, {
-        type: 'velocity',
+        type: ComponentType.Velocity,
         vx: 0,
         vy: 0,
       });
@@ -59,8 +70,13 @@ export class MovementSystem implements System {
       });
 
       if (entitiesAtNewPosition.length !== 0) {
+        // Only movable entities can be pushed and pickable entities can be walked on.
         const isMovementBlocked = entitiesAtNewPosition.some((e) => {
-          return !hasComponent(e, 'movable');
+          return !hasAnyComponent(
+            e,
+            ComponentType.Movable,
+            ComponentType.Pickable,
+          );
         });
 
         if (isMovementBlocked) {
@@ -68,45 +84,36 @@ export class MovementSystem implements System {
           return;
         }
 
-        // The above return statement guarantees all entities at the new position are movable
+        // For the movable entities, we need to check if they are free to move.
+        const movableEntities = getEntitiesWithComponent(
+          ComponentType.Movable,
+          entitiesAtNewPosition,
+        );
+        if (movableEntities.length > 0) {
+          const movableEntitiesNewPosition = {
+            x: newPosition.x + velocityComponent.vx,
+            y: newPosition.y + velocityComponent.vy,
+          };
 
-        const movableEntitiesNewPosition = {
-          x: newPosition.x + velocityComponent.vx,
-          y: newPosition.y + velocityComponent.vy,
-        };
-
-        if (!map.isValidPosition(movableEntitiesNewPosition)) {
-          resetVelocity(entity);
-          return;
-        }
-
-        entitiesAtNewPosition.forEach((movableEntity) => {
           if (
-            !entities.some((otherEntity) => {
-              if (otherEntity.id === movableEntity.id) return false;
-              const otherEntityPositionComponent =
-                getComponent<PositionComponent>(otherEntity, 'position');
-              return (
-                otherEntityPositionComponent?.x ===
-                  movableEntitiesNewPosition.x &&
-                otherEntityPositionComponent?.y === movableEntitiesNewPosition.y
-              );
-            })
+            !map.isValidPosition(movableEntitiesNewPosition) ||
+            hasEntitiesAtPosition(movableEntitiesNewPosition)
           ) {
-            setComponent(movableEntity, {
-              ...getComponent<PositionComponent>(movableEntity, 'position'),
-              ...movableEntitiesNewPosition,
-              type: 'position',
-            });
-          } else {
             resetVelocity(entity);
             return;
           }
-        });
+
+          movableEntities.forEach((movableEntity) => {
+            setComponent(
+              movableEntity,
+              new PositionComponent(movableEntitiesNewPosition),
+            );
+          });
+        }
       }
 
       resetVelocity(entity);
-      setComponent(entity, { ...positionComponent, ...newPosition });
+      setComponent(entity, new PositionComponent(newPosition));
     });
   }
 }

@@ -1,5 +1,10 @@
-import type { Component, PositionComponent } from '../components/Components';
-import type { Direction } from '../map/GameMap';
+import type {
+  Component,
+  PositionComponent} from '../components/Components';
+import {
+  ComponentType
+} from '../components/Components';
+import type { Direction, Position } from '../map/GameMap';
 import { store } from '../../App';
 import { entitiesAtom, mapAtom } from '../GameSystem';
 
@@ -71,14 +76,42 @@ export const getComponent = <T extends Component>(
   return entity.components[type] as T;
 };
 
-export const hasComponent = (entity: Entity, type: string): boolean => {
+/**
+ * Checks if an entity has a specified component.
+ * @param entity
+ * @param type
+ */
+export const hasComponent = (entity: Entity, type: ComponentType): boolean => {
   return entity.components[type] !== undefined;
 };
 
-export const hasComponents = (entity: Entity, ...types: string[]): boolean => {
+/**
+ * Checks if an entity has all the specified components.
+ * @param entity
+ * @param types
+ */
+export const hasComponents = (
+  entity: Entity,
+  ...types: ComponentType[]
+): boolean => {
   return types.reduce(
     (accumulation, type) => accumulation && hasComponent(entity, type),
     true,
+  );
+};
+
+/**
+ * Checks if an entity has any of the specified components.
+ * @param entity
+ * @param types
+ */
+export const hasAnyComponent = (
+  entity: Entity,
+  ...types: ComponentType[]
+): boolean => {
+  return types.reduce(
+    (accumulation, type) => accumulation || hasComponent(entity, type),
+    false,
   );
 };
 
@@ -104,11 +137,44 @@ export const canMoveInDirection = (
     );
   });
   const entitiesAreMoveable = entities.reduce(
-    (accumulation, entity) => accumulation && hasComponent(entity, 'moveable'),
+    (accumulation, entity) =>
+      accumulation && hasComponent(entity, ComponentType.Movable),
     true,
   );
 
   const isMapTileWalkable = map.isTileWalkable(adjacentPosition);
 
   return isMapTileWalkable && entitiesAreMoveable;
+};
+
+/**
+ * Finds an empty tile on the map.
+ *
+ * @returns {Position} The coordinates of an empty tile.
+ */
+export const getEmptyPosition = (): Position => {
+  let x: number;
+  let y: number;
+  let isOccupied: boolean;
+  const map = store.get(mapAtom);
+  const entities = store
+    .get(entitiesAtom)
+    .filter((entity) => {
+      return hasComponent(entity, ComponentType.Position);
+    })
+    .map((entity) => {
+      return getComponent<PositionComponent>(entity, 'position')!;
+    });
+
+  do {
+    x = Math.floor(Math.random() * 10);
+    y = Math.floor(Math.random() * 10);
+    isOccupied =
+      !map.isTileWalkable({ x, y }) ||
+      entities.some((entity) => {
+        return entity.x === x && entity.y === y;
+      });
+  } while (isOccupied);
+
+  return { x, y };
 };

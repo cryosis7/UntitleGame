@@ -2,10 +2,10 @@ import type React from 'react';
 import { useEffect, useRef } from 'react';
 import { initPixiApp, pixiApp, preload } from '../../game/Pixi';
 import {
-  addEntities,
-  addMap,
-  addSystems,
   gameLoop,
+  initiateEntities,
+  initiateMap,
+  initiateSystems,
 } from '../../game/GameSystem';
 
 export const Game: React.FC = () => {
@@ -23,9 +23,9 @@ export const Game: React.FC = () => {
       await initPixiApp(gameContainer);
       await preload();
 
-      addMap();
-      addEntities();
-      addSystems();
+      initiateMap();
+      initiateEntities();
+      initiateSystems();
 
       pixiApp.ticker.add((time) => {
         gameLoop(time);
