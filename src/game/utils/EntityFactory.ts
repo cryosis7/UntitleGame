@@ -1,9 +1,11 @@
 import type { Entity } from './ecsUtils';
-import type { Component } from '../components/Components';
+import type { Component} from '../components/Components';
+import { ComponentType } from '../components/Components';
+import type { ComponentTemplate } from '../templates/ComponentTemplate';
 
 export type EntityTemplate = {
   name: string;
-  components: { [type: string]: Component };
+  components: { [type: string]: ComponentTemplate };
 };
 
 export function createEntity(components: Component[]): Entity {
@@ -15,5 +17,12 @@ export function createEntity(components: Component[]): Entity {
 }
 
 export function createEntityFromTemplate(template: EntityTemplate): Entity {
-  return { id: crypto.randomUUID(), components: template.components };
+  const components: Component[] = [];
+  for (const [type, componentTemplate] of Object.entries(template.components)) {
+    components.push({
+      type: ComponentType[type as keyof typeof ComponentType],
+      ...componentTemplate,
+    });
+  }
+  return createEntity(components);
 }

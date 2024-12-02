@@ -8,6 +8,13 @@ export type Entity = {
   components: { [key: string]: Component };
 };
 
+/**
+ * Sets a component for a given entity. If the component already exists, it will be replaced.
+ *
+ * @template T - The type of the component.
+ * @param {Entity} entity - The entity to which the component will be added.
+ * @param {T} component - The component to be added to the entity.
+ */
 export const setComponent = <T extends Component>(
   entity: Entity,
   component: T,
@@ -20,6 +27,35 @@ export const setComponent = <T extends Component>(
           components: {
             ...e.components,
             [component.type]: component,
+          },
+        };
+      }
+      return e;
+    });
+  });
+};
+
+/**
+ * Sets multiple components for a given entity. If a component already exists, it will be replaced.
+ *
+ * @param entity
+ * @param components
+ */
+export const setComponents = (entity: Entity, ...components: Component[]) => {
+  store.set(entitiesAtom, (entities) => {
+    return entities.map((e) => {
+      if (e.id === entity.id) {
+        return {
+          ...e,
+          components: {
+            ...e.components,
+            ...components.reduce(
+              (accumulation, component) => ({
+                ...accumulation,
+                [component.type]: component,
+              }),
+              {},
+            ),
           },
         };
       }

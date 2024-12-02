@@ -1,9 +1,8 @@
 import type { Entity } from './utils/ecsUtils';
-import { getComponent, hasComponent } from './utils/ecsUtils';
+import { getComponent, hasComponent, setComponent } from './utils/ecsUtils';
 import { store } from '../App';
 import {
   MovableComponent,
-  PlayerComponent,
   PositionComponent,
   SpriteComponent,
   VelocityComponent,
@@ -16,7 +15,8 @@ import { atom } from 'jotai/index';
 import type { System } from './systems/Systems';
 import { GameMap } from './map/GameMap';
 import { MovementSystem } from './systems/MovementSystem';
-import { createEntity } from './utils/EntityFactory';
+import { createEntity, createEntityFromTemplate } from './utils/EntityFactory';
+import { Player } from './templates/EntityTemplates';
 
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<System[]>([]);
@@ -38,12 +38,20 @@ const createPlayer = () => {
     isOccupied = !map.isTileWalkable({ x: playerX, y: playerY });
   } while (isOccupied);
 
-  const player = createEntity([
-    new PositionComponent(playerX, playerY),
-    new SpriteComponent('player'),
-    new PlayerComponent(),
-    new VelocityComponent(0, 0),
-  ]);
+  const player = createEntityFromTemplate(Player);
+  // setComponents(
+  //   player,
+  //   new PositionComponent(playerX, playerY),
+  //   new VelocityComponent(0, 0),
+  // );
+  setComponent(player, new PositionComponent(playerX, playerY));
+  setComponent(player, new VelocityComponent(0, 0));
+  // const player = createEntity([
+  //   new PositionComponent(playerX, playerY),
+  //   new SpriteComponent('player'),
+  //   new PlayerComponent(),
+  //   new VelocityComponent(0, 0),
+  // ]);
 
   // entities.push(player);
   store.set(entitiesAtom, (entities) => [...entities, player]);
