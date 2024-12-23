@@ -139,7 +139,10 @@ export const removeComponent = (
   });
 };
 
-export const removeFromMap = (entity: Entity) => {
-
+/**
+ * Removes the components needed to place the item somewhere in the map.
+ * @param entity
+ */
+export const removeMapComponents = (entity: Entity) => {
   removeComponent(entity, ComponentType.Position, ComponentType.Velocity);
 };

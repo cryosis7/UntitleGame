@@ -1,4 +1,4 @@
-import type { VelocityComponent } from '../components/Components';
+import { HandlingComponent, VelocityComponent } from '../components/Components';
 import { ComponentType, InteractingComponent } from '../components/Components';
 import type { System, UpdateArgs } from './Systems';
 import type { Entity} from '../utils/ecsUtils';
@@ -34,6 +34,7 @@ export class KeyboardInputSystem implements System {
 
     this.handleMovement(playerEntity);
     this.handleInteraction(playerEntity);
+    this.handlePickup(playerEntity);
     this.hasChanged = false;
   }
 
@@ -65,8 +66,14 @@ export class KeyboardInputSystem implements System {
   }
 
   private handleInteraction(playerEntity: Entity) {
-    if (this.keys[' ']) {
+    if (this.keys['E']) {
       setComponent(playerEntity, new InteractingComponent());
+    }
+  }
+
+  private handlePickup(playerEntity: Entity) {
+    if (this.keys[' ']) {
+      setComponent(playerEntity, new HandlingComponent());
     }
   }
 }

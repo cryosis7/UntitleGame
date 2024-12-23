@@ -11,6 +11,7 @@ export enum ComponentType {
   Pickable = 'pickable',
   CarriedItem = "carriedItem",
   Interacting = "interacting",
+  Handling = "handling",
 }
 
 type ComponentBase = {
@@ -25,7 +26,8 @@ export type Component =
   | VelocityComponent
   | PickableComponent
   | CarriedItemComponent
-  | InteractingComponent;
+  | InteractingComponent
+  | HandlingComponent;
 
 export type PositionComponentTemplate = Position;
 export class PositionComponent implements ComponentBase {
@@ -87,4 +89,8 @@ export class CarriedItemComponent implements ComponentBase {
 
 export class InteractingComponent implements ComponentBase {
   type = ComponentType.Interacting;
+}
+
+export class HandlingComponent implements ComponentBase {
+  type = ComponentType.Handling;
 }

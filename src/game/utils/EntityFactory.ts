@@ -2,17 +2,19 @@ import type {
   Component,
   PositionComponentTemplate,
   SpriteComponentTemplate,
-  VelocityComponentTemplate} from '../components/Components';
+  VelocityComponentTemplate,
+} from '../components/Components';
 import {
   CarriedItemComponent,
   ComponentType,
+  HandlingComponent,
   InteractingComponent,
   MovableComponent,
   PickableComponent,
   PlayerComponent,
   PositionComponent,
   SpriteComponent,
-  VelocityComponent
+  VelocityComponent,
 } from '../components/Components';
 import type { Entity } from './ecsUtils';
 
@@ -52,13 +54,14 @@ function isValidComponentTemplate(type: string, obj: any): boolean {
       return isValidSpriteTemplate(obj);
     case ComponentType.Velocity:
       return isValidVelocityTemplate(obj);
+    case ComponentType.CarriedItem:
+      return isValidCarriedItemTemplate(obj);
     case ComponentType.Player:
     case ComponentType.Movable:
     case ComponentType.Pickable:
     case ComponentType.Interacting:
+    case ComponentType.Handling:
       return true;
-    case ComponentType.CarriedItem:
-      return isValidCarriedItemTemplate(obj);
     default:
       return false;
   }
@@ -106,6 +109,8 @@ function createComponentsFromTemplate(template: EntityTemplate): Component[] {
         return new CarriedItemComponent(properties as CarriedItemComponent);
       case ComponentType.Interacting:
         return new InteractingComponent();
+      case ComponentType.Handling:
+        return new HandlingComponent();
       default:
         throw new Error(`Unknown component type: ${type}`);
     }
