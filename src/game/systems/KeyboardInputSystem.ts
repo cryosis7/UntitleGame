@@ -1,14 +1,14 @@
 import type { VelocityComponent } from '../components/Components';
+import { ComponentType, InteractingComponent } from '../components/Components';
 import type { System, UpdateArgs } from './Systems';
-import {
-  canMoveInDirection,
-  getComponent,
-  hasComponent,
-  setComponent,
-} from '../utils/ecsUtils';
+import type { Entity} from '../utils/ecsUtils';
+import { getEntitiesWithComponent } from '../utils/EntityUtils';
+import { getComponent, setComponent } from '../utils/ComponentUtils';
 
 export class KeyboardInputSystem implements System {
   private keys: { [key: string]: boolean } = {};
+  
+  // Indicates if the state of the keys has changed since the last update
   private hasChanged: boolean = false;
 
   constructor() {
@@ -25,16 +25,23 @@ export class KeyboardInputSystem implements System {
   update({ entities, map }: UpdateArgs) {
     if (!entities || !map || !this.hasChanged) return;
 
-    const playerEntity = entities.find((entity) =>
-      hasComponent(entity, 'player'),
+    const playerEntities = getEntitiesWithComponent(
+      ComponentType.Player,
+      entities,
     );
+    if (playerEntities.length !== 1) return;
+    const playerEntity = playerEntities[0];
 
-    if (!playerEntity) return;
+    this.handleMovement(playerEntity);
+    this.handleInteraction(playerEntity);
+    this.hasChanged = false;
+  }
 
+  private handleMovement(playerEntity: Entity) {
     const velocityComponent = getComponent<VelocityComponent>(
       playerEntity,
-      'velocity',
-    )
+      ComponentType.Velocity,
+    );
 
     if (!velocityComponent) return;
 
@@ -55,7 +62,11 @@ export class KeyboardInputSystem implements System {
     }
 
     setComponent(playerEntity, velocityComponent);
+  }
 
-    this.hasChanged = false;
+  private handleInteraction(playerEntity: Entity) {
+    if (this.keys[' ']) {
+      setComponent(playerEntity, new InteractingComponent());
+    }
   }
 }

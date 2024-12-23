@@ -9,6 +9,8 @@ export enum ComponentType {
   Movable = 'movable',
   Velocity = 'velocity',
   Pickable = 'pickable',
+  CarriedItem = "carriedItem",
+  Interacting = "interacting",
 }
 
 type ComponentBase = {
@@ -20,10 +22,12 @@ export type Component =
   | SpriteComponent
   | PlayerComponent
   | MovableComponent
-  | VelocityComponent;
+  | VelocityComponent
+  | PickableComponent
+  | CarriedItemComponent
+  | InteractingComponent;
 
 export type PositionComponentTemplate = Position;
-
 export class PositionComponent implements ComponentBase {
   type = ComponentType.Position;
   x: number;
@@ -36,7 +40,6 @@ export class PositionComponent implements ComponentBase {
 }
 
 export type SpriteComponentTemplate = { sprite: string };
-
 export class SpriteComponent implements ComponentBase {
   type = ComponentType.Sprite;
   sprite: Sprite;
@@ -70,4 +73,18 @@ export class VelocityComponent implements ComponentBase {
 
 export class PickableComponent implements ComponentBase {
   type = ComponentType.Pickable;
+}
+
+export type CarriedItemTemplate = { item: string };
+export class CarriedItemComponent implements ComponentBase {
+  type = ComponentType.CarriedItem;
+  item: string;
+
+  constructor({item}: CarriedItemTemplate) {
+    this.item = item;
+  }
+}
+
+export class InteractingComponent implements ComponentBase {
+  type = ComponentType.Interacting;
 }

@@ -8,14 +8,10 @@ import {
 import type {
   Entity} from '../utils/ecsUtils';
 import {
-  getComponent,
-  hasAnyComponent,
-  setComponent,
-} from '../utils/ecsUtils';
-import {
   getEntitiesWithComponent,
   hasEntitiesAtPosition,
 } from '../utils/EntityUtils';
+import { setComponent, getComponent, hasAnyComponent } from '../utils/ComponentUtils';
 
 export class MovementSystem implements System {
   update({ entities, map }: UpdateArgs) {
@@ -32,11 +28,11 @@ export class MovementSystem implements System {
     entities.forEach((entity) => {
       const positionComponent = getComponent<PositionComponent>(
         entity,
-        'position',
+        ComponentType.Position
       );
       const velocityComponent = getComponent<VelocityComponent>(
         entity,
-        'velocity',
+        ComponentType.Velocity
       );
 
       if (
@@ -61,7 +57,7 @@ export class MovementSystem implements System {
         if (e.id === entity.id) return false;
         const otherPositionComponent = getComponent<PositionComponent>(
           e,
-          'position',
+          ComponentType.Position
         );
         return (
           otherPositionComponent?.x === newPosition.x &&

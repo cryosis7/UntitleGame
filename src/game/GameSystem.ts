@@ -1,13 +1,7 @@
-import type { Entity } from './utils/ecsUtils';
-import {
-  getComponent,
-  getEmptyPosition,
-  hasComponent,
-  setComponent,
-} from './utils/ecsUtils';
+import { getEmptyPosition, type Entity } from './utils/ecsUtils';
 import { store } from '../App';
 import type { SpriteComponent } from './components/Components';
-import { PositionComponent } from './components/Components';
+import { ComponentType, PositionComponent } from './components/Components';
 import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
 import { RenderSystem } from './systems/RenderSystem';
 import type { Ticker } from 'pixi.js';
@@ -18,13 +12,20 @@ import { GameMap } from './map/GameMap';
 import { MovementSystem } from './systems/MovementSystem';
 import { createEntitiesFromObjects } from './utils/EntityFactory';
 import { Beaker, Boulder, Player } from './templates/EntityTemplates';
+import { CleanUpSystem } from './systems/CleanUpSystem';
+import {
+  getComponent,
+  hasComponent,
+  setComponent,
+} from './utils/ComponentUtils';
+import { PickupSystem } from './systems/PickupSystem';
 
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<System[]>([]);
 export const mapAtom = atom<GameMap>(new GameMap());
 export const playerAtom = atom((get) => {
   const entities = get(entitiesAtom);
-  return entities.find((entity) => hasComponent(entity, 'player'));
+  return entities.find((entity) => hasComponent(entity, ComponentType.Player));
 });
 
 export const initiateMap = () => {
@@ -52,9 +53,12 @@ export const initiateEntities = () => {
   entities.forEach((entity) => {
     const positionComponent = getComponent<PositionComponent>(
       entity,
-      'position',
+      ComponentType.Position,
     );
-    const spriteComponent = getComponent<SpriteComponent>(entity, 'sprite');
+    const spriteComponent = getComponent<SpriteComponent>(
+      entity,
+      ComponentType.Sprite,
+    );
 
     if (positionComponent && spriteComponent) {
       spriteComponent.sprite.width = tileWidth;
@@ -70,17 +74,21 @@ export const initiateEntities = () => {
 
 export const initiateSystems = () => {
   const systems = store.get(systemsAtom);
-  systems.push(new KeyboardInputSystem());
-  systems.push(new MovementSystem());
-  systems.push(new RenderSystem());
+  systems.push(
+    new KeyboardInputSystem(),
+    new MovementSystem(),
+    new PickupSystem(),
+    new RenderSystem(),
+    new CleanUpSystem(),
+  );
 };
 
 export const gameLoop = (ticker: Ticker) => {
-  const map = store.get(mapAtom);
   const systems = store.get(systemsAtom);
-  const entities = store.get(entitiesAtom);
 
   systems.forEach((system) => {
+    const map = store.get(mapAtom);
+    const entities = store.get(entitiesAtom) ?? [];
     system.update({ entities, time: ticker, map });
   });
 };

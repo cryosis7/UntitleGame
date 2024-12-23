@@ -3,7 +3,7 @@ import type { Entity } from '../utils/ecsUtils';
 import type { GameMap } from '../map/GameMap';
 
 export interface UpdateArgs {
-  entities?: Entity[],
+  entities: Entity[],
   time?: Ticker,
   map?: GameMap
 }

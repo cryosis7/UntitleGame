@@ -1,24 +1,26 @@
-import type { Entity } from './ecsUtils';
 import type {
   Component,
   PositionComponentTemplate,
   SpriteComponentTemplate,
-  VelocityComponentTemplate,
-} from '../components/Components';
+  VelocityComponentTemplate} from '../components/Components';
 import {
+  CarriedItemComponent,
   ComponentType,
+  InteractingComponent,
   MovableComponent,
   PickableComponent,
   PlayerComponent,
   PositionComponent,
   SpriteComponent,
-  VelocityComponent,
+  VelocityComponent
 } from '../components/Components';
+import type { Entity } from './ecsUtils';
 
 type ComponentTemplate =
   | PositionComponentTemplate
   | SpriteComponentTemplate
   | VelocityComponentTemplate
+  | CarriedItemComponent
   | {};
 
 export type EntityTemplate = {
@@ -38,6 +40,10 @@ function isValidVelocityTemplate(obj: any): obj is VelocityComponentTemplate {
   return obj && typeof obj.vx === 'number' && typeof obj.vy === 'number';
 }
 
+function isValidCarriedItemTemplate(obj: any): obj is CarriedItemComponent {
+  return obj && typeof obj.item === 'string';
+}
+
 function isValidComponentTemplate(type: string, obj: any): boolean {
   switch (type) {
     case ComponentType.Position:
@@ -49,7 +55,10 @@ function isValidComponentTemplate(type: string, obj: any): boolean {
     case ComponentType.Player:
     case ComponentType.Movable:
     case ComponentType.Pickable:
+    case ComponentType.Interacting:
       return true;
+    case ComponentType.CarriedItem:
+      return isValidCarriedItemTemplate(obj);
     default:
       return false;
   }
@@ -93,6 +102,10 @@ function createComponentsFromTemplate(template: EntityTemplate): Component[] {
         return new VelocityComponent(properties as VelocityComponentTemplate);
       case ComponentType.Pickable:
         return new PickableComponent();
+      case ComponentType.CarriedItem:
+        return new CarriedItemComponent(properties as CarriedItemComponent);
+      case ComponentType.Interacting:
+        return new InteractingComponent();
       default:
         throw new Error(`Unknown component type: ${type}`);
     }
