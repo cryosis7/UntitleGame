@@ -1,4 +1,14 @@
-import { Application, Assets } from 'pixi.js';
+import {
+  Application,
+  Assets,
+  Spritesheet,
+  SpriteSheetJson,
+  Texture,
+} from 'pixi.js';
+import { basicSpritesheet } from '../assets/basicSpritesheet';
+import { addSpritesheetAtom } from './utils/Atoms';
+import { store } from '../App';
+import { originalImages } from '../assets/originalImages';
 
 export const pixiApp = new Application();
 
@@ -13,28 +23,15 @@ export const initPixiApp = async (appContainer: HTMLDivElement) => {
 };
 
 export const preload = async () => {
-  const assets = [
-    {
-      alias: 'wall',
-      src: '/public/assets/images/wall.png',
-    },
-    {
-      alias: 'dirt',
-      src: '/public/assets/images/dirt.png',
-    },
-    {
-      alias: 'player',
-      src: '/public/assets/images/player.png',
-    },
-    {
-      alias: 'boulder',
-      src: '/public/assets/images/boulder.png',
-    },
-    {
-      alias: 'beaker',
-      src: '/public/assets/images/beaker.png',
-    },
-  ];
+  const spritesheets: SpriteSheetJson[] = [originalImages, basicSpritesheet];
 
-  await Assets.load(assets);
+  for (const spritesheetData of spritesheets) {
+    await Assets.load(`/assets/images/${spritesheetData.meta.image}`);
+    const sheet = new Spritesheet(
+      Texture.from(`/assets/images/${spritesheetData.meta.image}`),
+      spritesheetData,
+    );
+    await sheet.parse();
+    store.set(addSpritesheetAtom, sheet);
+  }
 };

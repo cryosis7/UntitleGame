@@ -36,7 +36,7 @@ export const Beaker: EntityTemplate = {
   components: {
     sprite: {
       type: 'sprite',
-      sprite: 'beaker',
+      sprite: 'bottle_blue',
     },
     pickable: {
       type: 'pickable',
