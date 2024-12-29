@@ -1,12 +1,13 @@
 import type React from 'react';
 import { useAtomValue } from 'jotai';
 import { entitiesAtom, playerAtom } from '../../game/GameSystem';
-import {
+import type {
   CarriedItemComponent,
-  ComponentType,
   InteractingComponent,
   PositionComponent,
-  VelocityComponent,
+  VelocityComponent} from '../../game/components/Components';
+import {
+  ComponentType
 } from '../../game/components/Components';
 import {
   getComponent,

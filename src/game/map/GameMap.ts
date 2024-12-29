@@ -2,6 +2,7 @@ import { Container, Sprite } from 'pixi.js';
 import type { Tile } from './TileProperties';
 import { tileProperties, TileType } from './TileProperties';
 import { pixiApp } from '../Pixi';
+import { getTexture } from '../utils/Atoms';
 
 export type Direction = 'up' | 'down' | 'left' | 'right';
 
@@ -23,16 +24,22 @@ export class GameMap {
 
   init(rows: number, columns: number) {
     const tileWidth = pixiApp.screen.width / 10;
+    const dirtTexture = getTexture('dirt')
+    const wallTexture = getTexture('wall')
+    if (!dirtTexture || !wallTexture) {
+      throw new Error('Could not find textures for dirt/wall');
+    }
+
     for (let y = 0; y < rows; y++) {
       const row: Tile[] = [];
       for (let x = 0; x < columns; x++) {
         if (Math.random() < 0.85) {
-          const sprite: Sprite = Sprite.from('dirt');
+          const sprite: Sprite = new Sprite(dirtTexture);
           sprite.position = { x: x * tileWidth, y: y * tileWidth };
           sprite.setSize(tileWidth);
           row.push({ tileType: TileType.Dirt, sprite });
         } else {
-          const sprite: Sprite = Sprite.from('wall');
+          const sprite: Sprite = new Sprite(wallTexture);
           sprite.position = { x: x * tileWidth, y: y * tileWidth };
           sprite.setSize(tileWidth);
           row.push({ tileType: TileType.Wall, sprite });

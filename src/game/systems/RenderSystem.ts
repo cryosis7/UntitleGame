@@ -1,31 +1,3 @@
-// import type { System, UpdateArgs } from './Systems';
-// import {
-//   ComponentType,
-//   type PositionComponent,
-//   type SpriteComponent,
-// } from '../components/Components';
-// import { pixiApp } from '../Pixi';
-// import { getComponent } from '../utils/ComponentUtils';
-//
-// export class RenderSystem implements System {
-//   update({ entities }: UpdateArgs) {
-//     entities?.forEach((entity) => {
-//       const spriteComponent = getComponent<SpriteComponent>(entity, ComponentType.Sprite);
-//       const positionComponent = getComponent<PositionComponent>(
-//         entity,
-//         ComponentType.Position,
-//       );
-//
-//       if (!spriteComponent || !positionComponent) return;
-//
-//       spriteComponent.sprite.position.set(
-//         positionComponent.x * (pixiApp.screen.width / 10),
-//         positionComponent.y * (pixiApp.screen.height / 10),
-//       );
-//     });
-//   }
-// }
-
 import type { System, UpdateArgs } from './Systems';
 import {
   ComponentType,
@@ -33,8 +5,7 @@ import {
   type SpriteComponent,
 } from '../components/Components';
 import { pixiApp } from '../Pixi';
-import { getComponent, hasComponent } from '../utils/ComponentUtils';
-import { Entity } from '../utils/ecsUtils';
+import { getComponent } from '../utils/ComponentUtils';
 
 export class RenderSystem implements System {
   private renderedEntities = new Set<string>();

@@ -1,6 +1,9 @@
 import { Sprite } from 'pixi.js';
 import { pixiApp } from '../Pixi';
 import type { Position } from '../map/GameMap';
+import { store } from '../../App';
+import { basicSpritesheet } from '../../assets/basicSpritesheet';
+import { getTexture, spritesheetsAtom } from '../utils/Atoms';
 
 export enum ComponentType {
   Position = 'position',
@@ -47,7 +50,12 @@ export class SpriteComponent implements ComponentBase {
   sprite: Sprite;
 
   constructor({ sprite }: SpriteComponentTemplate) {
-    this.sprite = Sprite.from(sprite);
+    const texture = getTexture(sprite);
+    if (texture === null) {
+      throw Error('No matching texture found for sprite: ' + sprite);
+    }
+
+    this.sprite = new Sprite(texture);
     this.sprite.setSize(pixiApp.stage.width / 10);
   }
 }
