@@ -33,10 +33,12 @@ export class GameMap {
     for (let y = 0; y < rows; y++) {
       const row: Entity[] = [];
       for (let x = 0; x < columns; x++) {
+        const isDirtTile = Math.random() < 0.85;
         const entityTemplate: EntityTemplate = {
           components: {
-            [ComponentType.Sprite]: { sprite: 'dirt' },
+            [ComponentType.Sprite]: { sprite: isDirtTile ? 'dirt' : 'wall' },
             [ComponentType.Position]: { x, y },
+            ...(isDirtTile ? { [ComponentType.Walkable]: {} } : {}),
           },
         };
         const entity = createEntityFromTemplate(entityTemplate);

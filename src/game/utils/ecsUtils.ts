@@ -1,11 +1,6 @@
 import { store } from '../../App';
-import type {
-  Component,
-  PositionComponent
-} from '../components/Components';
-import {
-  ComponentType
-} from '../components/Components';
+import type { Component, PositionComponent } from '../components/Components';
+import { ComponentType } from '../components/Components';
 import { entitiesAtom, mapAtom } from '../GameSystem';
 import type { Direction, Position } from '../map/GameMap';
 import { getComponentIfExists, hasComponent } from './ComponentUtils';
@@ -17,16 +12,19 @@ export type Entity = {
 
 /**
  * Determines if an entity can move in a given direction, based on obstructions in the map and other entities.
- * @param entity 
- * @param direction 
- * @returns 
+ * @param entity
+ * @param direction
+ * @returns
  */
 export const canMoveInDirection = (
   entity: Entity,
   direction: Direction,
 ): boolean => {
   const map = store.get(mapAtom);
-  const positionComponent = getComponentIfExists<PositionComponent>(entity, ComponentType.Position);
+  const positionComponent = getComponentIfExists<PositionComponent>(
+    entity,
+    ComponentType.Position,
+  );
   if (!positionComponent) {
     return false;
   }
@@ -37,7 +35,10 @@ export const canMoveInDirection = (
   );
 
   const entities = store.get(entitiesAtom).filter((entity) => {
-    const position = getComponentIfExists<PositionComponent>(entity, ComponentType.Position);
+    const position = getComponentIfExists<PositionComponent>(
+      entity,
+      ComponentType.Position,
+    );
     return (
       position?.x === adjacentPosition.x && position?.y === adjacentPosition.y
     );
@@ -69,7 +70,10 @@ export const getEmptyPosition = (): Position => {
       return hasComponent(entity, ComponentType.Position);
     })
     .map((entity) => {
-      return getComponentIfExists<PositionComponent>(entity, ComponentType.Position)!;
+      return getComponentIfExists<PositionComponent>(
+        entity,
+        ComponentType.Position,
+      )!;
     });
 
   do {

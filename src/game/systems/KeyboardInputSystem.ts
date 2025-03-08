@@ -1,4 +1,5 @@
-import { HandlingComponent, VelocityComponent } from '../components/Components';
+import type { VelocityComponent } from '../components/Components';
+import { HandlingComponent } from '../components/Components';
 import { ComponentType, InteractingComponent } from '../components/Components';
 import type { System, UpdateArgs } from './Systems';
 import type { Entity} from '../utils/ecsUtils';

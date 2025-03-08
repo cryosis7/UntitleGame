@@ -15,6 +15,10 @@ import {
   hasComponent,
   setComponent,
 } from './utils/ComponentUtils';
+import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
+import { MovementSystem } from './systems/MovementSystem';
+import { PickupSystem } from './systems/PickupSystem';
+import { CleanUpSystem } from './systems/CleanUpSystem';
 
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<System[]>([]);
@@ -27,7 +31,6 @@ export const playerAtom = atom((get) => {
 export const initiateMap = () => {
   const map = store.get(mapAtom);
   map.init(10, 10);
-  // pixiApp.stage.addChild(map.createSpriteContainer());
 };
 
 export const initiateEntities = () => {
@@ -71,11 +74,11 @@ export const initiateEntities = () => {
 export const initiateSystems = () => {
   const systems = store.get(systemsAtom);
   systems.push(
-    // new KeyboardInputSystem(),
-    // new MovementSystem(),
-    // new PickupSystem(),
+    new KeyboardInputSystem(),
+    new MovementSystem(),
+    new PickupSystem(),
     new RenderSystem(),
-    // new CleanUpSystem(),
+    new CleanUpSystem(),
   );
 };
 

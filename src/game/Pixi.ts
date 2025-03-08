@@ -1,8 +1,9 @@
+import type {
+  SpriteSheetJson} from 'pixi.js';
 import {
   Application,
   Assets,
   Spritesheet,
-  SpriteSheetJson,
   Texture,
 } from 'pixi.js';
 import { basicSpritesheet } from '../assets/basicSpritesheet';
@@ -15,7 +16,7 @@ export const pixiApp = new Application();
 
 export const initPixiApp = async (appContainer: HTMLDivElement) => {
   await pixiApp.init({
-    background: 'slategray',
+    backgroundAlpha: 0,
     resizeTo: appContainer,
   });
   appContainer.appendChild(pixiApp.canvas);

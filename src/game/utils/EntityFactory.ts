@@ -1,15 +1,17 @@
-import {
-  CarriedItemComponent,
+import type {
   CarriedItemComponentProps,
   Component,
   ComponentProps,
+  PositionComponentProps,
+  SpriteComponentProps,
+  VelocityComponentProps
+} from '../components/Components';
+import {
+  CarriedItemComponent,
   ComponentType,
   PositionComponent,
-  PositionComponentProps,
   SpriteComponent,
-  SpriteComponentProps,
-  VelocityComponent,
-  VelocityComponentProps
+  VelocityComponent
 } from '../components/Components';
 import type { Entity } from './ecsUtils';
 
