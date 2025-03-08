@@ -60,12 +60,22 @@ export const setComponents = (entity: Entity, ...components: Component[]) => {
   });
 };
 
-export const getComponent = <T extends Component>(
+export const getComponentIfExists = <T extends Component>(
   entity: Entity,
   type: ComponentType,
 ): T | undefined => {
   return entity.components[type] as T;
 };
+
+export const getComponentAbsolute = <T extends Component>(
+  entity: Entity,
+  type: ComponentType,
+): T => {
+  if (!entity.components[type]) {
+    throw new Error(`Component ${type} not found for entity`);
+  }
+  return entity.components[type] as T;
+}
 
 /**
  * Checks if an entity has a specified component.

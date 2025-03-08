@@ -4,7 +4,7 @@ import { entitiesAtom } from '../GameSystem';
 import type { PositionComponent } from '../components/Components';
 import { ComponentType } from '../components/Components';
 import type { Entity} from './ecsUtils';
-import { getComponent, hasAllComponents, hasComponent } from './ComponentUtils';
+import { getComponentIfExists, hasAllComponents, hasComponent } from './ComponentUtils';
 
 /**
  * Returns all entities at a given position.
@@ -12,7 +12,7 @@ import { getComponent, hasAllComponents, hasComponent } from './ComponentUtils';
  */
 export const getEntitiesAtPosition = (position: Position | PositionComponent): Entity[] => {
   return store.get(entitiesAtom).filter((entity) => {
-    const positionComponent = getComponent<PositionComponent>(
+    const positionComponent = getComponentIfExists<PositionComponent>(
       entity,
       ComponentType.Position,
     );
@@ -24,7 +24,7 @@ export const getEntitiesAtPosition = (position: Position | PositionComponent): E
 
 export const hasEntitiesAtPosition = (position: Position | PositionComponent): boolean => {
   return store.get(entitiesAtom).some((entity) => {
-    const positionComponent = getComponent<PositionComponent>(
+    const positionComponent = getComponentIfExists<PositionComponent>(
       entity,
       ComponentType.Position,
     );

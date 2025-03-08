@@ -10,7 +10,7 @@ import {
   ComponentType
 } from '../../game/components/Components';
 import {
-  getComponent,
+  getComponentIfExists,
   hasAllComponents,
 } from '../../game/utils/ComponentUtils';
 
@@ -21,19 +21,19 @@ export const SidePanel: React.FC = () => {
   if (!player) {
     return <div className='border-blue' style={{ flexGrow: '1' }} />;
   }
-  let positionComponent = getComponent<PositionComponent>(
+  let positionComponent = getComponentIfExists<PositionComponent>(
     player,
     ComponentType.Position,
   );
-  let velocityComponent = getComponent<VelocityComponent>(
+  let velocityComponent = getComponentIfExists<VelocityComponent>(
     player,
     ComponentType.Velocity,
   );
-  const interactionComponent = getComponent<InteractingComponent>(
+  const interactionComponent = getComponentIfExists<InteractingComponent>(
     player,
     ComponentType.Interacting,
   );
-  const carriedItemComponent = getComponent<CarriedItemComponent>(
+  const carriedItemComponent = getComponentIfExists<CarriedItemComponent>(
     player,
     ComponentType.CarriedItem,
   );
@@ -64,7 +64,7 @@ export const SidePanel: React.FC = () => {
       <h3>Entities</h3>
       <ul>
         {renderedEntities.map((entity) => {
-          const positionComponent = getComponent<PositionComponent>(
+          const positionComponent = getComponentIfExists<PositionComponent>(
             entity,
             ComponentType.Position,
           );

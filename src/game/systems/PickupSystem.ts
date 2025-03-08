@@ -5,7 +5,7 @@ import {
   PositionComponent,
 } from '../components/Components';
 import {
-  getComponent,
+  getComponentIfExists,
   hasComponent,
   removeComponent,
   removeMapComponents,
@@ -19,17 +19,17 @@ export class PickupSystem implements System {
     const playerEntity = getPlayerEntity(entities);
     if (!playerEntity) return;
 
-    const handlingComponent = getComponent<HandlingComponent>(
+    const handlingComponent = getComponentIfExists<HandlingComponent>(
       playerEntity,
       ComponentType.Handling,
     );
-    const positionComponent = getComponent<PositionComponent>(
+    const positionComponent = getComponentIfExists<PositionComponent>(
       playerEntity,
       ComponentType.Position,
     );
     if (!positionComponent || !handlingComponent) return;
 
-    const carriedItemComponent = getComponent<CarriedItemComponent>(
+    const carriedItemComponent = getComponentIfExists<CarriedItemComponent>(
       playerEntity,
       ComponentType.CarriedItem,
     );

@@ -3,7 +3,7 @@ import { ComponentType, InteractingComponent } from '../components/Components';
 import type { System, UpdateArgs } from './Systems';
 import type { Entity} from '../utils/ecsUtils';
 import { getEntitiesWithComponent } from '../utils/EntityUtils';
-import { getComponent, setComponent } from '../utils/ComponentUtils';
+import { getComponentIfExists, setComponent } from '../utils/ComponentUtils';
 
 export class KeyboardInputSystem implements System {
   private keys: { [key: string]: boolean } = {};
@@ -39,7 +39,7 @@ export class KeyboardInputSystem implements System {
   }
 
   private handleMovement(playerEntity: Entity) {
-    const velocityComponent = getComponent<VelocityComponent>(
+    const velocityComponent = getComponentIfExists<VelocityComponent>(
       playerEntity,
       ComponentType.Velocity,
     );

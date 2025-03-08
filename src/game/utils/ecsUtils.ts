@@ -8,7 +8,7 @@ import {
 } from '../components/Components';
 import { entitiesAtom, mapAtom } from '../GameSystem';
 import type { Direction, Position } from '../map/GameMap';
-import { getComponent, hasComponent } from './ComponentUtils';
+import { getComponentIfExists, hasComponent } from './ComponentUtils';
 
 export type Entity = {
   id: string;
@@ -26,7 +26,7 @@ export const canMoveInDirection = (
   direction: Direction,
 ): boolean => {
   const map = store.get(mapAtom);
-  const positionComponent = getComponent<PositionComponent>(entity, ComponentType.Position);
+  const positionComponent = getComponentIfExists<PositionComponent>(entity, ComponentType.Position);
   if (!positionComponent) {
     return false;
   }
@@ -37,7 +37,7 @@ export const canMoveInDirection = (
   );
 
   const entities = store.get(entitiesAtom).filter((entity) => {
-    const position = getComponent<PositionComponent>(entity, ComponentType.Position);
+    const position = getComponentIfExists<PositionComponent>(entity, ComponentType.Position);
     return (
       position?.x === adjacentPosition.x && position?.y === adjacentPosition.y
     );
@@ -69,7 +69,7 @@ export const getEmptyPosition = (): Position => {
       return hasComponent(entity, ComponentType.Position);
     })
     .map((entity) => {
-      return getComponent<PositionComponent>(entity, ComponentType.Position)!;
+      return getComponentIfExists<PositionComponent>(entity, ComponentType.Position)!;
     });
 
   do {

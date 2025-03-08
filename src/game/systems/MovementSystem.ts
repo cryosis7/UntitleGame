@@ -11,7 +11,7 @@ import {
   getEntitiesWithComponent,
   hasEntitiesAtPosition,
 } from '../utils/EntityUtils';
-import { setComponent, getComponent, hasAnyComponent } from '../utils/ComponentUtils';
+import { setComponent, getComponentIfExists, hasAnyComponent } from '../utils/ComponentUtils';
 
 export class MovementSystem implements System {
   update({ entities, map }: UpdateArgs) {
@@ -26,11 +26,11 @@ export class MovementSystem implements System {
     };
 
     entities.forEach((entity) => {
-      const positionComponent = getComponent<PositionComponent>(
+      const positionComponent = getComponentIfExists<PositionComponent>(
         entity,
         ComponentType.Position
       );
-      const velocityComponent = getComponent<VelocityComponent>(
+      const velocityComponent = getComponentIfExists<VelocityComponent>(
         entity,
         ComponentType.Velocity
       );
@@ -55,7 +55,7 @@ export class MovementSystem implements System {
 
       const entitiesAtNewPosition = entities.filter((e) => {
         if (e.id === entity.id) return false;
-        const otherPositionComponent = getComponent<PositionComponent>(
+        const otherPositionComponent = getComponentIfExists<PositionComponent>(
           e,
           ComponentType.Position
         );

@@ -5,68 +5,84 @@ import {
   type SpriteComponent,
 } from '../components/Components';
 import { pixiApp } from '../Pixi';
-import { getComponent } from '../utils/ComponentUtils';
+import {
+  getComponentAbsolute,
+  getComponentIfExists,
+} from '../utils/ComponentUtils';
+import type { Entity } from '../utils/ecsUtils';
+import type { GameMap, Position } from '../map/GameMap';
+import type { Container } from 'pixi.js';
 
 export class RenderSystem implements System {
   private renderedEntities = new Set<string>();
+  private renderedMap = false;
+
+  update({ entities, map }: UpdateArgs) {
+    if (map && map.hasChanged) {
+      this.updateMap(map);
+      map.hasChanged = false;
+    }
+
+    this.updateStage(entities);
+    entities.filter((entity) => this.renderedEntities.has(entity.id))
+    this.updatePositions(entities);
+  }
+
+  private updateMap = (map: GameMap) => {
+    if (!this.renderedMap) {
+      this.addContainerToStage(map.getSpriteContainer(), { x: 0, y: 0 });
+      this.renderedMap = true;
+    }
+
+    map.getAllEntities().forEach((entity) => {
+      const spriteComponent = getComponentAbsolute<SpriteComponent>(
+        entity,
+        ComponentType.Sprite,
+      );
+      const positionComponent = getComponentAbsolute<PositionComponent>(
+        entity,
+        ComponentType.Position,
+      );
+
+      spriteComponent.sprite.position.set(
+        positionComponent.x * (pixiApp.screen.width / 10),
+        positionComponent.y * (pixiApp.screen.height / 10),
+      )
+    });
+  };
 
   /**
-   * Add a sprite to the stage if it has a SpriteComponent and a PositionComponent
-   * @param entityId
-   * @param spriteComponent
-   * @param positionComponent
-   * @private
+   * Updates the positions of the entities' sprites based on their PositionComponent.
+   * @param entities - The array of entities to update positions for.
    */
-  private shouldAddToStage(
-    entityId: string,
-    spriteComponent?: SpriteComponent,
-    positionComponent?: PositionComponent,
-  ) {
-    return (
-      spriteComponent !== undefined &&
-      positionComponent !== undefined &&
-      !this.renderedEntities.has(entityId)
-    );
-  }
+  private updatePositions = (entities: Entity[]) => {
+    this.renderedEntities.forEach((entityId) => {
+      const entity = entities.find((e) => e.id === entityId);
+      if (!entity) return;
+
+      const spriteComponent = getComponentAbsolute<SpriteComponent>(
+        entity,
+        ComponentType.Sprite,
+      );
+      const positionComponent = getComponentAbsolute<PositionComponent>(
+        entity,
+        ComponentType.Position,
+      );
+
+      spriteComponent.sprite.position.set(
+        positionComponent.x * (pixiApp.screen.width / 10),
+        positionComponent.y * (pixiApp.screen.height / 10),
+      );
+    });
+  };
 
   /**
-   * Remove a sprite from the stage if it has a SpriteComponent but no PositionComponent
-   * @param entityId
-   * @param spriteComponent
-   * @param positionComponent
-   * @private
+   * Updates the stage by adding or removing sprites based on their components.
+   * @param entities - The array of entities to update the stage for.
    */
-  private shouldRemoveFromStage(
-    entityId: string,
-    spriteComponent?: SpriteComponent,
-    positionComponent?: PositionComponent,
-  ) {
-    return (
-      spriteComponent &&
-      !positionComponent &&
-      this.renderedEntities.has(entityId)
-    );
-  }
-
-  addSpriteToStage(
-    spriteComponent: SpriteComponent,
-    positionComponent: PositionComponent,
-  ) {
-    const stage = pixiApp.stage;
-
-    spriteComponent.sprite.position.set(
-      positionComponent.x * (pixiApp.screen.width / 10),
-      positionComponent.y * (pixiApp.screen.height / 10),
-    );
-    stage.addChild(spriteComponent.sprite);
-  }
-
-  update({ entities }: UpdateArgs) {
-    const stage = pixiApp.stage;
-
-    // Add new sprites to the stage
+  private updateStage = (entities: Entity[]) => {
     entities.forEach((entity) => {
-      const spriteComponent = getComponent<SpriteComponent>(
+      const spriteComponent = getComponentIfExists<SpriteComponent>(
         entity,
         ComponentType.Sprite,
       );
@@ -74,40 +90,80 @@ export class RenderSystem implements System {
         return;
       }
 
-      const positionComponent = getComponent<PositionComponent>(
+      const positionComponent = getComponentIfExists<PositionComponent>(
         entity,
         ComponentType.Position,
       );
 
-      if (this.shouldAddToStage(entity.id, spriteComponent, positionComponent)) {
-        this.addSpriteToStage(spriteComponent, positionComponent!);
+      if (
+        this.shouldAddToStage(entity.id, spriteComponent, positionComponent)
+      ) {
+        this.addContainerToStage(spriteComponent.sprite, positionComponent!);
         this.renderedEntities.add(entity.id);
-      } else if (this.shouldRemoveFromStage(entity.id, spriteComponent, positionComponent)) {
-        stage.removeChild(spriteComponent.sprite);
+      } else if (
+        this.shouldRemoveFromStage(
+          entity.id,
+          spriteComponent,
+          positionComponent,
+        )
+      ) {
+        pixiApp.stage.removeChild(spriteComponent.sprite);
         this.renderedEntities.delete(entity.id);
       }
     });
+  };
 
-    // Update positions of existing sprites
-    this.renderedEntities.forEach((entityId) => {
-      const entity = entities.find((e) => e.id === entityId);
-      if (!entity) return;
+  /**
+   * Adds a container to the Pixi stage at the specified position and size.
+   * @param container - The Pixi container to add to the stage.
+   * @param position - The position to place the container at.
+   */
+  private addContainerToStage = (
+    container: Container,
+    position: Position,
+  ) => {
+    const blockWidth = (pixiApp.screen.width) / 10;
+    const blockHeight = (pixiApp.screen.height) / 10;
 
-      const spriteComponent = getComponent<SpriteComponent>(
-        entity,
-        ComponentType.Sprite,
-      );
-      const positionComponent = getComponent<PositionComponent>(
-        entity,
-        ComponentType.Position,
-      );
+    container.position.set(position.x * blockWidth, position.y * blockHeight);
+    pixiApp.stage.addChild(container);
+  };
 
-      if (spriteComponent && positionComponent) {
-        spriteComponent.sprite.position.set(
-          positionComponent.x * (pixiApp.screen.width / 10),
-          positionComponent.y * (pixiApp.screen.height / 10),
-        );
-      }
-    });
-  }
+  /**
+   * Determines whether an entity needs to be added to the pixi stage
+   * @param entityId
+   * @param spriteComponent
+   * @param positionComponent
+   * @private
+   */
+  private shouldAddToStage = (
+    entityId: string,
+    spriteComponent?: SpriteComponent,
+    positionComponent?: PositionComponent,
+  ) => {
+    return (
+      spriteComponent !== undefined &&
+      positionComponent !== undefined &&
+      !this.renderedEntities.has(entityId)
+    );
+  };
+
+  /**
+   * Determines whether an entity needs to be removed from the pixi stage
+   * @param entityId
+   * @param spriteComponent
+   * @param positionComponent
+   * @private
+   */
+  private shouldRemoveFromStage = (
+    entityId: string,
+    spriteComponent?: SpriteComponent,
+    positionComponent?: PositionComponent,
+  ) => {
+    return (
+      spriteComponent &&
+      !positionComponent &&
+      this.renderedEntities.has(entityId)
+    );
+  };
 }

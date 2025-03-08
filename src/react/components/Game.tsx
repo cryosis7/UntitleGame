@@ -24,7 +24,7 @@ export const Game: React.FC = () => {
       await preload();
 
       initiateMap();
-      initiateEntities();
+      // initiateEntities();
       initiateSystems();
 
       pixiApp.ticker.add((time) => {

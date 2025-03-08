@@ -9,6 +9,7 @@ import { basicSpritesheet } from '../assets/basicSpritesheet';
 import { addSpritesheetAtom } from './utils/Atoms';
 import { store } from '../App';
 import { originalImages } from '../assets/originalImages';
+import { tinyTownData } from '../assets/tinyTownData';
 
 export const pixiApp = new Application();
 
@@ -23,7 +24,11 @@ export const initPixiApp = async (appContainer: HTMLDivElement) => {
 };
 
 export const preload = async () => {
-  const spritesheets: SpriteSheetJson[] = [originalImages, basicSpritesheet];
+  const spritesheets: SpriteSheetJson[] = [
+    originalImages,
+    basicSpritesheet,
+    tinyTownData,
+  ];
 
   for (const spritesheetData of spritesheets) {
     await Assets.load(`/assets/images/${spritesheetData.meta.image}`);

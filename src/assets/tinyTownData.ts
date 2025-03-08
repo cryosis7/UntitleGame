@@ -1,4 +1,6 @@
-export const tinyTownData = {
+import type { SpriteSheetJson } from 'pixi.js';
+
+export const tinyTownData: SpriteSheetJson = {
   frames: {
     grass: { frame: { x: 0, y: 0, w: 16, h: 16 } },
     'grass-long': { frame: { x: 17, y: 0, w: 16, h: 16 } },
@@ -134,11 +136,9 @@ export const tinyTownData = {
     'bucket-full': { frame: { x: 187, y: 170, w: 16, h: 16 } },
   },
   meta: {
-    app: 'http://www.codeandweb.com/texturepacker',
-    version: '1.0',
-    image: '/public/assets/images/tinyTownSpritesheet.png',
-    format: 'RGBA8888',
-    size: { w: 2048, h: 2048 },
+    image: 'tinyTown.png',
+    // format: 'RGBA8888',
+    // size: { w: 2048, h: 2048 },
     scale: '1',
   },
 };

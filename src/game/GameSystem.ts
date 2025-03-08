@@ -1,24 +1,20 @@
-import { getEmptyPosition, type Entity } from './utils/ecsUtils';
+import { type Entity, getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../App';
 import type { SpriteComponent } from './components/Components';
 import { ComponentType, PositionComponent } from './components/Components';
-import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
 import { RenderSystem } from './systems/RenderSystem';
 import type { Ticker } from 'pixi.js';
 import { pixiApp } from './Pixi';
 import { atom } from 'jotai/index';
 import type { System } from './systems/Systems';
 import { GameMap } from './map/GameMap';
-import { MovementSystem } from './systems/MovementSystem';
-import { createEntitiesFromObjects } from './utils/EntityFactory';
+import { createEntitiesFromTemplates } from './utils/EntityFactory';
 import { Beaker, Boulder, Player } from './templates/EntityTemplates';
-import { CleanUpSystem } from './systems/CleanUpSystem';
 import {
-  getComponent,
+  getComponentIfExists,
   hasComponent,
   setComponent,
 } from './utils/ComponentUtils';
-import { PickupSystem } from './systems/PickupSystem';
 
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<System[]>([]);
@@ -31,11 +27,11 @@ export const playerAtom = atom((get) => {
 export const initiateMap = () => {
   const map = store.get(mapAtom);
   map.init(10, 10);
-  pixiApp.stage.addChild(map.getSpriteContainer());
+  // pixiApp.stage.addChild(map.createSpriteContainer());
 };
 
 export const initiateEntities = () => {
-  const [player, boulder, beaker] = createEntitiesFromObjects(
+  const [player, boulder, beaker] = createEntitiesFromTemplates(
     Player,
     Boulder,
     Beaker,
@@ -51,11 +47,11 @@ export const initiateEntities = () => {
 
   const entities = store.get(entitiesAtom);
   entities.forEach((entity) => {
-    const positionComponent = getComponent<PositionComponent>(
+    const positionComponent = getComponentIfExists<PositionComponent>(
       entity,
       ComponentType.Position,
     );
-    const spriteComponent = getComponent<SpriteComponent>(
+    const spriteComponent = getComponentIfExists<SpriteComponent>(
       entity,
       ComponentType.Sprite,
     );
@@ -75,11 +71,11 @@ export const initiateEntities = () => {
 export const initiateSystems = () => {
   const systems = store.get(systemsAtom);
   systems.push(
-    new KeyboardInputSystem(),
-    new MovementSystem(),
-    new PickupSystem(),
+    // new KeyboardInputSystem(),
+    // new MovementSystem(),
+    // new PickupSystem(),
     new RenderSystem(),
-    new CleanUpSystem(),
+    // new CleanUpSystem(),
   );
 };
 
