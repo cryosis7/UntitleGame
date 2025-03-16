@@ -1,7 +1,8 @@
 import { Sprite } from 'pixi.js';
 import { pixiApp } from '../Pixi';
 import type { Position } from '../map/GameMap';
-import { getTexture } from '../utils/Atoms';
+import { getTexture, getTileSizeAtom } from '../utils/Atoms';
+import { store } from '../../App';
 
 export enum ComponentType {
   Position = 'position',
@@ -63,7 +64,7 @@ export class SpriteComponent implements ComponentBase {
     }
 
     this.sprite = new Sprite(texture);
-    this.sprite.setSize(pixiApp.screen.width / 10);
+    this.sprite.setSize(store.get(getTileSizeAtom));
   }
 }
 

@@ -23,7 +23,7 @@ export const Game: React.FC = () => {
       await initPixiApp(gameContainer);
       await preload();
 
-      initiateMap();
+      initiateMap({ rows: 10, cols: 10 });
       initiateEntities();
       initiateSystems();
 

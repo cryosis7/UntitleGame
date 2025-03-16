@@ -19,6 +19,9 @@ import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
 import { MovementSystem } from './systems/MovementSystem';
 import { PickupSystem } from './systems/PickupSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
+import { getTileSizeAtom, updateMapConfigAtom } from './utils/Atoms';
+import { gridToScreen, gridToScreenAsTuple } from './map/MappingUtils';
+import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
 
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<System[]>([]);
@@ -28,9 +31,15 @@ export const playerAtom = atom((get) => {
   return entities.find((entity) => hasComponent(entity, ComponentType.Player));
 });
 
-export const initiateMap = () => {
+export interface GridSize {
+  rows: number;
+  cols: number;
+}
+
+export const initiateMap = (gridSize: GridSize) => {
   const map = store.get(mapAtom);
-  map.init(10, 10);
+  store.set(updateMapConfigAtom, gridSize);
+  map.init(gridSize);
 };
 
 export const initiateEntities = () => {
@@ -45,9 +54,7 @@ export const initiateEntities = () => {
   setComponent(boulder, new PositionComponent(getEmptyPosition()));
   setComponent(beaker, new PositionComponent(getEmptyPosition()));
 
-  const tileWidth = pixiApp.screen.width / 10;
-  const tileHeight = pixiApp.screen.height / 10;
-
+  const tileSize = store.get(getTileSizeAtom);
   const entities = store.get(entitiesAtom);
   entities.forEach((entity) => {
     const positionComponent = getComponentIfExists<PositionComponent>(
@@ -60,12 +67,8 @@ export const initiateEntities = () => {
     );
 
     if (positionComponent && spriteComponent) {
-      spriteComponent.sprite.width = tileWidth;
-      spriteComponent.sprite.height = tileHeight;
-      spriteComponent.sprite.position.set(
-        positionComponent.x * tileWidth,
-        positionComponent.y * tileHeight,
-      );
+      spriteComponent.sprite.setSize(tileSize);
+      spriteComponent.sprite.position.set(...gridToScreenAsTuple(positionComponent));
       pixiApp.stage.addChild(spriteComponent.sprite);
     }
   });
@@ -77,6 +80,8 @@ export const initiateSystems = () => {
     new KeyboardInputSystem(),
     new MovementSystem(),
     new PickupSystem(),
+    new EntityPlacementSystem(),
+
     new RenderSystem(),
     new CleanUpSystem(),
   );

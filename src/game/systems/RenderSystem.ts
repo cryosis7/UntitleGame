@@ -12,6 +12,7 @@ import {
 import type { Entity } from '../utils/ecsUtils';
 import type { GameMap, Position } from '../map/GameMap';
 import type { Container } from 'pixi.js';
+import { gridToScreenAsTuple } from '../map/MappingUtils';
 
 export class RenderSystem implements System {
   private renderedEntities = new Set<string>();
@@ -24,7 +25,7 @@ export class RenderSystem implements System {
     }
 
     this.updateStage(entities);
-    entities.filter((entity) => this.renderedEntities.has(entity.id))
+    entities.filter((entity) => this.renderedEntities.has(entity.id));
     this.updatePositions(entities);
   }
 
@@ -45,9 +46,8 @@ export class RenderSystem implements System {
       );
 
       spriteComponent.sprite.position.set(
-        positionComponent.x * (pixiApp.screen.width / 10),
-        positionComponent.y * (pixiApp.screen.height / 10),
-      )
+        ...gridToScreenAsTuple(positionComponent),
+      );
     });
   };
 
@@ -70,8 +70,7 @@ export class RenderSystem implements System {
       );
 
       spriteComponent.sprite.position.set(
-        positionComponent.x * (pixiApp.screen.width / 10),
-        positionComponent.y * (pixiApp.screen.height / 10),
+        ...gridToScreenAsTuple(positionComponent),
       );
     });
   };
@@ -118,14 +117,8 @@ export class RenderSystem implements System {
    * @param container - The Pixi container to add to the stage.
    * @param position - The position to place the container at.
    */
-  private addContainerToStage = (
-    container: Container,
-    position: Position,
-  ) => {
-    const blockWidth = (pixiApp.screen.width) / 10;
-    const blockHeight = (pixiApp.screen.height) / 10;
-
-    container.position.set(position.x * blockWidth, position.y * blockHeight);
+  private addContainerToStage = (container: Container, position: Position) => {
+    container.position.set(...gridToScreenAsTuple(position));
     pixiApp.stage.addChild(container);
   };
 

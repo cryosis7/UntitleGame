@@ -7,7 +7,7 @@ import {
   Texture,
 } from 'pixi.js';
 import { basicSpritesheet } from '../assets/basicSpritesheet';
-import { addSpritesheetAtom } from './utils/Atoms';
+import { addSpritesheetAtom, updateMapConfigAtom } from './utils/Atoms';
 import { store } from '../App';
 import { originalImages } from '../assets/originalImages';
 import { tinyTownData } from '../assets/tinyTownData';
@@ -18,10 +18,12 @@ export const initPixiApp = async (appContainer: HTMLDivElement) => {
   await pixiApp.init({
     backgroundAlpha: 0,
     resizeTo: appContainer,
+    eventMode: 'static'
   });
   appContainer.appendChild(pixiApp.canvas);
   // @ts-ignore
   globalThis.__PIXI_APP__ = pixiApp;
+  store.set(updateMapConfigAtom, { tileSize: 32 });
 };
 
 export const preload = async () => {

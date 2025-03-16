@@ -24,7 +24,7 @@ export class KeyboardInputSystem implements System {
   }
 
   update({ entities, map }: UpdateArgs) {
-    if (!entities || !map || !this.hasChanged) return;
+    if (entities.length === 0 || !map || !this.hasChanged) return;
 
     const playerEntities = getEntitiesWithComponent(
       ComponentType.Player,

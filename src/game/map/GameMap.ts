@@ -5,6 +5,7 @@ import { createEntityFromTemplate } from '../utils/EntityFactory';
 import type { SpriteComponent } from '../components/Components';
 import { ComponentType } from '../components/Components';
 import { getComponentAbsolute, hasComponent } from '../utils/ComponentUtils';
+import type { GridSize } from '../GameSystem';
 
 export type Direction = 'up' | 'down' | 'left' | 'right';
 
@@ -26,14 +27,14 @@ export class GameMap {
     this.pixiContainer = null;
   }
 
-  init(rows: number, columns: number) {
+  init(gridSize: GridSize) {
     this.tiles = [];
 
     const container = new Container();
-    for (let y = 0; y < rows; y++) {
+    for (let y = 0; y < gridSize.rows; y++) {
       const row: Entity[] = [];
-      for (let x = 0; x < columns; x++) {
-        const isDirtTile = Math.random() < 0.85;
+      for (let x = 0; x < gridSize.cols; x++) {
+        const isDirtTile = Math.random() < 1;
         const entityTemplate: EntityTemplate = {
           components: {
             [ComponentType.Sprite]: { sprite: isDirtTile ? 'dirt' : 'wall' },
