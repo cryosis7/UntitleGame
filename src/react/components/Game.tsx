@@ -23,6 +23,10 @@ export const Game: React.FC = () => {
       await initPixiApp(gameContainer);
       await preload();
 
+      // TODO:
+      // - Sort out the sprite sheets
+      // - Figure out the sidebar/sprite picker
+
       initiateMap({ rows: 10, cols: 10 });
       initiateEntities();
       initiateSystems();
