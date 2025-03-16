@@ -1,59 +1,14 @@
 import { store } from '../../App';
 import type { Component, PositionComponent } from '../components/Components';
 import { ComponentType } from '../components/Components';
-import { entitiesAtom, mapAtom } from '../GameSystem';
-import type { Direction, Position } from '../map/GameMap';
+import type { Position } from '../map/GameMap';
 import { getComponentIfExists, hasComponent } from './ComponentUtils';
+import { entitiesAtom, mapAtom } from './Atoms';
 
 export type Entity = {
   id: string;
   components: { [key: string]: Component };
 };
-
-/**
- * Determines if an entity can move in a given direction, based on obstructions in the map and other entities.
- * @param entity
- * @param direction
- * @returns
- */
-export const canMoveInDirection = (
-  entity: Entity,
-  direction: Direction,
-): boolean => {
-  const map = store.get(mapAtom);
-  const positionComponent = getComponentIfExists<PositionComponent>(
-    entity,
-    ComponentType.Position,
-  );
-  if (!positionComponent) {
-    return false;
-  }
-
-  const adjacentPosition = map.getAdjacentPosition(
-    positionComponent,
-    direction,
-  );
-
-  const entities = store.get(entitiesAtom).filter((entity) => {
-    const position = getComponentIfExists<PositionComponent>(
-      entity,
-      ComponentType.Position,
-    );
-    return (
-      position?.x === adjacentPosition.x && position?.y === adjacentPosition.y
-    );
-  });
-  const entitiesAreMoveable = entities.reduce(
-    (accumulation, entity) =>
-      accumulation && hasComponent(entity, ComponentType.Movable),
-    true,
-  );
-
-  const isMapTileWalkable = map.isTileWalkable(adjacentPosition);
-
-  return isMapTileWalkable && entitiesAreMoveable;
-};
-
 /**
  * Finds an empty tile on the map.
  *

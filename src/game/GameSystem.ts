@@ -1,35 +1,27 @@
-import { type Entity, getEmptyPosition } from './utils/ecsUtils';
+import { getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../App';
 import type { SpriteComponent } from './components/Components';
 import { ComponentType, PositionComponent } from './components/Components';
 import { RenderSystem } from './systems/RenderSystem';
 import type { Ticker } from 'pixi.js';
 import { pixiApp } from './Pixi';
-import { atom } from 'jotai/index';
-import type { System } from './systems/Systems';
-import { GameMap } from './map/GameMap';
 import { createEntitiesFromTemplates } from './utils/EntityFactory';
 import { Beaker, Boulder, Player } from './templates/EntityTemplates';
-import {
-  getComponentIfExists,
-  hasComponent,
-  setComponent,
-} from './utils/ComponentUtils';
+import { getComponentIfExists, setComponent } from './utils/ComponentUtils';
 import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
 import { MovementSystem } from './systems/MovementSystem';
 import { PickupSystem } from './systems/PickupSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
-import { getTileSizeAtom, updateMapConfigAtom } from './utils/Atoms';
-import { gridToScreen, gridToScreenAsTuple } from './map/MappingUtils';
+import {
+  entitiesAtom,
+  getTileSizeAtom,
+  mapAtom,
+  systemsAtom,
+  updateMapConfigAtom,
+} from './utils/Atoms';
+import { gridToScreenAsTuple } from './map/MappingUtils';
 import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
-
-export const entitiesAtom = atom<Entity[]>([]);
-export const systemsAtom = atom<System[]>([]);
-export const mapAtom = atom<GameMap>(new GameMap());
-export const playerAtom = atom((get) => {
-  const entities = get(entitiesAtom);
-  return entities.find((entity) => hasComponent(entity, ComponentType.Player));
-});
+import { addEntities } from './utils/EntityUtils';
 
 export interface GridSize {
   rows: number;
@@ -48,7 +40,7 @@ export const initiateEntities = () => {
     Boulder,
     Beaker,
   );
-  store.set(entitiesAtom, (entities) => [...entities, player, boulder, beaker]);
+  addEntities([player, boulder, beaker]);
 
   setComponent(player, new PositionComponent(getEmptyPosition()));
   setComponent(boulder, new PositionComponent(getEmptyPosition()));
@@ -68,7 +60,9 @@ export const initiateEntities = () => {
 
     if (positionComponent && spriteComponent) {
       spriteComponent.sprite.setSize(tileSize);
-      spriteComponent.sprite.position.set(...gridToScreenAsTuple(positionComponent));
+      spriteComponent.sprite.position.set(
+        ...gridToScreenAsTuple(positionComponent),
+      );
       pixiApp.stage.addChild(spriteComponent.sprite);
     }
   });

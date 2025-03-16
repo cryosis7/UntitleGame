@@ -15,7 +15,7 @@ import type { Container } from 'pixi.js';
 import { gridToScreenAsTuple } from '../map/MappingUtils';
 
 export class RenderSystem implements System {
-  private renderedEntities = new Set<string>();
+  private renderedEntities = new Set<{ id: string; container: Container }>();
   private renderedMap = false;
 
   update({ entities, map }: UpdateArgs) {
@@ -25,7 +25,6 @@ export class RenderSystem implements System {
     }
 
     this.updateStage(entities);
-    entities.filter((entity) => this.renderedEntities.has(entity.id));
     this.updatePositions(entities);
   }
 
@@ -51,13 +50,9 @@ export class RenderSystem implements System {
     });
   };
 
-  /**
-   * Updates the positions of the entities' sprites based on their PositionComponent.
-   * @param entities - The array of entities to update positions for.
-   */
   private updatePositions = (entities: Entity[]) => {
-    this.renderedEntities.forEach((entityId) => {
-      const entity = entities.find((e) => e.id === entityId);
+    this.renderedEntities.forEach((item) => {
+      const entity = entities.find((e) => e.id === item.id);
       if (!entity) return;
 
       const spriteComponent = getComponentAbsolute<SpriteComponent>(
@@ -75,19 +70,12 @@ export class RenderSystem implements System {
     });
   };
 
-  /**
-   * Updates the stage by adding or removing sprites based on their components.
-   * @param entities - The array of entities to update the stage for.
-   */
   private updateStage = (entities: Entity[]) => {
     entities.forEach((entity) => {
       const spriteComponent = getComponentIfExists<SpriteComponent>(
         entity,
         ComponentType.Sprite,
       );
-      if (!spriteComponent) {
-        return;
-      }
 
       const positionComponent = getComponentIfExists<PositionComponent>(
         entity,
@@ -97,8 +85,11 @@ export class RenderSystem implements System {
       if (
         this.shouldAddToStage(entity.id, spriteComponent, positionComponent)
       ) {
-        this.addContainerToStage(spriteComponent.sprite, positionComponent!);
-        this.renderedEntities.add(entity.id);
+        this.addContainerToStage(spriteComponent!.sprite, positionComponent!);
+        this.renderedEntities.add({
+          id: entity.id,
+          container: spriteComponent!.sprite,
+        });
       } else if (
         this.shouldRemoveFromStage(
           entity.id,
@@ -106,29 +97,31 @@ export class RenderSystem implements System {
           positionComponent,
         )
       ) {
-        pixiApp.stage.removeChild(spriteComponent.sprite);
-        this.renderedEntities.delete(entity.id);
+        const item = this.renderedEntities
+          .values()
+          .find((item) => item.id === entity.id);
+        if (item) {
+          pixiApp.stage.removeChild(item.container);
+          this.renderedEntities.delete(item);
+        }
       }
     });
+
+    const itemsToDelete: { id: string; container: Container }[] = [];
+    this.renderedEntities.forEach((item) => {
+      if (!entities.some((e) => e.id === item.id)) {
+        pixiApp.stage.removeChild(item.container);
+        itemsToDelete.push(item);
+      }
+    });
+    itemsToDelete.forEach((item) => this.renderedEntities.delete(item));
   };
 
-  /**
-   * Adds a container to the Pixi stage at the specified position and size.
-   * @param container - The Pixi container to add to the stage.
-   * @param position - The position to place the container at.
-   */
   private addContainerToStage = (container: Container, position: Position) => {
     container.position.set(...gridToScreenAsTuple(position));
     pixiApp.stage.addChild(container);
   };
 
-  /**
-   * Determines whether an entity needs to be added to the pixi stage
-   * @param entityId
-   * @param spriteComponent
-   * @param positionComponent
-   * @private
-   */
   private shouldAddToStage = (
     entityId: string,
     spriteComponent?: SpriteComponent,
@@ -137,17 +130,10 @@ export class RenderSystem implements System {
     return (
       spriteComponent !== undefined &&
       positionComponent !== undefined &&
-      !this.renderedEntities.has(entityId)
+      !Array.from(this.renderedEntities).some((item) => item.id === entityId)
     );
   };
 
-  /**
-   * Determines whether an entity needs to be removed from the pixi stage
-   * @param entityId
-   * @param spriteComponent
-   * @param positionComponent
-   * @private
-   */
   private shouldRemoveFromStage = (
     entityId: string,
     spriteComponent?: SpriteComponent,
@@ -156,7 +142,7 @@ export class RenderSystem implements System {
     return (
       spriteComponent &&
       !positionComponent &&
-      this.renderedEntities.has(entityId)
+      Array.from(this.renderedEntities).some((item) => item.id === entityId)
     );
   };
 }

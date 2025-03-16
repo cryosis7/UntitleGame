@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { SidePanel } from './react/components/SidePanel';
 import { createStore, Provider } from 'jotai';
 import { Editor } from './react/components/Editor/Editor';
+import { Slide, ToastContainer } from 'react-toastify';
 
 export const store = createStore();
 
@@ -15,6 +16,13 @@ const App = () => {
         element={
           <div className='root'>
             <Provider store={store}>
+              <ToastContainer
+                pauseOnFocusLoss
+                pauseOnHover
+                position='top-center'
+                transition={Slide}
+                autoClose={2000}
+              />
               <div className='game-container'>
                 <Game />
                 <SidePanel />

@@ -1,8 +1,8 @@
 import { store } from '../../App';
-import { ComponentType } from '../components/Components';
 import type { Component } from '../components/Components';
-import { entitiesAtom } from '../GameSystem';
+import { ComponentType } from '../components/Components';
 import type { Entity } from './ecsUtils';
+import { entitiesAtom } from './Atoms';
 
 /**
  * Sets a component for a given entity. If the component already exists, it will be replaced.
@@ -72,10 +72,11 @@ export const getComponentAbsolute = <T extends Component>(
   type: ComponentType,
 ): T => {
   if (!entity.components[type]) {
+    console.dir(entity);
     throw new Error(`Component ${type} not found for entity`);
   }
   return entity.components[type] as T;
-}
+};
 
 /**
  * Checks if an entity has a specified component.

@@ -1,12 +1,17 @@
 import { screenToGrid } from '../../map/MappingUtils';
 import { pixiApp } from '../../Pixi';
-import type { System } from '../Systems';
+import type { System, UpdateArgs } from '../Systems';
 import type { Position } from '../../map/GameMap';
 import type { Entity } from '../../utils/ecsUtils';
 import type { EntityTemplate } from '../../utils/EntityFactory';
 import { createEntityFromTemplate } from '../../utils/EntityFactory';
-import { store } from '../../../App';
-import { entitiesAtom } from '../../GameSystem';
+import { getComponentIfExists } from '../../utils/ComponentUtils';
+import type {
+  PositionComponent,
+  SpriteComponent,
+} from '../../components/Components';
+import { ComponentType } from '../../components/Components';
+import { addEntities, removeEntities } from '../../utils/EntityUtils';
 
 export class EntityPlacementSystem implements System {
   private selectedItem: string;
@@ -19,6 +24,7 @@ export class EntityPlacementSystem implements System {
 
     pixiApp.stage.onclick = (event) => {
       event.stopPropagation();
+      this.hasChanged = true;
 
       const clickedPosition = screenToGrid({
         x: event.screenX,
@@ -31,11 +37,6 @@ export class EntityPlacementSystem implements System {
           this.lastClickedPosition,
           clickedPosition,
         );
-        console.log(
-          `first: ${this.lastClickedPosition.x}, ${this.lastClickedPosition.y}`,
-        );
-        console.log(`second: ${clickedPosition.x}, ${clickedPosition.y}`);
-        console.dir(points);
 
         for (const point of points) {
           if (
@@ -46,21 +47,20 @@ export class EntityPlacementSystem implements System {
             this.placementPositions.push(point);
           }
         }
-        this.hasChanged = true;
         this.lastClickedPosition = clickedPosition;
         return;
       }
 
       this.placementPositions.push(clickedPosition);
-      this.hasChanged = true;
       this.lastClickedPosition = clickedPosition;
     };
   }
 
-  update() {
+  update({ entities }: UpdateArgs) {
     if (!this.hasChanged) return;
 
-    const newEntities: Entity[] = [];
+    const entitiesToAdd: Entity[] = [];
+    const entitiesToRemove: string[] = [];
     for (const position of this.placementPositions) {
       const entityTemplate: EntityTemplate = {
         components: {
@@ -68,14 +68,41 @@ export class EntityPlacementSystem implements System {
           position: position,
         },
       };
-      newEntities.push(createEntityFromTemplate(entityTemplate));
+
+      // If there is already the same entity at the position, skip/remove it
+      const existingEntitiesAtPosition = entities.reduce((ids, entity) => {
+        const positionComponent = getComponentIfExists<PositionComponent>(
+          entity,
+          ComponentType.Position,
+        );
+        const spriteComponent = getComponentIfExists<SpriteComponent>(
+          entity,
+          ComponentType.Sprite,
+        );
+        if (
+          positionComponent?.x === position.x &&
+          positionComponent?.y === position.y &&
+          spriteComponent?.sprite.texture.label === this.selectedItem
+        ) {
+          ids.push(entity.id);
+        }
+        return ids;
+      }, [] as string[]);
+      if (existingEntitiesAtPosition.length !== 0) {
+        if (this.placementPositions.length === 1) {
+          // If this is a single click event, remove the existing entity.
+          entitiesToRemove.push(...existingEntitiesAtPosition);
+          this.lastClickedPosition = null;
+        }
+        // If it was a shift-click event, leave it in place.
+        continue;
+      }
+
+      entitiesToAdd.push(createEntityFromTemplate(entityTemplate));
     }
 
-    // TODO: Implement entity placement helper
-    store.set(entitiesAtom, (currentEntities) => [
-      ...currentEntities,
-      ...newEntities,
-    ]);
+    addEntities(entitiesToAdd);
+    removeEntities(entitiesToRemove);
 
     this.hasChanged = false;
     this.placementPositions = [];

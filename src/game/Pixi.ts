@@ -1,11 +1,5 @@
-import type {
-  SpriteSheetJson} from 'pixi.js';
-import {
-  Application,
-  Assets,
-  Spritesheet,
-  Texture,
-} from 'pixi.js';
+import type { SpriteSheetJson } from 'pixi.js';
+import { Application, Assets, Spritesheet, Texture } from 'pixi.js';
 import { basicSpritesheet } from '../assets/basicSpritesheet';
 import { addSpritesheetAtom, updateMapConfigAtom } from './utils/Atoms';
 import { store } from '../App';
@@ -18,7 +12,7 @@ export const initPixiApp = async (appContainer: HTMLDivElement) => {
   await pixiApp.init({
     backgroundAlpha: 0,
     resizeTo: appContainer,
-    eventMode: 'static'
+    eventMode: 'static',
   });
   appContainer.appendChild(pixiApp.canvas);
   // @ts-ignore
