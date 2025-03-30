@@ -1,5 +1,8 @@
 import { store } from '../../App';
-import type { Component, PositionComponent } from '../components/Components';
+import type {
+  ComponentDictionary,
+  PositionComponent,
+} from '../components/Components';
 import { ComponentType } from '../components/Components';
 import type { Position } from '../map/GameMap';
 import { getComponentIfExists, hasComponent } from './ComponentUtils';
@@ -7,8 +10,9 @@ import { entitiesAtom, mapAtom } from './Atoms';
 
 export type Entity = {
   id: string;
-  components: { [key: string]: Component };
+  components: ComponentDictionary;
 };
+
 /**
  * Finds an empty tile on the map.
  *

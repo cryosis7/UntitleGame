@@ -1,5 +1,4 @@
 import { screenToGrid } from '../../map/MappingUtils';
-import { pixiApp } from '../../Pixi';
 import type { System, UpdateArgs } from '../Systems';
 import type { Position } from '../../map/GameMap';
 import type { Entity } from '../../utils/ecsUtils';
@@ -12,6 +11,8 @@ import type {
 } from '../../components/Components';
 import { ComponentType } from '../../components/Components';
 import { addEntities, removeEntities } from '../../utils/EntityUtils';
+import { store } from '../../../App';
+import { mapAtom } from '../../utils/Atoms';
 
 export class EntityPlacementSystem implements System {
   private selectedItem: string;
@@ -20,9 +21,10 @@ export class EntityPlacementSystem implements System {
   private lastClickedPosition: Position | null = null;
 
   constructor() {
-    this.selectedItem = 'wall'; // Default item
+    this.selectedItem = 'yellow-tree-tall-bottom'; // Default item
 
-    pixiApp.stage.onclick = (event) => {
+    const map = store.get(mapAtom);
+    map.getSpriteContainer().onclick = (event) => {
       event.stopPropagation();
       this.hasChanged = true;
 

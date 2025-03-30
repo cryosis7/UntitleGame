@@ -4,7 +4,6 @@ import {
   type PositionComponent,
   type SpriteComponent,
 } from '../components/Components';
-import { pixiApp } from '../Pixi';
 import {
   getComponentAbsolute,
   getComponentIfExists,
@@ -13,24 +12,29 @@ import type { Entity } from '../utils/ecsUtils';
 import type { GameMap, Position } from '../map/GameMap';
 import type { Container } from 'pixi.js';
 import { gridToScreenAsTuple } from '../map/MappingUtils';
+import { pixiApp } from '../Pixi';
 
 export class RenderSystem implements System {
   private renderedEntities = new Set<{ id: string; container: Container }>();
   private renderedMap = false;
 
   update({ entities, map }: UpdateArgs) {
-    if (map && map.hasChanged) {
+    if (map.hasChanged) {
       this.updateMap(map);
       map.hasChanged = false;
     }
 
-    this.updateStage(entities);
+    this.updateStage(entities, map.getSpriteContainer());
     this.updatePositions(entities);
   }
 
   private updateMap = (map: GameMap) => {
     if (!this.renderedMap) {
-      this.addContainerToStage(map.getSpriteContainer(), { x: 0, y: 0 });
+      this.stageContainer(
+        map.getSpriteContainer(),
+        { x: 0, y: 0 },
+        pixiApp.stage,
+      );
       this.renderedMap = true;
     }
 
@@ -70,7 +74,7 @@ export class RenderSystem implements System {
     });
   };
 
-  private updateStage = (entities: Entity[]) => {
+  private updateStage = (entities: Entity[], stage: Container) => {
     entities.forEach((entity) => {
       const spriteComponent = getComponentIfExists<SpriteComponent>(
         entity,
@@ -85,7 +89,7 @@ export class RenderSystem implements System {
       if (
         this.shouldAddToStage(entity.id, spriteComponent, positionComponent)
       ) {
-        this.addContainerToStage(spriteComponent!.sprite, positionComponent!);
+        this.stageContainer(spriteComponent!.sprite, positionComponent!, stage);
         this.renderedEntities.add({
           id: entity.id,
           container: spriteComponent!.sprite,
@@ -101,7 +105,7 @@ export class RenderSystem implements System {
           .values()
           .find((item) => item.id === entity.id);
         if (item) {
-          pixiApp.stage.removeChild(item.container);
+          stage.removeChild(item.container);
           this.renderedEntities.delete(item);
         }
       }
@@ -110,16 +114,20 @@ export class RenderSystem implements System {
     const itemsToDelete: { id: string; container: Container }[] = [];
     this.renderedEntities.forEach((item) => {
       if (!entities.some((e) => e.id === item.id)) {
-        pixiApp.stage.removeChild(item.container);
+        stage.removeChild(item.container);
         itemsToDelete.push(item);
       }
     });
     itemsToDelete.forEach((item) => this.renderedEntities.delete(item));
   };
 
-  private addContainerToStage = (container: Container, position: Position) => {
+  private stageContainer = (
+    container: Container,
+    position: Position,
+    stage: Container,
+  ) => {
     container.position.set(...gridToScreenAsTuple(position));
-    pixiApp.stage.addChild(container);
+    stage.addChild(container);
   };
 
   private shouldAddToStage = (

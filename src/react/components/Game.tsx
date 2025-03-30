@@ -5,6 +5,7 @@ import {
   gameLoop,
   initiateEntities,
   initiateMap,
+  initiateSidebar,
   initiateSystems,
 } from '../../game/GameSystem';
 
@@ -30,6 +31,7 @@ export const Game: React.FC = () => {
       initiateMap({ rows: 10, cols: 10 });
       initiateEntities();
       initiateSystems();
+      initiateSidebar();
 
       pixiApp.ticker.add((time) => {
         gameLoop(time);

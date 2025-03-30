@@ -1,5 +1,5 @@
 import { store } from '../../App';
-import type { Component } from '../components/Components';
+import type { Component} from '../components/Components';
 import { ComponentType } from '../components/Components';
 import type { Entity } from './ecsUtils';
 import { entitiesAtom } from './Atoms';
@@ -81,17 +81,10 @@ export const getComponentAbsolute = <T extends Component>(
 /**
  * Checks if an entity has a specified component.
  * @param entity
- * @param types - The type of the component.
+ * @param type - The type of the component.
  */
-export const hasComponent = (
-  entity: Entity,
-  ...types: ComponentType[]
-): boolean => {
-  return types.reduce(
-    (accumulation, type) =>
-      accumulation && entity.components[type] !== undefined,
-    true,
-  );
+export const hasComponent = (entity: Entity, type: ComponentType): boolean => {
+  return entity.components[type] !== undefined;
 };
 
 /**

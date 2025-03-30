@@ -1,17 +1,18 @@
 import type {
   CarriedItemComponentProps,
   Component,
+  ComponentDictionary,
   ComponentProps,
   PositionComponentProps,
   SpriteComponentProps,
-  VelocityComponentProps
+  VelocityComponentProps,
 } from '../components/Components';
 import {
   CarriedItemComponent,
   ComponentType,
   PositionComponent,
   SpriteComponent,
-  VelocityComponent
+  VelocityComponent,
 } from '../components/Components';
 import type { Entity } from './ecsUtils';
 
@@ -72,13 +73,13 @@ function isValidEntityTemplate(obj: any): obj is EntityTemplate {
     obj.components &&
     typeof obj.components === 'object' &&
     Object.entries(obj.components).every(([type, properties]) =>
-      isValidComponentTemplate(type, properties)
+      isValidComponentTemplate(type, properties),
     )
   );
 }
 
 export function createEntity(components: Component[]): Entity {
-  const componentDict: { [key: string]: Component } = {};
+  const componentDict: ComponentDictionary = {};
   components.forEach((component) => {
     componentDict[component.type] = component;
   });

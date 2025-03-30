@@ -30,7 +30,10 @@ export class GameMap {
   init(gridSize: GridSize) {
     this.tiles = [];
 
-    const container = new Container();
+    const container = new Container({
+      eventMode: 'static',
+    });
+
     for (let y = 0; y < gridSize.rows; y++) {
       const row: Entity[] = [];
       for (let x = 0; x < gridSize.cols; x++) {

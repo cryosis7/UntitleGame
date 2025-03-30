@@ -12,7 +12,6 @@ export const initPixiApp = async (appContainer: HTMLDivElement) => {
   await pixiApp.init({
     backgroundAlpha: 0,
     resizeTo: appContainer,
-    eventMode: 'static',
   });
   appContainer.appendChild(pixiApp.canvas);
   // @ts-ignore
