@@ -22,15 +22,19 @@ export const gridToScreen = (
 /**
  * Converts a grid position to a screen coordinate.
  * @param {Position} gridPosition - The grid position to convert.
- * @param {number} [tileSize] - Optional tile size to use for conversion. Defaults to the global tile size.
+ * @param config
  * @returns {[number, number]} The screen coordinates as [x, y].
  */
 export const gridToScreenAsTuple = (
   gridPosition: Position,
-  tileSize?: number,
+  config?: {
+    tileSize?: number;
+    gap?: number;
+  },
 ): [number, number] => {
-  const size = tileSize ?? store.get(getTileSizeAtom);
-  return [gridPosition.x * size, gridPosition.y * size];
+  const size = config?.tileSize ?? store.get(getTileSizeAtom);
+  const gap = config?.gap ?? 0;
+  return [gridPosition.x * (size + gap), gridPosition.y * (size + gap)];
 };
 
 /**

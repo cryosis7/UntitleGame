@@ -7,7 +7,8 @@ import {
   getComponentAbsolute,
   hasComponent,
 } from '../components/ComponentOperations';
-import type { GridSize } from '../GameSystem';
+import { mapConfigAtom } from '../utils/Atoms';
+import { store } from '../../App';
 
 export type Direction = 'up' | 'down' | 'left' | 'right';
 
@@ -29,16 +30,21 @@ export class GameMap {
     this.pixiContainer = null;
   }
 
-  init(gridSize: GridSize) {
+  init() {
+    const mapConfig = store.get(mapConfigAtom);
+    if (mapConfig?.rows === undefined || mapConfig.cols === undefined) {
+      throw new Error('Map config not configured');
+    }
+
     this.tiles = [];
 
     const container = new Container({
       eventMode: 'static',
     });
 
-    for (let y = 0; y < gridSize.rows; y++) {
+    for (let y = 0; y < mapConfig.rows; y++) {
       const row: Entity[] = [];
-      for (let x = 0; x < gridSize.cols; x++) {
+      for (let x = 0; x < mapConfig.cols; x++) {
         const isDirtTile = Math.random() < 1;
         const entityTemplate: EntityTemplate = {
           components: {

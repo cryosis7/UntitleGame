@@ -4,14 +4,16 @@ import { initPixiApp, pixiApp, preload } from '../../game/Pixi';
 import {
   gameLoop,
   initiateEntities,
-  initiateMap,
-  initiateSidebar,
   initiateSystems,
 } from '../../game/GameSystem';
+import { mapAtom, updateMapConfigAtom } from '../../game/utils/Atoms';
+import { useSetAtom } from 'jotai';
+import { store } from '../../App';
 
 export const Game: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const hasInitialised = useRef(false);
+  const updateMapConfig = useSetAtom(updateMapConfigAtom);
 
   useEffect(() => {
     const gameContainer = containerRef.current;
@@ -28,16 +30,18 @@ export const Game: React.FC = () => {
       // - Sort out the sprite sheets
       // - Figure out the sidebar/sprite picker
 
-      initiateMap({ rows: 10, cols: 10 });
+      updateMapConfig({ rows: 10, cols: 10, tileSize: 32 });
+      const map = store.get(mapAtom);
+      map.init();
+
       initiateEntities();
       initiateSystems();
-      initiateSidebar();
 
       pixiApp.ticker.add((time) => {
         gameLoop(time);
       });
     })();
-  }, []);
+  }, [updateMapConfig]);
 
   return <div ref={containerRef} style={{ width: '500px', height: '500px' }} />;
 };

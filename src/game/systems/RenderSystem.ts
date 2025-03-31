@@ -12,10 +12,20 @@ import { pixiApp } from '../Pixi';
 import { ComponentType } from '../components/ComponentTypes';
 import type { SpriteComponent } from '../components/individualComponents/SpriteComponent';
 import type { PositionComponent } from '../components/individualComponents/PositionComponent';
+import { store } from '../../App';
+import { mapAtom } from '../utils/Atoms';
 
 export class RenderSystem implements System {
   private renderedEntities = new Set<{ id: string; container: Container }>();
-  private renderedMap = false;
+
+  constructor() {
+    const map = store.get(mapAtom);
+    this.stageContainer(
+      map.getSpriteContainer(),
+      { x: 0, y: 0 },
+      pixiApp.stage,
+    );
+  }
 
   update({ entities, map }: UpdateArgs) {
     if (map.hasChanged) {
@@ -28,15 +38,6 @@ export class RenderSystem implements System {
   }
 
   private updateMap = (map: GameMap) => {
-    if (!this.renderedMap) {
-      this.stageContainer(
-        map.getSpriteContainer(),
-        { x: 0, y: 0 },
-        pixiApp.stage,
-      );
-      this.renderedMap = true;
-    }
-
     map.getAllEntities().forEach((entity) => {
       const spriteComponent = getComponentAbsolute(
         entity,
@@ -123,10 +124,10 @@ export class RenderSystem implements System {
   private stageContainer = (
     container: Container,
     position: Position,
-    stage: Container,
+    parent: Container,
   ) => {
     container.position.set(...gridToScreenAsTuple(position));
-    stage.addChild(container);
+    parent.addChild(container);
   };
 
   private shouldAddToStage = (

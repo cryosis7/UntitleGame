@@ -5,11 +5,8 @@ import {
   hasComponent,
 } from '../components/ComponentOperations';
 import { entitiesAtom, mapAtom } from './Atoms';
-import type {
-  ComponentDictionary} from '../components/ComponentTypes';
-import {
-  ComponentType,
-} from '../components/ComponentTypes';
+import type { ComponentDictionary } from '../components/ComponentTypes';
+import { ComponentType } from '../components/ComponentTypes';
 
 export type Entity = {
   id: string;

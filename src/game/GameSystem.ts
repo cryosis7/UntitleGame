@@ -1,6 +1,5 @@
 import { getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../App';
-import { RenderSystem } from './systems/RenderSystem';
 import type { Ticker } from 'pixi.js';
 import { pixiApp } from './Pixi';
 import { createEntitiesFromTemplates } from './utils/EntityFactory';
@@ -18,24 +17,14 @@ import {
   getTileSizeAtom,
   mapAtom,
   systemsAtom,
-  updateMapConfigAtom,
 } from './utils/Atoms';
 import { gridToScreenAsTuple } from './map/MappingUtils';
 import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
-import { addEntities } from './utils/EntityUtils';
 import { PositionComponent } from './components/individualComponents/PositionComponent';
 import { ComponentType } from './components/ComponentTypes';
-
-export interface GridSize {
-  rows: number;
-  cols: number;
-}
-
-export const initiateMap = (gridSize: GridSize) => {
-  const map = store.get(mapAtom);
-  store.set(updateMapConfigAtom, gridSize);
-  map.init(gridSize);
-};
+import { RenderSystem } from './systems/RenderSystem';
+import { RenderSidebarSystem } from './systems/LevelEditorSystems/RenderSidebarSystem';
+import { addEntities } from './utils/EntityUtils';
 
 export const initiateEntities = () => {
   const [player, boulder, beaker] = createEntitiesFromTemplates(
@@ -77,6 +66,8 @@ export const initiateSystems = () => {
     new EntityPlacementSystem(),
 
     new RenderSystem(),
+    new RenderSidebarSystem(),
+
     new CleanUpSystem(),
   );
 };
