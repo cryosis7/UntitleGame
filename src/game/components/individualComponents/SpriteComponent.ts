@@ -1,7 +1,7 @@
 import { Sprite } from 'pixi.js';
 import { getTexture, getTileSizeAtom } from '../../utils/Atoms';
 import { store } from '../../../App';
-import { ComponentType } from '../Components';
+import { ComponentType } from '../ComponentTypes';
 
 export type SpriteComponentProps = { sprite: string };
 

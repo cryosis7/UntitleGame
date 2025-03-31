@@ -1,8 +1,8 @@
 import { store } from '../../App';
-import type { Entity } from './ecsUtils';
-import { entitiesAtom } from './Atoms';
-import type { Component, FullComponentDictionary } from '../components/ComponentTypes';
-import { ComponentType } from '../components/ComponentTypes';
+import type { Entity } from '../utils/ecsUtils';
+import { entitiesAtom } from '../utils/Atoms';
+import type { Component, FullComponentDictionary } from './ComponentTypes';
+import { ComponentType } from './ComponentTypes';
 
 /**
  * Sets a component for a given entity. If the component already exists, it will be replaced.

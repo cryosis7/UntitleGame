@@ -1,18 +1,17 @@
 import type { System, UpdateArgs } from './Systems';
-import {
-  ComponentType,
-  type PositionComponent,
-  type SpriteComponent,
-} from '../components/Components';
+
 import {
   getComponentAbsolute,
   getComponentIfExists,
-} from '../utils/ComponentUtils';
+} from '../components/ComponentOperations';
 import type { Entity } from '../utils/ecsUtils';
 import type { GameMap, Position } from '../map/GameMap';
 import type { Container } from 'pixi.js';
 import { gridToScreenAsTuple } from '../map/MappingUtils';
 import { pixiApp } from '../Pixi';
+import { ComponentType } from '../components/ComponentTypes';
+import type { SpriteComponent } from '../components/individualComponents/SpriteComponent';
+import type { PositionComponent } from '../components/individualComponents/PositionComponent';
 
 export class RenderSystem implements System {
   private renderedEntities = new Set<{ id: string; container: Container }>();

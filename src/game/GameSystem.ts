@@ -1,12 +1,14 @@
 import { getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../App';
-import { ComponentType, PositionComponent } from './components/Components';
 import { RenderSystem } from './systems/RenderSystem';
 import type { Ticker } from 'pixi.js';
 import { pixiApp } from './Pixi';
 import { createEntitiesFromTemplates } from './utils/EntityFactory';
 import { Beaker, Boulder, Player } from './templates/EntityTemplates';
-import { getComponentIfExists, setComponent } from './utils/ComponentUtils';
+import {
+  getComponentIfExists,
+  setComponent,
+} from './components/ComponentOperations';
 import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
 import { MovementSystem } from './systems/MovementSystem';
 import { PickupSystem } from './systems/PickupSystem';
@@ -21,6 +23,8 @@ import {
 import { gridToScreenAsTuple } from './map/MappingUtils';
 import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
 import { addEntities } from './utils/EntityUtils';
+import { PositionComponent } from './components/individualComponents/PositionComponent';
+import { ComponentType } from './components/ComponentTypes';
 
 export interface GridSize {
   rows: number;

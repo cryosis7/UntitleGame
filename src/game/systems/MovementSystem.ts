@@ -1,5 +1,4 @@
 import type { System, UpdateArgs } from './Systems';
-import { ComponentType, PositionComponent } from '../components/Components';
 import type { Entity } from '../utils/ecsUtils';
 import {
   getEntitiesWithComponent,
@@ -9,7 +8,9 @@ import {
   getComponentIfExists,
   hasAnyComponent,
   setComponent,
-} from '../utils/ComponentUtils';
+} from '../components/ComponentOperations';
+import { ComponentType } from '../components/ComponentTypes';
+import { PositionComponent } from '../components/individualComponents/PositionComponent';
 
 export class MovementSystem implements System {
   update({ entities, map }: UpdateArgs) {

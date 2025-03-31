@@ -1,8 +1,8 @@
 import type { System, UpdateArgs } from '../Systems';
 import { Container, Graphics } from 'pixi.js';
 import { pixiApp } from '../../Pixi';
-import { ComponentType } from '../../components/Components';
-import { hasComponent } from '../../utils/ComponentUtils';
+import { ComponentType } from '../../components/ComponentTypes';
+import { getEntitiesWithComponent } from '../../utils/EntityUtils';
 
 export class RenderSidebarSystem implements System {
   private sidebarWidth = 150;
@@ -27,8 +27,9 @@ export class RenderSidebarSystem implements System {
   }
 
   update({ entities }: UpdateArgs) {
-    const sidebarEntities = entities.filter((entity) =>
-      hasComponent(entity, ComponentType.Sprite),
+    const sidebarEntities = getEntitiesWithComponent(
+      ComponentType.RenderInSidebar,
+      entities,
     );
   }
 }

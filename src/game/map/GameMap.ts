@@ -2,8 +2,11 @@ import { Container } from 'pixi.js';
 import type { Entity } from '../utils/ecsUtils';
 import type { EntityTemplate } from '../utils/EntityFactory';
 import { createEntityFromTemplate } from '../utils/EntityFactory';
-import { ComponentType } from '../components/Components';
-import { getComponentAbsolute, hasComponent } from '../utils/ComponentUtils';
+import { ComponentType } from '../components/ComponentTypes';
+import {
+  getComponentAbsolute,
+  hasComponent,
+} from '../components/ComponentOperations';
 import type { GridSize } from '../GameSystem';
 
 export type Direction = 'up' | 'down' | 'left' | 'right';

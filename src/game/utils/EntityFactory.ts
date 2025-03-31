@@ -1,20 +1,18 @@
+import type { Entity } from './ecsUtils';
 import type {
-  CarriedItemComponentProps,
   Component,
   ComponentDictionary,
   ComponentProps,
-  PositionComponentProps,
-  SpriteComponentProps,
-  VelocityComponentProps,
-} from '../components/Components';
-import {
-  CarriedItemComponent,
-  ComponentType,
-  PositionComponent,
-  SpriteComponent,
-  VelocityComponent,
-} from '../components/Components';
-import type { Entity } from './ecsUtils';
+} from '../components/ComponentTypes';
+import { ComponentType } from '../components/ComponentTypes';
+import type { PositionComponentProps } from '../components/individualComponents/PositionComponent';
+import { PositionComponent } from '../components/individualComponents/PositionComponent';
+import type { SpriteComponentProps } from '../components/individualComponents/SpriteComponent';
+import { SpriteComponent } from '../components/individualComponents/SpriteComponent';
+import type { VelocityComponentProps } from '../components/individualComponents/VelocityComponent';
+import { VelocityComponent } from '../components/individualComponents/VelocityComponent';
+import type { CarriedItemComponentProps } from '../components/individualComponents/CarriedItemComponent';
+import { CarriedItemComponent } from '../components/individualComponents/CarriedItemComponent';
 
 type ComponentsTemplate = Partial<{ [type in ComponentType]: ComponentProps }>;
 export type EntityTemplate = {

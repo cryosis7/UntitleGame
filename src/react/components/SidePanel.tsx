@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useAtomValue } from 'jotai';
-import { ComponentType } from '../../game/components/Components';
-import { getComponentIfExists } from '../../game/utils/ComponentUtils';
+import { ComponentType } from '../../game/components/ComponentTypes';
+import { getComponentIfExists } from '../../game/components/ComponentOperations';
 import { playerAtom } from '../../game/utils/Atoms';
 import { getEntity } from '../../game/utils/EntityUtils';
 

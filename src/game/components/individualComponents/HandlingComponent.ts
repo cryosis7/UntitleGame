@@ -1,4 +1,4 @@
-import { ComponentType } from '../Components';
+import { ComponentType } from '../ComponentTypes';
 
 export class HandlingComponent {
   type = ComponentType.Handling;

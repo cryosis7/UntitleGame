@@ -1,12 +1,13 @@
-import {
-  ComponentType,
-  HandlingComponent,
-  InteractingComponent,
-} from '../components/Components';
 import type { System, UpdateArgs } from './Systems';
 import type { Entity } from '../utils/ecsUtils';
 import { getEntitiesWithComponent } from '../utils/EntityUtils';
-import { getComponentIfExists, setComponent } from '../utils/ComponentUtils';
+import {
+  getComponentIfExists,
+  setComponent,
+} from '../components/ComponentOperations';
+import { ComponentType } from '../components/ComponentTypes';
+import { InteractingComponent } from '../components/individualComponents/InteractingComponent';
+import { HandlingComponent } from '../components/individualComponents/HandlingComponent';
 
 export class KeyboardInputSystem implements System {
   private keys: { [key: string]: boolean } = {};
