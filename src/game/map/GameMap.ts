@@ -2,7 +2,6 @@ import { Container } from 'pixi.js';
 import type { Entity } from '../utils/ecsUtils';
 import type { EntityTemplate } from '../utils/EntityFactory';
 import { createEntityFromTemplate } from '../utils/EntityFactory';
-import type { SpriteComponent } from '../components/Components';
 import { ComponentType } from '../components/Components';
 import { getComponentAbsolute, hasComponent } from '../utils/ComponentUtils';
 import type { GridSize } from '../GameSystem';
@@ -46,7 +45,7 @@ export class GameMap {
           },
         };
         const entity = createEntityFromTemplate(entityTemplate);
-        const sprite = getComponentAbsolute<SpriteComponent>(
+        const sprite = getComponentAbsolute(
           entity,
           ComponentType.Sprite,
         ).sprite;
@@ -74,9 +73,7 @@ export class GameMap {
     container.addChild(
       ...this.tiles.flatMap((entityArray) =>
         entityArray.map(
-          (entity) =>
-            getComponentAbsolute<SpriteComponent>(entity, ComponentType.Sprite)
-              .sprite,
+          (entity) => getComponentAbsolute(entity, ComponentType.Sprite).sprite,
         ),
       ),
     );

@@ -5,10 +5,6 @@ import type { Entity } from '../../utils/ecsUtils';
 import type { EntityTemplate } from '../../utils/EntityFactory';
 import { createEntityFromTemplate } from '../../utils/EntityFactory';
 import { getComponentIfExists } from '../../utils/ComponentUtils';
-import type {
-  PositionComponent,
-  SpriteComponent,
-} from '../../components/Components';
 import { ComponentType } from '../../components/Components';
 import { addEntities, removeEntities } from '../../utils/EntityUtils';
 import { store } from '../../../App';
@@ -73,11 +69,11 @@ export class EntityPlacementSystem implements System {
 
       // If there is already the same entity at the position, skip/remove it
       const existingEntitiesAtPosition = entities.reduce((ids, entity) => {
-        const positionComponent = getComponentIfExists<PositionComponent>(
+        const positionComponent = getComponentIfExists(
           entity,
           ComponentType.Position,
         );
-        const spriteComponent = getComponentIfExists<SpriteComponent>(
+        const spriteComponent = getComponentIfExists(
           entity,
           ComponentType.Sprite,
         );

@@ -1,4 +1,3 @@
-import type { HandlingComponent } from '../components/Components';
 import {
   CarriedItemComponent,
   ComponentType,
@@ -19,17 +18,17 @@ export class PickupSystem implements System {
     const playerEntity = getPlayerEntity(entities);
     if (!playerEntity) return;
 
-    const handlingComponent = getComponentIfExists<HandlingComponent>(
+    const handlingComponent = getComponentIfExists(
       playerEntity,
       ComponentType.Handling,
     );
-    const positionComponent = getComponentIfExists<PositionComponent>(
+    const positionComponent = getComponentIfExists(
       playerEntity,
       ComponentType.Position,
     );
     if (!positionComponent || !handlingComponent) return;
 
-    const carriedItemComponent = getComponentIfExists<CarriedItemComponent>(
+    const carriedItemComponent = getComponentIfExists(
       playerEntity,
       ComponentType.CarriedItem,
     );

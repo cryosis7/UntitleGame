@@ -1,7 +1,7 @@
 import { store } from '../../App';
 import type { Entity } from './ecsUtils';
 import { entitiesAtom } from './Atoms';
-import type { Component} from '../components/ComponentTypes';
+import type { Component, FullComponentDictionary } from '../components/ComponentTypes';
 import { ComponentType } from '../components/ComponentTypes';
 
 /**
@@ -60,22 +60,22 @@ export const setComponents = (entity: Entity, ...components: Component[]) => {
   });
 };
 
-export const getComponentIfExists = <T extends Component>(
+export const getComponentIfExists = <T extends ComponentType>(
   entity: Entity,
-  type: ComponentType,
-): T | undefined => {
-  return entity.components[type] as T;
+  type: T,
+): FullComponentDictionary[T] | undefined => {
+  return entity.components[type] as FullComponentDictionary[T];
 };
 
-export const getComponentAbsolute = <T extends Component>(
+export const getComponentAbsolute = <T extends ComponentType>(
   entity: Entity,
-  type: ComponentType,
-): T => {
+  type: T,
+): FullComponentDictionary[T] => {
   if (!entity.components[type]) {
     console.dir(entity);
     throw new Error(`Component ${type} not found for entity`);
   }
-  return entity.components[type] as T;
+  return entity.components[type] as FullComponentDictionary[T];
 };
 
 /**

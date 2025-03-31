@@ -17,7 +17,7 @@ export const getEntitiesAtPosition = (
 ): Entity[] => {
   entities = entities ?? store.get(entitiesAtom);
   return entities.filter((entity) => {
-    const positionComponent = getComponentIfExists<PositionComponent>(
+    const positionComponent = getComponentIfExists(
       entity,
       ComponentType.Position,
     );
@@ -31,7 +31,7 @@ export const hasEntitiesAtPosition = (
   position: Position | PositionComponent,
 ): boolean => {
   return store.get(entitiesAtom).some((entity) => {
-    const positionComponent = getComponentIfExists<PositionComponent>(
+    const positionComponent = getComponentIfExists(
       entity,
       ComponentType.Position,
     );

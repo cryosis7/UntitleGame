@@ -39,11 +39,11 @@ export class RenderSystem implements System {
     }
 
     map.getAllEntities().forEach((entity) => {
-      const spriteComponent = getComponentAbsolute<SpriteComponent>(
+      const spriteComponent = getComponentAbsolute(
         entity,
         ComponentType.Sprite,
       );
-      const positionComponent = getComponentAbsolute<PositionComponent>(
+      const positionComponent = getComponentAbsolute(
         entity,
         ComponentType.Position,
       );
@@ -59,11 +59,11 @@ export class RenderSystem implements System {
       const entity = entities.find((e) => e.id === item.id);
       if (!entity) return;
 
-      const spriteComponent = getComponentAbsolute<SpriteComponent>(
+      const spriteComponent = getComponentAbsolute(
         entity,
         ComponentType.Sprite,
       );
-      const positionComponent = getComponentAbsolute<PositionComponent>(
+      const positionComponent = getComponentAbsolute(
         entity,
         ComponentType.Position,
       );
@@ -76,12 +76,12 @@ export class RenderSystem implements System {
 
   private updateStage = (entities: Entity[], stage: Container) => {
     entities.forEach((entity) => {
-      const spriteComponent = getComponentIfExists<SpriteComponent>(
+      const spriteComponent = getComponentIfExists(
         entity,
         ComponentType.Sprite,
       );
 
-      const positionComponent = getComponentIfExists<PositionComponent>(
+      const positionComponent = getComponentIfExists(
         entity,
         ComponentType.Position,
       );

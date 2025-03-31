@@ -1,6 +1,5 @@
 import { getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../App';
-import type { SpriteComponent } from './components/Components';
 import { ComponentType, PositionComponent } from './components/Components';
 import { RenderSystem } from './systems/RenderSystem';
 import type { Ticker } from 'pixi.js';
@@ -49,14 +48,11 @@ export const initiateEntities = () => {
   const tileSize = store.get(getTileSizeAtom);
   const entities = store.get(entitiesAtom);
   entities.forEach((entity) => {
-    const positionComponent = getComponentIfExists<PositionComponent>(
+    const positionComponent = getComponentIfExists(
       entity,
       ComponentType.Position,
     );
-    const spriteComponent = getComponentIfExists<SpriteComponent>(
-      entity,
-      ComponentType.Sprite,
-    );
+    const spriteComponent = getComponentIfExists(entity, ComponentType.Sprite);
 
     if (positionComponent && spriteComponent) {
       spriteComponent.sprite.setSize(tileSize);

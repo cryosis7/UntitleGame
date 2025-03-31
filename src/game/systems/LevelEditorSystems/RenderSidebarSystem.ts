@@ -6,7 +6,7 @@ import { hasComponent } from '../../utils/ComponentUtils';
 
 export class RenderSidebarSystem implements System {
   private sidebarWidth = 150;
-  private sidebarContainer: Container;
+  private readonly sidebarContainer: Container;
 
   constructor() {
     this.sidebarContainer = new Container({

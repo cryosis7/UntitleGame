@@ -1,25 +1,25 @@
 import type {
   PositionComponent,
   PositionComponentProps,
-} from './IndividualComponents/PositionComponent';
+} from './individualComponents/PositionComponent';
 import type {
   SpriteComponent,
   SpriteComponentProps,
-} from './IndividualComponents/SpriteComponent';
-import type { PlayerComponent } from './IndividualComponents/PlayerComponent';
-import type { MovableComponent } from './IndividualComponents/MovableComponent';
+} from './individualComponents/SpriteComponent';
+import type { PlayerComponent } from './individualComponents/PlayerComponent';
+import type { MovableComponent } from './individualComponents/MovableComponent';
 import type {
   VelocityComponent,
   VelocityComponentProps,
-} from './IndividualComponents/VelocityComponent';
-import type { PickableComponent } from './IndividualComponents/PickableComponent';
+} from './individualComponents/VelocityComponent';
+import type { PickableComponent } from './individualComponents/PickableComponent';
 import type {
   CarriedItemComponent,
   CarriedItemComponentProps,
-} from './IndividualComponents/CarriedItemComponent';
-import type { InteractingComponent } from './IndividualComponents/InteractingComponent';
-import type { HandlingComponent } from './IndividualComponents/HandlingComponent';
-import type { WalkableComponent } from './IndividualComponents/WalkableComponent';
+} from './individualComponents/CarriedItemComponent';
+import type { InteractingComponent } from './individualComponents/InteractingComponent';
+import type { HandlingComponent } from './individualComponents/HandlingComponent';
+import type { WalkableComponent } from './individualComponents/WalkableComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -34,7 +34,7 @@ export enum ComponentType {
   Walkable = 'walkable',
 }
 
-type FullComponentDictionary = {
+export type FullComponentDictionary = {
   [ComponentType.Position]: PositionComponent;
   [ComponentType.Sprite]: SpriteComponent;
   [ComponentType.Player]: PlayerComponent;

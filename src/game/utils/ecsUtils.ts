@@ -1,8 +1,5 @@
 import { store } from '../../App';
-import type {
-  ComponentDictionary,
-  PositionComponent,
-} from '../components/Components';
+import type { ComponentDictionary } from '../components/Components';
 import { ComponentType } from '../components/Components';
 import type { Position } from '../map/GameMap';
 import { getComponentIfExists, hasComponent } from './ComponentUtils';
@@ -29,10 +26,7 @@ export const getEmptyPosition = (): Position => {
       return hasComponent(entity, ComponentType.Position);
     })
     .map((entity) => {
-      return getComponentIfExists<PositionComponent>(
-        entity,
-        ComponentType.Position,
-      )!;
+      return getComponentIfExists(entity, ComponentType.Position)!;
     });
 
   do {

@@ -1,12 +1,5 @@
 import type React from 'react';
 import { useAtomValue } from 'jotai';
-import type {
-  CarriedItemComponent,
-  InteractingComponent,
-  PositionComponent,
-  SpriteComponent,
-  VelocityComponent,
-} from '../../game/components/Components';
 import { ComponentType } from '../../game/components/Components';
 import { getComponentIfExists } from '../../game/utils/ComponentUtils';
 import { playerAtom } from '../../game/utils/Atoms';
@@ -18,16 +11,10 @@ export const SidePanel: React.FC = () => {
   if (!player) {
     return <div className='border-blue' style={{ flexGrow: '1' }} />;
   }
-  let positionComponent = getComponentIfExists<PositionComponent>(
-    player,
-    ComponentType.Position,
-  );
-  let velocityComponent = getComponentIfExists<VelocityComponent>(
-    player,
-    ComponentType.Velocity,
-  );
-  getComponentIfExists<InteractingComponent>(player, ComponentType.Interacting);
-  const carriedItemComponent = getComponentIfExists<CarriedItemComponent>(
+  let positionComponent = getComponentIfExists(player, ComponentType.Position);
+  let velocityComponent = getComponentIfExists(player, ComponentType.Velocity);
+  getComponentIfExists(player, ComponentType.Interacting);
+  const carriedItemComponent = getComponentIfExists(
     player,
     ComponentType.CarriedItem,
   );
@@ -50,10 +37,8 @@ export const SidePanel: React.FC = () => {
           {carriedItem && (
             <div>
               {
-                getComponentIfExists<SpriteComponent>(
-                  carriedItem,
-                  ComponentType.Sprite,
-                )?.sprite.texture.label
+                getComponentIfExists(carriedItem, ComponentType.Sprite)?.sprite
+                  .texture.label
               }
             </div>
           )}
