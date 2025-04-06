@@ -26,24 +26,6 @@ export const initiateEntities = () => {
   setComponent(player, new PositionComponent(getEmptyPosition()));
   setComponent(boulder, new PositionComponent(getEmptyPosition()));
   setComponent(beaker, new PositionComponent(getEmptyPosition()));
-
-  // const tileSize = store.get(getTileSizeAtom);
-  // const entities = store.get(entitiesAtom);
-  // entities.forEach((entity) => {
-  //   const positionComponent = getComponentIfExists(
-  //     entity,
-  //     ComponentType.Position,
-  //   );
-  //   const spriteComponent = getComponentIfExists(entity, ComponentType.Sprite);
-  //
-  //   if (positionComponent && spriteComponent) {
-  //     spriteComponent.sprite.setSize(tileSize);
-  //     spriteComponent.sprite.position.set(
-  //       ...gridToScreenAsTuple(positionComponent),
-  //     );
-  //     pixiApp.stage.addChild(spriteComponent.sprite);
-  //   }
-  // });
 };
 
 export const initiateSystems = () => {
