@@ -34,6 +34,7 @@ interface MapConfig {
   tileSize?: number;
 }
 
+export const mapAtom = atom<GameMap>(new GameMap());
 export const mapConfigAtom = atom<MapConfig>();
 export const updateMapConfigAtom = atom(null, (get, set, update: MapConfig) => {
   set(mapConfigAtom, { ...get(mapConfigAtom), ...update });
@@ -44,7 +45,6 @@ export const getTileSizeAtom = atom((get) => {
 
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<System[]>([]);
-export const mapAtom = atom<GameMap>(new GameMap());
 export const playerAtom = atom((get) => {
   const entities = get(entitiesAtom);
   return entities.find((entity) => hasComponent(entity, ComponentType.Player));

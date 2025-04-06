@@ -36,10 +36,7 @@ export const SidePanel: React.FC = () => {
           <div>Carried Item:</div>
           {carriedItem && (
             <div>
-              {
-                getComponentIfExists(carriedItem, ComponentType.Sprite)?.sprite
-                  .texture.label
-              }
+              {getComponentIfExists(carriedItem, ComponentType.Sprite)?.sprite}
             </div>
           )}
         </>

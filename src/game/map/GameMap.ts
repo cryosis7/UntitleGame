@@ -3,10 +3,7 @@ import type { Entity } from '../utils/ecsUtils';
 import type { EntityTemplate } from '../utils/EntityFactory';
 import { createEntityFromTemplate } from '../utils/EntityFactory';
 import { ComponentType } from '../components/ComponentTypes';
-import {
-  getComponentAbsolute,
-  hasComponent,
-} from '../components/ComponentOperations';
+import { hasComponent } from '../components/ComponentOperations';
 import { mapConfigAtom } from '../utils/Atoms';
 import { store } from '../../App';
 
@@ -27,7 +24,9 @@ export class GameMap {
     this.id = crypto.randomUUID();
     this.tiles = [];
     this.hasChanged = true;
-    this.pixiContainer = null;
+    this.pixiContainer = new Container({
+      eventMode: 'static',
+    });
   }
 
   init() {
@@ -37,10 +36,6 @@ export class GameMap {
     }
 
     this.tiles = [];
-
-    const container = new Container({
-      eventMode: 'static',
-    });
 
     for (let y = 0; y < mapConfig.rows; y++) {
       const row: Entity[] = [];
@@ -54,16 +49,11 @@ export class GameMap {
           },
         };
         const entity = createEntityFromTemplate(entityTemplate);
-        const sprite = getComponentAbsolute(
-          entity,
-          ComponentType.Sprite,
-        ).sprite;
-        container.addChild(sprite);
         row.push(entity);
       }
       this.tiles.push(row);
     }
-    this.pixiContainer = container;
+
     this.hasChanged = true;
   }
 
@@ -71,27 +61,9 @@ export class GameMap {
     return this.tiles.flat();
   }
 
-  /**
-   * Creates a PIXI.Container and adds all sprite components from the tiles to it.
-   * The container has not been added to the pixi stage.
-   *
-   * @returns {Container} The container with all sprite components added as children.
-   */
-  private createSpriteContainer(): Container {
-    const container = new Container();
-    container.addChild(
-      ...this.tiles.flatMap((entityArray) =>
-        entityArray.map(
-          (entity) => getComponentAbsolute(entity, ComponentType.Sprite).sprite,
-        ),
-      ),
-    );
-    return container;
-  }
-
-  public getSpriteContainer = (): Container => {
+  public getContainer = (): Container => {
     if (!this.pixiContainer) {
-      this.pixiContainer = this.createSpriteContainer();
+      throw new Error('No container found for the map.');
     }
     return this.pixiContainer;
   };

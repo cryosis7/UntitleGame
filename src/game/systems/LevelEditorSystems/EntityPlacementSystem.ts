@@ -20,9 +20,9 @@ export class EntityPlacementSystem implements System {
     this.selectedItem = 'yellow-tree-tall-bottom'; // Default item
 
     const map = store.get(mapAtom);
-    map.getSpriteContainer().onclick = (event) => {
+    map.getContainer().onclick = (event) => {
       event.stopPropagation();
-      this.hasChanged = true;
+      this.hasChanged = true; // TODO: Does the map actually change?
 
       const clickedPosition = screenToGrid({
         x: event.screenX,
@@ -80,7 +80,7 @@ export class EntityPlacementSystem implements System {
         if (
           positionComponent?.x === position.x &&
           positionComponent?.y === position.y &&
-          spriteComponent?.sprite.texture.label === this.selectedItem
+          spriteComponent?.sprite === this.selectedItem
         ) {
           ids.push(entity.id);
         }
