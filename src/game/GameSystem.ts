@@ -14,8 +14,7 @@ import { CleanUpSystem } from './systems/CleanUpSystem';
 import { entitiesAtom, mapAtom, systemsAtom } from './utils/Atoms';
 import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
 import { PositionComponent } from './components/individualComponents/PositionComponent';
-import { RenderSystem } from './systems/RenderSystem';
-import { SidebarRenderSystem } from './systems/LevelEditorSystems/SidebarRenderSystem';
+import { RenderSystem } from './systems/RenderSystems/RenderSystem';
 import { addEntities } from './utils/EntityUtils';
 import { RenderInSidebarComponent } from './components/individualComponents/RenderInSidebarComponent';
 import { SpriteComponent } from './components/individualComponents/SpriteComponent';
@@ -49,7 +48,6 @@ export const initiateSystems = () => {
     new EntityPlacementSystem(),
 
     new RenderSystem(),
-    new SidebarRenderSystem(),
 
     new CleanUpSystem(),
   );

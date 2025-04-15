@@ -2,6 +2,11 @@ import { getTileSizeAtom } from '../utils/Atoms';
 import { store } from '../../App';
 import type { Position } from './GameMap';
 
+export interface interfaceConfig {
+  tileSize?: number;
+  gap?: number;
+}
+
 /**
  * Converts a grid position to a screen coordinate.
  * @param {Position} gridPosition - The grid position to convert.
@@ -10,10 +15,7 @@ import type { Position } from './GameMap';
  */
 export const gridToScreen = (
   gridPosition: Position,
-  config?: {
-    tileSize?: number;
-    gap?: number;
-  },
+  config: interfaceConfig,
 ): Position => {
   const size = config?.tileSize ?? store.get(getTileSizeAtom);
   const gap = config?.gap ?? 0;
@@ -31,10 +33,7 @@ export const gridToScreen = (
  */
 export const gridToScreenAsTuple = (
   gridPosition: Position,
-  config?: {
-    tileSize?: number;
-    gap?: number;
-  },
+  config: interfaceConfig,
 ): [number, number] => {
   const screenPosition = gridToScreen(gridPosition, config);
   return [screenPosition.x, screenPosition.y];
@@ -43,16 +42,17 @@ export const gridToScreenAsTuple = (
 /**
  * Converts a screen coordinate to a grid position.
  * @param {Position} screenPosition - The screen coordinate to convert.
- * @param {number} [tileSize] - Optional tile size to use for conversion. Defaults to the global tile size.
+ * @param config
  * @returns {Position} The grid position.
  */
 export const screenToGrid = (
   screenPosition: Position,
-  tileSize?: number,
+  config?: interfaceConfig,
 ): Position => {
-  const size = tileSize ?? store.get(getTileSizeAtom);
+  const size = config?.tileSize ?? store.get(getTileSizeAtom);
+  const gap = config?.gap ?? 0;
   return {
-    x: Math.floor(screenPosition.x / size),
-    y: Math.floor(screenPosition.y / size),
+    x: Math.floor(screenPosition.x / (size + gap)),
+    y: Math.floor(screenPosition.y / (size + gap)),
   };
 };
