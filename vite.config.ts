@@ -6,19 +6,19 @@ import jotaiReactRefresh from 'jotai/babel/plugin-react-refresh';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react({ babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] } }),
+    react({ babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] } })
   ],
   server: {
-    open: false,
+    open: false
   },
   css: {
     preprocessorOptions: {
       scss: {
-        api: 'modern-compiler',
-      },
-    },
+        api: 'modern-compiler'
+      }
+    }
   },
   build: {
-    sourcemap: true,
-  },
+    sourcemap: 'inline'
+  }
 });

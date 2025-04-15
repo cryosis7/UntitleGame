@@ -2,11 +2,7 @@ import type { Position } from '../map/GameMap';
 import { store } from '../../App';
 import { ComponentType } from '../components/ComponentTypes';
 import type { Entity } from './ecsUtils';
-import {
-  getComponentIfExists,
-  hasAllComponents,
-  hasComponent,
-} from '../components/ComponentOperations';
+import { getComponentIfExists, hasAllComponents, hasComponent } from '../components/ComponentOperations';
 import { entitiesAtom } from './Atoms';
 import type { PositionComponent } from '../components/individualComponents/PositionComponent';
 
@@ -70,7 +66,7 @@ export const addEntity = (entity: Entity) => {
   store.set(entitiesAtom, (entities) => [...entities, entity]);
 };
 
-export const addEntities = (entities: Entity[]) => {
+export const addEntities = (...entities: Entity[]) => {
   store.set(entitiesAtom, (currentEntities) => [
     ...currentEntities,
     ...entities,

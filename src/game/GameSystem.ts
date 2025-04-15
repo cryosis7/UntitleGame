@@ -1,7 +1,10 @@
 import { getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../App';
 import type { Ticker } from 'pixi.js';
-import { createEntitiesFromTemplates } from './utils/EntityFactory';
+import {
+  createEntitiesFromTemplates,
+  createEntity,
+} from './utils/EntityFactory';
 import { Beaker, Boulder, Player } from './templates/EntityTemplates';
 import { setComponent } from './components/ComponentOperations';
 import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
@@ -12,8 +15,10 @@ import { entitiesAtom, mapAtom, systemsAtom } from './utils/Atoms';
 import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
 import { PositionComponent } from './components/individualComponents/PositionComponent';
 import { RenderSystem } from './systems/RenderSystem';
-import { RenderSidebarSystem } from './systems/LevelEditorSystems/RenderSidebarSystem';
+import { SidebarRenderSystem } from './systems/LevelEditorSystems/SidebarRenderSystem';
 import { addEntities } from './utils/EntityUtils';
+import { RenderInSidebarComponent } from './components/individualComponents/RenderInSidebarComponent';
+import { SpriteComponent } from './components/individualComponents/SpriteComponent';
 
 export const initiateEntities = () => {
   const [player, boulder, beaker] = createEntitiesFromTemplates(
@@ -21,11 +26,18 @@ export const initiateEntities = () => {
     Boulder,
     Beaker,
   );
-  addEntities([player, boulder, beaker]);
+  addEntities(player, boulder, beaker);
 
   setComponent(player, new PositionComponent(getEmptyPosition()));
   setComponent(boulder, new PositionComponent(getEmptyPosition()));
   setComponent(beaker, new PositionComponent(getEmptyPosition()));
+
+  const sideBarEntity = createEntity([
+    new PositionComponent({ x: 0, y: 0 }),
+    new RenderInSidebarComponent(),
+    new SpriteComponent({ sprite: 'bottle_blue' }),
+  ]);
+  addEntities(sideBarEntity);
 };
 
 export const initiateSystems = () => {
@@ -37,7 +49,7 @@ export const initiateSystems = () => {
     new EntityPlacementSystem(),
 
     new RenderSystem(),
-    new RenderSidebarSystem(),
+    new SidebarRenderSystem(),
 
     new CleanUpSystem(),
   );

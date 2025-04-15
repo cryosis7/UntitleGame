@@ -99,7 +99,7 @@ export class EntityPlacementSystem implements System {
       entitiesToAdd.push(createEntityFromTemplate(entityTemplate));
     }
 
-    addEntities(entitiesToAdd);
+    addEntities(...entitiesToAdd);
     removeEntities(entitiesToRemove);
 
     this.hasChanged = false;

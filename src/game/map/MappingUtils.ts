@@ -5,17 +5,21 @@ import type { Position } from './GameMap';
 /**
  * Converts a grid position to a screen coordinate.
  * @param {Position} gridPosition - The grid position to convert.
- * @param {number} [tileSize] - Optional tile size to use for conversion. Defaults to the global tile size.
+ * @param config
  * @returns {Position} The screen coordinate.
  */
 export const gridToScreen = (
   gridPosition: Position,
-  tileSize?: number,
+  config?: {
+    tileSize?: number;
+    gap?: number;
+  },
 ): Position => {
-  const size = tileSize ?? store.get(getTileSizeAtom);
+  const size = config?.tileSize ?? store.get(getTileSizeAtom);
+  const gap = config?.gap ?? 0;
   return {
-    x: gridPosition.x * size,
-    y: gridPosition.y * size,
+    x: gridPosition.x * (size + gap),
+    y: gridPosition.y * (size + gap),
   };
 };
 
@@ -32,9 +36,8 @@ export const gridToScreenAsTuple = (
     gap?: number;
   },
 ): [number, number] => {
-  const size = config?.tileSize ?? store.get(getTileSizeAtom);
-  const gap = config?.gap ?? 0;
-  return [gridPosition.x * (size + gap), gridPosition.y * (size + gap)];
+  const screenPosition = gridToScreen(gridPosition, config);
+  return [screenPosition.x, screenPosition.y];
 };
 
 /**

@@ -8,8 +8,9 @@ import {
   getComponentIfExists,
 } from '../../components/ComponentOperations';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
+import { RenderSystem } from '../RenderSystem';
 
-export class RenderSidebarSystem implements System {
+export class SidebarRenderSystem implements System {
   private sidebarWidth = 150;
   private readonly sidebarContainer: Container;
   private renderedEntities: { [id: string]: Container } = {};
@@ -27,8 +28,8 @@ export class RenderSidebarSystem implements System {
         .rect(0, 0, this.sidebarWidth, pixiApp.canvas.height)
         .fill(0xd3d3d3),
     );
-    pixiApp.stage.addChild(this.sidebarContainer);
 
+    pixiApp.stage.addChild(this.sidebarContainer);
     this.sidebarContainer.position.set(
       pixiApp.canvas.width - this.sidebarWidth,
       0,
@@ -51,27 +52,35 @@ export class RenderSidebarSystem implements System {
         ComponentType.Position,
       );
 
-      // Remove any from the sidebar that are no longer have position components
+      // Remove any from the sidebar that no longer have position components
       if (positionComponent === undefined && this.renderedEntities[entity.id]) {
-        this.sidebarContainer.removeChild(spriteComponent.sprite);
+        this.sidebarContainer.removeChild(this.renderedEntities[entity.id]);
         delete this.renderedEntities[entity.id];
         return;
+      } else if (!positionComponent) {
+        return;
       }
-      if (!positionComponent) return;
 
       // Add any to the sidebar that are not already there
       if (this.renderedEntities[entity.id] === undefined) {
-        // spriteComponent.sprite.position.set(...gridToScreenAsTuple(positionComponent, 16));
-        this.sidebarContainer.addChild(spriteComponent.sprite);
-        this.renderedEntities[entity.id] = spriteComponent.sprite;
-      }
-
-      spriteComponent.sprite.position.set(
-        ...gridToScreenAsTuple(positionComponent, {
+        const sprite = RenderSystem.createSprite(spriteComponent.sprite);
+        const position = gridToScreenAsTuple(positionComponent, {
           tileSize: 16,
           gap: 4,
-        }),
-      );
+        });
+        // RenderSystem.addToScreen(sprite, position, this.sidebarContainer);
+        this.sidebarContainer.addChild(sprite);
+        sprite.position.set(...position);
+
+        this.renderedEntities[entity.id] = sprite;
+      } else {
+        const sprite = this.renderedEntities[entity.id];
+        const position = gridToScreenAsTuple(positionComponent, {
+          tileSize: 16,
+          gap: 4,
+        });
+        sprite.position.set(...position);
+      }
     });
   }
 }
