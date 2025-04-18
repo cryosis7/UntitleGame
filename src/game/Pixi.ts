@@ -1,7 +1,7 @@
 import type { SpriteSheetJson } from 'pixi.js';
 import { Application, Assets, Spritesheet, Texture } from 'pixi.js';
 import { basicSpritesheet } from '../assets/basicSpritesheet';
-import { addSpritesheetAtom } from './utils/Atoms';
+import { addSpritesheetAtom } from './atoms/Atoms';
 import { store } from '../App';
 import { originalImages } from '../assets/originalImages';
 import { tinyTownData } from '../assets/tinyTownData';

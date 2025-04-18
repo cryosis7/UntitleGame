@@ -1,5 +1,5 @@
 import { screenToGrid } from '../../map/MappingUtils';
-import type { System, UpdateArgs } from '../Systems';
+import type { UpdateArgs } from '../SystemBase';
 import type { Position } from '../../map/GameMap';
 import type { Entity } from '../../utils/ecsUtils';
 import type { EntityTemplate } from '../../utils/EntityFactory';
@@ -7,51 +7,51 @@ import { createEntityFromTemplate } from '../../utils/EntityFactory';
 import { getComponentIfExists } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components/ComponentTypes';
 import { addEntities, removeEntities } from '../../utils/EntityUtils';
-import { store } from '../../../App';
-import { mapAtom } from '../../utils/Atoms';
+import { BaseClickSystem } from '../BaseClickSystem';
+import type { Container, FederatedPointerEvent } from 'pixi.js';
 
-export class EntityPlacementSystem implements System {
+export class LevelEditorPlacementSystem extends BaseClickSystem {
   private selectedItem: string;
   private hasChanged: boolean = false;
   private placementPositions: Position[] = [];
   private lastClickedPosition: Position | null = null;
 
-  constructor() {
-    this.selectedItem = 'yellow-tree-tall-bottom'; // Default item
+  constructor(container: Container) {
+    super(container);
+    this.selectedItem = 'yellow-tree-tall-bottom';
+  }
 
-    const map = store.get(mapAtom);
-    map.getContainer().onclick = (event) => {
-      event.stopPropagation();
-      this.hasChanged = true; // TODO: Does the map actually change?
+  setSelectedItem(item: string): void {
+    this.selectedItem = item;
+  }
 
-      const clickedPosition = screenToGrid({
-        x: event.screenX,
-        y: event.screenY,
-      });
+  handleClick(event: FederatedPointerEvent): void {
+    event.stopPropagation(); // TODO: FYI this will still iterate through my own click handlers
+    this.hasChanged = true;
 
-      // If shift key is pressed, draw a line between the last position and the clicked position
-      if (event.shiftKey && this.lastClickedPosition) {
-        const points = EntityPlacementSystem.getPointsBetween(
-          this.lastClickedPosition,
-          clickedPosition,
-        );
+    const gridPosition = screenToGrid({ x: event.screenX, y: event.screenY });
 
-        for (const point of points) {
-          if (
-            !this.placementPositions.some(
-              (pos) => pos.x === point.x && pos.y === point.y,
-            )
-          ) {
-            this.placementPositions.push(point);
-          }
+    if (event.shiftKey && this.lastClickedPosition) {
+      const points = LevelEditorPlacementSystem.getPointsBetween(
+        this.lastClickedPosition,
+        gridPosition,
+      );
+
+      for (const point of points) {
+        if (
+          !this.placementPositions.some(
+            (pos) => pos.x === point.x && pos.y === point.y,
+          )
+        ) {
+          this.placementPositions.push(point);
         }
-        this.lastClickedPosition = clickedPosition;
-        return;
       }
+      this.lastClickedPosition = gridPosition;
+      return;
+    }
 
-      this.placementPositions.push(clickedPosition);
-      this.lastClickedPosition = clickedPosition;
-    };
+    this.placementPositions.push(gridPosition);
+    this.lastClickedPosition = gridPosition;
   }
 
   update({ entities }: UpdateArgs) {

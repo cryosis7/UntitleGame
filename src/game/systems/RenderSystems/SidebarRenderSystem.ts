@@ -1,17 +1,15 @@
 import { Graphics } from 'pixi.js';
 import { pixiApp } from '../../Pixi';
 import { BaseRenderSystem } from './BaseRenderSystem';
+import { store } from '../../../App';
+import { getSidebarRenderConfigAtom } from '../../atoms/Atoms';
 
 export class SidebarRenderSystem extends BaseRenderSystem {
   private sidebarWidth = 150;
 
   constructor() {
-    super({
-      interfaceConfig: {
-        tileSize: 16,
-        gap: 4,
-      },
-    });
+    super(store.get(getSidebarRenderConfigAtom));
+
     this.rootContainer.position.set(
       pixiApp.canvas.width - this.sidebarWidth,
       0,

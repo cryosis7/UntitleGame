@@ -4,7 +4,7 @@ import {
   getComponentIfExists,
   hasComponent,
 } from '../components/ComponentOperations';
-import { entitiesAtom, mapAtom } from './Atoms';
+import { entitiesAtom, mapAtom } from '../atoms/Atoms';
 import type { ComponentDictionary } from '../components/ComponentTypes';
 import { ComponentType } from '../components/ComponentTypes';
 

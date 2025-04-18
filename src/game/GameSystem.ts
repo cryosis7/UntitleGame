@@ -1,6 +1,7 @@
 import { getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../App';
 import type { Ticker } from 'pixi.js';
+import { Container } from 'pixi.js';
 import {
   createEntitiesFromTemplates,
   createEntity,
@@ -11,13 +12,19 @@ import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
 import { MovementSystem } from './systems/MovementSystem';
 import { PickupSystem } from './systems/PickupSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
-import { entitiesAtom, mapAtom, systemsAtom } from './utils/Atoms';
-import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
+import {
+  entitiesAtom,
+  mapAtom,
+  setContainersAtom,
+  systemsAtom,
+} from './atoms/Atoms';
 import { PositionComponent } from './components/individualComponents/PositionComponent';
 import { RenderSystem } from './systems/RenderSystems/RenderSystem';
 import { addEntities } from './utils/EntityUtils';
 import { RenderInSidebarComponent } from './components/individualComponents/RenderInSidebarComponent';
 import { SpriteComponent } from './components/individualComponents/SpriteComponent';
+import { ClickHandlerSystem } from './systems/ClickHandlerSystem';
+import { LevelEditorSystem } from './systems/LevelEditorSystems/LevelEditorSystem';
 
 export const initiateEntities = () => {
   const [player, boulder, beaker] = createEntitiesFromTemplates(
@@ -39,14 +46,26 @@ export const initiateEntities = () => {
   addEntities(sideBarEntity);
 };
 
-export const initiateSystems = () => {
+export const initialiseContainers = () => {
+  const mapContainer = new Container({
+    eventMode: 'static',
+  });
+  const sidebarContainer = new Container({
+    eventMode: 'static',
+  });
+
+  store.set(setContainersAtom, { mapContainer, sidebarContainer });
+};
+
+export const initialiseSystems = () => {
   const systems = store.get(systemsAtom);
   systems.push(
     new KeyboardInputSystem(),
     new MovementSystem(),
     new PickupSystem(),
-    new EntityPlacementSystem(),
+    new LevelEditorSystem(),
 
+    new ClickHandlerSystem(),
     new RenderSystem(),
 
     new CleanUpSystem(),

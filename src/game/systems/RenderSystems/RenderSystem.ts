@@ -1,6 +1,4 @@
-import type { System, UpdateArgs } from '../Systems';
-import { store } from '../../../App';
-import { mapAtom } from '../../utils/Atoms';
+import type { SystemBase, UpdateArgs } from '../SystemBase';
 import { MapRenderSystem } from './MapRenderSystem';
 import { EntityRenderSystem } from './EntityRenderSystem';
 import { hasComponent } from '../../components/ComponentOperations';
@@ -8,14 +6,13 @@ import { ComponentType } from '../../components/ComponentTypes';
 import type { Entity } from '../../utils/ecsUtils';
 import { SidebarRenderSystem } from './SidebarRenderSystem';
 
-export class RenderSystem implements System {
+export class RenderSystem implements SystemBase {
   private mapRenderSystem: MapRenderSystem;
   private sidebarRenderSystem: SidebarRenderSystem;
   private entityRenderSystem: EntityRenderSystem;
 
   constructor() {
-    const map = store.get(mapAtom);
-    this.mapRenderSystem = new MapRenderSystem(map);
+    this.mapRenderSystem = new MapRenderSystem();
     this.sidebarRenderSystem = new SidebarRenderSystem();
     this.entityRenderSystem = new EntityRenderSystem();
   }

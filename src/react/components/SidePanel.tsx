@@ -2,7 +2,7 @@ import type React from 'react';
 import { useAtomValue } from 'jotai';
 import { ComponentType } from '../../game/components/ComponentTypes';
 import { getComponentIfExists } from '../../game/components/ComponentOperations';
-import { playerAtom } from '../../game/utils/Atoms';
+import { playerAtom } from '../../game/atoms/Atoms';
 import { getEntity } from '../../game/utils/EntityUtils';
 
 export const SidePanel: React.FC = () => {

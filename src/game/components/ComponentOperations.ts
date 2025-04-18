@@ -1,6 +1,6 @@
 import { store } from '../../App';
 import type { Entity } from '../utils/ecsUtils';
-import { entitiesAtom } from '../utils/Atoms';
+import { entitiesAtom } from '../atoms/Atoms';
 import type { Component, FullComponentDictionary } from './ComponentTypes';
 import { ComponentType } from './ComponentTypes';
 

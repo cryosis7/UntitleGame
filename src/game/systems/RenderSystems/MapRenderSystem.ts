@@ -1,10 +1,9 @@
 import { BaseRenderSystem } from './BaseRenderSystem';
-import type { GameMap } from '../../map/GameMap';
+import { store } from '../../../App';
+import { getMapRenderConfigAtom } from '../../atoms/Atoms';
 
 export class MapRenderSystem extends BaseRenderSystem {
-  constructor(map: GameMap) {
-    super({
-      rootContainer: map.getContainer(),
-    });
+  constructor() {
+    super(store.get(getMapRenderConfigAtom));
   }
 }

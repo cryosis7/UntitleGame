@@ -5,13 +5,13 @@ import {
   removeMapComponents,
   setComponent,
 } from '../components/ComponentOperations';
-import type { System, UpdateArgs } from './Systems';
+import type { SystemBase, UpdateArgs } from './SystemBase';
 import { getEntitiesAtPosition, getPlayerEntity } from '../utils/EntityUtils';
 import { ComponentType } from '../components/ComponentTypes';
 import { PositionComponent } from '../components/individualComponents/PositionComponent';
 import { CarriedItemComponent } from '../components/individualComponents/CarriedItemComponent';
 
-export class PickupSystem implements System {
+export class PickupSystem implements SystemBase {
   update({ entities }: UpdateArgs) {
     const playerEntity = getPlayerEntity(entities);
     if (!playerEntity) return;

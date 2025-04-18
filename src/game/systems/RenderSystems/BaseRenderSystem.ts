@@ -5,31 +5,28 @@ import { ComponentType } from '../../components/ComponentTypes';
 import type { SpriteComponent } from '../../components/individualComponents/SpriteComponent';
 import type { PositionComponent } from '../../components/individualComponents/PositionComponent';
 import type { Position } from '../../map/GameMap';
-import type { interfaceConfig } from '../../map/MappingUtils';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
-import { getTexture, getTileSizeAtom } from '../../utils/Atoms';
-import { store } from '../../../App';
+import type { InterfaceConfig, RenderConfig } from '../../atoms/Atoms';
+import { getTexture } from '../../atoms/Atoms';
 import { pixiApp } from '../../Pixi';
-
-export interface RenderConfig {
-  interfaceConfig?: interfaceConfig;
-  rootContainer?: Container;
-}
 
 export abstract class BaseRenderSystem {
   protected renderedEntities: {
     [id: string]: { sprite: Sprite; position: PositionComponent };
   } = {};
-  protected interfaceConfig: interfaceConfig;
   protected rootContainer: Container;
+  protected interfaceConfig: InterfaceConfig;
 
-  constructor(config?: RenderConfig) {
-    this.interfaceConfig = config?.interfaceConfig ?? {
-      tileSize: store.get(getTileSizeAtom),
-      gap: 0,
-    };
+  protected constructor(config: RenderConfig) {
+    this.interfaceConfig = config.interfaceConfig;
 
-    this.rootContainer = config?.rootContainer ?? new Container();
+    if (config.rootContainer === null) {
+      console.warn(
+        'Root container is not initialised - this may be an error and may lead to bugs...',
+      );
+    }
+
+    this.rootContainer = config.rootContainer ?? new Container();
     pixiApp.stage.addChild(this.rootContainer);
   }
 
@@ -102,7 +99,7 @@ export abstract class BaseRenderSystem {
       throw new Error(`Texture ${name} not found`);
     }
     const sprite = new Sprite(texture);
-    sprite.setSize(store.get(getTileSizeAtom));
+    sprite.setSize(this.interfaceConfig.tileSize);
     return sprite;
   }
 
