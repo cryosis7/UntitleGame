@@ -67,12 +67,12 @@ export class SpriteComponent {
 // Create an entity
 const entity = createEntity([
   new PositionComponent(100, 200),
-  new SpriteComponent('path/to/image.png')
+  new SpriteComponent('path/to/image.png'),
 ]);
 
 // System to update position
 function movementSystem(entities: Entity[], time: PIXI.Ticker) {
-  entities.forEach(entity => {
+  entities.forEach((entity) => {
     const position = getComponent<PositionComponent>(entity, 'position');
     if (position) {
       position.x += 1;
@@ -83,7 +83,7 @@ function movementSystem(entities: Entity[], time: PIXI.Ticker) {
 
 // System to render entities
 function renderSystem(entities: Entity[]) {
-  entities.forEach(entity => {
+  entities.forEach((entity) => {
     const position = getComponent<PositionComponent>(entity, 'position');
     const sprite = getComponent<SpriteComponent>(entity, 'sprite');
     if (position && sprite) {
@@ -106,7 +106,6 @@ const app = new PIXI.Application({ width: 800, height: 600 });
 document.body.appendChild(app.view);
 gameLoop(app);
 ```
-
 
 ## Scripts
 

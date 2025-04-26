@@ -1,35 +1,31 @@
-import type { HandlingComponent } from '../components/Components';
 import {
-  CarriedItemComponent,
-  ComponentType,
-  PositionComponent,
-} from '../components/Components';
-import {
-  getComponent,
+  getComponentIfExists,
   hasComponent,
   removeComponent,
-  removeMapComponents,
   setComponent,
-} from '../utils/ComponentUtils';
-import type { System, UpdateArgs } from './Systems';
+} from '../components/ComponentOperations';
+import type { SystemBase, UpdateArgs } from './SystemBase';
 import { getEntitiesAtPosition, getPlayerEntity } from '../utils/EntityUtils';
+import { ComponentType } from '../components/ComponentTypes';
+import { PositionComponent } from '../components/individualComponents/PositionComponent';
+import { CarriedItemComponent } from '../components/individualComponents/CarriedItemComponent';
 
-export class PickupSystem implements System {
+export class PickupSystem implements SystemBase {
   update({ entities }: UpdateArgs) {
     const playerEntity = getPlayerEntity(entities);
     if (!playerEntity) return;
 
-    const handlingComponent = getComponent<HandlingComponent>(
+    const handlingComponent = getComponentIfExists(
       playerEntity,
       ComponentType.Handling,
     );
-    const positionComponent = getComponent<PositionComponent>(
+    const positionComponent = getComponentIfExists(
       playerEntity,
       ComponentType.Position,
     );
     if (!positionComponent || !handlingComponent) return;
 
-    const carriedItemComponent = getComponent<CarriedItemComponent>(
+    const carriedItemComponent = getComponentIfExists(
       playerEntity,
       ComponentType.CarriedItem,
     );
@@ -53,7 +49,11 @@ export class PickupSystem implements System {
         const newCarriedItemComponent = new CarriedItemComponent({
           item: firstItem.id,
         });
-        removeMapComponents(firstItem);
+        removeComponent(
+          firstItem,
+          ComponentType.Position,
+          ComponentType.Velocity,
+        );
         setComponent(playerEntity, newCarriedItemComponent);
       }
     }

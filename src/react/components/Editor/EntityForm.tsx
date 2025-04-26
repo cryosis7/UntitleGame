@@ -1,16 +1,16 @@
 import type React from 'react';
 import { useState } from 'react';
 import { Box, Button, Paper, TextField } from '@mui/material';
-import type {
-  Component,
-  ComponentType,
-} from '../../../game/components/Components';
 import { ComponentSelector } from './ComponentSelector';
 import { ComponentList } from './ComponentList';
 import type { EntitiesComponentsSchema } from './ComponentSchemas';
 import { DefaultComponentSchemas } from './ComponentSchemas';
 
 import type { EntityTemplate } from '../../../game/utils/EntityFactory';
+import type {
+  ComponentDictionary,
+  ComponentType,
+} from '../../../game/components/ComponentTypes';
 
 interface EntityFormProps {
   setEntityJson: (json: string | null) => void;
@@ -58,9 +58,9 @@ export const EntityForm: React.FC<EntityFormProps> = ({ setEntityJson }) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const components: { [type: string]: Component } = {};
+    const components: ComponentDictionary = {};
     for (const [type, componentProperty] of Object.entries(entityTemplate)) {
-      components[type] = {
+      components[type as ComponentType] = {
         type: type as ComponentType,
         ...Object.fromEntries(
           Object.entries(componentProperty).map(
@@ -71,7 +71,6 @@ export const EntityForm: React.FC<EntityFormProps> = ({ setEntityJson }) => {
     }
 
     const entity: EntityTemplate = {
-      name: entityName,
       components: components,
     };
     setEntityJson(JSON.stringify(entity, null, 2));

@@ -1,19 +1,18 @@
-import type { System, UpdateArgs } from './Systems';
-import type {
-  VelocityComponent} from '../components/Components';
-import {
-  ComponentType,
-  PositionComponent
-} from '../components/Components';
-import type {
-  Entity} from '../utils/ecsUtils';
+import type { SystemBase, UpdateArgs } from './SystemBase';
+import type { Entity } from '../utils/ecsUtils';
 import {
   getEntitiesWithComponent,
   hasEntitiesAtPosition,
 } from '../utils/EntityUtils';
-import { setComponent, getComponent, hasAnyComponent } from '../utils/ComponentUtils';
+import {
+  getComponentIfExists,
+  hasAnyComponent,
+  setComponent,
+} from '../components/ComponentOperations';
+import { ComponentType } from '../components/ComponentTypes';
+import { PositionComponent } from '../components/individualComponents/PositionComponent';
 
-export class MovementSystem implements System {
+export class MovementSystem implements SystemBase {
   update({ entities, map }: UpdateArgs) {
     if (!entities || !map) return;
 
@@ -26,13 +25,13 @@ export class MovementSystem implements System {
     };
 
     entities.forEach((entity) => {
-      const positionComponent = getComponent<PositionComponent>(
+      const positionComponent = getComponentIfExists(
         entity,
-        ComponentType.Position
+        ComponentType.Position,
       );
-      const velocityComponent = getComponent<VelocityComponent>(
+      const velocityComponent = getComponentIfExists(
         entity,
-        ComponentType.Velocity
+        ComponentType.Velocity,
       );
 
       if (
@@ -55,9 +54,9 @@ export class MovementSystem implements System {
 
       const entitiesAtNewPosition = entities.filter((e) => {
         if (e.id === entity.id) return false;
-        const otherPositionComponent = getComponent<PositionComponent>(
+        const otherPositionComponent = getComponentIfExists(
           e,
-          ComponentType.Position
+          ComponentType.Position,
         );
         return (
           otherPositionComponent?.x === newPosition.x &&

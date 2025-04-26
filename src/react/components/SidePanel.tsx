@@ -1,18 +1,12 @@
 import type React from 'react';
 import { useAtomValue } from 'jotai';
-import { entitiesAtom, playerAtom } from '../../game/GameSystem';
-import type {
-  CarriedItemComponent,
-  InteractingComponent,
-  PositionComponent,
-  VelocityComponent} from '../../game/components/Components';
+import { ComponentType } from '../../game/components/ComponentTypes';
+import { getComponentIfExists } from '../../game/components/ComponentOperations';
+import { entitiesAtom, playerAtom } from '../../game/atoms/Atoms';
 import {
-  ComponentType
-} from '../../game/components/Components';
-import {
-  getComponent,
-  hasAllComponents,
-} from '../../game/utils/ComponentUtils';
+  getEntitiesWithComponent,
+  getEntity,
+} from '../../game/utils/EntityUtils';
 
 export const SidePanel: React.FC = () => {
   const player = useAtomValue(playerAtom);
@@ -21,26 +15,19 @@ export const SidePanel: React.FC = () => {
   if (!player) {
     return <div className='border-blue' style={{ flexGrow: '1' }} />;
   }
-  let positionComponent = getComponent<PositionComponent>(
-    player,
-    ComponentType.Position,
-  );
-  let velocityComponent = getComponent<VelocityComponent>(
-    player,
-    ComponentType.Velocity,
-  );
-  const interactionComponent = getComponent<InteractingComponent>(
-    player,
-    ComponentType.Interacting,
-  );
-  const carriedItemComponent = getComponent<CarriedItemComponent>(
+  let positionComponent = getComponentIfExists(player, ComponentType.Position);
+  let velocityComponent = getComponentIfExists(player, ComponentType.Velocity);
+  getComponentIfExists(player, ComponentType.Interacting);
+  const carriedItemComponent = getComponentIfExists(
     player,
     ComponentType.CarriedItem,
   );
-
-  const renderedEntities = entities.filter((entity) =>
-    hasAllComponents(entity, ComponentType.Position, ComponentType.Sprite),
+  const carriedItem = getEntity(carriedItemComponent?.item ?? '');
+  const selectedEntities = getEntitiesWithComponent(
+    ComponentType.Selected,
+    entities,
   );
+
   return (
     <div className='border-blue' style={{ flexGrow: '1' }}>
       <h2>Side Panel</h2>
@@ -54,27 +41,30 @@ export const SidePanel: React.FC = () => {
             Player Velocity:{' '}
             {`${velocityComponent?.vx}, ${velocityComponent?.vy}`}
           </div>
+          <div>Carried Item:</div>
+          {carriedItem && (
+            <div>
+              {getComponentIfExists(carriedItem, ComponentType.Sprite)?.sprite}
+            </div>
+          )}
           <div>
-            Player Interaction:{' '}
-            {interactionComponent?.type ? 'Interacting' : 'Not interacting'}
+            <h3>Selected Entities</h3>
+            <ul>
+              {selectedEntities.map((entity) => {
+                const sprite = getComponentIfExists(
+                  entity,
+                  ComponentType.Sprite,
+                );
+                return (
+                  <li key={entity.id}>
+                    {sprite?.sprite} ({entity.id})
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-          <div>Carried Item: {carriedItemComponent?.item}</div>
         </>
       )}
-      <h3>Entities</h3>
-      <ul>
-        {renderedEntities.map((entity) => {
-          const positionComponent = getComponent<PositionComponent>(
-            entity,
-            ComponentType.Position,
-          );
-          return (
-            <li key={entity.id}>
-              {`${entity.id}: ${positionComponent?.x}, ${positionComponent?.y}`}
-            </li>
-          );
-        })}
-      </ul>
     </div>
   );
 };

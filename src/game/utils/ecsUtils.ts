@@ -1,56 +1,16 @@
 import { store } from '../../App';
-import type {
-  Component,
-  PositionComponent
-} from '../components/Components';
+import type { Position } from '../map/GameMap';
 import {
-  ComponentType
-} from '../components/Components';
-import { entitiesAtom, mapAtom } from '../GameSystem';
-import type { Direction, Position } from '../map/GameMap';
-import { getComponent, hasComponent } from './ComponentUtils';
+  getComponentIfExists,
+  hasComponent,
+} from '../components/ComponentOperations';
+import { entitiesAtom, mapAtom } from '../atoms/Atoms';
+import type { ComponentDictionary } from '../components/ComponentTypes';
+import { ComponentType } from '../components/ComponentTypes';
 
 export type Entity = {
   id: string;
-  components: { [key: string]: Component };
-};
-
-/**
- * Determines if an entity can move in a given direction, based on obstructions in the map and other entities.
- * @param entity 
- * @param direction 
- * @returns 
- */
-export const canMoveInDirection = (
-  entity: Entity,
-  direction: Direction,
-): boolean => {
-  const map = store.get(mapAtom);
-  const positionComponent = getComponent<PositionComponent>(entity, ComponentType.Position);
-  if (!positionComponent) {
-    return false;
-  }
-
-  const adjacentPosition = map.getAdjacentPosition(
-    positionComponent,
-    direction,
-  );
-
-  const entities = store.get(entitiesAtom).filter((entity) => {
-    const position = getComponent<PositionComponent>(entity, ComponentType.Position);
-    return (
-      position?.x === adjacentPosition.x && position?.y === adjacentPosition.y
-    );
-  });
-  const entitiesAreMoveable = entities.reduce(
-    (accumulation, entity) =>
-      accumulation && hasComponent(entity, ComponentType.Movable),
-    true,
-  );
-
-  const isMapTileWalkable = map.isTileWalkable(adjacentPosition);
-
-  return isMapTileWalkable && entitiesAreMoveable;
+  components: ComponentDictionary;
 };
 
 /**
@@ -69,7 +29,7 @@ export const getEmptyPosition = (): Position => {
       return hasComponent(entity, ComponentType.Position);
     })
     .map((entity) => {
-      return getComponent<PositionComponent>(entity, ComponentType.Position)!;
+      return getComponentIfExists(entity, ComponentType.Position)!;
     });
 
   do {

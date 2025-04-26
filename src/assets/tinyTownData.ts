@@ -1,9 +1,11 @@
-export const tinyTownData = {
+import type { SpriteSheetJson } from 'pixi.js';
+
+export const tinyTownData: SpriteSheetJson = {
   frames: {
     grass: { frame: { x: 0, y: 0, w: 16, h: 16 } },
     'grass-long': { frame: { x: 17, y: 0, w: 16, h: 16 } },
     'grass-flowers': { frame: { x: 34, y: 0, w: 16, h: 16 } },
-    'yellow-tree-tall-top': { frame: { x: 51, y: 0, w: 16, h: 16 } },
+    'yellow-tree-tall-top': { frame: { x: 49, y: 0, w: 16, h: 16 } },
     'green-tree-tall-top': { frame: { x: 68, y: 0, w: 16, h: 16 } },
     bush: { frame: { x: 85, y: 0, w: 16, h: 16 } },
     'green-forest-top-left': { frame: { x: 102, y: 0, w: 16, h: 16 } },
@@ -15,7 +17,7 @@ export const tinyTownData = {
     'dirt-top-left': { frame: { x: 0, y: 17, w: 16, h: 16 } },
     'dirt-top': { frame: { x: 17, y: 17, w: 16, h: 16 } },
     'dirt-top-right': { frame: { x: 34, y: 17, w: 16, h: 16 } },
-    'yellow-tree-tall-bottom': { frame: { x: 51, y: 17, w: 16, h: 16 } },
+    'yellow-tree-tall-bottom': { frame: { x: 48, y: 17, w: 16, h: 16 } },
     'green-tree-tall-bottom': { frame: { x: 68, y: 17, w: 16, h: 16 } },
     bush2: { frame: { x: 85, y: 17, w: 16, h: 16 } },
     'green-forest-left': { frame: { x: 102, y: 17, w: 16, h: 16 } },
@@ -134,11 +136,9 @@ export const tinyTownData = {
     'bucket-full': { frame: { x: 187, y: 170, w: 16, h: 16 } },
   },
   meta: {
-    app: 'http://www.codeandweb.com/texturepacker',
-    version: '1.0',
-    image: '/public/assets/images/tinyTownSpritesheet.png',
-    format: 'RGBA8888',
-    size: { w: 2048, h: 2048 },
+    image: 'tinyTown.png',
+    // format: 'RGBA8888',
+    // size: { w: 2048, h: 2048 },
     scale: '1',
   },
 };

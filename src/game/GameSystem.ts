@@ -1,84 +1,93 @@
-import { getEmptyPosition, type Entity } from './utils/ecsUtils';
+import type { Entity} from './utils/ecsUtils';
+import { getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../App';
-import type { SpriteComponent } from './components/Components';
-import { ComponentType, PositionComponent } from './components/Components';
-import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
-import { RenderSystem } from './systems/RenderSystem';
 import type { Ticker } from 'pixi.js';
-import { pixiApp } from './Pixi';
-import { atom } from 'jotai/index';
-import type { System } from './systems/Systems';
-import { GameMap } from './map/GameMap';
-import { MovementSystem } from './systems/MovementSystem';
-import { createEntitiesFromObjects } from './utils/EntityFactory';
+import { Container } from 'pixi.js';
+import {
+  createEntitiesFromTemplates,
+  createEntity,
+} from './utils/EntityFactory';
 import { Beaker, Boulder, Player } from './templates/EntityTemplates';
+import { setComponent } from './components/ComponentOperations';
+import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
+import { MovementSystem } from './systems/MovementSystem';
+import { PickupSystem } from './systems/PickupSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
 import {
-  getComponent,
-  hasComponent,
-  setComponent,
-} from './utils/ComponentUtils';
-import { PickupSystem } from './systems/PickupSystem';
-
-export const entitiesAtom = atom<Entity[]>([]);
-export const systemsAtom = atom<System[]>([]);
-export const mapAtom = atom<GameMap>(new GameMap());
-export const playerAtom = atom((get) => {
-  const entities = get(entitiesAtom);
-  return entities.find((entity) => hasComponent(entity, ComponentType.Player));
-});
-
-export const initiateMap = () => {
-  const map = store.get(mapAtom);
-  map.init(10, 10);
-  pixiApp.stage.addChild(map.getSpriteContainer());
-};
+  entitiesAtom,
+  getAllTexturesAtom,
+  mapAtom,
+  setContainersAtom,
+  systemsAtom,
+} from './atoms/Atoms';
+import { PositionComponent } from './components/individualComponents/PositionComponent';
+import { RenderSystem } from './systems/RenderSystems/RenderSystem';
+import { addEntities } from './utils/EntityUtils';
+import { RenderInSidebarComponent } from './components/individualComponents/RenderInSidebarComponent';
+import { SpriteComponent } from './components/individualComponents/SpriteComponent';
+import { ClickHandlerSystem } from './systems/ClickHandlerSystem';
+import { LevelEditorSystem } from './systems/LevelEditorSystems/LevelEditorSystem';
 
 export const initiateEntities = () => {
-  const [player, boulder, beaker] = createEntitiesFromObjects(
+  const [player, boulder, beaker] = createEntitiesFromTemplates(
     Player,
     Boulder,
     Beaker,
   );
-  store.set(entitiesAtom, (entities) => [...entities, player, boulder, beaker]);
+  addEntities(player, boulder, beaker);
 
   setComponent(player, new PositionComponent(getEmptyPosition()));
   setComponent(boulder, new PositionComponent(getEmptyPosition()));
   setComponent(beaker, new PositionComponent(getEmptyPosition()));
 
-  const tileWidth = pixiApp.screen.width / 10;
-  const tileHeight = pixiApp.screen.height / 10;
-
-  const entities = store.get(entitiesAtom);
-  entities.forEach((entity) => {
-    const positionComponent = getComponent<PositionComponent>(
-      entity,
-      ComponentType.Position,
-    );
-    const spriteComponent = getComponent<SpriteComponent>(
-      entity,
-      ComponentType.Sprite,
-    );
-
-    if (positionComponent && spriteComponent) {
-      spriteComponent.sprite.width = tileWidth;
-      spriteComponent.sprite.height = tileHeight;
-      spriteComponent.sprite.position.set(
-        positionComponent.x * tileWidth,
-        positionComponent.y * tileHeight,
-      );
-      pixiApp.stage.addChild(spriteComponent.sprite);
-    }
-  });
+  addEntities(...createSidebarEntities());
 };
 
-export const initiateSystems = () => {
+const createSidebarEntities = () => {
+  const textures = store.get(getAllTexturesAtom);
+
+  const entities: Entity[] = [];
+  const textureNames = Object.keys(textures);
+  const columns = 10;
+
+  textureNames.forEach((textureName, index) => {
+    const x = index % columns;
+    const y = Math.floor(index / columns);
+
+    const entity = createEntity([
+      new PositionComponent({ x, y }),
+      new RenderInSidebarComponent(),
+      new SpriteComponent({ sprite: textureName }),
+    ]);
+
+    entities.push(entity);
+  });
+
+  return entities;
+};
+
+export const initialiseContainers = () => {
+  const mapContainer = new Container({
+    eventMode: 'static',
+  });
+  const sidebarContainer = new Container({
+    eventMode: 'static',
+  });
+
+  store.set(setContainersAtom, { mapContainer, sidebarContainer });
+};
+
+export const initialiseSystems = () => {
   const systems = store.get(systemsAtom);
   systems.push(
     new KeyboardInputSystem(),
     new MovementSystem(),
     new PickupSystem(),
+    new LevelEditorSystem(),
+
+    new ClickHandlerSystem(),
     new RenderSystem(),
+
     new CleanUpSystem(),
   );
 };

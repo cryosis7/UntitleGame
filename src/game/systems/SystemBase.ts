@@ -3,11 +3,12 @@ import type { Entity } from '../utils/ecsUtils';
 import type { GameMap } from '../map/GameMap';
 
 export interface UpdateArgs {
-  entities: Entity[],
-  time?: Ticker,
-  map?: GameMap
+  entities: Entity[];
+  time?: Ticker;
+  map: GameMap;
 }
 
-export type System = {
+// TODO: Maybe instead of a cleanup system, I could add a cleanup function to the system interface
+export type SystemBase = {
   update: (updateArgs: UpdateArgs) => void;
 };
