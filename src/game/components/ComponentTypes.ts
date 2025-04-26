@@ -21,6 +21,7 @@ import type { InteractingComponent } from './individualComponents/InteractingCom
 import type { HandlingComponent } from './individualComponents/HandlingComponent';
 import type { WalkableComponent } from './individualComponents/WalkableComponent';
 import type { RenderInSidebarComponent } from './individualComponents/RenderInSidebarComponent';
+import type { SelectedComponent } from './individualComponents/SelectedComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -34,6 +35,7 @@ export enum ComponentType {
   Handling = 'handling',
   Walkable = 'walkable',
   RenderInSidebar = 'renderInSidebar',
+  Selected = 'selected',
 }
 
 export type FullComponentDictionary = {
@@ -48,6 +50,7 @@ export type FullComponentDictionary = {
   [ComponentType.Handling]: HandlingComponent;
   [ComponentType.Walkable]: WalkableComponent;
   [ComponentType.RenderInSidebar]: RenderInSidebarComponent;
+  [ComponentType.Selected]: SelectedComponent;
 };
 
 export type Component = FullComponentDictionary[keyof FullComponentDictionary];

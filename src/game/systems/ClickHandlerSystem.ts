@@ -1,7 +1,7 @@
 import type { SystemBase, UpdateArgs } from './SystemBase';
 import type { Container, FederatedPointerEvent } from 'pixi.js';
 import { store } from '../../App';
-import type { PixiClickHandler } from './BaseClickSystem';
+import type { CustomPointerEvent, PixiClickHandler } from './BaseClickSystem';
 import { containerHandlersAtom } from '../atoms/Atoms';
 
 export class ClickHandlerSystem implements SystemBase {
@@ -10,9 +10,16 @@ export class ClickHandlerSystem implements SystemBase {
 
     containerHandlers.forEach((handlers, container) => {
       container.eventMode = 'static'; // Enable interaction for the container
-      container.on('pointerdown', (event: FederatedPointerEvent) => {
-        handlers.forEach((handler) => handler(event));
-      });
+      container.onclick = (event: FederatedPointerEvent) => {
+        const localPosition = container.toLocal(event.global);
+        handlers.forEach((handler) => {
+          const pointerEvent: CustomPointerEvent = {
+            ...event,
+            localPosition,
+          } as CustomPointerEvent;
+          handler(pointerEvent);
+        });
+      };
     });
   }
 

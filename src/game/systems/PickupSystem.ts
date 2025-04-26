@@ -2,7 +2,6 @@ import {
   getComponentIfExists,
   hasComponent,
   removeComponent,
-  removeMapComponents,
   setComponent,
 } from '../components/ComponentOperations';
 import type { SystemBase, UpdateArgs } from './SystemBase';
@@ -50,7 +49,11 @@ export class PickupSystem implements SystemBase {
         const newCarriedItemComponent = new CarriedItemComponent({
           item: firstItem.id,
         });
-        removeMapComponents(firstItem);
+        removeComponent(
+          firstItem,
+          ComponentType.Position,
+          ComponentType.Velocity,
+        );
         setComponent(playerEntity, newCarriedItemComponent);
       }
     }

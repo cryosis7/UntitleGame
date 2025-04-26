@@ -1,3 +1,4 @@
+import type { Entity} from './utils/ecsUtils';
 import { getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../App';
 import type { Ticker } from 'pixi.js';
@@ -14,6 +15,7 @@ import { PickupSystem } from './systems/PickupSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
 import {
   entitiesAtom,
+  getAllTexturesAtom,
   mapAtom,
   setContainersAtom,
   systemsAtom,
@@ -38,12 +40,30 @@ export const initiateEntities = () => {
   setComponent(boulder, new PositionComponent(getEmptyPosition()));
   setComponent(beaker, new PositionComponent(getEmptyPosition()));
 
-  const sideBarEntity = createEntity([
-    new PositionComponent({ x: 0, y: 0 }),
-    new RenderInSidebarComponent(),
-    new SpriteComponent({ sprite: 'bottle_blue' }),
-  ]);
-  addEntities(sideBarEntity);
+  addEntities(...createSidebarEntities());
+};
+
+const createSidebarEntities = () => {
+  const textures = store.get(getAllTexturesAtom);
+
+  const entities: Entity[] = [];
+  const textureNames = Object.keys(textures);
+  const columns = 10;
+
+  textureNames.forEach((textureName, index) => {
+    const x = index % columns;
+    const y = Math.floor(index / columns);
+
+    const entity = createEntity([
+      new PositionComponent({ x, y }),
+      new RenderInSidebarComponent(),
+      new SpriteComponent({ sprite: textureName }),
+    ]);
+
+    entities.push(entity);
+  });
+
+  return entities;
 };
 
 export const initialiseContainers = () => {

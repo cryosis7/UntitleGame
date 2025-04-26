@@ -1,10 +1,10 @@
-import type { UpdateArgs } from '../SystemBase';
+import type { SystemBase, UpdateArgs } from '../SystemBase';
 import { LevelEditorPlacementSystem } from './LevelEditorPlacementSystem';
 import { LevelEditorSelectionSystem } from './LevelEditorSelectionSystem';
 import { getContainersAtom } from '../../atoms/RenderConfigAtoms';
 import { store } from '../../../App';
 
-export class LevelEditorSystem {
+export class LevelEditorSystem implements SystemBase {
   private placementSystem: LevelEditorPlacementSystem;
   private selectionSystem: LevelEditorSelectionSystem;
 
@@ -14,15 +14,8 @@ export class LevelEditorSystem {
       throw new Error('Map or sidebar container is not set');
     }
 
+    this.selectionSystem = new LevelEditorSelectionSystem(sidebarContainer);
     this.placementSystem = new LevelEditorPlacementSystem(mapContainer);
-    this.selectionSystem = new LevelEditorSelectionSystem(
-      sidebarContainer,
-      this.setSelectedEntity.bind(this),
-    );
-  }
-
-  private setSelectedEntity(spriteName: string): void {
-    this.placementSystem.setSelectedItem(spriteName);
   }
 
   update(args: UpdateArgs): void {

@@ -7,8 +7,9 @@ import type { PositionComponent } from '../../components/individualComponents/Po
 import type { Position } from '../../map/GameMap';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
 import type { InterfaceConfig, RenderConfig } from '../../atoms/Atoms';
-import { getTexture } from '../../atoms/Atoms';
+import { getTextureAtom } from '../../atoms/Atoms';
 import { pixiApp } from '../../Pixi';
+import { store } from '../../../App';
 
 export abstract class BaseRenderSystem {
   protected renderedEntities: {
@@ -94,7 +95,7 @@ export abstract class BaseRenderSystem {
   }
 
   private createSprite(name: string) {
-    const texture = getTexture(name);
+    const texture = store.get(getTextureAtom)(name);
     if (texture === null) {
       throw new Error(`Texture ${name} not found`);
     }

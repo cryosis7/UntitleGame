@@ -1,8 +1,7 @@
 import { store } from '../../App';
 import type { Entity } from '../utils/ecsUtils';
 import { entitiesAtom } from '../atoms/Atoms';
-import type { Component, FullComponentDictionary } from './ComponentTypes';
-import { ComponentType } from './ComponentTypes';
+import type { Component, ComponentType, FullComponentDictionary } from './ComponentTypes';
 
 /**
  * Sets a component for a given entity. If the component already exists, it will be replaced.
@@ -144,9 +143,55 @@ export const removeComponent = (
 };
 
 /**
- * Removes the components needed to place the item somewhere in the map.
- * @param entity
+ * Removes a component from every entity.
  */
-export const removeMapComponents = (entity: Entity) => {
-  removeComponent(entity, ComponentType.Position, ComponentType.Velocity);
+export const removeComponentFromAllEntities = (component: ComponentType) => {
+  store.set(entitiesAtom, (entities) => {
+    return entities.map((e) => {
+      if (e.components[component]) {
+        const { [component]: _, ...rest } = e.components;
+        return {
+          ...e,
+          components: rest,
+        };
+      }
+      return e;
+    });
+  });
+};
+
+/**
+ * Toggles a component for a given entity. If the component exists, it will be removed.
+ * If the component does not exist, it will be added.
+ *
+ * @template T - The type of the component.
+ * @param {Entity} entity - The entity for which the component will be toggled.
+ * @param {T} component - The component to toggle.
+ */
+export const toggleComponent = <T extends Component>(
+  entity: Entity,
+  component: T,
+): void => {
+  store.set(entitiesAtom, (entities) => {
+    return entities.map((e) => {
+      if (e.id === entity.id) {
+        if (e.components[component.type]) {
+          const { [component.type]: _, ...rest } = e.components;
+          return {
+            ...e,
+            components: rest,
+          };
+        }
+        // If the component doesn't exist, add it
+        return {
+          ...e,
+          components: {
+            ...e.components,
+            [component.type]: component,
+          },
+        };
+      }
+      return e;
+    });
+  });
 };

@@ -7,29 +7,20 @@ import { createEntityFromTemplate } from '../../utils/EntityFactory';
 import { getComponentIfExists } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components/ComponentTypes';
 import { addEntities, removeEntities } from '../../utils/EntityUtils';
+import type { CustomPointerEvent } from '../BaseClickSystem';
 import { BaseClickSystem } from '../BaseClickSystem';
-import type { Container, FederatedPointerEvent } from 'pixi.js';
+import { partitionEntitiesBySidebarRender } from '../../utils/ArrayUtils';
 
 export class LevelEditorPlacementSystem extends BaseClickSystem {
-  private selectedItem: string;
+  private readonly defaultSprite = 'grass';
   private hasChanged: boolean = false;
   private placementPositions: Position[] = [];
   private lastClickedPosition: Position | null = null;
 
-  constructor(container: Container) {
-    super(container);
-    this.selectedItem = 'yellow-tree-tall-bottom';
-  }
-
-  setSelectedItem(item: string): void {
-    this.selectedItem = item;
-  }
-
-  handleClick(event: FederatedPointerEvent): void {
-    event.stopPropagation(); // TODO: FYI this will still iterate through my own click handlers
+  handleClick(event: CustomPointerEvent): void {
     this.hasChanged = true;
 
-    const gridPosition = screenToGrid({ x: event.screenX, y: event.screenY });
+    const gridPosition = screenToGrid(event.localPosition);
 
     if (event.shiftKey && this.lastClickedPosition) {
       const points = LevelEditorPlacementSystem.getPointsBetween(
@@ -59,16 +50,30 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
 
     const entitiesToAdd: Entity[] = [];
     const entitiesToRemove: string[] = [];
+
+    const [sidebarEntities, gameEntities] =
+      partitionEntitiesBySidebarRender(entities);
+
+    const selectedEntity = this.getSelectedEntity(sidebarEntities);
+    let selectedItem = this.defaultSprite;
+    if (selectedEntity) {
+      const component = getComponentIfExists(
+        selectedEntity,
+        ComponentType.Sprite,
+      );
+      selectedItem = component?.sprite ?? this.defaultSprite;
+    }
+
     for (const position of this.placementPositions) {
       const entityTemplate: EntityTemplate = {
         components: {
-          sprite: { sprite: this.selectedItem },
+          sprite: { sprite: selectedItem },
           position: position,
         },
       };
 
       // If there is already the same entity at the position, skip/remove it
-      const existingEntitiesAtPosition = entities.reduce((ids, entity) => {
+      const existingEntitiesAtPosition = gameEntities.reduce((ids, entity) => {
         const positionComponent = getComponentIfExists(
           entity,
           ComponentType.Position,
@@ -80,7 +85,7 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
         if (
           positionComponent?.x === position.x &&
           positionComponent?.y === position.y &&
-          spriteComponent?.sprite === this.selectedItem
+          spriteComponent?.sprite === selectedItem
         ) {
           ids.push(entity.id);
         }
@@ -139,5 +144,15 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
     points.push({ x, y }); // Add the final point to the list
 
     return points; // Return the list of points
+  }
+
+  private getSelectedEntity(entities: Entity[]): Entity | undefined {
+    return entities.find((entity) => {
+      const selectedComponent = getComponentIfExists(
+        entity,
+        ComponentType.Selected,
+      );
+      return selectedComponent !== undefined;
+    });
   }
 }

@@ -1,29 +1,26 @@
-import type { Container, FederatedPointerEvent } from 'pixi.js';
 import { screenToGrid } from '../../map/MappingUtils';
 import type { Position } from '../../map/GameMap';
-import { getComponentAbsolute } from '../../components/ComponentOperations';
+import {
+  getComponentAbsolute,
+  hasComponent,
+  removeComponentFromAllEntities,
+  setComponent,
+} from '../../components/ComponentOperations';
+import type { CustomPointerEvent } from '../BaseClickSystem';
 import { BaseClickSystem } from '../BaseClickSystem';
 import { ComponentType } from '../../components/ComponentTypes';
 import { getSidebarConfigAtom } from '../../atoms/RenderConfigAtoms';
 import { store } from '../../../App';
 import { getEntitiesWithComponents } from '../../utils/EntityUtils';
 import type { UpdateArgs } from '../SystemBase';
+import { SelectedComponent } from '../../components/individualComponents/SelectedComponent';
 
 export class LevelEditorSelectionSystem extends BaseClickSystem {
   private clickedPosition?: Position;
-  private readonly setSelectedEntity: (spriteName: string) => void;
 
-  constructor(
-    container: Container,
-    setSelectedEntity: (spriteName: string) => void,
-  ) {
-    super(container);
-    this.setSelectedEntity = setSelectedEntity;
-  }
-
-  handleClick(event: FederatedPointerEvent): void {
+  handleClick(event: CustomPointerEvent): void {
     this.clickedPosition = screenToGrid(
-      { x: event.screenX, y: event.screenY },
+      event.localPosition,
       store.get(getSidebarConfigAtom),
     );
   }
@@ -49,11 +46,16 @@ export class LevelEditorSelectionSystem extends BaseClickSystem {
       });
 
       if (clickedEntity) {
-        const spriteName = getComponentAbsolute(
+        const shouldSelect = !hasComponent(
           clickedEntity,
-          ComponentType.Sprite,
-        ).sprite;
-        this.setSelectedEntity(spriteName);
+          ComponentType.Selected,
+        );
+
+        removeComponentFromAllEntities(ComponentType.Selected);
+
+        if (shouldSelect) {
+          setComponent(clickedEntity, new SelectedComponent());
+        }
       }
 
       this.clickedPosition = undefined;

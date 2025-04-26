@@ -2,11 +2,15 @@ import type React from 'react';
 import { useAtomValue } from 'jotai';
 import { ComponentType } from '../../game/components/ComponentTypes';
 import { getComponentIfExists } from '../../game/components/ComponentOperations';
-import { playerAtom } from '../../game/atoms/Atoms';
-import { getEntity } from '../../game/utils/EntityUtils';
+import { entitiesAtom, playerAtom } from '../../game/atoms/Atoms';
+import {
+  getEntitiesWithComponent,
+  getEntity,
+} from '../../game/utils/EntityUtils';
 
 export const SidePanel: React.FC = () => {
   const player = useAtomValue(playerAtom);
+  const entities = useAtomValue(entitiesAtom);
 
   if (!player) {
     return <div className='border-blue' style={{ flexGrow: '1' }} />;
@@ -19,6 +23,10 @@ export const SidePanel: React.FC = () => {
     ComponentType.CarriedItem,
   );
   const carriedItem = getEntity(carriedItemComponent?.item ?? '');
+  const selectedEntities = getEntitiesWithComponent(
+    ComponentType.Selected,
+    entities,
+  );
 
   return (
     <div className='border-blue' style={{ flexGrow: '1' }}>
@@ -39,6 +47,22 @@ export const SidePanel: React.FC = () => {
               {getComponentIfExists(carriedItem, ComponentType.Sprite)?.sprite}
             </div>
           )}
+          <div>
+            <h3>Selected Entities</h3>
+            <ul>
+              {selectedEntities.map((entity) => {
+                const sprite = getComponentIfExists(
+                  entity,
+                  ComponentType.Sprite,
+                );
+                return (
+                  <li key={entity.id}>
+                    {sprite?.sprite} ({entity.id})
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </>
       )}
     </div>
