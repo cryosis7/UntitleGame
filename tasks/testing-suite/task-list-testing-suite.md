@@ -88,32 +88,32 @@
   - [x] **Dependencies**: T003, T005 (utilities and interaction components)
   - [x] **Verification**: Pickup system correctly manages item interactions
 
-- [ ] **T010: Rendering and Management Systems** *(3 hours)*
-  - [ ] Test RenderSystem with mocked Pixi.js components
-  - [ ] Test CleanUpSystem entity cleanup operations
-  - [ ] Test EntityPlacementSystem for map editor functionality
-  - [ ] Test RenderSidebarSystem UI rendering logic
-  - [ ] Verify systems handle entity lifecycle correctly
-  - [ ] **Dependencies**: T002, T003, T006 (mocks, utilities, rendering components)
-  - [ ] **Verification**: Rendering systems work with mocked graphics
+- [x] **T010: Rendering and Management Systems** *(3 hours)*
+  - [x] Test RenderSystem with mocked Pixi.js components
+  - [x] Test CleanUpSystem entity cleanup operations
+  - [x] Test EntityPlacementSystem for map editor functionality
+  - [x] Test RenderSidebarSystem UI rendering logic
+  - [x] Verify systems handle entity lifecycle correctly
+  - [x] **Dependencies**: T002, T003, T006 (mocks, utilities, rendering components)
+  - [x] **Verification**: Rendering systems work with mocked graphics
 
 ### Utility Function Tests
-- [ ] **T011: ECS and Entity Utilities** *(2 hours)*
-  - [ ] Test ecsUtils functions (getEmptyPosition, entity operations)
-  - [ ] Test EntityUtils (addEntities, entity management functions)
-  - [ ] Test EntityFactory (createEntitiesFromTemplates)
-  - [ ] Verify utility functions handle edge cases properly
-  - [ ] Test error handling for invalid inputs
-  - [ ] **Dependencies**: T003 (test utilities)
-  - [ ] **Verification**: All utility functions pass unit tests
+- [x] **T011: ECS and Entity Utilities** *(2 hours)*
+  - [x] Test ecsUtils functions (getEmptyPosition, entity operations)
+  - [x] Test EntityUtils (addEntities, entity management functions)
+  - [x] Test EntityFactory (createEntitiesFromTemplates)
+  - [x] Verify utility functions handle edge cases properly
+  - [x] Test error handling for invalid inputs
+  - [x] **Dependencies**: T003 (test utilities)
+  - [x] **Verification**: All utility functions pass unit tests
 
-- [ ] **T012: Game State and Mapping Utilities** *(2 hours)*
-  - [ ] Test MappingUtils coordinate conversion functions
-  - [ ] Test Atoms (Jotai state management) with mock stores
-  - [ ] Test utility integration with game state management
-  - [ ] Verify mapping functions handle boundary conditions
-  - [ ] **Dependencies**: T003 (test utilities)
-  - [ ] **Verification**: State management and mapping utilities work correctly
+- [x] **T012: Game State and Mapping Utilities** *(2 hours)*
+  - [x] Test MappingUtils coordinate conversion functions
+  - [x] Test Atoms (Jotai state management) with mock stores
+  - [x] Test utility integration with game state management
+  - [x] Verify mapping functions handle boundary conditions
+  - [x] **Dependencies**: T003 (test utilities)
+  - [x] **Verification**: State management and mapping utilities work correctly
 
 ### Integration Testing
 - [ ] **T013: ECS System Integration** *(4 hours)*
