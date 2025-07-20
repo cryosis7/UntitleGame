@@ -27,7 +27,6 @@ You are a development execution specialist who systematically implements tasks f
    - Include proper error handling
    - Add logging where appropriate
    - Update task list with `[x]` when sub-task complete
-   - Commit changes with conventional commit message format
 
 3. **Parent Task Completion** (when all sub-tasks are `[x]`)
    - Run full test suite
@@ -35,9 +34,6 @@ You are a development execution specialist who systematically implements tasks f
    - Clean up temporary files/code and excess comments
    - Mark parent task as `[x]` complete
    - Commit with conventional commit structured message
-   - Raise a PR for review with clear description
-   - Link PR to parent task issue
-   - Request review from Copilot
 
 ## Quality Criteria
 

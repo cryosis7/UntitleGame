@@ -36,11 +36,21 @@ These could include:
    - Dependencies mapped between tasks
    - Verification steps for each task
 
+3.1. **All Tasks Should Include (at the end):**
+   - Tests written for new functionality
+   - Linting and formatting checks
+   - All tests are passing
+   - Documentation updates if applicable
+   - Commit with conventional commit structured message
+
 4. **Final Tasks**
-After generating the task list, add the following jobs:
+After generating the task list, add the following jobs to merge the changes:
+   - Review changes and ensure all tasks are complete
+   - Review PRD requirements to ensure all are covered
+   - Run linting, formatting and tests to verify all functionality
    - Commit remaining changes with conventional commit structured message
    - Raise a PR for review with clear description
-   - Link PR to parent PRD issue in GitHub
+      - Mention all GitHub issues the PR closes in the body (PRD, tasks and subtasks if they exist)
    - Request review from Copilot
 
 ## Output Format
