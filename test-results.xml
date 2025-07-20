@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="35" failures="0" errors="0" time="6.206">
+    <testsuite name="src/__tests__/pixiMocks.test.ts" timestamp="2025-07-20T06:03:36.289Z" hostname="XLW-CND1300JDV" tests="14" failures="0" errors="0" skipped="0" time="0.0297846">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Container instances" time="0.0087456">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Sprite instances" time="0.0014692">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Graphics instances" time="0.0012923">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Application instances" time="0.0021919">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Container child management" time="0.0018693">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Graphics method chaining" time="0.0017203">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Application initialization" time="0.001717">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Ticker functionality" time="0.0008407">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Assets and Texture Management &gt; should handle texture loading" time="0.0008988">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Assets and Texture Management &gt; should handle texture creation from sources" time="0.0008037">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Assets and Texture Management &gt; should handle spritesheet parsing" time="0.0007729">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Setup and Cleanup &gt; should clear mock history with setupPixiMocks" time="0.0009878">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Integration with Existing Code Patterns &gt; should work with pixiApp global pattern" time="0.0012432">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Integration with Existing Code Patterns &gt; should work with container hierarchy patterns" time="0.0019345">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/pixiMocksIntegration.test.ts" timestamp="2025-07-20T06:03:36.306Z" hostname="XLW-CND1300JDV" tests="7" failures="0" errors="0" skipped="0" time="0.0246081">
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Application creation pattern" time="0.012668">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Container hierarchy pattern" time="0.0032222">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Assets loading pattern" time="0.0015745">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Spritesheet pattern" time="0.0011992">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Sprite creation pattern" time="0.0011087">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Graphics drawing pattern" time="0.0013046">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Ticker pattern" time="0.0010921">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/testUtils.test.ts" timestamp="2025-07-20T06:03:36.308Z" hostname="XLW-CND1300JDV" tests="14" failures="0" errors="0" skipped="0" time="0.0175248">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create a test entity with no components" time="0.0032898">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create a test entity with provided components" time="0.0010661">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create test components of all types" time="0.0009534">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create entity with multiple components using factory" time="0.0005632">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Component Assertion Helpers &gt; should correctly assert entity has component" time="0.0012203">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Component Assertion Helpers &gt; should correctly assert entity does not have component" time="0.0007333">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Component Assertion Helpers &gt; should correctly assert component properties" time="0.0007515">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; System Testing Utilities &gt; should create test update args" time="0.0010597">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; System Testing Utilities &gt; should create mock game map" time="0.0006595">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; System Testing Utilities &gt; should create mock game map with entities" time="0.0016511">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Test Environment &gt; should create isolated test environment" time="0.0006179">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Test Environment &gt; should manage entities in test environment" time="0.0010174">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Advanced Utilities &gt; should create multiple test entities" time="0.0007298">
+        </testcase>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Advanced Utilities &gt; should find entities with specific components" time="0.0009884">
+        </testcase>
+    </testsuite>
+</testsuites>
