@@ -70,14 +70,14 @@
   - [x] **Verification**: Player components pass all unit tests
 
 ### System Unit Tests
-- [ ] **T008: Input and Movement Systems** *(3 hours)*
-  - [ ] Test KeyboardInputSystem key event processing
-  - [ ] Test MovementSystem entity position updates
-  - [ ] Verify collision detection and movement validation
-  - [ ] Test system behavior with empty entity arrays
-  - [ ] Test edge cases (blocked movement, invalid positions)
-  - [ ] **Dependencies**: T003, T004 (utilities and components)
-  - [ ] **Verification**: Movement systems handle all scenarios correctly
+- [x] **T008: Input and Movement Systems** *(3 hours)*
+  - [x] Test KeyboardInputSystem key event processing
+  - [x] Test MovementSystem entity position updates
+  - [x] Verify collision detection and movement validation
+  - [x] Test system behavior with empty entity arrays
+  - [x] Test edge cases (blocked movement, invalid positions)
+  - [x] **Dependencies**: T003, T004 (utilities and components)
+  - [x] **Verification**: Movement systems handle all scenarios correctly
 
 - [ ] **T009: Interaction Systems** *(3 hours)*
   - [ ] Test PickupSystem item collection mechanics
