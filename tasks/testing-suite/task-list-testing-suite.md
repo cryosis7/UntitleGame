@@ -35,14 +35,14 @@
   - [x] **Verification**: Test utilities can create entities and components for testing
 
 ### Component Unit Tests
-- [ ] **T004: Core Position and Movement Components** *(3 hours)*
-  - [ ] Test PositionComponent creation, validation, and edge cases
-  - [ ] Test VelocityComponent with valid/invalid velocity values
-  - [ ] Test MovableComponent behavior and state management
-  - [ ] Verify component serialization and property validation
-  - [ ] Test boundary conditions (negative coordinates, zero velocity)
-  - [ ] **Dependencies**: T003 (test utilities)
-  - [ ] **Verification**: 100% test coverage for position/movement components
+- [x] **T004: Core Position and Movement Components** *(3 hours)*
+  - [x] Test PositionComponent creation, validation, and edge cases
+  - [x] Test VelocityComponent with valid/invalid velocity values
+  - [x] Test MovableComponent behavior and state management
+  - [x] Verify component serialization and property validation
+  - [x] Test boundary conditions (negative coordinates, zero velocity)
+  - [x] **Dependencies**: T003 (test utilities)
+  - [x] **Verification**: 100% test coverage for position/movement components
 
 - [ ] **T005: Interaction and Item Components** *(3 hours)*
   - [ ] Test PickableComponent item properties and states
