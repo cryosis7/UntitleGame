@@ -1,0 +1,46 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, feature/* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'yarn'
+        
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+      
+    - name: Type checking
+      run: yarn type-check
+      
+    - name: Linting (ESLint)
+      run: yarn lint
+      
+    - name: Code formatting check (Prettier)
+      run: yarn format --check
+      continue-on-error: true
+      
+    - name: Check for security vulnerabilities
+      run: yarn audit --level moderate
+      continue-on-error: true
+      
+    - name: Quality Summary
+      run: |
+        echo "## Code Quality Summary" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Type checking completed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Linting completed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Security audit completed" >> $GITHUB_STEP_SUMMARY

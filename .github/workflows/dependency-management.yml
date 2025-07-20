@@ -1,0 +1,83 @@
+name: Dependency Management
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  dependency-check:
+    name: Security and Dependency Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'yarn'
+        
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+      
+    - name: Check for outdated dependencies
+      run: |
+        echo "## Dependency Status Report" >> $GITHUB_STEP_SUMMARY
+        yarn outdated || true
+        
+    - name: Security audit
+      run: |
+        echo "## Security Audit Report" >> $GITHUB_STEP_SUMMARY
+        yarn audit --level moderate || true
+        
+    - name: Check for known vulnerabilities
+      uses: actions/dependency-review-action@v4
+      if: github.event_name == 'pull_request'
+      
+  update-dependencies:
+    name: Update Dependencies (Manual)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'yarn'
+        
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+      
+    - name: Update dependencies
+      run: |
+        yarn upgrade --latest
+        
+    - name: Run tests after update
+      run: yarn test --run
+      
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: 'chore: update dependencies'
+        title: 'Automated Dependency Updates'
+        body: |
+          This is an automated pull request to update dependencies.
+          
+          Please review the changes and ensure all tests are passing before merging.
+          
+          **Changes:**
+          - Updated npm dependencies to latest versions
+          - Verified tests still pass with updated dependencies
+        branch: chore/update-dependencies
+        delete-branch: true
