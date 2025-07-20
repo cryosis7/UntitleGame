@@ -50,6 +50,10 @@ export const mockSprite = () => ({
   texture: null,
   anchor: { x: 0, y: 0 },
   tint: 0xFFFFFF,
+  setSize: vi.fn().mockImplementation(function(this: any, size: number) {
+    this.width = size;
+    this.height = size;
+  }),
 });
 
 // Graphics mock - for drawing shapes
