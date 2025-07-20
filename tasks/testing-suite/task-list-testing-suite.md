@@ -61,13 +61,13 @@
   - [ ] **Dependencies**: T002, T003 (mocks and utilities)
   - [ ] **Verification**: Components work with mocked rendering system
 
-- [ ] **T007: Player and Game State Components** *(2 hours)*
-  - [ ] Test PlayerComponent player-specific properties
-  - [ ] Verify component state management and updates
-  - [ ] Test edge cases and invalid state transitions
-  - [ ] Ensure components integrate properly with ECS system
-  - [ ] **Dependencies**: T003 (test utilities)
-  - [ ] **Verification**: Player components pass all unit tests
+- [x] **T007: Player and Game State Components** *(2 hours)*
+  - [x] Test PlayerComponent player-specific properties
+  - [x] Verify component state management and updates
+  - [x] Test edge cases and invalid state transitions
+  - [x] Ensure components integrate properly with ECS system
+  - [x] **Dependencies**: T003 (test utilities)
+  - [x] **Verification**: Player components pass all unit tests
 
 ### System Unit Tests
 - [ ] **T008: Input and Movement Systems** *(3 hours)*
