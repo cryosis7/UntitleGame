@@ -53,13 +53,13 @@
   - [x] **Dependencies**: T003 (test utilities)
   - [x] **Verification**: 100% test coverage for interaction components
 
-- [ ] **T006: Rendering and UI Components** *(2 hours)*
-  - [ ] Test SpriteComponent with various sprite configurations
-  - [ ] Test RenderInSidebarComponent UI state management
-  - [ ] Test WalkableComponent collision properties
-  - [ ] Verify component integration with mocked Pixi.js objects
-  - [ ] **Dependencies**: T002, T003 (mocks and utilities)
-  - [ ] **Verification**: Components work with mocked rendering system
+- [x] **T006: Rendering and UI Components** *(2 hours)*
+  - [x] Test SpriteComponent with various sprite configurations
+  - [x] Test RenderInSidebarComponent UI state management
+  - [x] Test WalkableComponent collision properties
+  - [x] Verify component integration with mocked Pixi.js objects
+  - [x] **Dependencies**: T002, T003 (mocks and utilities)
+  - [x] **Verification**: Components work with mocked rendering system
 
 - [x] **T007: Player and Game State Components** *(2 hours)*
   - [x] Test PlayerComponent player-specific properties
