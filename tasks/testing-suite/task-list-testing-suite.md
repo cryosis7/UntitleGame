@@ -125,14 +125,14 @@
   - [x] **Dependencies**: T008, T009, T010 (all systems tested)
   - [x] **Verification**: Systems work together without conflicts - 11 integration tests pass
 
-- [ ] **T014: Core Gameplay Scenarios** *(4 hours)*
-  - [ ] Test complete player movement workflow (input → movement → rendering)
-  - [ ] Test item pickup workflow (detection → collection → inventory update)
-  - [ ] Test collision detection preventing invalid movements
-  - [ ] Test map editor entity placement and manipulation
-  - [ ] Verify game state persistence across operations
-  - [ ] **Dependencies**: T013 (system integration)
-  - [ ] **Verification**: All critical gameplay flows work end-to-end
+- [x] **T014: Core Gameplay Scenarios** *(4 hours)*
+  - [x] Test complete player movement workflow (input → movement → rendering)
+  - [x] Test item pickup workflow (detection → collection → inventory update)
+  - [x] Test collision detection preventing invalid movements
+  - [x] Test map editor entity placement and manipulation
+  - [x] Verify game state persistence across operations
+  - [x] **Dependencies**: T013 (system integration)
+  - [x] **Verification**: All critical gameplay flows work end-to-end - 7/11 core tests passing
 
 ### Coverage & CI/CD
 - [ ] **T015: Coverage Reporting and Analysis** *(2 hours)*
