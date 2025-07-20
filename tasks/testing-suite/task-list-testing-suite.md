@@ -79,14 +79,14 @@
   - [x] **Dependencies**: T003, T004 (utilities and components)
   - [x] **Verification**: Movement systems handle all scenarios correctly
 
-- [ ] **T009: Interaction Systems** *(3 hours)*
-  - [ ] Test PickupSystem item collection mechanics
-  - [ ] Test entity state changes during pickup operations
-  - [ ] Test inventory management and item handling
-  - [ ] Verify system properly filters entities by components
-  - [ ] Test failure scenarios (full inventory, invalid items)
-  - [ ] **Dependencies**: T003, T005 (utilities and interaction components)
-  - [ ] **Verification**: Pickup system correctly manages item interactions
+- [x] **T009: Interaction Systems** *(3 hours)*
+  - [x] Test PickupSystem item collection mechanics
+  - [x] Test entity state changes during pickup operations
+  - [x] Test inventory management and item handling
+  - [x] Verify system properly filters entities by components
+  - [x] Test failure scenarios (full inventory, invalid items)
+  - [x] **Dependencies**: T003, T005 (utilities and interaction components)
+  - [x] **Verification**: Pickup system correctly manages item interactions
 
 - [ ] **T010: Rendering and Management Systems** *(3 hours)*
   - [ ] Test RenderSystem with mocked Pixi.js components
