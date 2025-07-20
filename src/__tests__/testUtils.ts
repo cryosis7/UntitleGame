@@ -349,7 +349,17 @@ export function createMockGameMap(
     }),
     
     isValidPosition: vi.fn((pos: { x: number; y: number }) => {
-      return mockMap.isPositionInMap(pos) && mockMap.isTileWalkable(pos);
+      // A position is valid if it's in bounds. 
+      // Empty positions (null tiles) are valid for movement.
+      // Tiles with entities are valid only if the entity has a Walkable component.
+      if (!mockMap.isPositionInMap(pos)) return false;
+      
+      const tile = mockMap.getTile(pos);
+      // Empty position (null tile) is valid
+      if (tile === null) return true;
+      
+      // Position with entity is valid only if entity is walkable
+      return hasComponent(tile, ComponentType.Walkable);
     })
   };
 

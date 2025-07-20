@@ -1,913 +1,765 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="vitest tests" tests="363" failures="16" errors="0" time="20.184">
-    <testsuite name="src/__tests__/pixiMocks.test.ts" timestamp="2025-07-20T08:17:34.809Z" hostname="XLW-CND1300JDV" tests="14" failures="0" errors="0" skipped="0" time="0.0480137">
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Container instances" time="0.0104337">
+<testsuites name="vitest tests" tests="364" failures="0" errors="0" time="18.427">
+    <testsuite name="src/__tests__/pixiMocks.test.ts" timestamp="2025-07-20T08:55:48.965Z" hostname="XLW-CND1300JDV" tests="14" failures="0" errors="0" skipped="0" time="0.0409913">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Container instances" time="0.0125753">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Sprite instances" time="0.0029706">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Sprite instances" time="0.0020188">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Graphics instances" time="0.0014991">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Graphics instances" time="0.0015361">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Application instances" time="0.0024837">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Constructors &gt; should create Application instances" time="0.002245">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Container child management" time="0.0029983">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Container child management" time="0.0026801">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Graphics method chaining" time="0.0035539">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Graphics method chaining" time="0.0025991">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Application initialization" time="0.0032377">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Application initialization" time="0.0027515">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Ticker functionality" time="0.0022793">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Functionality &gt; should handle Ticker functionality" time="0.000996">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Assets and Texture Management &gt; should handle texture loading" time="0.0022597">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Assets and Texture Management &gt; should handle texture loading" time="0.0013322">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Assets and Texture Management &gt; should handle texture creation from sources" time="0.0020793">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Assets and Texture Management &gt; should handle texture creation from sources" time="0.0014698">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Assets and Texture Management &gt; should handle spritesheet parsing" time="0.0021357">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Assets and Texture Management &gt; should handle spritesheet parsing" time="0.0011324">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Setup and Cleanup &gt; should clear mock history with setupPixiMocks" time="0.0018753">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Mock Setup and Cleanup &gt; should clear mock history with setupPixiMocks" time="0.0014938">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Integration with Existing Code Patterns &gt; should work with pixiApp global pattern" time="0.0017391">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Integration with Existing Code Patterns &gt; should work with pixiApp global pattern" time="0.0019362">
         </testcase>
-        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Integration with Existing Code Patterns &gt; should work with container hierarchy patterns" time="0.0026853">
-        </testcase>
-    </testsuite>
-    <testsuite name="src/__tests__/pixiMocksIntegration.test.ts" timestamp="2025-07-20T08:17:34.831Z" hostname="XLW-CND1300JDV" tests="7" failures="0" errors="0" skipped="0" time="0.0344981">
-        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Application creation pattern" time="0.0193464">
-        </testcase>
-        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Container hierarchy pattern" time="0.0031576">
-        </testcase>
-        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Assets loading pattern" time="0.0017363">
-        </testcase>
-        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Spritesheet pattern" time="0.0020131">
-        </testcase>
-        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Sprite creation pattern" time="0.0016955">
-        </testcase>
-        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Graphics drawing pattern" time="0.0019397">
-        </testcase>
-        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Ticker pattern" time="0.0019036">
+        <testcase classname="src/__tests__/pixiMocks.test.ts" name="Pixi.js Mocks &gt; Integration with Existing Code Patterns &gt; should work with container hierarchy patterns" time="0.0020833">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/simple.test.ts" timestamp="2025-07-20T08:17:34.836Z" hostname="XLW-CND1300JDV" tests="1" failures="0" errors="0" skipped="0" time="0.0108027">
-        <testcase classname="src/__tests__/simple.test.ts" name="Component Types &gt; should have all expected component types" time="0.0091304">
+    <testsuite name="src/__tests__/pixiMocksIntegration.test.ts" timestamp="2025-07-20T08:55:48.988Z" hostname="XLW-CND1300JDV" tests="7" failures="0" errors="0" skipped="0" time="0.0257677">
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Application creation pattern" time="0.0126559">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Container hierarchy pattern" time="0.0021682">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Assets loading pattern" time="0.0024573">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Spritesheet pattern" time="0.0014455">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Sprite creation pattern" time="0.0013518">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Graphics drawing pattern" time="0.0016421">
+        </testcase>
+        <testcase classname="src/__tests__/pixiMocksIntegration.test.ts" name="Pixi.js Mocks Integration with Game Code &gt; should work with Ticker pattern" time="0.0012988">
         </testcase>
     </testsuite>
-    <testsuite name="src/__tests__/testUtils.test.ts" timestamp="2025-07-20T08:17:34.838Z" hostname="XLW-CND1300JDV" tests="14" failures="0" errors="0" skipped="0" time="0.0329132">
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create a test entity with no components" time="0.0051042">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create a test entity with provided components" time="0.0010678">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create test components of all types" time="0.00149">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create entity with multiple components using factory" time="0.0006603">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Component Assertion Helpers &gt; should correctly assert entity has component" time="0.0021966">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Component Assertion Helpers &gt; should correctly assert entity does not have component" time="0.0015801">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Component Assertion Helpers &gt; should correctly assert component properties" time="0.0013765">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; System Testing Utilities &gt; should create test update args" time="0.0016121">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; System Testing Utilities &gt; should create mock game map" time="0.0024468">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; System Testing Utilities &gt; should create mock game map with entities" time="0.0052704">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Test Environment &gt; should create isolated test environment" time="0.0016127">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Test Environment &gt; should manage entities in test environment" time="0.0022797">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Advanced Utilities &gt; should create multiple test entities" time="0.0012643">
-        </testcase>
-        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Advanced Utilities &gt; should find entities with specific components" time="0.0011538">
+    <testsuite name="src/__tests__/simple.test.ts" timestamp="2025-07-20T08:55:48.993Z" hostname="XLW-CND1300JDV" tests="1" failures="0" errors="0" skipped="0" time="0.0141206">
+        <testcase classname="src/__tests__/simple.test.ts" name="Component Types &gt; should have all expected component types" time="0.0116134">
         </testcase>
     </testsuite>
-    <testsuite name="src/game/systems/__tests__/KeyboardInputSystem.test.ts" timestamp="2025-07-20T08:17:34.846Z" hostname="XLW-CND1300JDV" tests="23" failures="6" errors="0" skipped="0" time="0.1086714">
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Key Event Processing &gt; should register keydown and keyup event listeners" time="0.0120365">
+    <testsuite name="src/__tests__/testUtils.test.ts" timestamp="2025-07-20T08:55:48.994Z" hostname="XLW-CND1300JDV" tests="14" failures="0" errors="0" skipped="0" time="0.0305365">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create a test entity with no components" time="0.0036809">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Key Event Processing &gt; should handle keydown events and mark as changed" time="0.0056975">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create a test entity with provided components" time="0.0012181">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Key Event Processing &gt; should handle keyup events and update state" time="0.0023693">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create test components of all types" time="0.0015732">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Key Event Processing &gt; should only update when keys have changed" time="0.0017703">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Entity Factory Functions &gt; should create entity with multiple components using factory" time="0.0007553">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should set upward velocity on ArrowUp key" time="0.0015859">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Component Assertion Helpers &gt; should correctly assert entity has component" time="0.0018161">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should set downward velocity on ArrowDown key" time="0.0027375">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Component Assertion Helpers &gt; should correctly assert entity does not have component" time="0.0010034">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should set leftward velocity on ArrowLeft key" time="0.00311">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Component Assertion Helpers &gt; should correctly assert component properties" time="0.0012157">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should set rightward velocity on ArrowRight key" time="0.003214">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; System Testing Utilities &gt; should create test update args" time="0.0016367">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should handle diagonal movement with multiple keys" time="0.0041225">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; System Testing Utilities &gt; should create mock game map" time="0.0017981">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should handle opposing keys correctly (last key wins)" time="0.0034909">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; System Testing Utilities &gt; should create mock game map with entities" time="0.0028815">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should reset velocity to zero when no movement keys are pressed" time="0.0020368">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Test Environment &gt; should create isolated test environment" time="0.0019264">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Interaction Input Handling &gt; should add InteractingComponent on E key press" time="0.0184954">
-            <failure message="expected undefined to be an instance of InteractingComponent" type="AssertionError">
-AssertionError: expected undefined to be an instance of InteractingComponent
- ❯ src/game/systems/__tests__/KeyboardInputSystem.test.ts:227:36
-
-            </failure>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Test Environment &gt; should manage entities in test environment" time="0.0027227">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Interaction Input Handling &gt; should add HandlingComponent on space key press" time="0.0034055">
-            <failure message="expected undefined to be an instance of HandlingComponent" type="AssertionError">
-AssertionError: expected undefined to be an instance of HandlingComponent
- ❯ src/game/systems/__tests__/KeyboardInputSystem.test.ts:237:33
-
-            </failure>
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Advanced Utilities &gt; should create multiple test entities" time="0.0022748">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Interaction Input Handling &gt; should handle multiple interaction keys simultaneously" time="0.0021874">
-            <failure message="expected undefined to be an instance of InteractingComponent" type="AssertionError">
-AssertionError: expected undefined to be an instance of InteractingComponent
- ❯ src/game/systems/__tests__/KeyboardInputSystem.test.ts:249:36
-
-            </failure>
-        </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Interaction Input Handling &gt; should handle movement and interaction keys together" time="0.0018664">
-            <failure message="expected undefined to be an instance of InteractingComponent" type="AssertionError">
-AssertionError: expected undefined to be an instance of InteractingComponent
- ❯ src/game/systems/__tests__/KeyboardInputSystem.test.ts:264:36
-
-            </failure>
-        </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Interaction Input Handling &gt; should not add interaction components when keys are released" time="0.0030356">
-            <failure message="expected undefined to be an instance of InteractingComponent" type="AssertionError">
-AssertionError: expected undefined to be an instance of InteractingComponent
- ❯ src/game/systems/__tests__/KeyboardInputSystem.test.ts:276:36
-
-            </failure>
-        </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should handle empty entities array" time="0.0039148">
-        </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should handle null/undefined map" time="0.0033239">
-        </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should require exactly one player entity" time="0.0054923">
-        </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should handle player entity without velocity component" time="0.0046342">
-            <failure message="expected undefined to be an instance of InteractingComponent" type="AssertionError">
-AssertionError: expected undefined to be an instance of InteractingComponent
- ❯ src/game/systems/__tests__/KeyboardInputSystem.test.ts:365:36
-
-            </failure>
-        </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should handle unknown key presses gracefully" time="0.0028381">
-        </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should maintain key state correctly across multiple updates" time="0.0029135">
-        </testcase>
-        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should properly reset hasChanged flag after processing" time="0.0021107">
+        <testcase classname="src/__tests__/testUtils.test.ts" name="ECS Test Utilities &gt; Advanced Utilities &gt; should find entities with specific components" time="0.0018211">
         </testcase>
     </testsuite>
-    <testsuite name="src/game/systems/__tests__/MovementSystem.test.ts" timestamp="2025-07-20T08:17:34.862Z" hostname="XLW-CND1300JDV" tests="16" failures="10" errors="0" skipped="0" time="0.0782316">
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; should update entity position based on velocity" time="0.0270896">
-            <failure message="expected 5 to be 6 // Object.is equality" type="AssertionError">
-AssertionError: expected 5 to be 6 // Object.is equality
-
-- Expected
-+ Received
-
-- 6
-+ 5
-
- ❯ src/game/systems/__tests__/MovementSystem.test.ts:28:27
-
-            </failure>
+    <testsuite name="src/game/systems/__tests__/KeyboardInputSystem.test.ts" timestamp="2025-07-20T08:55:49.003Z" hostname="XLW-CND1300JDV" tests="23" failures="0" errors="0" skipped="0" time="0.0591137">
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Key Event Processing &gt; should register keydown and keyup event listeners" time="0.0086614">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; should reset velocity to zero after processing" time="0.0039052">
-            <failure message="expected 2 to be +0 // Object.is equality" type="AssertionError">
-AssertionError: expected 2 to be +0 // Object.is equality
-
-- Expected
-+ Received
-
-- 0
-+ 2
-
- ❯ src/game/systems/__tests__/MovementSystem.test.ts:42:28
-
-            </failure>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Key Event Processing &gt; should handle keydown events and mark as changed" time="0.0023051">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; should not move entity if velocity is zero" time="0.002966">
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Key Event Processing &gt; should handle keyup events and update state" time="0.0014481">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; should not move entity without position component" time="0.0039765">
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Key Event Processing &gt; should only update when keys have changed" time="0.0014412">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; should not move entity without velocity component" time="0.0016984">
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should set upward velocity on ArrowUp key" time="0.0018006">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Collision Detection and Validation &gt; should prevent movement to invalid map positions" time="0.0020046">
-            <failure message="expected 1 to be +0 // Object.is equality" type="AssertionError">
-AssertionError: expected 1 to be +0 // Object.is equality
-
-- Expected
-+ Received
-
-- 0
-+ 1
-
- ❯ src/game/systems/__tests__/MovementSystem.test.ts:112:28
-
-            </failure>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should set downward velocity on ArrowDown key" time="0.0018762">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Collision Detection and Validation &gt; should allow movement through pickable entities" time="0.0023196">
-            <failure message="expected 5 to be 6 // Object.is equality" type="AssertionError">
-AssertionError: expected 5 to be 6 // Object.is equality
-
-- Expected
-+ Received
-
-- 6
-+ 5
-
- ❯ src/game/systems/__tests__/MovementSystem.test.ts:131:27
-
-            </failure>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should set leftward velocity on ArrowLeft key" time="0.0017057">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Collision Detection and Validation &gt; should prevent movement when blocked by immovable entity" time="0.0036841">
-            <failure message="expected 1 to be +0 // Object.is equality" type="AssertionError">
-AssertionError: expected 1 to be +0 // Object.is equality
-
-- Expected
-+ Received
-
-- 0
-+ 1
-
- ❯ src/game/systems/__tests__/MovementSystem.test.ts:156:28
-
-            </failure>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should set rightward velocity on ArrowRight key" time="0.0022019">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Collision Detection and Validation &gt; should push movable entities when possible" time="0.003702">
-            <failure message="expected 5 to be 6 // Object.is equality" type="AssertionError">
-AssertionError: expected 5 to be 6 // Object.is equality
-
-- Expected
-+ Received
-
-- 6
-+ 5
-
- ❯ src/game/systems/__tests__/MovementSystem.test.ts:176:34
-
-            </failure>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should handle diagonal movement with multiple keys" time="0.0019667">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Collision Detection and Validation &gt; should prevent pushing when movable entity cannot move" time="0.003182">
-            <failure message="expected 1 to be +0 // Object.is equality" type="AssertionError">
-AssertionError: expected 1 to be +0 // Object.is equality
-
-- Expected
-+ Received
-
-- 0
-+ 1
-
- ❯ src/game/systems/__tests__/MovementSystem.test.ts:209:28
-
-            </failure>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should handle opposing keys correctly (last key wins)" time="0.0019573">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle empty entities array" time="0.0015203">
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Movement Input Handling &gt; should reset velocity to zero when no movement keys are pressed" time="0.0013707">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle null/undefined entities" time="0.0016037">
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Interaction Input Handling &gt; should add InteractingComponent on E key press" time="0.0016932">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle null/undefined map" time="0.0012344">
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Interaction Input Handling &gt; should add HandlingComponent on space key press" time="0.0013722">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle multiple entities with complex interactions" time="0.0037898">
-            <failure message="expected +0 to be 1 // Object.is equality" type="AssertionError">
-AssertionError: expected +0 to be 1 // Object.is equality
-
-- Expected
-+ Received
-
-- 1
-+ 0
-
- ❯ src/game/systems/__tests__/MovementSystem.test.ts:273:32
-
-            </failure>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Interaction Input Handling &gt; should handle multiple interaction keys simultaneously" time="0.0015486">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle diagonal movement correctly" time="0.0033525">
-            <failure message="expected 5 to be 6 // Object.is equality" type="AssertionError">
-AssertionError: expected 5 to be 6 // Object.is equality
-
-- Expected
-+ Received
-
-- 6
-+ 5
-
- ❯ src/game/systems/__tests__/MovementSystem.test.ts:304:27
-
-            </failure>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Interaction Input Handling &gt; should handle movement and interaction keys together" time="0.0015033">
         </testcase>
-        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle negative velocity correctly" time="0.0031548">
-            <failure message="expected 5 to be 3 // Object.is equality" type="AssertionError">
-AssertionError: expected 5 to be 3 // Object.is equality
-
-- Expected
-+ Received
-
-- 3
-+ 5
-
- ❯ src/game/systems/__tests__/MovementSystem.test.ts:318:27
-
-            </failure>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; Interaction Input Handling &gt; should not add interaction components when keys are released" time="0.0023318">
+        </testcase>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should handle empty entities array" time="0.0021877">
+        </testcase>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should handle null/undefined map" time="0.0013656">
+        </testcase>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should require exactly one player entity" time="0.0022062">
+        </testcase>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should handle player entity without velocity component" time="0.0017755">
+        </testcase>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should handle unknown key presses gracefully" time="0.0017294">
+        </testcase>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should maintain key state correctly across multiple updates" time="0.0022056">
+        </testcase>
+        <testcase classname="src/game/systems/__tests__/KeyboardInputSystem.test.ts" name="KeyboardInputSystem &gt; System Edge Cases and Validation &gt; should properly reset hasChanged flag after processing" time="0.0039479">
         </testcase>
     </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" timestamp="2025-07-20T08:17:34.886Z" hostname="XLW-CND1300JDV" tests="28" failures="0" errors="0" skipped="0" time="0.0479279">
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Creation &gt; should create a carried item component with valid item name" time="0.012112">
+    <testsuite name="src/game/systems/__tests__/MovementSystem.test.ts" timestamp="2025-07-20T08:55:49.015Z" hostname="XLW-CND1300JDV" tests="17" failures="0" errors="0" skipped="0" time="0.0352644">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; manual setComponent test for position" time="0.0041593">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Creation &gt; should create component with different item types" time="0.0025541">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; should update entity position based on velocity" time="0.0033031">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Creation &gt; should create component with empty string item" time="0.0019109">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; should reset velocity to zero after processing" time="0.001312">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Creation &gt; should create component with whitespace item name" time="0.0010753">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; should not move entity if velocity is zero" time="0.0010143">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Validation &gt; should handle special characters in item names" time="0.0013111">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; should not move entity without position component" time="0.0019593">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Validation &gt; should handle unicode characters in item names" time="0.0018585">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Entity Position Updates &gt; should not move entity without velocity component" time="0.0012635">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Validation &gt; should handle very long item names" time="0.0009501">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Collision Detection and Validation &gt; should prevent movement to invalid map positions" time="0.0014965">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Validation &gt; should handle numeric strings as item names" time="0.0010559">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Collision Detection and Validation &gt; should allow movement through pickable entities" time="0.0009944">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Type &gt; should always have the correct component type" time="0.001354">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Collision Detection and Validation &gt; should prevent movement when blocked by immovable entity" time="0.0010119">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Type &gt; should maintain type consistency across instances" time="0.001301">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Collision Detection and Validation &gt; should push movable entities when possible" time="0.0010871">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Modification &gt; should allow direct item property modification" time="0.0008549">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; Collision Detection and Validation &gt; should prevent pushing when movable entity cannot move" time="0.0011351">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Modification &gt; should handle item swapping scenarios" time="0.0007783">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle empty entities array" time="0.0012428">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Modification &gt; should handle item clearing" time="0.0007027">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle null/undefined entities" time="0.0016414">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Inventory Management &gt; should support item identification" time="0.0006897">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle null/undefined map" time="0.0013861">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Inventory Management &gt; should support item categorization" time="0.0010249">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle multiple entities with complex interactions" time="0.0024802">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Inventory Management &gt; should support item stack simulation" time="0.0008891">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle diagonal movement correctly" time="0.001694">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Game Logic Integration &gt; should work with item usage systems" time="0.0010198">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Game Logic Integration &gt; should support item dropping mechanics" time="0.0006691">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Game Logic Integration &gt; should work with quest item tracking" time="0.0005753">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0007263">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Serialization Compatibility &gt; should handle special characters in serialization" time="0.0008479">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Serialization Compatibility &gt; should serialize empty items correctly" time="0.0007725">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Serialization Compatibility &gt; should handle array serialization of inventory" time="0.0024646">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Equality and Comparison &gt; should create distinct instances with different items" time="0.00233">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Equality and Comparison &gt; should support item-based comparison" time="0.0008332">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Equality and Comparison &gt; should support case-sensitive item comparison" time="0.0006009">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Edge Cases &gt; should handle null-like strings" time="0.0010933">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Edge Cases &gt; should preserve string formatting" time="0.0006752">
+        <testcase classname="src/game/systems/__tests__/MovementSystem.test.ts" name="MovementSystem &gt; System Edge Cases and Validation &gt; should handle negative velocity correctly" time="0.0017598">
         </testcase>
     </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" timestamp="2025-07-20T08:17:34.903Z" hostname="XLW-CND1300JDV" tests="32" failures="0" errors="0" skipped="0" time="0.0607384">
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Creation &gt; should create a handling component" time="0.015066">
+    <testsuite name="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" timestamp="2025-07-20T08:55:49.025Z" hostname="XLW-CND1300JDV" tests="28" failures="0" errors="0" skipped="0" time="0.0414431">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Creation &gt; should create a carried item component with valid item name" time="0.009983">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.0016028">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Creation &gt; should create component with different item types" time="0.002969">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Type &gt; should always have the correct component type" time="0.0015379">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Creation &gt; should create component with empty string item" time="0.0013176">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0012248">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Creation &gt; should create component with whitespace item name" time="0.0009343">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0016128">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Validation &gt; should handle special characters in item names" time="0.0013074">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0011573">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Validation &gt; should handle unicode characters in item names" time="0.0016045">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0010073">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Validation &gt; should handle very long item names" time="0.0007866">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; ECS Integration &gt; should be usable as a filter component for handling systems" time="0.0008158">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Validation &gt; should handle numeric strings as item names" time="0.0008987">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0030126">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Type &gt; should always have the correct component type" time="0.0008158">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0015412">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Type &gt; should maintain type consistency across instances" time="0.0008231">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; ECS Integration &gt; should integrate with handling game mechanics" time="0.001546">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Modification &gt; should allow direct item property modification" time="0.0006746">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Interaction Handling Logic &gt; should indicate active interaction handling state" time="0.0007369">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Modification &gt; should handle item swapping scenarios" time="0.0007224">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Interaction Handling Logic &gt; should work with interaction processing systems" time="0.0014551">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Property Modification &gt; should handle item clearing" time="0.0009097">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Interaction Handling Logic &gt; should support interaction queue management" time="0.0007564">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Inventory Management &gt; should support item identification" time="0.0009901">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Game System Integration &gt; should work with input handling systems" time="0.0007424">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Inventory Management &gt; should support item categorization" time="0.0011227">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Game System Integration &gt; should support event handling mechanics" time="0.0007456">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Inventory Management &gt; should support item stack simulation" time="0.0009146">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Game System Integration &gt; should work with command processing systems" time="0.0006634">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Game Logic Integration &gt; should work with item usage systems" time="0.000773">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Game System Integration &gt; should integrate with state machine transitions" time="0.000517">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Game Logic Integration &gt; should support item dropping mechanics" time="0.0008733">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Concurrency and Processing &gt; should support concurrent handling operations" time="0.0008969">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Game Logic Integration &gt; should work with quest item tracking" time="0.0006253">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Concurrency and Processing &gt; should work with handling priority systems" time="0.0007856">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0005122">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Concurrency and Processing &gt; should support handling delegation patterns" time="0.0006343">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Serialization Compatibility &gt; should handle special characters in serialization" time="0.0005884">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0005735">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Serialization Compatibility &gt; should serialize empty items correctly" time="0.0005067">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0005962">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Serialization Compatibility &gt; should handle array serialization of inventory" time="0.0016435">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple handlers" time="0.0009398">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Equality and Comparison &gt; should create distinct instances with different items" time="0.0016218">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Serialization Compatibility &gt; should preserve handling state in save files" time="0.000894">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Equality and Comparison &gt; should support item-based comparison" time="0.0006379">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Lifecycle &gt; should represent active handling state" time="0.0009093">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Component Equality and Comparison &gt; should support case-sensitive item comparison" time="0.0005407">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Lifecycle &gt; should support handling state transitions" time="0.0008808">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Edge Cases &gt; should handle null-like strings" time="0.0011408">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Equality &gt; should create distinct instances" time="0.001246">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Equality &gt; should support type-based comparison for ECS systems" time="0.0004285">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Performance Characteristics &gt; should create components efficiently for frequent handling operations" time="0.0017106">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Error Handling and Edge Cases &gt; should maintain consistency under rapid creation/destruction" time="0.0079296">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Error Handling and Edge Cases &gt; should work with complex handling scenarios" time="0.0007084">
+        <testcase classname="src/game/components/individualComponents/__tests__/CarriedItemComponent.test.ts" name="CarriedItemComponent &gt; Edge Cases &gt; should preserve string formatting" time="0.0007118">
         </testcase>
     </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" timestamp="2025-07-20T08:17:34.921Z" hostname="XLW-CND1300JDV" tests="29" failures="0" errors="0" skipped="0" time="0.0545077">
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Creation &gt; should create an interacting component" time="0.0142953">
+    <testsuite name="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" timestamp="2025-07-20T08:55:49.042Z" hostname="XLW-CND1300JDV" tests="32" failures="0" errors="0" skipped="0" time="0.0608704">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Creation &gt; should create a handling component" time="0.0120947">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.0023178">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.0020375">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Type &gt; should always have the correct component type" time="0.0015567">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Type &gt; should always have the correct component type" time="0.0014575">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0013356">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.001264">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.002477">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0018285">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0013725">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0016208">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0010252">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0012233">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; ECS Integration &gt; should be usable as a filter component for interaction systems" time="0.0006271">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; ECS Integration &gt; should be usable as a filter component for handling systems" time="0.0008517">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0038419">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0025681">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0017021">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0011796">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; ECS Integration &gt; should integrate with interaction game mechanics" time="0.0012149">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; ECS Integration &gt; should integrate with handling game mechanics" time="0.0008475">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Game State Management &gt; should indicate active interaction state" time="0.0010783">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Interaction Handling Logic &gt; should indicate active interaction handling state" time="0.0007363">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Game State Management &gt; should work with interaction state tracking" time="0.0013827">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Interaction Handling Logic &gt; should work with interaction processing systems" time="0.0010219">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Game State Management &gt; should support interaction session management" time="0.0012931">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Interaction Handling Logic &gt; should support interaction queue management" time="0.000912">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Interaction System Integration &gt; should work with player-NPC interaction systems" time="0.0011628">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Game System Integration &gt; should work with input handling systems" time="0.0009883">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Interaction System Integration &gt; should support object interaction mechanics" time="0.001319">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Game System Integration &gt; should support event handling mechanics" time="0.0012845">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Interaction System Integration &gt; should work with interaction cooldown systems" time="0.0010549">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Game System Integration &gt; should work with command processing systems" time="0.0009126">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Interaction System Integration &gt; should integrate with interaction range detection" time="0.0007231">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Game System Integration &gt; should integrate with state machine transitions" time="0.0005809">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0007804">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Concurrency and Processing &gt; should support concurrent handling operations" time="0.0012398">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0008196">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Concurrency and Processing &gt; should work with handling priority systems" time="0.0012307">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple interactions" time="0.0014337">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Concurrency and Processing &gt; should support handling delegation patterns" time="0.0009337">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Serialization Compatibility &gt; should preserve interaction state in save files" time="0.0007665">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0007767">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Lifecycle &gt; should represent temporary interaction state" time="0.0006569">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0008414">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Lifecycle &gt; should support interaction state transitions" time="0.0005036">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple handlers" time="0.0007654">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Equality &gt; should create distinct instances" time="0.0008234">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Serialization Compatibility &gt; should preserve handling state in save files" time="0.0011889">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Equality &gt; should support type-based comparison for ECS systems" time="0.0004449">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Lifecycle &gt; should represent active handling state" time="0.0008622">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Performance Characteristics &gt; should create components efficiently for frequent interaction state changes" time="0.0012749">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Lifecycle &gt; should support handling state transitions" time="0.0012235">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Multi-Entity Interaction Scenarios &gt; should support multiple simultaneous interactions" time="0.0007398">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Equality &gt; should create distinct instances" time="0.0016036">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Multi-Entity Interaction Scenarios &gt; should work with interaction exclusivity checks" time="0.000868">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Component Equality &gt; should support type-based comparison for ECS systems" time="0.0007268">
         </testcase>
-    </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" timestamp="2025-07-20T08:17:34.938Z" hostname="XLW-CND1300JDV" tests="17" failures="0" errors="0" skipped="0" time="0.0339383">
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Creation &gt; should create a movable component" time="0.012783">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Performance Characteristics &gt; should create components efficiently for frequent handling operations" time="0.001481">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.001499">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Error Handling and Edge Cases &gt; should maintain consistency under rapid creation/destruction" time="0.0063991">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Type &gt; should always have the correct component type" time="0.000859">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0007531">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0019805">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0019462">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0011308">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; ECS Integration &gt; should be usable as a filter component in ECS systems" time="0.0005341">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0021872">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0007713">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0006572">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0005348">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple components" time="0.0007651">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Equality &gt; should create distinct instances" time="0.0008709">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Equality &gt; should support type-based comparison" time="0.0006046">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Immutability &gt; should have stable type after creation" time="0.0008797">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Performance Characteristics &gt; should create components efficiently" time="0.001588">
+        <testcase classname="src/game/components/individualComponents/__tests__/HandlingComponent.test.ts" name="HandlingComponent &gt; Error Handling and Edge Cases &gt; should work with complex handling scenarios" time="0.0013009">
         </testcase>
     </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" timestamp="2025-07-20T08:17:34.946Z" hostname="XLW-CND1300JDV" tests="19" failures="0" errors="0" skipped="0" time="0.0393189">
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Creation &gt; should create a pickable component" time="0.0095056">
+    <testsuite name="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" timestamp="2025-07-20T08:55:49.060Z" hostname="XLW-CND1300JDV" tests="29" failures="0" errors="0" skipped="0" time="0.079959">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Creation &gt; should create an interacting component" time="0.0164419">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.0014398">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.0023871">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Type &gt; should always have the correct component type" time="0.0023828">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Type &gt; should always have the correct component type" time="0.0013295">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0020371">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0013098">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0022471">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0027795">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0010832">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0018106">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0007756">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0015514">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; ECS Integration &gt; should be usable as a filter component for pickup systems" time="0.0005654">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; ECS Integration &gt; should be usable as a filter component for interaction systems" time="0.0012419">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0023921">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0059233">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0008525">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0020554">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; ECS Integration &gt; should integrate with pickup game mechanics" time="0.000656">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; ECS Integration &gt; should integrate with interaction game mechanics" time="0.0030575">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0006667">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Game State Management &gt; should indicate active interaction state" time="0.0040591">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.000577">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Game State Management &gt; should work with interaction state tracking" time="0.0032628">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple components" time="0.0008592">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Game State Management &gt; should support interaction session management" time="0.0032831">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Equality &gt; should create distinct instances" time="0.00171">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Interaction System Integration &gt; should work with player-NPC interaction systems" time="0.0030426">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Equality &gt; should support type-based comparison for ECS systems" time="0.0014835">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Interaction System Integration &gt; should support object interaction mechanics" time="0.0014046">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Game Logic Integration &gt; should support item identification for pickup systems" time="0.000862">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Interaction System Integration &gt; should work with interaction cooldown systems" time="0.0012511">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Game Logic Integration &gt; should work with inventory management systems" time="0.0017375">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Interaction System Integration &gt; should integrate with interaction range detection" time="0.0009182">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Performance Characteristics &gt; should create components efficiently" time="0.0013207">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0020609">
         </testcase>
-    </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" timestamp="2025-07-20T08:17:34.951Z" hostname="XLW-CND1300JDV" tests="34" failures="0" errors="0" skipped="0" time="0.0573154">
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Creation &gt; should create a player component" time="0.0112232">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0013248">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.0022639">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple interactions" time="0.0022784">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Type &gt; should always have the correct component type" time="0.0015534">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Serialization Compatibility &gt; should preserve interaction state in save files" time="0.0011436">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0016955">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Lifecycle &gt; should represent temporary interaction state" time="0.0009873">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0031511">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Lifecycle &gt; should support interaction state transitions" time="0.000787">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0014225">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Equality &gt; should create distinct instances" time="0.0012079">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0014215">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Component Equality &gt; should support type-based comparison for ECS systems" time="0.0007776">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; ECS Integration &gt; should be usable as a filter component for player systems" time="0.0009509">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Performance Characteristics &gt; should create components efficiently for frequent interaction state changes" time="0.0019646">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0023553">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Multi-Entity Interaction Scenarios &gt; should support multiple simultaneous interactions" time="0.0007788">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0011386">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; ECS Integration &gt; should integrate with player-specific systems" time="0.0008396">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Player State Management &gt; should indicate player entity status" time="0.0006207">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Player State Management &gt; should work with player identification systems" time="0.0023385">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Player State Management &gt; should support player-specific game logic" time="0.0012352">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Game State Integration &gt; should work with save/load systems" time="0.0011123">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Game State Integration &gt; should support player state persistence" time="0.0015542">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Game State Integration &gt; should integrate with player progression systems" time="0.0012931">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0015397">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0004495">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple player components" time="0.0007548">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Serialization Compatibility &gt; should preserve player state in save files" time="0.0005416">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Equality &gt; should create distinct instances" time="0.0015366">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Equality &gt; should support type-based comparison for ECS systems" time="0.0011771">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Performance Characteristics &gt; should create components efficiently for large player counts" time="0.0013985">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Edge Cases and Invalid States &gt; should handle multiple player components on same entity" time="0.0008477">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Edge Cases and Invalid States &gt; should work with empty component arrays" time="0.0013503">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Edge Cases and Invalid States &gt; should handle null/undefined component checks gracefully" time="0.0011099">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; State Transition Testing &gt; should maintain consistent state during component lifecycle" time="0.0007731">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; State Transition Testing &gt; should support valid state transitions in game systems" time="0.0005338">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; State Transition Testing &gt; should prevent invalid state transitions" time="0.0008832">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Advanced Game Mechanics &gt; should support single-player game mechanics" time="0.0006283">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Advanced Game Mechanics &gt; should work with multiplayer identification systems" time="0.0005047">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Advanced Game Mechanics &gt; should support player-specific input handling" time="0.000481">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Advanced Game Mechanics &gt; should integrate with player-specific camera systems" time="0.0007463">
+        <testcase classname="src/game/components/individualComponents/__tests__/InteractingComponent.test.ts" name="InteractingComponent &gt; Multi-Entity Interaction Scenarios &gt; should work with interaction exclusivity checks" time="0.0007901">
         </testcase>
     </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" timestamp="2025-07-20T08:17:34.964Z" hostname="XLW-CND1300JDV" tests="15" failures="0" errors="0" skipped="0" time="0.0241973">
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Creation &gt; should create a position component with valid coordinates" time="0.0094351">
+    <testsuite name="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" timestamp="2025-07-20T08:55:49.075Z" hostname="XLW-CND1300JDV" tests="17" failures="0" errors="0" skipped="0" time="0.027945">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Creation &gt; should create a movable component" time="0.0092163">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Creation &gt; should create component with zero coordinates" time="0.0011378">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.001444">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Creation &gt; should create component with negative coordinates" time="0.0014885">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Type &gt; should always have the correct component type" time="0.0007902">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Creation &gt; should create component with fractional coordinates" time="0.0008169">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0007455">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Property Validation &gt; should handle very large coordinate values" time="0.0011762">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0013066">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Property Validation &gt; should handle very small coordinate values" time="0.0009736">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0008493">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Property Validation &gt; should handle Infinity values" time="0.0007309">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0006728">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Edge Cases &gt; should handle NaN coordinates" time="0.0006336">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; ECS Integration &gt; should be usable as a filter component in ECS systems" time="0.0004783">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Edge Cases &gt; should handle mixed valid and invalid coordinates" time="0.0009316">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0015947">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Type &gt; should always have the correct component type" time="0.000723">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0007079">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Type &gt; should maintain type consistency across instances" time="0.0006708">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0006738">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Property Modification &gt; should allow direct property modification" time="0.0005073">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0005084">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Property Modification &gt; should handle property modification with edge values" time="0.0005908">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple components" time="0.0015195">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0006794">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Equality &gt; should create distinct instances" time="0.0008436">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Serialization Compatibility &gt; should handle serialization with special values" time="0.000513">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Equality &gt; should support type-based comparison" time="0.0005884">
         </testcase>
-    </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" timestamp="2025-07-20T08:17:34.972Z" hostname="XLW-CND1300JDV" tests="29" failures="0" errors="0" skipped="0" time="0.043696">
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Creation &gt; should create a render in sidebar component" time="0.0101382">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Component Immutability &gt; should have stable type after creation" time="0.0008056">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.0016576">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Type &gt; should always have the correct component type" time="0.0009415">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0009412">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0022527">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0011082">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0007726">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; ECS Integration &gt; should be usable as a filter component for sidebar rendering systems" time="0.0005448">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0019454">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0009253">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; ECS Integration &gt; should integrate with UI rendering systems" time="0.0009506">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; UI System Integration &gt; should indicate sidebar rendering requirement" time="0.0010067">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; UI System Integration &gt; should work with sidebar layout systems" time="0.0013887">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; UI System Integration &gt; should support UI element categorization" time="0.0011507">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Rendering System Integration &gt; should work with dual-pane rendering systems" time="0.0010279">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Rendering System Integration &gt; should support conditional rendering logic" time="0.0011725">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Rendering System Integration &gt; should integrate with layout management" time="0.0007396">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Rendering System Integration &gt; should work with responsive UI systems" time="0.0012086">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0006148">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0004007">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple sidebar components" time="0.000975">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Serialization Compatibility &gt; should preserve UI state in save files" time="0.0007066">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Equality &gt; should create distinct instances" time="0.0008642">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Equality &gt; should support type-based comparison for ECS systems" time="0.000409">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Performance Characteristics &gt; should create components efficiently for UI operations" time="0.0012461">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Game UI Integration &gt; should support inventory sidebar rendering" time="0.0004432">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Game UI Integration &gt; should work with minimap sidebar rendering" time="0.0008553">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Game UI Integration &gt; should support status display in sidebar" time="0.0013205">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Game UI Integration &gt; should handle dynamic sidebar content" time="0.0009045">
+        <testcase classname="src/game/components/individualComponents/__tests__/MovableComponent.test.ts" name="MovableComponent &gt; Performance Characteristics &gt; should create components efficiently" time="0.0015216">
         </testcase>
     </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" timestamp="2025-07-20T08:17:34.990Z" hostname="XLW-CND1300JDV" tests="31" failures="0" errors="0" skipped="0" time="0.0824739">
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Component Creation &gt; should create a sprite component with valid sprite name" time="0.0119067">
+    <testsuite name="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" timestamp="2025-07-20T08:55:49.082Z" hostname="XLW-CND1300JDV" tests="19" failures="0" errors="0" skipped="0" time="0.0369034">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Creation &gt; should create a pickable component" time="0.0103762">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Component Creation &gt; should create component with different sprite types" time="0.0061473">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.002123">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Component Creation &gt; should set sprite size from tile size atom" time="0.0023528">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Type &gt; should always have the correct component type" time="0.0015255">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Error Handling &gt; should throw error when texture is not found" time="0.0039491">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0014315">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Error Handling &gt; should handle different invalid sprite names" time="0.0028589">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0023701">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Error Handling &gt; should provide meaningful error messages" time="0.0013133">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0015635">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Component Type &gt; should always have the correct component type" time="0.0016479">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0013926">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Component Type &gt; should maintain type consistency across instances" time="0.0020627">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; ECS Integration &gt; should be usable as a filter component for pickup systems" time="0.0006166">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Pixi.js Integration &gt; should create Pixi.js Sprite instance" time="0.0020135">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0022616">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Pixi.js Integration &gt; should pass texture to Pixi.js Sprite constructor" time="0.0019331">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0008522">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Pixi.js Integration &gt; should handle different texture sizes" time="0.0039707">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; ECS Integration &gt; should integrate with pickup game mechanics" time="0.0006563">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Sprite Properties &gt; should have access to sprite properties" time="0.0034988">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0008728">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Sprite Properties &gt; should allow sprite property modification" time="0.0025783">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0008817">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Sprite Properties &gt; should support sprite visibility toggle" time="0.0010862">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple components" time="0.0010147">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Tile Size Integration &gt; should use different tile sizes" time="0.0015229">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Equality &gt; should create distinct instances" time="0.0011249">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Tile Size Integration &gt; should handle non-square tile sizes" time="0.0011529">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Component Equality &gt; should support type-based comparison for ECS systems" time="0.0008179">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Tile Size Integration &gt; should call setSize on sprite creation" time="0.0007522">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Game Logic Integration &gt; should support item identification for pickup systems" time="0.0005811">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Rendering System Integration &gt; should be compatible with rendering systems" time="0.0010079">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Game Logic Integration &gt; should work with inventory management systems" time="0.0007741">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Rendering System Integration &gt; should support sprite positioning" time="0.0018797">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Rendering System Integration &gt; should work with sprite transformation" time="0.0011331">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Resource Management &gt; should handle sprite cleanup" time="0.0011482">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Resource Management &gt; should support sprite destruction" time="0.0011717">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Different Sprite Types &gt; should handle player sprites" time="0.0013316">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Different Sprite Types &gt; should handle environment sprites" time="0.0020789">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Different Sprite Types &gt; should handle item sprites" time="0.0019493">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Edge Cases &gt; should handle empty sprite names" time="0.0008615">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Edge Cases &gt; should handle special character sprite names" time="0.0018183">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Edge Cases &gt; should handle very long sprite names" time="0.002206">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Serialization Considerations &gt; should have serializable component type" time="0.0015906">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Serialization Considerations &gt; should handle component identification" time="0.0015918">
-        </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Serialization Considerations &gt; should preserve sprite reference for ECS operations" time="0.0016525">
+        <testcase classname="src/game/components/individualComponents/__tests__/PickableComponent.test.ts" name="PickableComponent &gt; Performance Characteristics &gt; should create components efficiently" time="0.0009608">
         </testcase>
     </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" timestamp="2025-07-20T08:17:35.008Z" hostname="XLW-CND1300JDV" tests="22" failures="0" errors="0" skipped="0" time="0.040361">
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Creation &gt; should create a velocity component with valid velocity values" time="0.0150015">
+    <testsuite name="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" timestamp="2025-07-20T08:55:49.093Z" hostname="XLW-CND1300JDV" tests="34" failures="0" errors="0" skipped="0" time="0.0428533">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Creation &gt; should create a player component" time="0.0099619">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Creation &gt; should create component with zero velocity" time="0.0018036">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.0014536">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Creation &gt; should create component with positive velocities" time="0.0022403">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Type &gt; should always have the correct component type" time="0.0011148">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Creation &gt; should create component with negative velocities" time="0.0016784">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0013899">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Creation &gt; should create component with fractional velocities" time="0.0010689">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0019698">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Validation &gt; should handle very large velocity values" time="0.0010092">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0010912">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Validation &gt; should handle very small velocity values" time="0.0007607">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0009698">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Validation &gt; should handle very small positive values" time="0.0007885">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; ECS Integration &gt; should be usable as a filter component for player systems" time="0.0007295">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Validation &gt; should handle Infinity values" time="0.0009192">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0012766">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Edge Cases &gt; should handle NaN velocities" time="0.0008592">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0008434">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Edge Cases &gt; should handle mixed valid and invalid velocities" time="0.0007028">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; ECS Integration &gt; should integrate with player-specific systems" time="0.000764">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Edge Cases &gt; should handle negative zero values" time="0.0008602">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Player State Management &gt; should indicate player entity status" time="0.0006005">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Type &gt; should always have the correct component type" time="0.000738">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Player State Management &gt; should work with player identification systems" time="0.0016997">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Type &gt; should maintain type consistency across instances" time="0.0006535">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Player State Management &gt; should support player-specific game logic" time="0.0007484">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Modification &gt; should allow direct property modification" time="0.0006566">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Game State Integration &gt; should work with save/load systems" time="0.0006184">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Modification &gt; should handle velocity direction changes" time="0.000709">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Game State Integration &gt; should support player state persistence" time="0.0007553">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Modification &gt; should handle velocity magnitude changes" time="0.0005465">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Game State Integration &gt; should integrate with player progression systems" time="0.0008063">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Physics Calculations Compatibility &gt; should support velocity magnitude calculation" time="0.0005046">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0014113">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Physics Calculations Compatibility &gt; should support velocity normalization" time="0.0006806">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0004918">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Physics Calculations Compatibility &gt; should handle zero velocity normalization gracefully" time="0.0009984">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple player components" time="0.0008106">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0015315">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Serialization Compatibility &gt; should preserve player state in save files" time="0.0005812">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Serialization Compatibility &gt; should handle serialization with zero values" time="0.0011989">
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Equality &gt; should create distinct instances" time="0.000745">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Component Equality &gt; should support type-based comparison for ECS systems" time="0.0005903">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Performance Characteristics &gt; should create components efficiently for large player counts" time="0.0010286">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Edge Cases and Invalid States &gt; should handle multiple player components on same entity" time="0.0006146">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Edge Cases and Invalid States &gt; should work with empty component arrays" time="0.0006367">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Edge Cases and Invalid States &gt; should handle null/undefined component checks gracefully" time="0.0006141">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; State Transition Testing &gt; should maintain consistent state during component lifecycle" time="0.0005043">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; State Transition Testing &gt; should support valid state transitions in game systems" time="0.0005436">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; State Transition Testing &gt; should prevent invalid state transitions" time="0.0007572">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Advanced Game Mechanics &gt; should support single-player game mechanics" time="0.000556">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Advanced Game Mechanics &gt; should work with multiplayer identification systems" time="0.0005398">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Advanced Game Mechanics &gt; should support player-specific input handling" time="0.0005437">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/PlayerComponent.test.ts" name="PlayerComponent &gt; Advanced Game Mechanics &gt; should integrate with player-specific camera systems" time="0.0005588">
         </testcase>
     </testsuite>
-    <testsuite name="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" timestamp="2025-07-20T08:17:35.017Z" hostname="XLW-CND1300JDV" tests="32" failures="0" errors="0" skipped="0" time="0.0522039">
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Creation &gt; should create a walkable component" time="0.0103144">
+    <testsuite name="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" timestamp="2025-07-20T08:55:49.113Z" hostname="XLW-CND1300JDV" tests="15" failures="0" errors="0" skipped="0" time="0.0287249">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Creation &gt; should create a position component with valid coordinates" time="0.0098173">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.0018037">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Creation &gt; should create component with zero coordinates" time="0.0011362">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Type &gt; should always have the correct component type" time="0.0010316">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Creation &gt; should create component with negative coordinates" time="0.0012927">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0009478">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Creation &gt; should create component with fractional coordinates" time="0.0008555">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0017695">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Property Validation &gt; should handle very large coordinate values" time="0.0014966">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0017008">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Property Validation &gt; should handle very small coordinate values" time="0.0011606">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0010468">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Property Validation &gt; should handle Infinity values" time="0.0011741">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; ECS Integration &gt; should be usable as a filter component for collision systems" time="0.0006575">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Edge Cases &gt; should handle NaN coordinates" time="0.0014182">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0023671">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Edge Cases &gt; should handle mixed valid and invalid coordinates" time="0.0014429">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0010885">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Type &gt; should always have the correct component type" time="0.0009479">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; ECS Integration &gt; should integrate with movement systems" time="0.0007669">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Component Type &gt; should maintain type consistency across instances" time="0.0010337">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Collision Detection Integration &gt; should indicate walkable terrain" time="0.0006585">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Property Modification &gt; should allow direct property modification" time="0.0007566">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Collision Detection Integration &gt; should work with pathfinding systems" time="0.0015543">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Property Modification &gt; should handle property modification with edge values" time="0.0008452">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Collision Detection Integration &gt; should support collision boundary detection" time="0.0012932">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0008358">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Movement System Integration &gt; should work with player movement validation" time="0.0010276">
+        <testcase classname="src/game/components/individualComponents/__tests__/PositionComponent.test.ts" name="PositionComponent &gt; Serialization Compatibility &gt; should handle serialization with special values" time="0.0008061">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Movement System Integration &gt; should support NPC movement systems" time="0.0012064">
+    </testsuite>
+    <testsuite name="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" timestamp="2025-07-20T08:55:49.120Z" hostname="XLW-CND1300JDV" tests="29" failures="0" errors="0" skipped="0" time="0.0519271">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Creation &gt; should create a render in sidebar component" time="0.0144977">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Movement System Integration &gt; should integrate with movement speed calculations" time="0.0008628">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.0022627">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Movement System Integration &gt; should work with dynamic terrain changes" time="0.0008133">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Type &gt; should always have the correct component type" time="0.0016625">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Game Map Integration &gt; should support tile-based collision detection" time="0.0007857">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0019122">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Game Map Integration &gt; should work with procedural map generation" time="0.0009177">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0031024">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Game Map Integration &gt; should support multi-layer map systems" time="0.0010827">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.0016453">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0006192">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0012776">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0009352">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; ECS Integration &gt; should be usable as a filter component for sidebar rendering systems" time="0.0005586">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Serialization Compatibility &gt; should handle map serialization with walkable components" time="0.0012496">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.0026769">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Serialization Compatibility &gt; should preserve terrain state in save files" time="0.0011412">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0008557">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Equality &gt; should create distinct instances" time="0.000836">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; ECS Integration &gt; should integrate with UI rendering systems" time="0.0008194">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Equality &gt; should support type-based comparison for collision systems" time="0.0003991">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; UI System Integration &gt; should indicate sidebar rendering requirement" time="0.000876">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Performance Characteristics &gt; should create components efficiently for large maps" time="0.0041043">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; UI System Integration &gt; should work with sidebar layout systems" time="0.0013375">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Advanced Game Mechanics &gt; should support conditional walkability" time="0.0011184">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; UI System Integration &gt; should support UI element categorization" time="0.000784">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Advanced Game Mechanics &gt; should work with teleportation systems" time="0.0006932">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Rendering System Integration &gt; should work with dual-pane rendering systems" time="0.0009652">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Advanced Game Mechanics &gt; should support area-of-effect movement restrictions" time="0.0011182">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Rendering System Integration &gt; should support conditional rendering logic" time="0.0008375">
         </testcase>
-        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Advanced Game Mechanics &gt; should integrate with physics-based movement" time="0.0007234">
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Rendering System Integration &gt; should integrate with layout management" time="0.0006331">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Rendering System Integration &gt; should work with responsive UI systems" time="0.0005528">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0004396">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0004848">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Serialization Compatibility &gt; should handle array serialization of multiple sidebar components" time="0.0008341">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Serialization Compatibility &gt; should preserve UI state in save files" time="0.0006827">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Equality &gt; should create distinct instances" time="0.0008114">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Component Equality &gt; should support type-based comparison for ECS systems" time="0.0004254">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Performance Characteristics &gt; should create components efficiently for UI operations" time="0.0009891">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Game UI Integration &gt; should support inventory sidebar rendering" time="0.0004557">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Game UI Integration &gt; should work with minimap sidebar rendering" time="0.000406">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Game UI Integration &gt; should support status display in sidebar" time="0.0006246">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/RenderInSidebarComponent.test.ts" name="RenderInSidebarComponent &gt; Game UI Integration &gt; should handle dynamic sidebar content" time="0.0004472">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" timestamp="2025-07-20T08:55:49.131Z" hostname="XLW-CND1300JDV" tests="31" failures="0" errors="0" skipped="0" time="0.0697333">
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Component Creation &gt; should create a sprite component with valid sprite name" time="0.0138127">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Component Creation &gt; should create component with different sprite types" time="0.004756">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Component Creation &gt; should set sprite size from tile size atom" time="0.0019409">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Error Handling &gt; should throw error when texture is not found" time="0.0020362">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Error Handling &gt; should handle different invalid sprite names" time="0.0014312">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Error Handling &gt; should provide meaningful error messages" time="0.0013518">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Component Type &gt; should always have the correct component type" time="0.0010882">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Component Type &gt; should maintain type consistency across instances" time="0.0009153">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Pixi.js Integration &gt; should create Pixi.js Sprite instance" time="0.0013844">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Pixi.js Integration &gt; should pass texture to Pixi.js Sprite constructor" time="0.0013119">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Pixi.js Integration &gt; should handle different texture sizes" time="0.0011882">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Sprite Properties &gt; should have access to sprite properties" time="0.0009266">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Sprite Properties &gt; should allow sprite property modification" time="0.0017079">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Sprite Properties &gt; should support sprite visibility toggle" time="0.0017375">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Tile Size Integration &gt; should use different tile sizes" time="0.0027018">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Tile Size Integration &gt; should handle non-square tile sizes" time="0.00242">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Tile Size Integration &gt; should call setSize on sprite creation" time="0.0013596">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Rendering System Integration &gt; should be compatible with rendering systems" time="0.0010216">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Rendering System Integration &gt; should support sprite positioning" time="0.0008424">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Rendering System Integration &gt; should work with sprite transformation" time="0.0008538">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Resource Management &gt; should handle sprite cleanup" time="0.0010504">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Resource Management &gt; should support sprite destruction" time="0.0008811">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Different Sprite Types &gt; should handle player sprites" time="0.0010304">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Different Sprite Types &gt; should handle environment sprites" time="0.0020808">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Different Sprite Types &gt; should handle item sprites" time="0.0018633">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Edge Cases &gt; should handle empty sprite names" time="0.0017237">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Edge Cases &gt; should handle special character sprite names" time="0.003257">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Edge Cases &gt; should handle very long sprite names" time="0.001326">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Serialization Considerations &gt; should have serializable component type" time="0.0009726">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Serialization Considerations &gt; should handle component identification" time="0.0012606">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/SpriteComponent.test.ts" name="SpriteComponent &gt; Serialization Considerations &gt; should preserve sprite reference for ECS operations" time="0.0013829">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" timestamp="2025-07-20T08:55:49.143Z" hostname="XLW-CND1300JDV" tests="22" failures="0" errors="0" skipped="0" time="0.0325996">
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Creation &gt; should create a velocity component with valid velocity values" time="0.0101762">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Creation &gt; should create component with zero velocity" time="0.0015131">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Creation &gt; should create component with positive velocities" time="0.0010958">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Creation &gt; should create component with negative velocities" time="0.0009659">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Creation &gt; should create component with fractional velocities" time="0.0012177">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Validation &gt; should handle very large velocity values" time="0.0013682">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Validation &gt; should handle very small velocity values" time="0.0009161">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Validation &gt; should handle very small positive values" time="0.000846">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Validation &gt; should handle Infinity values" time="0.0013653">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Edge Cases &gt; should handle NaN velocities" time="0.0010535">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Edge Cases &gt; should handle mixed valid and invalid velocities" time="0.000862">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Edge Cases &gt; should handle negative zero values" time="0.000792">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Type &gt; should always have the correct component type" time="0.0009605">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Component Type &gt; should maintain type consistency across instances" time="0.0007804">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Modification &gt; should allow direct property modification" time="0.0006975">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Modification &gt; should handle velocity direction changes" time="0.0009299">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Property Modification &gt; should handle velocity magnitude changes" time="0.0005512">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Physics Calculations Compatibility &gt; should support velocity magnitude calculation" time="0.000528">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Physics Calculations Compatibility &gt; should support velocity normalization" time="0.0005909">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Physics Calculations Compatibility &gt; should handle zero velocity normalization gracefully" time="0.0004451">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0006332">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/VelocityComponent.test.ts" name="VelocityComponent &gt; Serialization Compatibility &gt; should handle serialization with zero values" time="0.0004689">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" timestamp="2025-07-20T08:55:49.157Z" hostname="XLW-CND1300JDV" tests="32" failures="0" errors="0" skipped="0" time="0.0408718">
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Creation &gt; should create a walkable component" time="0.0095037">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Creation &gt; should create multiple instances with consistent type" time="0.001499">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Type &gt; should always have the correct component type" time="0.0009429">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Type &gt; should have type property that is read-only in practice" time="0.0009165">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Marker Component Behavior &gt; should function as a marker component with no additional properties" time="0.0016388">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Marker Component Behavior &gt; should not have any methods beyond constructor" time="0.000996">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Marker Component Behavior &gt; should be lightweight with minimal memory footprint" time="0.0011637">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; ECS Integration &gt; should be usable as a filter component for collision systems" time="0.000651">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; ECS Integration &gt; should work with entity component filtering patterns" time="0.002108">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; ECS Integration &gt; should support instanceof checks" time="0.0008301">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; ECS Integration &gt; should integrate with movement systems" time="0.0007158">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Collision Detection Integration &gt; should indicate walkable terrain" time="0.0006107">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Collision Detection Integration &gt; should work with pathfinding systems" time="0.000855">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Collision Detection Integration &gt; should support collision boundary detection" time="0.0006346">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Movement System Integration &gt; should work with player movement validation" time="0.0011267">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Movement System Integration &gt; should support NPC movement systems" time="0.0008716">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Movement System Integration &gt; should integrate with movement speed calculations" time="0.0005735">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Movement System Integration &gt; should work with dynamic terrain changes" time="0.0005448">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Game Map Integration &gt; should support tile-based collision detection" time="0.0005357">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Game Map Integration &gt; should work with procedural map generation" time="0.0004882">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Game Map Integration &gt; should support multi-layer map systems" time="0.0006555">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Serialization Compatibility &gt; should be JSON serializable" time="0.0004757">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Serialization Compatibility &gt; should serialize to minimal JSON structure" time="0.0005167">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Serialization Compatibility &gt; should handle map serialization with walkable components" time="0.0007122">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Serialization Compatibility &gt; should preserve terrain state in save files" time="0.0006854">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Equality &gt; should create distinct instances" time="0.0007327">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Component Equality &gt; should support type-based comparison for collision systems" time="0.0007078">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Performance Characteristics &gt; should create components efficiently for large maps" time="0.0025382">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Advanced Game Mechanics &gt; should support conditional walkability" time="0.0005102">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Advanced Game Mechanics &gt; should work with teleportation systems" time="0.000695">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Advanced Game Mechanics &gt; should support area-of-effect movement restrictions" time="0.0005527">
+        </testcase>
+        <testcase classname="src/game/components/individualComponents/__tests__/WalkableComponent.test.ts" name="WalkableComponent &gt; Advanced Game Mechanics &gt; should integrate with physics-based movement" time="0.0004301">
         </testcase>
     </testsuite>
 </testsuites>

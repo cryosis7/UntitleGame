@@ -1,10 +1,54 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { MovementSystem } from '../MovementSystem';
 import { ComponentType } from '../../components/ComponentTypes';
 import { createTestUpdateArgs, createMockGameMap, createEntityWithComponents } from '../../../__tests__/testUtils';
-import { getComponentIfExists } from '../../components/ComponentOperations';
+import { getComponentIfExists, setComponent } from '../../components/ComponentOperations';
 import { PositionComponent } from '../../components/individualComponents/PositionComponent';
 import type { Entity } from '../../utils/ecsUtils';
+
+// Mock ComponentOperations to work with test entities directly
+vi.mock('../../components/ComponentOperations', async () => {
+  const actual = await vi.importActual('../../components/ComponentOperations');
+  
+  return {
+    ...actual,
+    setComponent: vi.fn((entity: Entity, component: any) => {
+      // For testing, directly modify the entity's components
+      (entity.components as any)[component.type] = component;
+    })
+  };
+});
+
+// Global variable to track current test entities for EntityUtils mock
+let currentTestEntities: Entity[] = [];
+
+// Mock EntityUtils to work with test entities directly  
+vi.mock('../../utils/EntityUtils', async () => {
+  const actual = await vi.importActual('../../utils/EntityUtils');
+  
+  return {
+    ...actual,
+    hasEntitiesAtPosition: vi.fn((position: { x: number; y: number }) => {
+      const result = currentTestEntities.some(entity => {
+        const positionComponent = entity.components.position as any;
+        return positionComponent?.x === position.x && positionComponent?.y === position.y;
+      });
+      return result;
+    }),
+    getEntitiesAtPosition: vi.fn((position: { x: number; y: number }, entities?: Entity[]) => {
+      const entitiesToCheck = entities || currentTestEntities;
+      return entitiesToCheck.filter(entity => {
+        const positionComponent = entity.components.position as any;
+        return positionComponent?.x === position.x && positionComponent?.y === position.y;
+      });
+    })
+  };
+});
+
+// Helper function to update the test entities context
+function setCurrentTestEntities(entities: Entity[]) {
+  currentTestEntities = entities;
+}
 
 describe('MovementSystem', () => {
   let system: MovementSystem;
@@ -15,11 +59,48 @@ describe('MovementSystem', () => {
   });
 
   describe('Entity Position Updates', () => {
+    it('manual setComponent test for position', () => {
+      const entity = createEntityWithComponents([
+        [ComponentType.Position, { x: 5, y: 5 }],
+        [ComponentType.Velocity, { vx: 1, vy: -1 }]
+      ]);
+      
+      // Test manual setComponent calls directly
+      console.log('Initial position:', getComponentIfExists(entity, ComponentType.Position));
+      
+      // Test setting velocity component
+      setComponent(entity, { type: ComponentType.Velocity, vx: 99, vy: 88 });
+      const velocityAfterSet = getComponentIfExists(entity, ComponentType.Velocity);
+      console.log('After setting velocity:', velocityAfterSet);
+      expect(velocityAfterSet?.vx).toBe(99);
+      expect(velocityAfterSet?.vy).toBe(88);
+      
+      // Test setting position component
+      setComponent(entity, new PositionComponent({ x: 77, y: 66 }));
+      const positionAfterSet = getComponentIfExists(entity, ComponentType.Position);
+      console.log('After setting position:', positionAfterSet);
+      expect(positionAfterSet?.x).toBe(77);
+      expect(positionAfterSet?.y).toBe(66);
+    });
+
     it('should update entity position based on velocity', () => {
       const entity = createEntityWithComponents([
         [ComponentType.Position, { x: 5, y: 5 }],
         [ComponentType.Velocity, { vx: 1, vy: -1 }]
       ]);
+      
+      // Test that setComponent mock is working by manually setting a position
+      const testPosition = new PositionComponent({ x: 99, y: 99 });
+      setComponent(entity, testPosition);
+      
+      // Verify the manual setComponent worked
+      const manualSetPosition = getComponentIfExists(entity, ComponentType.Position);
+      expect(manualSetPosition?.x).toBe(99);
+      expect(manualSetPosition?.y).toBe(99);
+      
+      // Reset position for actual test
+      const originalPosition = new PositionComponent({ x: 5, y: 5 });
+      setComponent(entity, originalPosition);
       
       updateArgs = createTestUpdateArgs([entity], createMockGameMap());
       system.update(updateArgs);

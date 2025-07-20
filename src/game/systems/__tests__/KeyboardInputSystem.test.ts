@@ -7,6 +7,19 @@ import { InteractingComponent } from '../../components/individualComponents/Inte
 import { HandlingComponent } from '../../components/individualComponents/HandlingComponent';
 import type { Entity } from '../../utils/ecsUtils';
 
+// Mock ComponentOperations to work with test entities directly
+vi.mock('../../components/ComponentOperations', async () => {
+  const actual = await vi.importActual('../../components/ComponentOperations');
+  
+  return {
+    ...actual,
+    setComponent: vi.fn((entity: Entity, component: any) => {
+      // For testing, directly modify the entity's components
+      (entity.components as any)[component.type] = component;
+    })
+  };
+});
+
 // We need to extend the KeyboardInputSystem to access its private members for testing
 class TestableKeyboardInputSystem extends KeyboardInputSystem {
   // Expose internal state for testing
