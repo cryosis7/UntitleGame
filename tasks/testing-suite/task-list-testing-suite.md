@@ -44,14 +44,14 @@
   - [x] **Dependencies**: T003 (test utilities)
   - [x] **Verification**: 100% test coverage for position/movement components
 
-- [ ] **T005: Interaction and Item Components** *(3 hours)*
-  - [ ] Test PickableComponent item properties and states
-  - [ ] Test CarriedItemComponent inventory management
-  - [ ] Test InteractingComponent interaction states
-  - [ ] Test HandlingComponent interaction handling logic
-  - [ ] Verify component state transitions and validation
-  - [ ] **Dependencies**: T003 (test utilities)
-  - [ ] **Verification**: 100% test coverage for interaction components
+- [x] **T005: Interaction and Item Components** *(3 hours)*
+  - [x] Test PickableComponent item properties and states
+  - [x] Test CarriedItemComponent inventory management
+  - [x] Test InteractingComponent interaction states
+  - [x] Test HandlingComponent interaction handling logic
+  - [x] Verify component state transitions and validation
+  - [x] **Dependencies**: T003 (test utilities)
+  - [x] **Verification**: 100% test coverage for interaction components
 
 - [ ] **T006: Rendering and UI Components** *(2 hours)*
   - [ ] Test SpriteComponent with various sprite configurations
