@@ -1,139 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="vitest tests" tests="66" failures="0" errors="0" time="1.8">
-    <testsuite name="src/game/map/__tests__/MappingUtils.test.ts" timestamp="2025-07-20T20:02:49.007Z" hostname="XLW-CND1300JDV" tests="29" failures="0" errors="0" skipped="0" time="0.029845">
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreen &gt; should convert grid position to screen coordinates using default tile size" time="0.0107747">
+<testsuites name="vitest tests" tests="11" failures="0" errors="0" time="6.01">
+    <testsuite name="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" timestamp="2025-07-20T20:17:24.223Z" hostname="XLW-CND1300JDV" tests="11" failures="0" errors="0" skipped="0" time="0.028565">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; System Instantiation and Basic Operation &gt; should instantiate all systems without errors" time="0.0034807">
         </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreen &gt; should convert grid position to screen coordinates using provided tile size" time="0.0016778">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; System Instantiation and Basic Operation &gt; should run all systems without throwing errors" time="0.0032683">
         </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreen &gt; should handle zero coordinates" time="0.0011198">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; System Instantiation and Basic Operation &gt; should handle systems with entities but no matching components" time="0.0021464">
         </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreen &gt; should handle negative coordinates" time="0.0007768">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; System Integration Verification &gt; should demonstrate systems can work with mocked dependencies" time="0.0018083">
         </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreen &gt; should handle large coordinates" time="0.00062">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; System Integration Verification &gt; should handle systems processing with component operations" time="0.0015258">
         </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreen &gt; should handle fractional coordinates by preserving them in calculation" time="0.0009006">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; System Coordination and Coexistence &gt; should run multiple systems in sequence without interference" time="0.0015905">
         </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreen &gt; should handle zero tile size" time="0.0006578">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; System Coordination and Coexistence &gt; should handle rapid sequential system updates without state conflicts" time="0.0041239">
         </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreenAsTuple &gt; should convert grid position to screen coordinates tuple using default tile size" time="0.0006747">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; System Coordination and Coexistence &gt; should maintain system independence with different entity sets" time="0.0013523">
         </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreenAsTuple &gt; should convert grid position using custom tile size and no gap" time="0.0007459">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; Error Handling and Robustness &gt; should handle null or undefined entities gracefully" time="0.0018737">
         </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreenAsTuple &gt; should convert grid position using default tile size with gap" time="0.0007206">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; Error Handling and Robustness &gt; should handle component operation failures gracefully" time="0.0014057">
         </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreenAsTuple &gt; should convert grid position using custom tile size and gap" time="0.0005604">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreenAsTuple &gt; should handle zero coordinates" time="0.0004661">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreenAsTuple &gt; should handle negative coordinates" time="0.0005171">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreenAsTuple &gt; should handle zero gap" time="0.0004711">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; gridToScreenAsTuple &gt; should handle negative gap" time="0.0004543">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; screenToGrid &gt; should convert screen position to grid coordinates using default tile size" time="0.0006999">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; screenToGrid &gt; should convert screen position to grid coordinates using provided tile size" time="0.0004241">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; screenToGrid &gt; should handle zero coordinates" time="0.0003464">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; screenToGrid &gt; should handle negative coordinates by flooring toward negative infinity" time="0.0003421">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; screenToGrid &gt; should handle fractional coordinates by flooring" time="0.0004332">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; screenToGrid &gt; should handle exact tile boundaries" time="0.0005537">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; screenToGrid &gt; should handle large coordinates" time="0.0003439">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; bidirectional conversion consistency &gt; should maintain consistency between gridToScreen and screenToGrid for integer coordinates" time="0.0003901">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; bidirectional conversion consistency &gt; should maintain consistency for multiple coordinate pairs" time="0.0005367">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; bidirectional conversion consistency &gt; should handle consistency with custom tile sizes" time="0.0003174">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; boundary conditions and edge cases &gt; should handle very small tile sizes" time="0.0003184">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; boundary conditions and edge cases &gt; should handle very large tile sizes" time="0.0003138">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; boundary conditions and edge cases &gt; should handle fractional tile sizes" time="0.0003812">
-        </testcase>
-        <testcase classname="src/game/map/__tests__/MappingUtils.test.ts" name="MappingUtils &gt; boundary conditions and edge cases &gt; should handle when store.get returns undefined/null for tile size" time="0.0003827">
-        </testcase>
-    </testsuite>
-    <testsuite name="src/game/utils/__tests__/Atoms.test.ts" timestamp="2025-07-20T20:02:49.029Z" hostname="XLW-CND1300JDV" tests="37" failures="0" errors="0" skipped="0" time="0.0386377">
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; spritesheetsAtom and related functionality &gt; should initialize with empty spritesheet array" time="0.0097491">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; spritesheetsAtom and related functionality &gt; should add spritesheet using addSpritesheetAtom" time="0.0023595">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; spritesheetsAtom and related functionality &gt; should add multiple spritesheets maintaining order" time="0.0009003">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; spritesheetsAtom and related functionality &gt; should preserve existing spritesheets when adding new ones" time="0.0007466">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; getTexture function &gt; should return texture from spritesheet when found" time="0.0007205">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; getTexture function &gt; should return null when texture not found" time="0.0006516">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; getTexture function &gt; should search through multiple spritesheets" time="0.0006476">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; getTexture function &gt; should return first matching texture if found in multiple spritesheets" time="0.0004471">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; getTexture function &gt; should return null when no spritesheets exist" time="0.0008193">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; mapConfigAtom and related functionality &gt; should initialize mapConfigAtom as undefined" time="0.0006714">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; mapConfigAtom and related functionality &gt; should update map config using updateMapConfigAtom" time="0.0006623">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; mapConfigAtom and related functionality &gt; should handle partial updates to map config" time="0.0009447">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; mapConfigAtom and related functionality &gt; should overwrite existing properties in map config" time="0.0006984">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; mapConfigAtom and related functionality &gt; should handle update when mapConfigAtom is initially undefined" time="0.0009071">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; getTileSizeAtom &gt; should return tileSize from mapConfig when available" time="0.0007265">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; getTileSizeAtom &gt; should return 0 when mapConfig is undefined" time="0.000773">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; getTileSizeAtom &gt; should return 0 when mapConfig exists but tileSize is undefined" time="0.0006686">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; getTileSizeAtom &gt; should return 0 when tileSize is null" time="0.0003934">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; getTileSizeAtom &gt; should handle various tileSize values correctly" time="0.0008275">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; entitiesAtom &gt; should initialize with empty entity array" time="0.0004199">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; entitiesAtom &gt; should store and retrieve entities" time="0.0005691">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; entitiesAtom &gt; should handle entity updates" time="0.0004766">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; systemsAtom &gt; should initialize with empty systems array" time="0.0004302">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; systemsAtom &gt; should store and retrieve systems" time="0.0006171">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; mapAtom &gt; should initialize with a new GameMap instance" time="0.0004223">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; mapAtom &gt; should allow setting a different GameMap instance" time="0.0005452">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; playerAtom &gt; should return undefined when no entities exist" time="0.000444">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; playerAtom &gt; should return undefined when no player component exists" time="0.0004688">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; playerAtom &gt; should return player entity when player component exists" time="0.0012396">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; playerAtom &gt; should return first player entity when multiple players exist" time="0.0004997">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; playerAtom &gt; should update when entities array changes" time="0.0004631">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; atom integration and state consistency &gt; should maintain independent state between different atoms" time="0.0004646">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; atom integration and state consistency &gt; should handle derived atom updates when base atoms change" time="0.0004093">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; atom integration and state consistency &gt; should handle playerAtom updates when entitiesAtom changes" time="0.000428">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; error handling and edge cases &gt; should handle null/undefined values gracefully where supported" time="0.0012027">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; error handling and edge cases &gt; should handle empty arrays and objects" time="0.0004947">
-        </testcase>
-        <testcase classname="src/game/utils/__tests__/Atoms.test.ts" name="Atoms - Jotai State Management &gt; error handling and edge cases &gt; should handle malformed spritesheet objects" time="0.0004443">
+        <testcase classname="src/game/__tests__/ecsSystemIntegrationBasic.test.ts" name="ECS System Integration Tests &gt; Error Handling and Robustness &gt; should continue functioning after mock function failures" time="0.0017154">
         </testcase>
     </testsuite>
 </testsuites>

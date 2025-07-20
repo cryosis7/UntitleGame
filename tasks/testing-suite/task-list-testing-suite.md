@@ -116,14 +116,14 @@
   - [x] **Verification**: State management and mapping utilities work correctly
 
 ### Integration Testing
-- [ ] **T013: ECS System Integration** *(4 hours)*
-  - [ ] Test multiple systems processing the same entities
-  - [ ] Test system execution order and dependencies
-  - [ ] Test entity lifecycle through multiple system updates
-  - [ ] Verify component interactions across systems
-  - [ ] Test system state isolation and side effects
-  - [ ] **Dependencies**: T008, T009, T010 (all systems tested)
-  - [ ] **Verification**: Systems work together without conflicts
+- [x] **T013: ECS System Integration** *(4 hours)*
+  - [x] Test multiple systems processing the same entities
+  - [x] Test system execution order and dependencies
+  - [x] Test entity lifecycle through multiple system updates
+  - [x] Verify component interactions across systems
+  - [x] Test system state isolation and side effects
+  - [x] **Dependencies**: T008, T009, T010 (all systems tested)
+  - [x] **Verification**: Systems work together without conflicts - 11 integration tests pass
 
 - [ ] **T014: Core Gameplay Scenarios** *(4 hours)*
   - [ ] Test complete player movement workflow (input → movement → rendering)
