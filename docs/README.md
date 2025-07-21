@@ -14,7 +14,8 @@ docs/
 │   └── testing-suite-final-summary.md # Final summary of testing suite implementation
 ├── development/                 # Development and operations documentation
 │   ├── ci-cd-configuration-guide.md # CI/CD pipeline configuration and setup
-│   └── copilot-instructions.md  # GitHub Copilot configuration and instructions
+│   ├── copilot-instructions.md  # GitHub Copilot configuration and instructions
+│   └── ecs-architecture.md      # ECS architecture and Entity Interaction System documentation
 ├── projects/                    # Project-specific documentation
 │   ├── testing-suite/          # Testing Suite Implementation Project
 │   │   ├── prd-testing-suite.md # Product Requirements Document
@@ -48,6 +49,7 @@ Development workflow and operational documentation:
 
 - **CI/CD Configuration Guide**: Setup and configuration of continuous integration/deployment
 - **Copilot Instructions**: GitHub Copilot configuration and usage guidelines
+- **ECS Architecture**: Comprehensive Entity-Component-System architecture documentation including the Entity Interaction System
 
 ### Project Documentation (`projects/`)
 
@@ -75,8 +77,9 @@ System-level instructions and configurations:
 ### For Developers
 
 - Start with [`testing/testing-guide.md`](testing/testing-guide.md) for comprehensive testing information
-- Check [`development/ci-cd-configuration-guide.md`](development/ci-cd-configuration-guide.md) for CI/CD setup
-- Review [`projects/`](projects/) for detailed project documentation
+- Check [`development/ecs-architecture.md`](development/ecs-architecture.md) for ECS and Entity Interaction System details
+- Review [`development/ci-cd-configuration-guide.md`](development/ci-cd-configuration-guide.md) for CI/CD setup
+- Check [`projects/`](projects/) for detailed project documentation
 
 ### For AI Systems
 
