@@ -21,6 +21,10 @@ import type { InteractingComponent } from './individualComponents/InteractingCom
 import type { HandlingComponent } from './individualComponents/HandlingComponent';
 import type { WalkableComponent } from './individualComponents/WalkableComponent';
 import type { RenderInSidebarComponent } from './individualComponents/RenderInSidebarComponent';
+import type {
+  RequiresItemComponent,
+  RequiresItemComponentProps,
+} from './individualComponents/RequiresItemComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -34,6 +38,7 @@ export enum ComponentType {
   Handling = 'handling',
   Walkable = 'walkable',
   RenderInSidebar = 'renderInSidebar',
+  RequiresItem = 'requiresItem',
 }
 
 export type FullComponentDictionary = {
@@ -48,6 +53,7 @@ export type FullComponentDictionary = {
   [ComponentType.Handling]: HandlingComponent;
   [ComponentType.Walkable]: WalkableComponent;
   [ComponentType.RenderInSidebar]: RenderInSidebarComponent;
+  [ComponentType.RequiresItem]: RequiresItemComponent;
 };
 
 export type Component = FullComponentDictionary[keyof FullComponentDictionary];
@@ -60,4 +66,5 @@ export type ComponentProps =
   | SpriteComponentProps
   | VelocityComponentProps
   | CarriedItemComponentProps
+  | RequiresItemComponentProps
   | {};

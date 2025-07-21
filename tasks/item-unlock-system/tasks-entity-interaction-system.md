@@ -8,18 +8,18 @@
 
 ### Core Infrastructure
 
-- [ ] **T001: Create InteractionBehaviorType Enum**
-  - [ ] Create `src/game/components/individualComponents/InteractionBehaviorType.ts`
-  - [ ] Define enum: `TRANSFORM`, `REMOVE`, `SPAWN_CONTENTS`
-  - [ ] Export enum for use in components and systems
-  - [ ] **Acceptance Criteria:**
+- [x] **T001: Create InteractionBehaviorType Enum**
+  - [x] Create `src/game/components/individualComponents/InteractionBehaviorType.ts`
+  - [x] Define enum: `TRANSFORM`, `REMOVE`, `SPAWN_CONTENTS`
+  - [x] Export enum for use in components and systems
+  - [x] **Acceptance Criteria:**
     - Enum properly typed and exported
     - Follows existing code patterns
     - All three behavior types included
-  - [ ] Write unit tests for enum validation
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write unit tests for enum validation
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 - [ ] **T002: Create RequiresItemComponent**
   - [ ] Create `src/game/components/individualComponents/RequiresItemComponent.ts`
