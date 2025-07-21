@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the Entity-Component-System (ECS) architecture implementation used in the Untitled Game project, including the new Entity Interaction System.
+This document describes the Entity-Component-System (ECS) architecture implementation used in the Untitled Game project.
 
 ## Table of Contents
 
