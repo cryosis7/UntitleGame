@@ -137,37 +137,37 @@
   - [x] All tests passing
   - [x] Commit with conventional commit message
 
-- [ ] **T009: Implement Interaction Behavior Processing**
-  - [ ] Implement `processBehavior` method to handle TRANSFORM, REMOVE, SPAWN_CONTENTS behaviors
-  - [ ] For TRANSFORM: update sprite component and set RequiresItem.isActive to false
-  - [ ] For REMOVE: remove entity from game world
-  - [ ] For SPAWN_CONTENTS: remove entity and create new entities from SpawnContentsComponent
-  - [ ] Handle behavior validation and error cases
-  - [ ] **Acceptance Criteria:**
+- [x] **T009: Implement Interaction Behavior Processing**
+  - [x] Implement `processBehavior` method to handle TRANSFORM, REMOVE, SPAWN_CONTENTS behaviors
+  - [x] For TRANSFORM: update sprite component and set RequiresItem.isActive to false
+  - [x] For REMOVE: remove entity from game world
+  - [x] For SPAWN_CONTENTS: remove entity and create new entities from SpawnContentsComponent
+  - [x] Handle behavior validation and error cases
+  - [x] **Acceptance Criteria:**
     - All 3 behavior types implemented correctly
     - TRANSFORM updates sprites and disables further interactions
     - REMOVE completely removes entities
     - SPAWN_CONTENTS creates new entities at appropriate positions
     - Error handling for missing components or invalid data
-  - [ ] Write unit tests for each behavior type
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write unit tests for each behavior type
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
-- [ ] **T010: Implement Item Consumption Logic**
-  - [ ] Implement `handleItemConsumption` method to process consumable items after successful interaction
-  - [ ] Remove consumable items from player CarriedItemComponent
-  - [ ] Retain non-consumable items for repeated use
-  - [ ] Handle multiple carried items correctly during consumption
-  - [ ] **Acceptance Criteria:**
+- [x] **T010: Implement Item Consumption Logic**
+  - [x] Implement `handleItemConsumption` method to process consumable items after successful interaction
+  - [x] Remove consumable items from player CarriedItemComponent
+  - [x] Retain non-consumable items for repeated use
+  - [x] Handle multiple carried items correctly during consumption
+  - [x] **Acceptance Criteria:**
     - Consumable items properly removed after use
     - Non-consumable items remain in player inventory
     - Multiple item handling works correctly
     - Player inventory state updated properly
-  - [ ] Write unit tests for consumption scenarios
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write unit tests for consumption scenarios
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 - [ ] **T011: Complete ItemInteractionSystem Integration**
   - [ ] Connect all private methods in the main `update` method
