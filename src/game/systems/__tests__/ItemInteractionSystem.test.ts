@@ -8,7 +8,7 @@ describe('ItemInteractionSystem', () => {
   describe('Core Structure', () => {
     it('should implement System interface', () => {
       const system = new ItemInteractionSystem();
-      
+
       // Should have update method
       expect(typeof system.update).toBe('function');
       expect(system.update.length).toBe(1); // Should accept one parameter (UpdateArgs)
@@ -18,7 +18,7 @@ describe('ItemInteractionSystem', () => {
       const system = new ItemInteractionSystem();
       const mockArgs: UpdateArgs = {
         entities: [] as Entity[],
-        map: new GameMap()
+        map: new GameMap(),
       };
 
       // Should not throw when called with proper arguments
@@ -29,7 +29,7 @@ describe('ItemInteractionSystem', () => {
       const system = new ItemInteractionSystem();
       const mockArgs: UpdateArgs = {
         entities: [],
-        map: new GameMap()
+        map: new GameMap(),
       };
 
       // Should handle empty entities without error
@@ -44,7 +44,7 @@ describe('ItemInteractionSystem', () => {
 
     it('should be compatible with System interface typing', () => {
       const system = new ItemInteractionSystem();
-      
+
       // TypeScript should accept this as a System
       const systemAsInterface: System = system;
       expect(systemAsInterface).toBe(system);
@@ -54,17 +54,17 @@ describe('ItemInteractionSystem', () => {
   describe('Method Structure', () => {
     it('should have private methods defined (structural test)', () => {
       const system = new ItemInteractionSystem();
-      
+
       // Verify the system has been properly constructed
       expect(system).toBeInstanceOf(ItemInteractionSystem);
-      
+
       // We can't directly test private methods, but we can verify
       // the system processes without throwing errors
       const mockArgs: UpdateArgs = {
         entities: [],
-        map: new GameMap()
+        map: new GameMap(),
       };
-      
+
       expect(() => system.update(mockArgs)).not.toThrow();
     });
   });

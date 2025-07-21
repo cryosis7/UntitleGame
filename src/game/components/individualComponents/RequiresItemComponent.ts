@@ -15,7 +15,10 @@ export class RequiresItemComponent {
   requiredCapabilities: string[];
   isActive: boolean;
 
-  constructor({ requiredCapabilities, isActive = true }: RequiresItemComponentProps) {
+  constructor({
+    requiredCapabilities,
+    isActive = true,
+  }: RequiresItemComponentProps) {
     this.requiredCapabilities = requiredCapabilities;
     this.isActive = isActive;
   }

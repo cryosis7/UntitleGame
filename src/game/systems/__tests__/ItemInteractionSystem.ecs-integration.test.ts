@@ -46,18 +46,28 @@ describe('ItemInteractionSystem - ECS Integration', () => {
       ]);
 
       const keyEntity = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['unlock'], isConsumable: true }],
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['unlock'], isConsumable: true },
+        ],
       ]);
 
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: keyEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: keyEntity.id });
 
       const doorEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }],
-        [ComponentType.InteractionBehavior, { 
-          behaviorType: InteractionBehaviorType.TRANSFORM, 
-          newSpriteId: 'door_open',
-          isRepeatable: false 
-        }],
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['unlock'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: InteractionBehaviorType.TRANSFORM,
+            newSpriteId: 'door_open',
+            isRepeatable: false,
+          },
+        ],
         [ComponentType.Sprite, { sprite: 'door_closed' }],
         [ComponentType.Position, { x: 5, y: 5 }],
       ]);
@@ -66,9 +76,9 @@ describe('ItemInteractionSystem - ECS Integration', () => {
 
       // ItemInteractionSystem should process the InteractingComponent without error
       expect(() => itemInteractionSystem.update(updateArgs)).not.toThrow();
-      
+
       // The door should have been processed (behavior executed)
-      const updatedDoor = updateArgs.entities.find(e => e === doorEntity);
+      const updatedDoor = updateArgs.entities.find((e) => e === doorEntity);
       expect(updatedDoor).toBeDefined();
     });
 
@@ -80,17 +90,27 @@ describe('ItemInteractionSystem - ECS Integration', () => {
       ]);
 
       const hammerEntity = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['break'], isConsumable: false }],
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['break'], isConsumable: false },
+        ],
       ]);
 
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: hammerEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: hammerEntity.id });
 
       const wallEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['break'], isActive: true }],
-        [ComponentType.InteractionBehavior, { 
-          behaviorType: InteractionBehaviorType.REMOVE, 
-          isRepeatable: false 
-        }],
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['break'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: InteractionBehaviorType.REMOVE,
+            isRepeatable: false,
+          },
+        ],
         [ComponentType.Position, { x: 10, y: 10 }],
       ]);
 
@@ -116,18 +136,28 @@ describe('ItemInteractionSystem - ECS Integration', () => {
       ]);
 
       const toolEntity = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['activate'], isConsumable: false }],
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['activate'], isConsumable: false },
+        ],
       ]);
 
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: toolEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: toolEntity.id });
 
       const switchEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['activate'], isActive: true }],
-        [ComponentType.InteractionBehavior, { 
-          behaviorType: InteractionBehaviorType.TRANSFORM, 
-          newSpriteId: 'switch_on',
-          isRepeatable: true 
-        }],
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['activate'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: InteractionBehaviorType.TRANSFORM,
+            newSpriteId: 'switch_on',
+            isRepeatable: true,
+          },
+        ],
         [ComponentType.Position, { x: 3, y: 3 }],
       ]);
 
@@ -135,13 +165,17 @@ describe('ItemInteractionSystem - ECS Integration', () => {
 
       // ItemInteractionSystem should process the InteractingComponent without issues
       expect(() => itemInteractionSystem.update(updateArgs)).not.toThrow();
-      
+
       // Switch should have been processed for transformation
-      const processedSwitch = updateArgs.entities.find(e => e === switchEntity);
+      const processedSwitch = updateArgs.entities.find(
+        (e) => e === switchEntity,
+      );
       expect(processedSwitch).toBeDefined();
-      
+
       // RequiresItem should be deactivated after successful interaction
-      const requiresItemComponent = processedSwitch?.components[ComponentType.RequiresItem] as any;
+      const requiresItemComponent = processedSwitch?.components[
+        ComponentType.RequiresItem
+      ] as any;
       expect(requiresItemComponent?.isActive).toBe(false);
     });
 
@@ -156,7 +190,7 @@ describe('ItemInteractionSystem - ECS Integration', () => {
 
       // Should handle absence of InteractingComponent without error
       expect(() => itemInteractionSystem.update(updateArgs)).not.toThrow();
-      
+
       // Entity should remain unchanged
       expect(updateArgs.entities).toContain(playerEntity);
     });
@@ -176,25 +210,55 @@ describe('ItemInteractionSystem - ECS Integration', () => {
       ]);
 
       const key1 = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['unlock'], isConsumable: true }],
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['unlock'], isConsumable: true },
+        ],
       ]);
 
       const key2 = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['unlock'], isConsumable: true }],
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['unlock'], isConsumable: true },
+        ],
       ]);
 
-      player1.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: key1.id });
-      player2.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: key2.id });
+      player1.components[ComponentType.CarriedItem] = new CarriedItemComponent({
+        item: key1.id,
+      });
+      player2.components[ComponentType.CarriedItem] = new CarriedItemComponent({
+        item: key2.id,
+      });
 
       const door1 = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }],
-        [ComponentType.InteractionBehavior, { behaviorType: InteractionBehaviorType.TRANSFORM, newSpriteId: 'door1_open', isRepeatable: false }],
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['unlock'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: InteractionBehaviorType.TRANSFORM,
+            newSpriteId: 'door1_open',
+            isRepeatable: false,
+          },
+        ],
         [ComponentType.Position, { x: 0, y: 0 }],
       ]);
 
       const door2 = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }],
-        [ComponentType.InteractionBehavior, { behaviorType: InteractionBehaviorType.TRANSFORM, newSpriteId: 'door2_open', isRepeatable: false }],
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['unlock'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: InteractionBehaviorType.TRANSFORM,
+            newSpriteId: 'door2_open',
+            isRepeatable: false,
+          },
+        ],
         [ComponentType.Position, { x: 1, y: 1 }],
       ]);
 
@@ -202,7 +266,7 @@ describe('ItemInteractionSystem - ECS Integration', () => {
 
       // Should process both interactions independently
       expect(() => itemInteractionSystem.update(updateArgs)).not.toThrow();
-      
+
       // Both doors should be processed
       expect(updateArgs.entities).toContain(door1);
       expect(updateArgs.entities).toContain(door2);
@@ -218,18 +282,28 @@ describe('ItemInteractionSystem - ECS Integration', () => {
       ]);
 
       const wandEntity = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['magic'], isConsumable: false }],
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['magic'], isConsumable: false },
+        ],
       ]);
 
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: wandEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: wandEntity.id });
 
       const runeEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['magic'], isActive: true }],
-        [ComponentType.InteractionBehavior, { 
-          behaviorType: InteractionBehaviorType.TRANSFORM, 
-          newSpriteId: 'rune_activated',
-          isRepeatable: false 
-        }],
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['magic'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: InteractionBehaviorType.TRANSFORM,
+            newSpriteId: 'rune_activated',
+            isRepeatable: false,
+          },
+        ],
         [ComponentType.Position, { x: 4, y: 4 }],
       ]);
 
@@ -240,18 +314,22 @@ describe('ItemInteractionSystem - ECS Integration', () => {
       cleanUpSystem.update(updateArgs);
 
       // Core entity state should be maintained
-      const updatedPlayer = updateArgs.entities.find(e => e.components[ComponentType.Player]);
+      const updatedPlayer = updateArgs.entities.find(
+        (e) => e.components[ComponentType.Player],
+      );
       expect(updatedPlayer).toBeDefined();
       expect(updatedPlayer?.components[ComponentType.Position]).toBeDefined();
-      
+
       // Non-consumable item should remain
-      const updatedWand = updateArgs.entities.find(e => e === wandEntity);
+      const updatedWand = updateArgs.entities.find((e) => e === wandEntity);
       expect(updatedWand).toBeDefined();
-      
+
       // Rune should have updated state
-      const updatedRune = updateArgs.entities.find(e => e === runeEntity);
+      const updatedRune = updateArgs.entities.find((e) => e === runeEntity);
       expect(updatedRune).toBeDefined();
-      expect((updatedRune?.components[ComponentType.RequiresItem] as any)?.isActive).toBe(false);
+      expect(
+        (updatedRune?.components[ComponentType.RequiresItem] as any)?.isActive,
+      ).toBe(false);
     });
 
     it('should handle item consumption correctly', () => {
@@ -262,18 +340,28 @@ describe('ItemInteractionSystem - ECS Integration', () => {
       ]);
 
       const potionEntity = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['heal'], isConsumable: true }],
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['heal'], isConsumable: true },
+        ],
       ]);
 
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: potionEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: potionEntity.id });
 
       const altarEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['heal'], isActive: true }],
-        [ComponentType.InteractionBehavior, { 
-          behaviorType: InteractionBehaviorType.TRANSFORM, 
-          newSpriteId: 'altar_blessed',
-          isRepeatable: false 
-        }],
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['heal'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: InteractionBehaviorType.TRANSFORM,
+            newSpriteId: 'altar_blessed',
+            isRepeatable: false,
+          },
+        ],
         [ComponentType.Position, { x: 2, y: 2 }],
       ]);
 
@@ -283,11 +371,13 @@ describe('ItemInteractionSystem - ECS Integration', () => {
       itemInteractionSystem.update(updateArgs);
 
       // The interaction should complete without errors, and the altar should be processed
-      const updatedAltar = updateArgs.entities.find(e => e === altarEntity);
+      const updatedAltar = updateArgs.entities.find((e) => e === altarEntity);
       expect(updatedAltar).toBeDefined();
-      
+
       // The RequiresItem component should be deactivated after successful interaction
-      const requiresItemComponent = updatedAltar?.components[ComponentType.RequiresItem] as any;
+      const requiresItemComponent = updatedAltar?.components[
+        ComponentType.RequiresItem
+      ] as any;
       expect(requiresItemComponent?.isActive).toBe(false);
     });
   });
@@ -309,7 +399,10 @@ describe('ItemInteractionSystem - ECS Integration', () => {
       ]);
 
       const incompleteEntity2 = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['test'], isActive: true }],
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['test'], isActive: true },
+        ],
         // Missing Position component
       ]);
 
@@ -318,7 +411,7 @@ describe('ItemInteractionSystem - ECS Integration', () => {
       // Systems should handle incomplete entities gracefully
       expect(() => itemInteractionSystem.update(updateArgs)).not.toThrow();
       expect(() => cleanUpSystem.update(updateArgs)).not.toThrow();
-      
+
       // Entities should remain in the array (not removed due to errors)
       expect(updateArgs.entities).toContain(incompleteEntity1);
       expect(updateArgs.entities).toContain(incompleteEntity2);
@@ -334,16 +427,16 @@ describe('ItemInteractionSystem - ECS Integration', () => {
 
       // Each system should operate independently without side effects on others
       const entityStateBefore = JSON.stringify(testEntity);
-      
+
       itemInteractionSystem.update(updateArgs);
       const entityStateAfterInteraction = JSON.stringify(testEntity);
-      
+
       cleanUpSystem.update(updateArgs);
       const entityStateAfterCleanup = JSON.stringify(testEntity);
 
       // Entity should remain in the entities array
       expect(updateArgs.entities).toContain(testEntity);
-      
+
       // Since there was no interaction triggered, entity state should be preserved
       expect(entityStateBefore).toBe(entityStateAfterInteraction);
     });
@@ -365,7 +458,8 @@ describe('ItemInteractionSystem - ECS Integration', () => {
         },
       };
 
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: malformedItemEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: malformedItemEntity.id });
 
       updateArgs.entities = [playerEntity, malformedItemEntity as any];
 

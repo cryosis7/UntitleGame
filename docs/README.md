@@ -48,6 +48,8 @@ Complete documentation for the comprehensive testing suite including:
 Development workflow and operational documentation:
 
 - **CI/CD Configuration Guide**: Setup and configuration of continuous integration/deployment
+- **Pre-Merge Checks**: Local quality checks that replicate GitHub Actions (prevents CI failures)
+- **ECS Architecture**: Comprehensive Entity-Component-System architecture documentation
 - **Copilot Instructions**: GitHub Copilot configuration and usage guidelines
 - **ECS Architecture**: Comprehensive Entity-Component-System architecture documentation including the Entity Interaction System
 

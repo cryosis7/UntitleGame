@@ -76,19 +76,25 @@ describe('SpawnContentsComponent', () => {
         new SpawnContentsComponent({
           contents: null as any,
         });
-      }).toThrow('SpawnContentsComponent: contents must be an array of EntityTemplate objects');
+      }).toThrow(
+        'SpawnContentsComponent: contents must be an array of EntityTemplate objects',
+      );
 
       expect(() => {
         new SpawnContentsComponent({
           contents: 'invalid' as any,
         });
-      }).toThrow('SpawnContentsComponent: contents must be an array of EntityTemplate objects');
+      }).toThrow(
+        'SpawnContentsComponent: contents must be an array of EntityTemplate objects',
+      );
 
       expect(() => {
         new SpawnContentsComponent({
           contents: {} as any,
         });
-      }).toThrow('SpawnContentsComponent: contents must be an array of EntityTemplate objects');
+      }).toThrow(
+        'SpawnContentsComponent: contents must be an array of EntityTemplate objects',
+      );
     });
 
     it('should validate entity template structure', () => {
@@ -96,19 +102,25 @@ describe('SpawnContentsComponent', () => {
         new SpawnContentsComponent({
           contents: [null as any],
         });
-      }).toThrow('SpawnContentsComponent: contents[0] must be a valid EntityTemplate with components property');
+      }).toThrow(
+        'SpawnContentsComponent: contents[0] must be a valid EntityTemplate with components property',
+      );
 
       expect(() => {
         new SpawnContentsComponent({
           contents: ['invalid' as any],
         });
-      }).toThrow('SpawnContentsComponent: contents[0] must be a valid EntityTemplate with components property');
+      }).toThrow(
+        'SpawnContentsComponent: contents[0] must be a valid EntityTemplate with components property',
+      );
 
       expect(() => {
         new SpawnContentsComponent({
           contents: [{ invalid: 'template' } as any],
         });
-      }).toThrow('SpawnContentsComponent: contents[0] must be a valid EntityTemplate with components property');
+      }).toThrow(
+        'SpawnContentsComponent: contents[0] must be a valid EntityTemplate with components property',
+      );
     });
 
     it('should validate all templates in contents array', () => {
@@ -116,13 +128,19 @@ describe('SpawnContentsComponent', () => {
         new SpawnContentsComponent({
           contents: [sampleItemTemplate, null as any, sampleWeaponTemplate],
         });
-      }).toThrow('SpawnContentsComponent: contents[1] must be a valid EntityTemplate with components property');
+      }).toThrow(
+        'SpawnContentsComponent: contents[1] must be a valid EntityTemplate with components property',
+      );
     });
 
     it('should allow valid entity templates', () => {
       expect(() => {
         new SpawnContentsComponent({
-          contents: [sampleItemTemplate, sampleWeaponTemplate, sampleKeyTemplate],
+          contents: [
+            sampleItemTemplate,
+            sampleWeaponTemplate,
+            sampleKeyTemplate,
+          ],
         });
       }).not.toThrow();
     });
@@ -275,8 +293,12 @@ describe('SpawnContentsComponent', () => {
 
       expect(lootDropContents.contents).toHaveLength(3);
       expect(lootDropContents.contents[0].components).toHaveProperty('sprite');
-      expect(lootDropContents.contents[1].components).toHaveProperty('pickable');
-      expect(lootDropContents.contents[2].components).toHaveProperty('usableItem');
+      expect(lootDropContents.contents[1].components).toHaveProperty(
+        'pickable',
+      );
+      expect(lootDropContents.contents[2].components).toHaveProperty(
+        'usableItem',
+      );
     });
   });
 
@@ -287,7 +309,10 @@ describe('SpawnContentsComponent', () => {
           position: { x: 10, y: 20 },
           sprite: { sprite: 'complex_item' },
           pickable: {},
-          usableItem: { capabilities: ['magic', 'unlock', 'heal'], isConsumable: false },
+          usableItem: {
+            capabilities: ['magic', 'unlock', 'heal'],
+            isConsumable: false,
+          },
           requiresItem: { requiredCapabilities: ['access'], isActive: true },
         },
       };
@@ -319,9 +344,16 @@ describe('SpawnContentsComponent', () => {
 
       expect(() => {
         new SpawnContentsComponent({
-          contents: [validTemplate, validTemplate, invalidTemplate, validTemplate],
+          contents: [
+            validTemplate,
+            validTemplate,
+            invalidTemplate,
+            validTemplate,
+          ],
         });
-      }).toThrow('SpawnContentsComponent: contents[2] must be a valid EntityTemplate with components property');
+      }).toThrow(
+        'SpawnContentsComponent: contents[2] must be a valid EntityTemplate with components property',
+      );
     });
   });
 

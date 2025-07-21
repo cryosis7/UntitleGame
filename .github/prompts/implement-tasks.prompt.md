@@ -1,7 +1,8 @@
 ---
 mode: agent
 description: Execute development tasks systematically with proper testing and git practices
-tools: [
+tools:
+  [
     'codebase',
     'editFiles',
     'fetch',

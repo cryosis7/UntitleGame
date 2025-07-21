@@ -18,9 +18,9 @@ describe('InteractionBehaviorType', () => {
     it('should have all expected enum values', () => {
       const expectedValues = ['transform', 'remove', 'spawn_contents'];
       const actualValues = Object.values(InteractionBehaviorType);
-      
+
       expect(actualValues).toHaveLength(expectedValues.length);
-      expectedValues.forEach(value => {
+      expectedValues.forEach((value) => {
         expect(actualValues).toContain(value);
       });
     });
@@ -42,9 +42,9 @@ describe('InteractionBehaviorType', () => {
     it('should have all expected enum keys', () => {
       const expectedKeys = ['TRANSFORM', 'REMOVE', 'SPAWN_CONTENTS'];
       const actualKeys = Object.keys(InteractionBehaviorType);
-      
+
       expect(actualKeys).toHaveLength(expectedKeys.length);
-      expectedKeys.forEach(key => {
+      expectedKeys.forEach((key) => {
         expect(actualKeys).toContain(key);
       });
     });
@@ -72,19 +72,23 @@ describe('InteractionBehaviorType', () => {
 
       expect(testBehavior(InteractionBehaviorType.TRANSFORM)).toBe('transform');
       expect(testBehavior(InteractionBehaviorType.REMOVE)).toBe('remove');
-      expect(testBehavior(InteractionBehaviorType.SPAWN_CONTENTS)).toBe('spawn_contents');
+      expect(testBehavior(InteractionBehaviorType.SPAWN_CONTENTS)).toBe(
+        'spawn_contents',
+      );
     });
 
     it('should work with object comparisons', () => {
       const behaviors = [
         InteractionBehaviorType.TRANSFORM,
         InteractionBehaviorType.REMOVE,
-        InteractionBehaviorType.SPAWN_CONTENTS
+        InteractionBehaviorType.SPAWN_CONTENTS,
       ];
 
       expect(behaviors.includes(InteractionBehaviorType.TRANSFORM)).toBe(true);
       expect(behaviors.includes(InteractionBehaviorType.REMOVE)).toBe(true);
-      expect(behaviors.includes(InteractionBehaviorType.SPAWN_CONTENTS)).toBe(true);
+      expect(behaviors.includes(InteractionBehaviorType.SPAWN_CONTENTS)).toBe(
+        true,
+      );
     });
   });
 
@@ -93,7 +97,7 @@ describe('InteractionBehaviorType', () => {
       const config = {
         doorBehavior: InteractionBehaviorType.TRANSFORM,
         barrierBehavior: InteractionBehaviorType.REMOVE,
-        chestBehavior: InteractionBehaviorType.SPAWN_CONTENTS
+        chestBehavior: InteractionBehaviorType.SPAWN_CONTENTS,
       };
 
       expect(config.doorBehavior).toBe(InteractionBehaviorType.TRANSFORM);
@@ -103,14 +107,16 @@ describe('InteractionBehaviorType', () => {
 
     it('should work in array operations', () => {
       const allBehaviors = Object.values(InteractionBehaviorType);
-      
-      const filteredBehaviors = allBehaviors.filter(behavior => 
-        behavior !== InteractionBehaviorType.REMOVE
+
+      const filteredBehaviors = allBehaviors.filter(
+        (behavior) => behavior !== InteractionBehaviorType.REMOVE,
       );
 
       expect(filteredBehaviors).toHaveLength(2);
       expect(filteredBehaviors).toContain(InteractionBehaviorType.TRANSFORM);
-      expect(filteredBehaviors).toContain(InteractionBehaviorType.SPAWN_CONTENTS);
+      expect(filteredBehaviors).toContain(
+        InteractionBehaviorType.SPAWN_CONTENTS,
+      );
       expect(filteredBehaviors).not.toContain(InteractionBehaviorType.REMOVE);
     });
   });

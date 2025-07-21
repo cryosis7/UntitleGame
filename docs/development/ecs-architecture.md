@@ -60,7 +60,7 @@ Each component follows a consistent pattern:
 ```typescript
 export class ExampleComponent implements Component {
   public readonly type = ComponentType.Example;
-  
+
   constructor(props: ExampleComponentProps) {
     // Initialize component properties
   }
@@ -115,11 +115,12 @@ interface RequiresItemComponentProps {
 // Example Usage
 const doorComponent = new RequiresItemComponent({
   requiredCapabilities: ['unlock'],
-  isActive: true
+  isActive: true,
 });
 ```
 
 **Properties:**
+
 - `requiredCapabilities`: Array of capability strings required for interaction
 - `isActive`: Boolean indicating if the entity can currently be interacted with
 
@@ -136,11 +137,12 @@ interface UsableItemComponentProps {
 // Example Usage
 const keyComponent = new UsableItemComponent({
   capabilities: ['unlock'],
-  isConsumable: true
+  isConsumable: true,
 });
 ```
 
 **Properties:**
+
 - `capabilities`: Array of capability strings this item provides
 - `isConsumable`: Boolean indicating if the item is consumed after use
 
@@ -158,18 +160,19 @@ interface InteractionBehaviorComponentProps {
 enum InteractionBehaviorType {
   TRANSFORM = 'transform',
   REMOVE = 'remove',
-  SPAWN_CONTENTS = 'spawn_contents'
+  SPAWN_CONTENTS = 'spawn_contents',
 }
 
 // Example Usage
 const doorBehavior = new InteractionBehaviorComponent({
   behaviorType: InteractionBehaviorType.TRANSFORM,
   newSpriteId: 'door_open',
-  isRepeatable: false
+  isRepeatable: false,
 });
 ```
 
 **Properties:**
+
 - `behaviorType`: Enum defining the interaction response (TRANSFORM, REMOVE, SPAWN_CONTENTS)
 - `newSpriteId`: Optional sprite ID for TRANSFORM behavior
 - `isRepeatable`: Boolean indicating if interaction can be repeated
@@ -194,11 +197,12 @@ const chestContents = new SpawnContentsComponent({
       },
     },
   ],
-  spawnOffset: { x: 1, y: 0 }
+  spawnOffset: { x: 1, y: 0 },
 });
 ```
 
 **Properties:**
+
 - `contents`: Array of EntityTemplate objects to spawn
 - `spawnOffset`: Optional position offset for spawned entities
 
@@ -299,9 +303,9 @@ const keyEntity = createEntityFromTemplate({
     pickable: {},
     usableItem: {
       capabilities: ['unlock'],
-      isConsumable: true
-    }
-  }
+      isConsumable: true,
+    },
+  },
 });
 
 // Create a door entity
@@ -310,15 +314,15 @@ const doorEntity = createEntityFromTemplate({
     sprite: { sprite: 'door_closed' },
     requiresItem: {
       requiredCapabilities: ['unlock'],
-      isActive: true
+      isActive: true,
     },
     interactionBehavior: {
       behaviorType: InteractionBehaviorType.TRANSFORM,
       newSpriteId: 'door_open',
-      isRepeatable: false
+      isRepeatable: false,
     },
-    position: { x: 5, y: 5 }
-  }
+    position: { x: 5, y: 5 },
+  },
 });
 
 // Workflow:
@@ -339,9 +343,9 @@ const hammerEntity = createEntityFromTemplate({
     pickable: {},
     usableItem: {
       capabilities: ['break', 'construct'],
-      isConsumable: false // Reusable tool
-    }
-  }
+      isConsumable: false, // Reusable tool
+    },
+  },
 });
 
 // Create a breakable wall
@@ -350,14 +354,14 @@ const wallEntity = createEntityFromTemplate({
     sprite: { sprite: 'wall_cracked' },
     requiresItem: {
       requiredCapabilities: ['break'],
-      isActive: true
+      isActive: true,
     },
     interactionBehavior: {
       behaviorType: InteractionBehaviorType.REMOVE,
-      isRepeatable: false
+      isRepeatable: false,
     },
-    position: { x: 3, y: 3 }
-  }
+    position: { x: 3, y: 3 },
+  },
 });
 
 // Workflow:
@@ -375,31 +379,31 @@ const chestEntity = createEntityFromTemplate({
     sprite: { sprite: 'chest_closed' },
     requiresItem: {
       requiredCapabilities: ['unlock'],
-      isActive: true
+      isActive: true,
     },
     interactionBehavior: {
       behaviorType: InteractionBehaviorType.SPAWN_CONTENTS,
-      isRepeatable: false
+      isRepeatable: false,
     },
     spawnContents: {
       contents: [
         {
           components: {
             sprite: { sprite: 'potion_health' },
-            pickable: {}
-          }
+            pickable: {},
+          },
         },
         {
           components: {
             sprite: { sprite: 'coin_gold' },
-            pickable: {}
-          }
-        }
+            pickable: {},
+          },
+        },
       ],
-      spawnOffset: { x: 1, y: 0 }
+      spawnOffset: { x: 1, y: 0 },
     },
-    position: { x: 10, y: 10 }
-  }
+    position: { x: 10, y: 10 },
+  },
 });
 
 // Workflow:
@@ -419,14 +423,14 @@ const masterKeyEntity = createEntityFromTemplate({
     pickable: {},
     usableItem: {
       capabilities: ['unlock', 'secret-access', 'vault-access'],
-      isConsumable: false
-    }
-  }
+      isConsumable: false,
+    },
+  },
 });
 
 // This key can interact with any entity requiring:
 // - 'unlock' capability (regular doors)
-// - 'secret-access' capability (hidden passages)  
+// - 'secret-access' capability (hidden passages)
 // - 'vault-access' capability (treasure vaults)
 ```
 
@@ -439,14 +443,14 @@ const magicalDoorEntity = createEntityFromTemplate({
     sprite: { sprite: 'door_magical' },
     requiresItem: {
       requiredCapabilities: ['magic-key', 'master-key', 'teleport-scroll'],
-      isActive: true
+      isActive: true,
     },
     interactionBehavior: {
       behaviorType: InteractionBehaviorType.TRANSFORM,
       newSpriteId: 'portal_active',
-      isRepeatable: false
-    }
-  }
+      isRepeatable: false,
+    },
+  },
 });
 
 // This door can be opened by items with ANY of the required capabilities:
@@ -478,7 +482,7 @@ const magicalDoorEntity = createEntityFromTemplate({
 ### Optimization Strategies
 
 1. **Interaction validation runs only during active E-key interactions** (not continuous)
-2. **Capability matching uses array intersection** (O(n*m) complexity acceptable for small inventories)
+2. **Capability matching uses array intersection** (O(n\*m) complexity acceptable for small inventories)
 3. **Component updates batched within single system update cycle**
 4. **Entity scanning limited to entities with InteractingComponent**
 

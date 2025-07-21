@@ -18,14 +18,20 @@ export class InteractionBehaviorComponent {
   newSpriteId?: string;
   isRepeatable: boolean;
 
-  constructor({ behaviorType, newSpriteId, isRepeatable = false }: InteractionBehaviorComponentProps) {
+  constructor({
+    behaviorType,
+    newSpriteId,
+    isRepeatable = false,
+  }: InteractionBehaviorComponentProps) {
     this.behaviorType = behaviorType;
     this.newSpriteId = newSpriteId;
     this.isRepeatable = isRepeatable;
 
     // Validate that newSpriteId is provided when using TRANSFORM behavior
     if (behaviorType === InteractionBehaviorType.TRANSFORM && !newSpriteId) {
-      throw new Error('InteractionBehaviorComponent: newSpriteId is required when behaviorType is TRANSFORM');
+      throw new Error(
+        'InteractionBehaviorComponent: newSpriteId is required when behaviorType is TRANSFORM',
+      );
     }
   }
 }

@@ -98,11 +98,15 @@ describe('RequiresItemComponent', () => {
         requiredCapabilities: ['special-key_1', 'door@room#42'],
       });
 
-      expect(component.requiredCapabilities).toEqual(['special-key_1', 'door@room#42']);
+      expect(component.requiredCapabilities).toEqual([
+        'special-key_1',
+        'door@room#42',
+      ]);
     });
 
     it('should handle long capability strings', () => {
-      const longCapability = 'very-long-capability-name-for-specific-door-in-dungeon-level-5';
+      const longCapability =
+        'very-long-capability-name-for-specific-door-in-dungeon-level-5';
       const component = new RequiresItemComponent({
         requiredCapabilities: [longCapability],
       });
@@ -127,7 +131,7 @@ describe('RequiresItemComponent', () => {
       });
 
       expect(component.isActive).toBe(true);
-      
+
       component.isActive = false;
       expect(component.isActive).toBe(false);
 
@@ -166,8 +170,8 @@ describe('RequiresItemComponent', () => {
 
       // Simulate capability matching scenarios
       const playerCapabilities = ['master-key', 'red-key'];
-      const hasMatch = component.requiredCapabilities.some(required => 
-        playerCapabilities.includes(required)
+      const hasMatch = component.requiredCapabilities.some((required) =>
+        playerCapabilities.includes(required),
       );
 
       expect(hasMatch).toBe(true);
@@ -179,8 +183,8 @@ describe('RequiresItemComponent', () => {
       });
 
       const playerCapabilities = ['common-key', 'basic-tool'];
-      const hasMatch = component.requiredCapabilities.some(required => 
-        playerCapabilities.includes(required)
+      const hasMatch = component.requiredCapabilities.some((required) =>
+        playerCapabilities.includes(required),
       );
 
       expect(hasMatch).toBe(false);
@@ -225,7 +229,9 @@ describe('RequiresItemComponent', () => {
       });
 
       expect(component1).not.toBe(component2);
-      expect(component1.requiredCapabilities).not.toBe(component2.requiredCapabilities);
+      expect(component1.requiredCapabilities).not.toBe(
+        component2.requiredCapabilities,
+      );
     });
 
     it('should support type-based filtering for ECS systems', () => {
@@ -234,7 +240,9 @@ describe('RequiresItemComponent', () => {
         new RequiresItemComponent({ requiredCapabilities: ['key2'] }),
       ];
 
-      const filtered = components.filter(comp => comp.type === ComponentType.RequiresItem);
+      const filtered = components.filter(
+        (comp) => comp.type === ComponentType.RequiresItem,
+      );
       expect(filtered).toHaveLength(2);
     });
 

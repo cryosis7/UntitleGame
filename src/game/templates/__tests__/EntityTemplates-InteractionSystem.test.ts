@@ -45,7 +45,7 @@ describe('EntityTemplates - Interaction System', () => {
   beforeEach(() => {
     setupPixiMocks();
     vi.clearAllMocks();
-    
+
     // Mock getTexture to return a valid texture for any sprite name
     (getTexture as any).mockReturnValue({ width: 16, height: 16 });
     // Mock store.get for tile size
@@ -54,7 +54,7 @@ describe('EntityTemplates - Interaction System', () => {
   describe('Key Template', () => {
     it('should create a pickable usable item with unlock capability', () => {
       const entity = createEntityFromTemplate(Key);
-      
+
       // Should have required components
       expect(hasComponent(entity, ComponentType.Sprite)).toBe(true);
       expect(hasComponent(entity, ComponentType.Pickable)).toBe(true);
@@ -77,29 +77,36 @@ describe('EntityTemplates - Interaction System', () => {
   describe('Door Template', () => {
     it('should create an entity requiring unlock capability with transform behavior', () => {
       const entity = createEntityFromTemplate(Door);
-      
+
       // Should have required components
       expect(hasComponent(entity, ComponentType.Sprite)).toBe(true);
       expect(hasComponent(entity, ComponentType.RequiresItem)).toBe(true);
-      expect(hasComponent(entity, ComponentType.InteractionBehavior)).toBe(true);
+      expect(hasComponent(entity, ComponentType.InteractionBehavior)).toBe(
+        true,
+      );
     });
 
     it('should have correct requires item configuration', () => {
-      const requiresItem = Door.components.requiresItem as RequiresItemComponentProps;
+      const requiresItem = Door.components
+        .requiresItem as RequiresItemComponentProps;
       expect(requiresItem.requiredCapabilities).toEqual(['unlock']);
       expect(requiresItem.isActive).toBe(true);
     });
 
     it('should have correct interaction behavior configuration', () => {
-      const interactionBehavior = Door.components.interactionBehavior as InteractionBehaviorComponentProps;
-      expect(interactionBehavior.behaviorType).toBe(InteractionBehaviorType.TRANSFORM);
+      const interactionBehavior = Door.components
+        .interactionBehavior as InteractionBehaviorComponentProps;
+      expect(interactionBehavior.behaviorType).toBe(
+        InteractionBehaviorType.TRANSFORM,
+      );
       expect(interactionBehavior.newSpriteId).toBe('dirt');
       expect(interactionBehavior.isRepeatable).toBe(false);
     });
 
     it('should have appropriate sprites for closed/open states', () => {
       const sprite = Door.components.sprite as SpriteComponentProps;
-      const interactionBehavior = Door.components.interactionBehavior as InteractionBehaviorComponentProps;
+      const interactionBehavior = Door.components
+        .interactionBehavior as InteractionBehaviorComponentProps;
       expect(sprite.sprite).toBe('boulder');
       expect(interactionBehavior.newSpriteId).toBe('dirt');
     });
@@ -108,37 +115,44 @@ describe('EntityTemplates - Interaction System', () => {
   describe('Chest Template', () => {
     it('should create an entity requiring unlock capability with spawn contents behavior', () => {
       const entity = createEntityFromTemplate(Chest);
-      
+
       // Should have required components
       expect(hasComponent(entity, ComponentType.Sprite)).toBe(true);
       expect(hasComponent(entity, ComponentType.RequiresItem)).toBe(true);
-      expect(hasComponent(entity, ComponentType.InteractionBehavior)).toBe(true);
+      expect(hasComponent(entity, ComponentType.InteractionBehavior)).toBe(
+        true,
+      );
       expect(hasComponent(entity, ComponentType.SpawnContents)).toBe(true);
     });
 
     it('should have correct requires item configuration', () => {
-      const requiresItem = Chest.components.requiresItem as RequiresItemComponentProps;
+      const requiresItem = Chest.components
+        .requiresItem as RequiresItemComponentProps;
       expect(requiresItem.requiredCapabilities).toEqual(['unlock']);
       expect(requiresItem.isActive).toBe(true);
     });
 
     it('should have correct interaction behavior configuration', () => {
-      const interactionBehavior = Chest.components.interactionBehavior as InteractionBehaviorComponentProps;
-      expect(interactionBehavior.behaviorType).toBe(InteractionBehaviorType.SPAWN_CONTENTS);
+      const interactionBehavior = Chest.components
+        .interactionBehavior as InteractionBehaviorComponentProps;
+      expect(interactionBehavior.behaviorType).toBe(
+        InteractionBehaviorType.SPAWN_CONTENTS,
+      );
       expect(interactionBehavior.isRepeatable).toBe(false);
     });
 
     it('should have spawn contents with treasure items', () => {
-      const spawnContents = Chest.components.spawnContents as SpawnContentsComponentProps;
+      const spawnContents = Chest.components
+        .spawnContents as SpawnContentsComponentProps;
       const contents = spawnContents.contents;
       expect(contents).toHaveLength(2);
-      
+
       // Check first treasure item
       const firstItem = contents[0];
       const firstSprite = firstItem.components.sprite as SpriteComponentProps;
       expect(firstSprite.sprite).toBe('bottle_blue');
       expect(firstItem.components.pickable).toBeDefined();
-      
+
       // Check second treasure item
       const secondItem = contents[1];
       const secondSprite = secondItem.components.sprite as SpriteComponentProps;
@@ -147,7 +161,8 @@ describe('EntityTemplates - Interaction System', () => {
     });
 
     it('should have correct spawn offset', () => {
-      const spawnContents = Chest.components.spawnContents as SpawnContentsComponentProps;
+      const spawnContents = Chest.components
+        .spawnContents as SpawnContentsComponentProps;
       expect(spawnContents.spawnOffset).toEqual({ x: 1, y: 0 });
     });
 
@@ -170,23 +185,29 @@ describe('EntityTemplates - Interaction System', () => {
 
       // Key should be usable for both door and chest
       const keyUsable = Key.components.usableItem as UsableItemComponentProps;
-      const doorRequires = Door.components.requiresItem as RequiresItemComponentProps;
-      const chestRequires = Chest.components.requiresItem as RequiresItemComponentProps;
-      
+      const doorRequires = Door.components
+        .requiresItem as RequiresItemComponentProps;
+      const chestRequires = Chest.components
+        .requiresItem as RequiresItemComponentProps;
+
       expect(keyUsable.capabilities).toContain('unlock');
       expect(doorRequires.requiredCapabilities).toContain('unlock');
       expect(chestRequires.requiredCapabilities).toContain('unlock');
     });
 
     it('should support different interaction behaviors', () => {
-      const doorBehavior = Door.components.interactionBehavior as InteractionBehaviorComponentProps;
-      const chestBehavior = Chest.components.interactionBehavior as InteractionBehaviorComponentProps;
-      
+      const doorBehavior = Door.components
+        .interactionBehavior as InteractionBehaviorComponentProps;
+      const chestBehavior = Chest.components
+        .interactionBehavior as InteractionBehaviorComponentProps;
+
       // Door transforms when unlocked
       expect(doorBehavior.behaviorType).toBe(InteractionBehaviorType.TRANSFORM);
-      
+
       // Chest spawns contents when unlocked
-      expect(chestBehavior.behaviorType).toBe(InteractionBehaviorType.SPAWN_CONTENTS);
+      expect(chestBehavior.behaviorType).toBe(
+        InteractionBehaviorType.SPAWN_CONTENTS,
+      );
     });
 
     it('should follow existing entity template patterns', () => {

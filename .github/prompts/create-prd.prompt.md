@@ -1,7 +1,8 @@
 ---
 mode: agent
 description: Generate a comprehensive Product Requirements Document (PRD) for a new feature
-tools: [
+tools:
+  [
     'codebase',
     'editFiles',
     'fetch',

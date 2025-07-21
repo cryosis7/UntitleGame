@@ -1,7 +1,8 @@
 ---
 mode: agent
 description: Update an existing PRD and task list with new requirements or changes
-tools: [
+tools:
+  [
     'codebase',
     'editFiles',
     'fetch',

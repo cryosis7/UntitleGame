@@ -44,34 +44,46 @@ function isValidCarriedItemProps(obj: any): obj is CarriedItemComponent {
 }
 
 function isValidRequiresItemProps(obj: any): obj is RequiresItemComponentProps {
-  return obj && 
-    Array.isArray(obj.requiredCapabilities) && 
+  return (
+    obj &&
+    Array.isArray(obj.requiredCapabilities) &&
     obj.requiredCapabilities.every((cap: any) => typeof cap === 'string') &&
-    typeof obj.isActive === 'boolean';
+    typeof obj.isActive === 'boolean'
+  );
 }
 
 function isValidUsableItemProps(obj: any): obj is UsableItemComponentProps {
-  return obj &&
+  return (
+    obj &&
     Array.isArray(obj.capabilities) &&
     obj.capabilities.every((cap: any) => typeof cap === 'string') &&
-    typeof obj.isConsumable === 'boolean';
+    typeof obj.isConsumable === 'boolean'
+  );
 }
 
-function isValidInteractionBehaviorProps(obj: any): obj is InteractionBehaviorComponentProps {
-  return obj &&
+function isValidInteractionBehaviorProps(
+  obj: any,
+): obj is InteractionBehaviorComponentProps {
+  return (
+    obj &&
     typeof obj.behaviorType === 'string' &&
     ['transform', 'remove', 'spawn_contents'].includes(obj.behaviorType) &&
     typeof obj.isRepeatable === 'boolean' &&
-    (obj.newSpriteId === undefined || typeof obj.newSpriteId === 'string');
+    (obj.newSpriteId === undefined || typeof obj.newSpriteId === 'string')
+  );
 }
 
-function isValidSpawnContentsProps(obj: any): obj is SpawnContentsComponentProps {
-  return obj &&
+function isValidSpawnContentsProps(
+  obj: any,
+): obj is SpawnContentsComponentProps {
+  return (
+    obj &&
     Array.isArray(obj.contents) &&
     obj.contents.every((template: any) => isValidEntityTemplate(template)) &&
     obj.spawnOffset &&
     typeof obj.spawnOffset.x === 'number' &&
-    typeof obj.spawnOffset.y === 'number';
+    typeof obj.spawnOffset.y === 'number'
+  );
 }
 
 function isValidComponentProps(type: ComponentType, props: unknown): boolean {
@@ -147,7 +159,9 @@ function createComponentsFromTemplate(template: EntityTemplate): Component[] {
       case ComponentType.UsableItem:
         return new UsableItemComponent(props as UsableItemComponentProps);
       case ComponentType.InteractionBehavior:
-        return new InteractionBehaviorComponent(props as InteractionBehaviorComponentProps);
+        return new InteractionBehaviorComponent(
+          props as InteractionBehaviorComponentProps,
+        );
       case ComponentType.SpawnContents:
         return new SpawnContentsComponent(props as SpawnContentsComponentProps);
       default:

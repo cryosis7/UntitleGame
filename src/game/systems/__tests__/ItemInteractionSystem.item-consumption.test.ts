@@ -3,10 +3,19 @@ import { ItemInteractionSystem } from '../ItemInteractionSystem';
 import type { UpdateArgs } from '../Systems';
 import { ComponentType } from '../../components/ComponentTypes';
 import { CarriedItemComponent } from '../../components/individualComponents/CarriedItemComponent';
-import { createTestEntity, createEntityWithComponents } from '../../../__tests__/testUtils';
+import {
+  createTestEntity,
+  createEntityWithComponents,
+} from '../../../__tests__/testUtils';
 
-import { getEntitiesWithComponents, removeEntities } from '../../utils/EntityUtils';
-import { getComponentIfExists, removeComponent } from '../../components/ComponentOperations';
+import {
+  getEntitiesWithComponents,
+  removeEntities,
+} from '../../utils/EntityUtils';
+import {
+  getComponentIfExists,
+  removeComponent,
+} from '../../components/ComponentOperations';
 
 // Mock the utility functions that handle entity operations
 vi.mock('../../utils/EntityUtils', () => ({
@@ -29,7 +38,7 @@ describe('ItemInteractionSystem - Item Consumption', () => {
     system = new ItemInteractionSystem();
     mockUpdateArgs = {
       entities: [],
-      map: {} as any
+      map: {} as any,
     };
 
     // Reset all mocks
@@ -38,66 +47,102 @@ describe('ItemInteractionSystem - Item Consumption', () => {
 
   describe('Consumable Item Logic', () => {
     it('should remove consumable item from player inventory after successful interaction', () => {
-      const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const consoleLogSpy = vi
+        .spyOn(console, 'log')
+        .mockImplementation(() => {});
 
       // Create a player with interacting component
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
         [ComponentType.Interacting, {}],
-        [ComponentType.Position, { x: 5, y: 5 }]
+        [ComponentType.Position, { x: 5, y: 5 }],
       ]);
 
       // Create a consumable key
       const keyEntity = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['unlock'], isConsumable: true }]
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['unlock'], isConsumable: true },
+        ],
       ]);
 
       // Set up player carrying the key
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: keyEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: keyEntity.id });
 
       // Create a door that requires unlocking
       const doorEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }],
-        [ComponentType.InteractionBehavior, { 
-          behaviorType: 'transform', 
-          newSpriteId: 'door_open',
-          isRepeatable: false 
-        }],
-        [ComponentType.Position, { x: 5, y: 5 }]
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['unlock'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: 'transform',
+            newSpriteId: 'door_open',
+            isRepeatable: false,
+          },
+        ],
+        [ComponentType.Position, { x: 5, y: 5 }],
       ]);
 
       const entities = [playerEntity, keyEntity, doorEntity];
       mockUpdateArgs.entities = entities;
 
       // Mock entity queries
-      (getEntitiesWithComponents as any).mockImplementation((componentTypes: ComponentType[]) => {
-        if (componentTypes.includes(ComponentType.Interacting)) return [playerEntity];
-        if (componentTypes.includes(ComponentType.RequiresItem)) return [doorEntity];
-        return [];
-      });
+      (getEntitiesWithComponents as any).mockImplementation(
+        (componentTypes: ComponentType[]) => {
+          if (componentTypes.includes(ComponentType.Interacting))
+            return [playerEntity];
+          if (componentTypes.includes(ComponentType.RequiresItem))
+            return [doorEntity];
+          return [];
+        },
+      );
 
       // Mock component getters - consumable item test
-      (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
-        if (entity === playerEntity && componentType === ComponentType.Position) {
-          return playerEntity.components[ComponentType.Position];
-        }
-        if (entity === doorEntity && componentType === ComponentType.Position) {
-          return doorEntity.components[ComponentType.Position];
-        }
-        if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
-          return playerEntity.components[ComponentType.CarriedItem];
-        }
-        if (entity === keyEntity && componentType === ComponentType.UsableItem) {
-          return keyEntity.components[ComponentType.UsableItem];
-        }
-        if (entity === doorEntity && componentType === ComponentType.RequiresItem) {
-          return doorEntity.components[ComponentType.RequiresItem];
-        }
-        if (entity === doorEntity && componentType === ComponentType.InteractionBehavior) {
-          return doorEntity.components[ComponentType.InteractionBehavior];
-        }
-        return null;
-      });
+      (getComponentIfExists as any).mockImplementation(
+        (entity: any, componentType: ComponentType) => {
+          if (
+            entity === playerEntity &&
+            componentType === ComponentType.Position
+          ) {
+            return playerEntity.components[ComponentType.Position];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.Position
+          ) {
+            return doorEntity.components[ComponentType.Position];
+          }
+          if (
+            entity === playerEntity &&
+            componentType === ComponentType.CarriedItem
+          ) {
+            return playerEntity.components[ComponentType.CarriedItem];
+          }
+          if (
+            entity === keyEntity &&
+            componentType === ComponentType.UsableItem
+          ) {
+            return keyEntity.components[ComponentType.UsableItem];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.RequiresItem
+          ) {
+            return doorEntity.components[ComponentType.RequiresItem];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.InteractionBehavior
+          ) {
+            return doorEntity.components[ComponentType.InteractionBehavior];
+          }
+          return null;
+        },
+      );
 
       // Execute the interaction
       system.update(mockUpdateArgs);
@@ -105,7 +150,7 @@ describe('ItemInteractionSystem - Item Consumption', () => {
       // Verify consumable item was removed from player inventory
       expect(removeComponent).toHaveBeenCalledWith(
         playerEntity,
-        ComponentType.CarriedItem
+        ComponentType.CarriedItem,
       );
 
       // Verify consumable item entity was removed from game world
@@ -113,82 +158,118 @@ describe('ItemInteractionSystem - Item Consumption', () => {
 
       // Verify appropriate log messages
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Processing item consumption')
+        expect.stringContaining('Processing item consumption'),
       );
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Removing consumable item')
+        expect.stringContaining('Removing consumable item'),
       );
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Consumable item')
+        expect.stringContaining('Consumable item'),
       );
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('has been consumed and removed from game')
+        expect.stringContaining('has been consumed and removed from game'),
       );
 
       consoleLogSpy.mockRestore();
     });
 
     it('should retain non-consumable item in player inventory after interaction', () => {
-      const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const consoleLogSpy = vi
+        .spyOn(console, 'log')
+        .mockImplementation(() => {});
 
       // Create a player with interacting component
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
         [ComponentType.Interacting, {}],
-        [ComponentType.Position, { x: 7, y: 7 }]
+        [ComponentType.Position, { x: 7, y: 7 }],
       ]);
 
       // Create a non-consumable multi-tool
       const multiToolEntity = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['unlock', 'cut'], isConsumable: false }]
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['unlock', 'cut'], isConsumable: false },
+        ],
       ]);
 
       // Set up player carrying the multi-tool
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: multiToolEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: multiToolEntity.id });
 
       // Create a door that requires unlocking
       const doorEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }],
-        [ComponentType.InteractionBehavior, { 
-          behaviorType: 'transform', 
-          newSpriteId: 'door_open',
-          isRepeatable: false 
-        }],
-        [ComponentType.Position, { x: 7, y: 7 }]
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['unlock'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: 'transform',
+            newSpriteId: 'door_open',
+            isRepeatable: false,
+          },
+        ],
+        [ComponentType.Position, { x: 7, y: 7 }],
       ]);
 
       const entities = [playerEntity, multiToolEntity, doorEntity];
       mockUpdateArgs.entities = entities;
 
       // Mock entity queries
-      (getEntitiesWithComponents as any).mockImplementation((componentTypes: ComponentType[]) => {
-        if (componentTypes.includes(ComponentType.Interacting)) return [playerEntity];
-        if (componentTypes.includes(ComponentType.RequiresItem)) return [doorEntity];
-        return [];
-      });
+      (getEntitiesWithComponents as any).mockImplementation(
+        (componentTypes: ComponentType[]) => {
+          if (componentTypes.includes(ComponentType.Interacting))
+            return [playerEntity];
+          if (componentTypes.includes(ComponentType.RequiresItem))
+            return [doorEntity];
+          return [];
+        },
+      );
 
       // Mock component getters - non-consumable test
-      (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
-        if (entity === playerEntity && componentType === ComponentType.Position) {
-          return playerEntity.components[ComponentType.Position];
-        }
-        if (entity === doorEntity && componentType === ComponentType.Position) {
-          return doorEntity.components[ComponentType.Position];
-        }
-        if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
-          return playerEntity.components[ComponentType.CarriedItem];
-        }
-        if (entity === multiToolEntity && componentType === ComponentType.UsableItem) {
-          return multiToolEntity.components[ComponentType.UsableItem];
-        }
-        if (entity === doorEntity && componentType === ComponentType.RequiresItem) {
-          return doorEntity.components[ComponentType.RequiresItem];
-        }
-        if (entity === doorEntity && componentType === ComponentType.InteractionBehavior) {
-          return doorEntity.components[ComponentType.InteractionBehavior];
-        }
-        return null;
-      });
+      (getComponentIfExists as any).mockImplementation(
+        (entity: any, componentType: ComponentType) => {
+          if (
+            entity === playerEntity &&
+            componentType === ComponentType.Position
+          ) {
+            return playerEntity.components[ComponentType.Position];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.Position
+          ) {
+            return doorEntity.components[ComponentType.Position];
+          }
+          if (
+            entity === playerEntity &&
+            componentType === ComponentType.CarriedItem
+          ) {
+            return playerEntity.components[ComponentType.CarriedItem];
+          }
+          if (
+            entity === multiToolEntity &&
+            componentType === ComponentType.UsableItem
+          ) {
+            return multiToolEntity.components[ComponentType.UsableItem];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.RequiresItem
+          ) {
+            return doorEntity.components[ComponentType.RequiresItem];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.InteractionBehavior
+          ) {
+            return doorEntity.components[ComponentType.InteractionBehavior];
+          }
+          return null;
+        },
+      );
 
       // Execute the interaction
       system.update(mockUpdateArgs);
@@ -196,7 +277,7 @@ describe('ItemInteractionSystem - Item Consumption', () => {
       // Verify non-consumable item was NOT removed from player inventory
       expect(removeComponent).not.toHaveBeenCalledWith(
         playerEntity,
-        ComponentType.CarriedItem
+        ComponentType.CarriedItem,
       );
 
       // Verify item entity was NOT removed from game world
@@ -204,10 +285,10 @@ describe('ItemInteractionSystem - Item Consumption', () => {
 
       // Verify appropriate log messages
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Processing item consumption')
+        expect.stringContaining('Processing item consumption'),
       );
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Retaining non-consumable item')
+        expect.stringContaining('Retaining non-consumable item'),
       );
 
       consoleLogSpy.mockRestore();
@@ -216,48 +297,69 @@ describe('ItemInteractionSystem - Item Consumption', () => {
 
   describe('Edge Cases and Error Handling', () => {
     it('should handle item without UsableItem component gracefully', () => {
-      const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const consoleLogSpy = vi
+        .spyOn(console, 'log')
+        .mockImplementation(() => {});
 
       // Create a player with interacting component
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
       ]);
 
       // Create an item without UsableItem component
       const regularItemEntity = createTestEntity();
 
       // Set up player carrying the regular item
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: regularItemEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: regularItemEntity.id });
 
       // Create a door that requires unlocking (but this interaction shouldn't proceed due to missing UsableItem)
       const doorEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }]
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['unlock'], isActive: true },
+        ],
       ]);
 
       const entities = [playerEntity, regularItemEntity, doorEntity];
       mockUpdateArgs.entities = entities;
 
       // Mock entity queries
-      (getEntitiesWithComponents as any).mockImplementation((componentTypes: ComponentType[]) => {
-        if (componentTypes.includes(ComponentType.Interacting)) return [playerEntity];
-        if (componentTypes.includes(ComponentType.RequiresItem)) return [doorEntity];
-        return [];
-      });
+      (getEntitiesWithComponents as any).mockImplementation(
+        (componentTypes: ComponentType[]) => {
+          if (componentTypes.includes(ComponentType.Interacting))
+            return [playerEntity];
+          if (componentTypes.includes(ComponentType.RequiresItem))
+            return [doorEntity];
+          return [];
+        },
+      );
 
       // Mock component getters - return null for UsableItem component
-      (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
-        if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
-          return playerEntity.components[ComponentType.CarriedItem];
-        }
-        if (entity === regularItemEntity && componentType === ComponentType.UsableItem) {
-          return null; // No UsableItem component
-        }
-        if (entity === doorEntity && componentType === ComponentType.RequiresItem) {
-          return doorEntity.components[ComponentType.RequiresItem];
-        }
-        return null;
-      });
+      (getComponentIfExists as any).mockImplementation(
+        (entity: any, componentType: ComponentType) => {
+          if (
+            entity === playerEntity &&
+            componentType === ComponentType.CarriedItem
+          ) {
+            return playerEntity.components[ComponentType.CarriedItem];
+          }
+          if (
+            entity === regularItemEntity &&
+            componentType === ComponentType.UsableItem
+          ) {
+            return null; // No UsableItem component
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.RequiresItem
+          ) {
+            return doorEntity.components[ComponentType.RequiresItem];
+          }
+          return null;
+        },
+      );
 
       // Execute the interaction - should not proceed to consumption due to missing UsableItem
       expect(() => system.update(mockUpdateArgs)).not.toThrow();
@@ -271,82 +373,118 @@ describe('ItemInteractionSystem - Item Consumption', () => {
 
     it('should handle items with different consumability settings correctly', () => {
       // This test verifies that the system correctly identifies and processes consumable vs non-consumable items
-      const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const consoleLogSpy = vi
+        .spyOn(console, 'log')
+        .mockImplementation(() => {});
 
       // Test both consumable and non-consumable scenarios in sequence
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
         [ComponentType.Interacting, {}],
-        [ComponentType.Position, { x: 9, y: 9 }]
+        [ComponentType.Position, { x: 9, y: 9 }],
       ]);
 
       // Create a consumable lockpick
       const lockpickEntity = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['unlock'], isConsumable: true }]
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['unlock'], isConsumable: true },
+        ],
       ]);
 
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: lockpickEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: lockpickEntity.id });
 
       // Create a door that requires unlocking
       const doorEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }],
-        [ComponentType.InteractionBehavior, { 
-          behaviorType: 'transform', 
-          newSpriteId: 'door_open',
-          isRepeatable: false 
-        }],
-        [ComponentType.Position, { x: 9, y: 9 }]
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['unlock'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: 'transform',
+            newSpriteId: 'door_open',
+            isRepeatable: false,
+          },
+        ],
+        [ComponentType.Position, { x: 9, y: 9 }],
       ]);
 
       const entities = [playerEntity, lockpickEntity, doorEntity];
       mockUpdateArgs.entities = entities;
 
       // Mock entity queries
-      (getEntitiesWithComponents as any).mockImplementation((componentTypes: ComponentType[]) => {
-        if (componentTypes.includes(ComponentType.Interacting)) return [playerEntity];
-        if (componentTypes.includes(ComponentType.RequiresItem)) return [doorEntity];
-        return [];
-      });
+      (getEntitiesWithComponents as any).mockImplementation(
+        (componentTypes: ComponentType[]) => {
+          if (componentTypes.includes(ComponentType.Interacting))
+            return [playerEntity];
+          if (componentTypes.includes(ComponentType.RequiresItem))
+            return [doorEntity];
+          return [];
+        },
+      );
 
       // Mock component getters - different consumability test
-      (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
-        if (entity === playerEntity && componentType === ComponentType.Position) {
-          return playerEntity.components[ComponentType.Position];
-        }
-        if (entity === doorEntity && componentType === ComponentType.Position) {
-          return doorEntity.components[ComponentType.Position];
-        }
-        if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
-          return playerEntity.components[ComponentType.CarriedItem];
-        }
-        if (entity === lockpickEntity && componentType === ComponentType.UsableItem) {
-          return lockpickEntity.components[ComponentType.UsableItem];
-        }
-        if (entity === doorEntity && componentType === ComponentType.RequiresItem) {
-          return doorEntity.components[ComponentType.RequiresItem];
-        }
-        if (entity === doorEntity && componentType === ComponentType.InteractionBehavior) {
-          return doorEntity.components[ComponentType.InteractionBehavior];
-        }
-        return null;
-      });
+      (getComponentIfExists as any).mockImplementation(
+        (entity: any, componentType: ComponentType) => {
+          if (
+            entity === playerEntity &&
+            componentType === ComponentType.Position
+          ) {
+            return playerEntity.components[ComponentType.Position];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.Position
+          ) {
+            return doorEntity.components[ComponentType.Position];
+          }
+          if (
+            entity === playerEntity &&
+            componentType === ComponentType.CarriedItem
+          ) {
+            return playerEntity.components[ComponentType.CarriedItem];
+          }
+          if (
+            entity === lockpickEntity &&
+            componentType === ComponentType.UsableItem
+          ) {
+            return lockpickEntity.components[ComponentType.UsableItem];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.RequiresItem
+          ) {
+            return doorEntity.components[ComponentType.RequiresItem];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.InteractionBehavior
+          ) {
+            return doorEntity.components[ComponentType.InteractionBehavior];
+          }
+          return null;
+        },
+      );
 
       // Execute the interaction
       system.update(mockUpdateArgs);
 
       // Verify consumption logic ran and correctly identified the item as consumable
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringMatching(/Processing item consumption.*consumable: true/)
+        expect.stringMatching(/Processing item consumption.*consumable: true/),
       );
 
       // Verify the consumable item was handled correctly
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Removing consumable item')
+        expect.stringContaining('Removing consumable item'),
       );
 
       expect(removeComponent).toHaveBeenCalledWith(
         playerEntity,
-        ComponentType.CarriedItem
+        ComponentType.CarriedItem,
       );
 
       expect(removeEntities).toHaveBeenCalledWith([lockpickEntity.id]);
@@ -355,53 +493,79 @@ describe('ItemInteractionSystem - Item Consumption', () => {
     });
 
     it('should handle missing CarriedItemComponent during consumption', () => {
-      const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const consoleLogSpy = vi
+        .spyOn(console, 'log')
+        .mockImplementation(() => {});
 
       // Create a player with interacting component but no carried item
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
       ]);
       // Note: No CarriedItemComponent set
 
       // Create a consumable key (though this scenario shouldn't happen in real gameplay)
       const keyEntity = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['unlock'], isConsumable: true }]
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['unlock'], isConsumable: true },
+        ],
       ]);
 
       // Create a door that requires unlocking
       const doorEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }],
-        [ComponentType.InteractionBehavior, { 
-          behaviorType: 'transform', 
-          newSpriteId: 'door_open',
-          isRepeatable: false 
-        }]
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['unlock'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: 'transform',
+            newSpriteId: 'door_open',
+            isRepeatable: false,
+          },
+        ],
       ]);
 
       const entities = [playerEntity, keyEntity, doorEntity];
       mockUpdateArgs.entities = entities;
 
       // Mock entity queries
-      (getEntitiesWithComponents as any).mockImplementation((componentTypes: ComponentType[]) => {
-        if (componentTypes.includes(ComponentType.Interacting)) return [playerEntity];
-        if (componentTypes.includes(ComponentType.RequiresItem)) return [doorEntity];
-        return [];
-      });
+      (getEntitiesWithComponents as any).mockImplementation(
+        (componentTypes: ComponentType[]) => {
+          if (componentTypes.includes(ComponentType.Interacting))
+            return [playerEntity];
+          if (componentTypes.includes(ComponentType.RequiresItem))
+            return [doorEntity];
+          return [];
+        },
+      );
 
       // Mock component getters - return null for CarriedItem component
-      (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
-        if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
-          return null; // No CarriedItem component
-        }
-        if (entity === keyEntity && componentType === ComponentType.UsableItem) {
-          return keyEntity.components[ComponentType.UsableItem];
-        }
-        if (entity === doorEntity && componentType === ComponentType.RequiresItem) {
-          return doorEntity.components[ComponentType.RequiresItem];
-        }
-        return null;
-      });
+      (getComponentIfExists as any).mockImplementation(
+        (entity: any, componentType: ComponentType) => {
+          if (
+            entity === playerEntity &&
+            componentType === ComponentType.CarriedItem
+          ) {
+            return null; // No CarriedItem component
+          }
+          if (
+            entity === keyEntity &&
+            componentType === ComponentType.UsableItem
+          ) {
+            return keyEntity.components[ComponentType.UsableItem];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.RequiresItem
+          ) {
+            return doorEntity.components[ComponentType.RequiresItem];
+          }
+          return null;
+        },
+      );
 
       // This should not proceed to behavior processing since no compatible item is found
       expect(() => system.update(mockUpdateArgs)).not.toThrow();
@@ -416,81 +580,117 @@ describe('ItemInteractionSystem - Item Consumption', () => {
 
   describe('Multiple Item Support (Future Compatibility)', () => {
     it('should handle single carried item correctly with current architecture', () => {
-      const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const consoleLogSpy = vi
+        .spyOn(console, 'log')
+        .mockImplementation(() => {});
 
       // Test that the current single-item system works correctly
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
         [ComponentType.Interacting, {}],
-        [ComponentType.Position, { x: 11, y: 11 }]
+        [ComponentType.Position, { x: 11, y: 11 }],
       ]);
 
       // Create a consumable key
       const keyEntity = createEntityWithComponents([
-        [ComponentType.UsableItem, { capabilities: ['unlock'], isConsumable: true }]
+        [
+          ComponentType.UsableItem,
+          { capabilities: ['unlock'], isConsumable: true },
+        ],
       ]);
 
-      playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: keyEntity.id });
+      playerEntity.components[ComponentType.CarriedItem] =
+        new CarriedItemComponent({ item: keyEntity.id });
 
       // Create a door that requires unlocking
       const doorEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }],
-        [ComponentType.InteractionBehavior, { 
-          behaviorType: 'transform', 
-          newSpriteId: 'door_open',
-          isRepeatable: false 
-        }],
-        [ComponentType.Position, { x: 11, y: 11 }]
+        [
+          ComponentType.RequiresItem,
+          { requiredCapabilities: ['unlock'], isActive: true },
+        ],
+        [
+          ComponentType.InteractionBehavior,
+          {
+            behaviorType: 'transform',
+            newSpriteId: 'door_open',
+            isRepeatable: false,
+          },
+        ],
+        [ComponentType.Position, { x: 11, y: 11 }],
       ]);
 
       const entities = [playerEntity, keyEntity, doorEntity];
       mockUpdateArgs.entities = entities;
 
       // Mock entity queries
-      (getEntitiesWithComponents as any).mockImplementation((componentTypes: ComponentType[]) => {
-        if (componentTypes.includes(ComponentType.Interacting)) return [playerEntity];
-        if (componentTypes.includes(ComponentType.RequiresItem)) return [doorEntity];
-        return [];
-      });
+      (getEntitiesWithComponents as any).mockImplementation(
+        (componentTypes: ComponentType[]) => {
+          if (componentTypes.includes(ComponentType.Interacting))
+            return [playerEntity];
+          if (componentTypes.includes(ComponentType.RequiresItem))
+            return [doorEntity];
+          return [];
+        },
+      );
 
       // Mock component getters
-      (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
-        if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
-          return playerEntity.components[ComponentType.CarriedItem];
-        }
-        if (entity === playerEntity && componentType === ComponentType.Position) {
-          return playerEntity.components[ComponentType.Position];
-        }
-        if (entity === keyEntity && componentType === ComponentType.UsableItem) {
-          return keyEntity.components[ComponentType.UsableItem];
-        }
-        if (entity === doorEntity && componentType === ComponentType.RequiresItem) {
-          return doorEntity.components[ComponentType.RequiresItem];
-        }
-        if (entity === doorEntity && componentType === ComponentType.InteractionBehavior) {
-          return doorEntity.components[ComponentType.InteractionBehavior];
-        }
-        if (entity === doorEntity && componentType === ComponentType.Position) {
-          return doorEntity.components[ComponentType.Position];
-        }
-        return null;
-      });
+      (getComponentIfExists as any).mockImplementation(
+        (entity: any, componentType: ComponentType) => {
+          if (
+            entity === playerEntity &&
+            componentType === ComponentType.CarriedItem
+          ) {
+            return playerEntity.components[ComponentType.CarriedItem];
+          }
+          if (
+            entity === playerEntity &&
+            componentType === ComponentType.Position
+          ) {
+            return playerEntity.components[ComponentType.Position];
+          }
+          if (
+            entity === keyEntity &&
+            componentType === ComponentType.UsableItem
+          ) {
+            return keyEntity.components[ComponentType.UsableItem];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.RequiresItem
+          ) {
+            return doorEntity.components[ComponentType.RequiresItem];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.InteractionBehavior
+          ) {
+            return doorEntity.components[ComponentType.InteractionBehavior];
+          }
+          if (
+            entity === doorEntity &&
+            componentType === ComponentType.Position
+          ) {
+            return doorEntity.components[ComponentType.Position];
+          }
+          return null;
+        },
+      );
 
       // Execute the interaction
       system.update(mockUpdateArgs);
 
       // Verify the system processes the single carried item correctly
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Compatible item found for interaction')
+        expect.stringContaining('Compatible item found for interaction'),
       );
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Processing item consumption')
+        expect.stringContaining('Processing item consumption'),
       );
 
       // Verify consumable handling
       expect(removeComponent).toHaveBeenCalledWith(
         playerEntity,
-        ComponentType.CarriedItem
+        ComponentType.CarriedItem,
       );
       expect(removeEntities).toHaveBeenCalledWith([keyEntity.id]);
 

@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { ComponentType, type FullComponentDictionary, type ComponentProps } from '../ComponentTypes';
+import {
+  ComponentType,
+  type FullComponentDictionary,
+  type ComponentProps,
+} from '../ComponentTypes';
 import { RequiresItemComponent } from '../individualComponents/RequiresItemComponent';
 import { UsableItemComponent } from '../individualComponents/UsableItemComponent';
 import { InteractionBehaviorComponent } from '../individualComponents/InteractionBehaviorComponent';
@@ -36,7 +40,7 @@ describe('ComponentTypes - Entity Interaction System Integration', () => {
         ComponentType.SpawnContents,
       ];
 
-      interactionSystemTypes.forEach(type => {
+      interactionSystemTypes.forEach((type) => {
         expect(Object.values(ComponentType)).toContain(type);
       });
     });
@@ -69,8 +73,12 @@ describe('ComponentTypes - Entity Interaction System Integration', () => {
         behaviorType: InteractionBehaviorType.REMOVE,
       });
 
-      expect(interactionBehaviorComponent).toBeInstanceOf(InteractionBehaviorComponent);
-      expect(interactionBehaviorComponent.type).toBe(ComponentType.InteractionBehavior);
+      expect(interactionBehaviorComponent).toBeInstanceOf(
+        InteractionBehaviorComponent,
+      );
+      expect(interactionBehaviorComponent.type).toBe(
+        ComponentType.InteractionBehavior,
+      );
     });
 
     it('should map SpawnContents to SpawnContentsComponent class', () => {
@@ -85,10 +93,12 @@ describe('ComponentTypes - Entity Interaction System Integration', () => {
 
     it('should maintain type consistency across all component mappings', () => {
       // Test that all new component types have consistent type property values
-      const requiresItem = new RequiresItemComponent({ requiredCapabilities: [] });
+      const requiresItem = new RequiresItemComponent({
+        requiredCapabilities: [],
+      });
       const usableItem = new UsableItemComponent({ capabilities: [] });
-      const interactionBehavior = new InteractionBehaviorComponent({ 
-        behaviorType: InteractionBehaviorType.REMOVE 
+      const interactionBehavior = new InteractionBehaviorComponent({
+        behaviorType: InteractionBehaviorType.REMOVE,
       });
       const spawnContents = new SpawnContentsComponent({ contents: [] });
 
@@ -104,9 +114,9 @@ describe('ComponentTypes - Entity Interaction System Integration', () => {
       // TypeScript type-level test - if this compiles, the props type is included
       const requiredCapabilities = ['test'];
       const isActive = true;
-      
+
       const requiresItemProps = { requiredCapabilities, isActive };
-      
+
       // This should be assignable to ComponentProps if properly included
       const props: ComponentProps = requiresItemProps;
       expect(props).toEqual(requiresItemProps);
@@ -116,9 +126,9 @@ describe('ComponentTypes - Entity Interaction System Integration', () => {
       // TypeScript type-level test - if this compiles, the props type is included
       const capabilities = ['test'];
       const isConsumable = true;
-      
+
       const usableItemProps = { capabilities, isConsumable };
-      
+
       // This should be assignable to ComponentProps if properly included
       const props: ComponentProps = usableItemProps;
       expect(props).toEqual(usableItemProps);
@@ -129,9 +139,13 @@ describe('ComponentTypes - Entity Interaction System Integration', () => {
       const behaviorType = InteractionBehaviorType.TRANSFORM;
       const newSpriteId = 'door_open';
       const isRepeatable = false;
-      
-      const interactionBehaviorProps = { behaviorType, newSpriteId, isRepeatable };
-      
+
+      const interactionBehaviorProps = {
+        behaviorType,
+        newSpriteId,
+        isRepeatable,
+      };
+
       // This should be assignable to ComponentProps if properly included
       const props: ComponentProps = interactionBehaviorProps;
       expect(props).toEqual(interactionBehaviorProps);
@@ -141,9 +155,9 @@ describe('ComponentTypes - Entity Interaction System Integration', () => {
       // TypeScript type-level test - if this compiles, the props type is included
       const contents = [{ components: {} }];
       const spawnOffset = { x: 1, y: 2 };
-      
+
       const spawnContentsProps = { contents, spawnOffset };
-      
+
       // This should be assignable to ComponentProps if properly included
       const props: ComponentProps = spawnContentsProps;
       expect(props).toEqual(spawnContentsProps);
@@ -191,31 +205,47 @@ describe('ComponentTypes - Entity Interaction System Integration', () => {
       const components = [
         new RequiresItemComponent({ requiredCapabilities: ['test'] }),
         new UsableItemComponent({ capabilities: ['test'] }),
-        new InteractionBehaviorComponent({ behaviorType: InteractionBehaviorType.REMOVE }),
+        new InteractionBehaviorComponent({
+          behaviorType: InteractionBehaviorType.REMOVE,
+        }),
         new SpawnContentsComponent({ contents: [] }),
       ];
 
-      components.forEach(component => {
+      components.forEach((component) => {
         switch (component.type) {
           case ComponentType.RequiresItem:
             expect(component).toBeInstanceOf(RequiresItemComponent);
-            expect(component.requiredCapabilities).toBeDefined();
-            expect(component.isActive).toBeDefined();
+            expect(
+              (component as RequiresItemComponent).requiredCapabilities,
+            ).toBeDefined();
+            expect((component as RequiresItemComponent).isActive).toBeDefined();
             break;
           case ComponentType.UsableItem:
             expect(component).toBeInstanceOf(UsableItemComponent);
-            expect(component.capabilities).toBeDefined();
-            expect(component.isConsumable).toBeDefined();
+            expect(
+              (component as UsableItemComponent).capabilities,
+            ).toBeDefined();
+            expect(
+              (component as UsableItemComponent).isConsumable,
+            ).toBeDefined();
             break;
           case ComponentType.InteractionBehavior:
             expect(component).toBeInstanceOf(InteractionBehaviorComponent);
-            expect(component.behaviorType).toBeDefined();
-            expect(component.isRepeatable).toBeDefined();
+            expect(
+              (component as InteractionBehaviorComponent).behaviorType,
+            ).toBeDefined();
+            expect(
+              (component as InteractionBehaviorComponent).isRepeatable,
+            ).toBeDefined();
             break;
           case ComponentType.SpawnContents:
             expect(component).toBeInstanceOf(SpawnContentsComponent);
-            expect(component.contents).toBeDefined();
-            expect(component.spawnOffset).toBeDefined();
+            expect(
+              (component as SpawnContentsComponent).contents,
+            ).toBeDefined();
+            expect(
+              (component as SpawnContentsComponent).spawnOffset,
+            ).toBeDefined();
             break;
           default:
             // This should not happen for our new component types
@@ -242,7 +272,7 @@ describe('ComponentTypes - Entity Interaction System Integration', () => {
         ComponentType.RenderInSidebar,
       ];
 
-      existingTypes.forEach(type => {
+      existingTypes.forEach((type) => {
         expect(Object.values(ComponentType)).toContain(type);
       });
 
@@ -272,13 +302,13 @@ describe('ComponentTypes - Entity Interaction System Integration', () => {
       // Ensure all interaction system components are registered
       const interactionSystemComponents = [
         'requiresItem',
-        'usableItem', 
+        'usableItem',
         'interactionBehavior',
         'spawnContents',
       ];
 
       const enumValues = Object.values(ComponentType);
-      interactionSystemComponents.forEach(componentType => {
+      interactionSystemComponents.forEach((componentType) => {
         expect(enumValues).toContain(componentType);
       });
     });

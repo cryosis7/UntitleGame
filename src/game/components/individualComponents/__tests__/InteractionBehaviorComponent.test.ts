@@ -43,7 +43,9 @@ describe('InteractionBehaviorComponent', () => {
         new InteractionBehaviorComponent({
           behaviorType: InteractionBehaviorType.TRANSFORM,
         });
-      }).toThrow('InteractionBehaviorComponent: newSpriteId is required when behaviorType is TRANSFORM');
+      }).toThrow(
+        'InteractionBehaviorComponent: newSpriteId is required when behaviorType is TRANSFORM',
+      );
     });
 
     it('should allow TRANSFORM behavior with newSpriteId', () => {
@@ -95,7 +97,9 @@ describe('InteractionBehaviorComponent', () => {
         behaviorType: InteractionBehaviorType.SPAWN_CONTENTS,
       });
 
-      expect(component.behaviorType).toBe(InteractionBehaviorType.SPAWN_CONTENTS);
+      expect(component.behaviorType).toBe(
+        InteractionBehaviorType.SPAWN_CONTENTS,
+      );
       expect(component.newSpriteId).toBeUndefined();
     });
 
@@ -105,7 +109,9 @@ describe('InteractionBehaviorComponent', () => {
         isRepeatable: true,
       });
 
-      expect(component.behaviorType).toBe(InteractionBehaviorType.SPAWN_CONTENTS);
+      expect(component.behaviorType).toBe(
+        InteractionBehaviorType.SPAWN_CONTENTS,
+      );
       expect(component.isRepeatable).toBe(true);
     });
   });
@@ -134,9 +140,13 @@ describe('InteractionBehaviorComponent', () => {
         behaviorType: InteractionBehaviorType.SPAWN_CONTENTS,
       });
 
-      expect(transformComponent.behaviorType).toBe(InteractionBehaviorType.TRANSFORM);
+      expect(transformComponent.behaviorType).toBe(
+        InteractionBehaviorType.TRANSFORM,
+      );
       expect(removeComponent.behaviorType).toBe(InteractionBehaviorType.REMOVE);
-      expect(spawnComponent.behaviorType).toBe(InteractionBehaviorType.SPAWN_CONTENTS);
+      expect(spawnComponent.behaviorType).toBe(
+        InteractionBehaviorType.SPAWN_CONTENTS,
+      );
     });
 
     it('should handle isRepeatable variations', () => {
@@ -183,7 +193,9 @@ describe('InteractionBehaviorComponent', () => {
         isRepeatable: false,
       });
 
-      expect(chestBehavior.behaviorType).toBe(InteractionBehaviorType.SPAWN_CONTENTS);
+      expect(chestBehavior.behaviorType).toBe(
+        InteractionBehaviorType.SPAWN_CONTENTS,
+      );
       expect(chestBehavior.isRepeatable).toBe(false);
     });
 
@@ -194,7 +206,9 @@ describe('InteractionBehaviorComponent', () => {
         isRepeatable: true,
       });
 
-      expect(switchBehavior.behaviorType).toBe(InteractionBehaviorType.TRANSFORM);
+      expect(switchBehavior.behaviorType).toBe(
+        InteractionBehaviorType.TRANSFORM,
+      );
       expect(switchBehavior.newSpriteId).toBe('switch_on');
       expect(switchBehavior.isRepeatable).toBe(true);
     });

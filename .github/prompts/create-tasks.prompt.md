@@ -1,7 +1,8 @@
 ---
 mode: agent
 description: Convert a PRD into actionable development tasks with clear dependencies
-tools: [
+tools:
+  [
     'codebase',
     'editFiles',
     'fetch',

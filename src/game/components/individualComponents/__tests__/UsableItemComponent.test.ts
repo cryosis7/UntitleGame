@@ -102,7 +102,8 @@ describe('UsableItemComponent', () => {
     });
 
     it('should handle long capability strings', () => {
-      const longCapability = 'ancient-mystical-key-that-unlocks-the-forgotten-chamber';
+      const longCapability =
+        'ancient-mystical-key-that-unlocks-the-forgotten-chamber';
       const component = new UsableItemComponent({
         capabilities: [longCapability],
       });
@@ -184,8 +185,8 @@ describe('UsableItemComponent', () => {
       });
 
       const requirements = ['light', 'fire'];
-      const hasMatch = component.capabilities.some(capability => 
-        requirements.includes(capability)
+      const hasMatch = component.capabilities.some((capability) =>
+        requirements.includes(capability),
       );
 
       expect(hasMatch).toBe(true);
@@ -197,8 +198,8 @@ describe('UsableItemComponent', () => {
       });
 
       const requirements = ['key', 'lockpick'];
-      const hasMatch = component.capabilities.some(capability => 
-        requirements.includes(capability)
+      const hasMatch = component.capabilities.some((capability) =>
+        requirements.includes(capability),
       );
 
       expect(hasMatch).toBe(false);
@@ -306,7 +307,10 @@ describe('UsableItemComponent', () => {
       const serialized = JSON.stringify(component);
       const parsed = JSON.parse(serialized);
 
-      expect(parsed.capabilities).toEqual(['multi-use_tool@v1.2', 'special#key&access']);
+      expect(parsed.capabilities).toEqual([
+        'multi-use_tool@v1.2',
+        'special#key&access',
+      ]);
     });
   });
 
@@ -329,7 +333,9 @@ describe('UsableItemComponent', () => {
         new UsableItemComponent({ capabilities: ['key'] }),
       ];
 
-      const filtered = components.filter(comp => comp.type === ComponentType.UsableItem);
+      const filtered = components.filter(
+        (comp) => comp.type === ComponentType.UsableItem,
+      );
       expect(filtered).toHaveLength(2);
     });
 
@@ -388,7 +394,10 @@ describe('UsableItemComponent', () => {
 
   describe('Performance and Memory', () => {
     it('should handle large capability arrays efficiently', () => {
-      const largeCapabilityArray = Array.from({ length: 100 }, (_, i) => `capability-${i}`);
+      const largeCapabilityArray = Array.from(
+        { length: 100 },
+        (_, i) => `capability-${i}`,
+      );
       const component = new UsableItemComponent({
         capabilities: largeCapabilityArray,
       });
