@@ -13,6 +13,7 @@ This project is a game built using the Entity Component System (ECS) framework a
 - [Architecture](#architecture)
 - [Scripts](#scripts)
 - [Project Structure](#project-structure)
+- [Documentation](#documentation)
 - [Inspiration](#inspiration)
 
 ## Technologies Used
@@ -126,4 +127,42 @@ gameLoop(app);
 
 ## Project Structure
 
-TODO
+```
+untitled_game/
+├── src/                          # Source code
+│   ├── game/                     # ECS game logic
+│   │   ├── components/           # ECS components
+│   │   ├── systems/             # ECS systems
+│   │   ├── utils/               # Game utilities
+│   │   └── __tests__/           # Game tests
+│   ├── react/                   # React components
+│   └── __tests__/               # Test utilities and mocks
+├── docs/                        # 📚 Documentation (see below)
+├── tasks/                       # Project task management
+├── .github/                     # GitHub workflows and config
+└── public/                      # Static assets
+```
+
+## Documentation
+
+All project documentation is organized in the [`docs/`](docs/) folder:
+
+### 🧪 Testing Documentation
+- **[Testing Guide](docs/testing/testing-guide.md)**: Comprehensive testing guide for ECS architecture
+- **[ECS Testing Patterns](docs/testing/ecs-testing-patterns.md)**: ECS-specific testing patterns and best practices
+- **[Test Utilities Reference](docs/testing/test-utilities-reference.md)**: Reference for test utilities and helper functions
+- **[Testing Suite Summary](docs/testing/testing-suite-final-summary.md)**: Final implementation summary and achievements
+
+### 🔧 Development Documentation
+- **[CI/CD Configuration Guide](docs/development/ci-cd-configuration-guide.md)**: CI/CD pipeline setup and configuration
+- **[Copilot Instructions](docs/development/copilot-instructions.md)**: GitHub Copilot configuration and usage
+
+### 📋 Project Documentation
+- **[Testing Suite Project](docs/projects/testing-suite/)**: Complete testing infrastructure implementation
+- **[Unlock System Project](docs/projects/unlock-system/)**: Item unlock and progression system
+
+### 🤖 AI Prompts & Instructions
+- **[Prompts](docs/prompts/)**: AI prompt templates for consistent development workflows  
+- **[Instructions](docs/instructions/)**: System-level instructions and configurations
+
+For a complete overview of all available documentation, see the **[Documentation README](docs/README.md)**.
