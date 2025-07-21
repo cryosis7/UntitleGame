@@ -1,8 +1,14 @@
-import { Container, Sprite } from 'pixi.js';
-import type { Tile } from './TileProperties';
-import { tileProperties, TileType } from './TileProperties';
-import { pixiApp } from '../Pixi';
-import { getTexture } from '../utils/Atoms';
+import { Container } from 'pixi.js';
+import type { Entity } from '../utils/ecsUtils';
+import type { EntityTemplate } from '../utils/EntityFactory';
+import { createEntityFromTemplate } from '../utils/EntityFactory';
+import { ComponentType } from '../components/ComponentTypes';
+import {
+  getComponentAbsolute,
+  hasComponent,
+} from '../components/ComponentOperations';
+import { mapConfigAtom } from '../utils/Atoms';
+import { store } from '../../App';
 
 export type Direction = 'up' | 'down' | 'left' | 'right';
 
@@ -12,54 +18,83 @@ export interface Position {
 }
 
 export class GameMap {
-  private tiles: Tile[][];
+  private tiles: Entity[][]; //TODO: Convert to single array.
+  public id: string;
+  public hasChanged: boolean;
+  private pixiContainer: Container | null;
 
-  constructor(rows?: number, columns?: number) {
+  constructor() {
+    this.id = crypto.randomUUID();
     this.tiles = [];
-
-    if (rows && columns) {
-      this.init(rows, columns);
-    }
+    this.hasChanged = true;
+    this.pixiContainer = null;
   }
 
-  init(rows: number, columns: number) {
-    const tileWidth = pixiApp.screen.width / 10;
-    const dirtTexture = getTexture('dirt')
-    const wallTexture = getTexture('wall')
-    if (!dirtTexture || !wallTexture) {
-      throw new Error('Could not find textures for dirt/wall');
+  init() {
+    const mapConfig = store.get(mapConfigAtom);
+    if (mapConfig?.rows === undefined || mapConfig.cols === undefined) {
+      throw new Error('Map config not configured');
     }
 
-    for (let y = 0; y < rows; y++) {
-      const row: Tile[] = [];
-      for (let x = 0; x < columns; x++) {
-        if (Math.random() < 0.85) {
-          const sprite: Sprite = new Sprite(dirtTexture);
-          sprite.position = { x: x * tileWidth, y: y * tileWidth };
-          sprite.setSize(tileWidth);
-          row.push({ tileType: TileType.Dirt, sprite });
-        } else {
-          const sprite: Sprite = new Sprite(wallTexture);
-          sprite.position = { x: x * tileWidth, y: y * tileWidth };
-          sprite.setSize(tileWidth);
-          row.push({ tileType: TileType.Wall, sprite });
-        }
+    this.tiles = [];
+
+    const container = new Container({
+      eventMode: 'static',
+    });
+
+    for (let y = 0; y < mapConfig.rows; y++) {
+      const row: Entity[] = [];
+      for (let x = 0; x < mapConfig.cols; x++) {
+        const isDirtTile = Math.random() < 1;
+        const entityTemplate: EntityTemplate = {
+          components: {
+            [ComponentType.Sprite]: { sprite: isDirtTile ? 'dirt' : 'wall' },
+            [ComponentType.Position]: { x, y },
+            ...(isDirtTile ? { [ComponentType.Walkable]: {} } : {}),
+          },
+        };
+        const entity = createEntityFromTemplate(entityTemplate);
+        const sprite = getComponentAbsolute(
+          entity,
+          ComponentType.Sprite,
+        ).sprite;
+        container.addChild(sprite);
+        row.push(entity);
       }
       this.tiles.push(row);
     }
+    this.pixiContainer = container;
+    this.hasChanged = true;
   }
 
-  setMap(map: Tile[][]): void {
-    this.tiles = map;
+  getAllEntities(): Entity[] {
+    return this.tiles.flat();
   }
 
-  getSpriteContainer(): Container {
+  /**
+   * Creates a PIXI.Container and adds all sprite components from the tiles to it.
+   * The container has not been added to the pixi stage.
+   *
+   * @returns {Container} The container with all sprite components added as children.
+   */
+  private createSpriteContainer(): Container {
     const container = new Container();
     container.addChild(
-      ...this.tiles.flatMap((arr) => arr.map((tile) => tile.sprite)),
+      ...this.tiles.flatMap((entityArray) =>
+        entityArray.map(
+          (entity) => getComponentAbsolute(entity, ComponentType.Sprite).sprite,
+        ),
+      ),
     );
     return container;
   }
+
+  public getSpriteContainer = (): Container => {
+    if (!this.pixiContainer) {
+      this.pixiContainer = this.createSpriteContainer();
+    }
+    return this.pixiContainer;
+  };
 
   isPositionInMap({ x, y }: Position): boolean {
     return (
@@ -67,7 +102,7 @@ export class GameMap {
     );
   }
 
-  getTile({ x, y }: Position): Tile | null {
+  getTile({ x, y }: Position): Entity | null {
     if (!this.isPositionInMap({ x, y })) {
       return null;
     }
@@ -89,7 +124,7 @@ export class GameMap {
     }
   }
 
-  getAdjacentTile({ x, y }: Position, direction: Direction): Tile | null {
+  getAdjacentTile({ x, y }: Position, direction: Direction): Entity | null {
     const adjacentPosition = this.getAdjacentPosition({ x, y }, direction);
     if (!this.isPositionInMap(adjacentPosition)) {
       return null;
@@ -100,7 +135,7 @@ export class GameMap {
 
   isTileWalkable({ x, y }: Position): boolean {
     const tile = this.getTile({ x, y });
-    return tile ? tileProperties[tile.tileType].walkable : false;
+    return tile ? hasComponent(tile, ComponentType.Walkable) : false;
   }
 
   isValidPosition({ x, y }: Position): boolean {

@@ -1,8 +1,8 @@
 import { store } from '../../App';
-import { ComponentType } from '../components/Components';
-import type { Component } from '../components/Components';
-import { entitiesAtom } from '../GameSystem';
-import type { Entity } from './ecsUtils';
+import type { Entity } from '../utils/ecsUtils';
+import { entitiesAtom } from '../utils/Atoms';
+import type { Component, FullComponentDictionary } from './ComponentTypes';
+import { ComponentType } from './ComponentTypes';
 
 /**
  * Sets a component for a given entity. If the component already exists, it will be replaced.
@@ -60,27 +60,31 @@ export const setComponents = (entity: Entity, ...components: Component[]) => {
   });
 };
 
-export const getComponent = <T extends Component>(
+export const getComponentIfExists = <T extends ComponentType>(
   entity: Entity,
-  type: ComponentType,
-): T | undefined => {
-  return entity.components[type] as T;
+  type: T,
+): FullComponentDictionary[T] | undefined => {
+  return entity.components[type] as FullComponentDictionary[T];
+};
+
+export const getComponentAbsolute = <T extends ComponentType>(
+  entity: Entity,
+  type: T,
+): FullComponentDictionary[T] => {
+  if (!entity.components[type]) {
+    console.dir(entity);
+    throw new Error(`Component ${type} not found for entity`);
+  }
+  return entity.components[type] as FullComponentDictionary[T];
 };
 
 /**
  * Checks if an entity has a specified component.
  * @param entity
- * @param types - The type of the component.
+ * @param type - The type of the component.
  */
-export const hasComponent = (
-  entity: Entity,
-  ...types: ComponentType[]
-): boolean => {
-  return types.reduce(
-    (accumulation, type) =>
-      accumulation && entity.components[type] !== undefined,
-    true,
-  );
+export const hasComponent = (entity: Entity, type: ComponentType): boolean => {
+  return entity.components[type] !== undefined;
 };
 
 /**

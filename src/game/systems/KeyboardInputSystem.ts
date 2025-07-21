@@ -1,13 +1,17 @@
-import { HandlingComponent, VelocityComponent } from '../components/Components';
-import { ComponentType, InteractingComponent } from '../components/Components';
 import type { System, UpdateArgs } from './Systems';
-import type { Entity} from '../utils/ecsUtils';
+import type { Entity } from '../utils/ecsUtils';
 import { getEntitiesWithComponent } from '../utils/EntityUtils';
-import { getComponent, setComponent } from '../utils/ComponentUtils';
+import {
+  getComponentIfExists,
+  setComponent,
+} from '../components/ComponentOperations';
+import { ComponentType } from '../components/ComponentTypes';
+import { InteractingComponent } from '../components/individualComponents/InteractingComponent';
+import { HandlingComponent } from '../components/individualComponents/HandlingComponent';
 
 export class KeyboardInputSystem implements System {
   private keys: { [key: string]: boolean } = {};
-  
+
   // Indicates if the state of the keys has changed since the last update
   private hasChanged: boolean = false;
 
@@ -23,7 +27,7 @@ export class KeyboardInputSystem implements System {
   }
 
   update({ entities, map }: UpdateArgs) {
-    if (!entities || !map || !this.hasChanged) return;
+    if (entities.length === 0 || !map || !this.hasChanged) return;
 
     const playerEntities = getEntitiesWithComponent(
       ComponentType.Player,
@@ -39,7 +43,7 @@ export class KeyboardInputSystem implements System {
   }
 
   private handleMovement(playerEntity: Entity) {
-    const velocityComponent = getComponent<VelocityComponent>(
+    const velocityComponent = getComponentIfExists(
       playerEntity,
       ComponentType.Velocity,
     );

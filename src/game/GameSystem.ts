@@ -1,71 +1,56 @@
-import { getEmptyPosition, type Entity } from './utils/ecsUtils';
+import { getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../App';
-import type { SpriteComponent } from './components/Components';
-import { ComponentType, PositionComponent } from './components/Components';
-import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
-import { RenderSystem } from './systems/RenderSystem';
 import type { Ticker } from 'pixi.js';
 import { pixiApp } from './Pixi';
-import { atom } from 'jotai/index';
-import type { System } from './systems/Systems';
-import { GameMap } from './map/GameMap';
-import { MovementSystem } from './systems/MovementSystem';
-import { createEntitiesFromObjects } from './utils/EntityFactory';
+import { createEntitiesFromTemplates } from './utils/EntityFactory';
 import { Beaker, Boulder, Player } from './templates/EntityTemplates';
+import {
+  getComponentIfExists,
+  setComponent,
+} from './components/ComponentOperations';
+import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
+import { MovementSystem } from './systems/MovementSystem';
+import { PickupSystem } from './systems/PickupSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
 import {
-  getComponent,
-  hasComponent,
-  setComponent,
-} from './utils/ComponentUtils';
-import { PickupSystem } from './systems/PickupSystem';
-
-export const entitiesAtom = atom<Entity[]>([]);
-export const systemsAtom = atom<System[]>([]);
-export const mapAtom = atom<GameMap>(new GameMap());
-export const playerAtom = atom((get) => {
-  const entities = get(entitiesAtom);
-  return entities.find((entity) => hasComponent(entity, ComponentType.Player));
-});
-
-export const initiateMap = () => {
-  const map = store.get(mapAtom);
-  map.init(10, 10);
-  pixiApp.stage.addChild(map.getSpriteContainer());
-};
+  entitiesAtom,
+  getTileSizeAtom,
+  mapAtom,
+  systemsAtom,
+} from './utils/Atoms';
+import { gridToScreenAsTuple } from './map/MappingUtils';
+import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
+import { PositionComponent } from './components/individualComponents/PositionComponent';
+import { ComponentType } from './components/ComponentTypes';
+import { RenderSystem } from './systems/RenderSystem';
+import { RenderSidebarSystem } from './systems/LevelEditorSystems/RenderSidebarSystem';
+import { addEntities } from './utils/EntityUtils';
 
 export const initiateEntities = () => {
-  const [player, boulder, beaker] = createEntitiesFromObjects(
+  const [player, boulder, beaker] = createEntitiesFromTemplates(
     Player,
     Boulder,
     Beaker,
   );
-  store.set(entitiesAtom, (entities) => [...entities, player, boulder, beaker]);
+  addEntities([player, boulder, beaker]);
 
   setComponent(player, new PositionComponent(getEmptyPosition()));
   setComponent(boulder, new PositionComponent(getEmptyPosition()));
   setComponent(beaker, new PositionComponent(getEmptyPosition()));
 
-  const tileWidth = pixiApp.screen.width / 10;
-  const tileHeight = pixiApp.screen.height / 10;
-
+  const tileSize = store.get(getTileSizeAtom);
   const entities = store.get(entitiesAtom);
   entities.forEach((entity) => {
-    const positionComponent = getComponent<PositionComponent>(
+    const positionComponent = getComponentIfExists(
       entity,
       ComponentType.Position,
     );
-    const spriteComponent = getComponent<SpriteComponent>(
-      entity,
-      ComponentType.Sprite,
-    );
+    const spriteComponent = getComponentIfExists(entity, ComponentType.Sprite);
 
     if (positionComponent && spriteComponent) {
-      spriteComponent.sprite.width = tileWidth;
-      spriteComponent.sprite.height = tileHeight;
+      spriteComponent.sprite.setSize(tileSize);
       spriteComponent.sprite.position.set(
-        positionComponent.x * tileWidth,
-        positionComponent.y * tileHeight,
+        ...gridToScreenAsTuple(positionComponent),
       );
       pixiApp.stage.addChild(spriteComponent.sprite);
     }
@@ -78,7 +63,11 @@ export const initiateSystems = () => {
     new KeyboardInputSystem(),
     new MovementSystem(),
     new PickupSystem(),
+    new EntityPlacementSystem(),
+
     new RenderSystem(),
+    new RenderSidebarSystem(),
+
     new CleanUpSystem(),
   );
 };

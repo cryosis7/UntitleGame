@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 
 vi.mock('./react/components/Game', () => ({
-  Game: () => <div>Mocked Game Component</div>
+  Game: () => <div>Mocked Game Component</div>,
 }));
 
 describe('App', () => {
@@ -11,7 +11,7 @@ describe('App', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <App />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(screen.getByText(/Mocked Game Component/i)).toBeInTheDocument();
   });
@@ -20,7 +20,7 @@ describe('App', () => {
     render(
       <MemoryRouter initialEntries={['/unknown']}>
         <App />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(screen.getByText(/no route match/i)).toBeInTheDocument();
   });

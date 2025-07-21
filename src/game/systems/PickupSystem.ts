@@ -1,35 +1,32 @@
-import type { HandlingComponent } from '../components/Components';
 import {
-  CarriedItemComponent,
-  ComponentType,
-  PositionComponent,
-} from '../components/Components';
-import {
-  getComponent,
+  getComponentIfExists,
   hasComponent,
   removeComponent,
   removeMapComponents,
   setComponent,
-} from '../utils/ComponentUtils';
+} from '../components/ComponentOperations';
 import type { System, UpdateArgs } from './Systems';
 import { getEntitiesAtPosition, getPlayerEntity } from '../utils/EntityUtils';
+import { ComponentType } from '../components/ComponentTypes';
+import { PositionComponent } from '../components/individualComponents/PositionComponent';
+import { CarriedItemComponent } from '../components/individualComponents/CarriedItemComponent';
 
 export class PickupSystem implements System {
   update({ entities }: UpdateArgs) {
     const playerEntity = getPlayerEntity(entities);
     if (!playerEntity) return;
 
-    const handlingComponent = getComponent<HandlingComponent>(
+    const handlingComponent = getComponentIfExists(
       playerEntity,
       ComponentType.Handling,
     );
-    const positionComponent = getComponent<PositionComponent>(
+    const positionComponent = getComponentIfExists(
       playerEntity,
       ComponentType.Position,
     );
     if (!positionComponent || !handlingComponent) return;
 
-    const carriedItemComponent = getComponent<CarriedItemComponent>(
+    const carriedItemComponent = getComponentIfExists(
       playerEntity,
       ComponentType.CarriedItem,
     );
