@@ -201,20 +201,20 @@
   - [ ] All tests passing
   - [ ] Commit with conventional commit message
 
-- [ ] **T013: Create Example Entity Templates**
-  - [ ] Create sample entity templates in `EntityTemplates.ts` demonstrating the interaction system
-  - [ ] Create `Key` template (UsableItemComponent with "unlock" capability, consumable)
-  - [ ] Create `Door` template (RequiresItemComponent requiring "unlock", InteractionBehaviorComponent with TRANSFORM)
-  - [ ] Create `Chest` template (RequiresItemComponent, InteractionBehaviorComponent with SPAWN_CONTENTS, SpawnContentsComponent with treasure)
-  - [ ] **Acceptance Criteria:**
+- [x] **T013: Create Example Entity Templates**
+  - [x] Create sample entity templates in `EntityTemplates.ts` demonstrating the interaction system
+  - [x] Create `Key` template (UsableItemComponent with "unlock" capability, consumable)
+  - [x] Create `Door` template (RequiresItemComponent requiring "unlock", InteractionBehaviorComponent with TRANSFORM)
+  - [x] Create `Chest` template (RequiresItemComponent, InteractionBehaviorComponent with SPAWN_CONTENTS, SpawnContentsComponent with treasure)
+  - [x] **Acceptance Criteria:**
     - Templates demonstrate all interaction behaviors
     - Follow existing EntityTemplate patterns
     - Proper component configuration
     - Templates can be instantiated successfully
-  - [ ] Write tests for entity template creation and component validation
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write tests for entity template creation and component validation
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 - [x] **T014: Register ItemInteractionSystem in Game**
   - [x] Import ItemInteractionSystem in `GameSystem.ts`
