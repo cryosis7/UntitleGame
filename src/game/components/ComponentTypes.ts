@@ -33,6 +33,10 @@ import type {
   InteractionBehaviorComponent,
   InteractionBehaviorComponentProps,
 } from './individualComponents/InteractionBehaviorComponent';
+import type {
+  SpawnContentsComponent,
+  SpawnContentsComponentProps,
+} from './individualComponents/SpawnContentsComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -49,6 +53,7 @@ export enum ComponentType {
   RequiresItem = 'requiresItem',
   UsableItem = 'usableItem',
   InteractionBehavior = 'interactionBehavior',
+  SpawnContents = 'spawnContents',
 }
 
 export type FullComponentDictionary = {
@@ -66,6 +71,7 @@ export type FullComponentDictionary = {
   [ComponentType.RequiresItem]: RequiresItemComponent;
   [ComponentType.UsableItem]: UsableItemComponent;
   [ComponentType.InteractionBehavior]: InteractionBehaviorComponent;
+  [ComponentType.SpawnContents]: SpawnContentsComponent;
 };
 
 export type Component = FullComponentDictionary[keyof FullComponentDictionary];
@@ -81,4 +87,5 @@ export type ComponentProps =
   | RequiresItemComponentProps
   | UsableItemComponentProps
   | InteractionBehaviorComponentProps
+  | SpawnContentsComponentProps
   | {};

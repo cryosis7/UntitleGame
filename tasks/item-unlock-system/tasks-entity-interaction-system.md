@@ -53,22 +53,22 @@
   - [x] All tests passing
   - [x] Commit with conventional commit message
 
-- [ ] **T004: Create InteractionBehaviorComponent**
-  - [ ] Create `src/game/components/individualComponents/InteractionBehaviorComponent.ts`
-  - [ ] Implement component with `behaviorType: InteractionBehaviorType`, `newSpriteId?: string`, `isRepeatable: boolean`
-  - [ ] Create proper TypeScript types and props interface
-  - [ ] Follow existing component patterns (constructor, type property)
-  - [ ] **Acceptance Criteria:**
+- [x] **T004: Create InteractionBehaviorComponent**
+  - [x] Create `src/game/components/individualComponents/InteractionBehaviorComponent.ts`
+  - [x] Implement component with `behaviorType: InteractionBehaviorType`, `newSpriteId?: string`, `isRepeatable: boolean`
+  - [x] Create proper TypeScript types and props interface
+  - [x] Follow existing component patterns (constructor, type property)
+  - [x] **Acceptance Criteria:**
     - Component follows established patterns from other components
     - Uses InteractionBehaviorType enum from T001
     - Proper TypeScript typing with props interface
     - Constructor accepts and validates props
     - Default `isRepeatable` to `false`
     - `newSpriteId` optional and only used for TRANSFORM behavior
-  - [ ] Write unit tests for component creation and validation
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write unit tests for component creation and validation
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 - [ ] **T005: Create SpawnContentsComponent**
   - [ ] Create `src/game/components/individualComponents/SpawnContentsComponent.ts`
