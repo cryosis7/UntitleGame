@@ -2,7 +2,7 @@ import type { System, UpdateArgs } from './Systems';
 import type { Entity } from '../utils/ecsUtils';
 import { ComponentType } from '../components/ComponentTypes';
 import { getEntitiesWithComponents } from '../utils/EntityUtils';
-import { getComponentIfExists, hasComponent } from '../components/ComponentOperations';
+import { getComponentIfExists } from '../components/ComponentOperations';
 import type { RequiresItemComponent } from '../components/individualComponents/RequiresItemComponent';
 import type { UsableItemComponent } from '../components/individualComponents/UsableItemComponent';
 import type { CarriedItemComponent } from '../components/individualComponents/CarriedItemComponent';
@@ -79,42 +79,68 @@ export class ItemInteractionSystem implements System {
   private validateCapabilities(interactingEntity: Entity, requiredEntity: Entity, entities: Entity[]): void {
     // Get the requirements from the target entity
     const requiresComponent = getComponentIfExists(requiredEntity, ComponentType.RequiresItem) as RequiresItemComponent;
-    if (!requiresComponent) return;
+    if (!requiresComponent?.isActive) return;
 
-    // For now, we'll find carried items by checking all entities for CarriedItemComponent
-    // that reference items carried by this interacting entity
-    // This is a placeholder - actual implementation may use different patterns
-    const carriedItemEntities = entities.filter(entity => {
-      const carriedComponent = getComponentIfExists(entity, ComponentType.CarriedItem) as CarriedItemComponent;
-      return carriedComponent && hasComponent(interactingEntity, ComponentType.Player);
-    });
-
-    // Find usable item entities that match the carried item references
-    const usableItems = entities.filter(entity => {
-      const hasUsableComponent = hasComponent(entity, ComponentType.UsableItem);
-      const isCarried = carriedItemEntities.some(carried => {
-        const carriedComponent = getComponentIfExists(carried, ComponentType.CarriedItem) as CarriedItemComponent;
-        return carriedComponent?.item === entity.id;
-      });
-      return hasUsableComponent && isCarried;
-    });
-
-    // Check if any carried items meet the requirements
-    // This will be expanded with actual capability matching logic
-    for (const usableItemEntity of usableItems) {
-      const usableComponent = getComponentIfExists(usableItemEntity, ComponentType.UsableItem) as UsableItemComponent;
-      if (!usableComponent) continue;
-
-      // Basic capability matching - will be expanded
-      const hasMatchingCapability = usableComponent.capabilities.some(capability => 
-        requiresComponent.requiredCapabilities.includes(capability)
-      );
-
-      if (hasMatchingCapability) {
-        // Capability match found - interaction can proceed
-        // This will be expanded with behavior processing and item consumption
-        break;
-      }
+    // Find a compatible item carried by the interacting entity
+    const compatibleItem = this.findCompatibleItem(interactingEntity, requiresComponent.requiredCapabilities, entities);
+    
+    if (compatibleItem) {
+      // Capability match found - interaction can proceed
+      // This will be expanded with behavior processing and item consumption in later tasks
+      console.log(`Compatible item found for interaction: ${compatibleItem.id} with capabilities matching ${requiresComponent.requiredCapabilities.join(', ')}`);
     }
+  }
+
+  /**
+   * Finds a compatible item in the player's inventory that has the required capabilities.
+   * Uses array intersection logic to match UsableItem capabilities with RequiresItem requirements.
+   * 
+   * @param interactingEntity - The entity that is interacting (should have CarriedItemComponent if carrying items)
+   * @param requiredCapabilities - Array of capabilities that are required for the interaction
+   * @param entities - Array of all entities to search through
+   * @returns The first compatible item entity found, or null if none found
+   * @private
+   */
+  private findCompatibleItem(interactingEntity: Entity, requiredCapabilities: string[], entities: Entity[]): Entity | null {
+    // Get the carried item component from the interacting entity
+    const carriedItemComponent = getComponentIfExists(interactingEntity, ComponentType.CarriedItem) as CarriedItemComponent;
+    
+    // Handle edge case: no carried items
+    if (!carriedItemComponent) {
+      console.log('No carried items found for interaction');
+      return null;
+    }
+
+    // Find the actual item entity that is being carried
+    const carriedItemEntity = entities.find(entity => entity.id === carriedItemComponent.item);
+    
+    // Handle edge case: carried item entity not found
+    if (!carriedItemEntity) {
+      console.log('Carried item entity not found in entities array');
+      return null;
+    }
+
+    // Check if the carried item has the UsableItem component
+    const usableComponent = getComponentIfExists(carriedItemEntity, ComponentType.UsableItem) as UsableItemComponent;
+    
+    // Handle edge case: carried item is not usable
+    if (!usableComponent) {
+      console.log('Carried item does not have UsableItem component');
+      return null;
+    }
+
+    // Check if any of the item's capabilities match the required capabilities (array intersection)
+    const hasMatchingCapability = usableComponent.capabilities.some(capability => 
+      requiredCapabilities.includes(capability)
+    );
+
+    if (hasMatchingCapability) {
+      console.log(`Found compatible item with matching capabilities: ${usableComponent.capabilities.filter(cap => requiredCapabilities.includes(cap)).join(', ')}`);
+      return carriedItemEntity;
+    }
+
+    // Handle edge case: no compatible capabilities
+    console.log('No compatible capabilities found between carried item and requirements');
+    return null;
   }
 }

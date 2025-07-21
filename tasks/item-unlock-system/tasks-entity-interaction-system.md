@@ -105,37 +105,37 @@
 
 ### System Implementation
 
-- [ ] **T007: Create ItemInteractionSystem Core Structure**
-  - [ ] Create `src/game/systems/ItemInteractionSystem.ts`
-  - [ ] Implement System interface with update method
-  - [ ] Create private methods for: `processInteractions`, `findRequiredItemEntities`, `validateCapabilities`
-  - [ ] Add proper imports and type definitions
-  - [ ] **Acceptance Criteria:**
+- [x] **T007: Create ItemInteractionSystem Core Structure**
+  - [x] Create `src/game/systems/ItemInteractionSystem.ts`
+  - [x] Implement System interface with update method
+  - [x] Create private methods for: `processInteractions`, `findRequiredItemEntities`, `validateCapabilities`
+  - [x] Add proper imports and type definitions
+  - [x] **Acceptance Criteria:**
     - Implements System interface correctly
     - Has update method that accepts UpdateArgs
     - Follows existing system patterns
     - Proper TypeScript typing
     - Core structure ready for logic implementation
-  - [ ] Write initial system tests (structure only)
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write initial system tests (structure only)
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
-- [ ] **T008: Implement Capability Matching Logic**
-  - [ ] Implement `validateCapabilities` method to match UsableItem capabilities with RequiresItem requirements
-  - [ ] Implement `findCompatibleItem` method to scan player CarriedItems for compatible capabilities
-  - [ ] Use array intersection logic for capability matching
-  - [ ] Handle edge cases (no carried items, no compatible items)
-  - [ ] **Acceptance Criteria:**
+- [x] **T008: Implement Capability Matching Logic**
+  - [x] Implement `validateCapabilities` method to match UsableItem capabilities with RequiresItem requirements
+  - [x] Implement `findCompatibleItem` method to scan player CarriedItems for compatible capabilities
+  - [x] Use array intersection logic for capability matching
+  - [x] Handle edge cases (no carried items, no compatible items)
+  - [x] **Acceptance Criteria:**
     - Array intersection logic correctly matches capabilities
     - Returns first compatible item found
     - Handles empty inventories gracefully
     - Validates capability arrays properly
     - Logs appropriate debug information
-  - [ ] Write comprehensive unit tests for capability matching scenarios
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write comprehensive unit tests for capability matching scenarios
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 - [ ] **T009: Implement Interaction Behavior Processing**
   - [ ] Implement `processBehavior` method to handle TRANSFORM, REMOVE, SPAWN_CONTENTS behaviors
