@@ -169,22 +169,22 @@
   - [x] All tests passing
   - [x] Commit with conventional commit message
 
-- [ ] **T011: Complete ItemInteractionSystem Integration**
-  - [ ] Connect all private methods in the main `update` method
-  - [ ] Process InteractingComponent entities for interaction attempts
-  - [ ] Find target entities with RequiresItemComponent at player position
-  - [ ] Execute full interaction workflow: validate → process behavior → consume item
-  - [ ] Handle system ordering and dependencies
-  - [ ] **Acceptance Criteria:**
+- [x] **T011: Complete ItemInteractionSystem Integration**
+  - [x] Connect all private methods in the main `update` method
+  - [x] Process InteractingComponent entities for interaction attempts
+  - [x] Find target entities with RequiresItemComponent at player position
+  - [x] Execute full interaction workflow: validate → process behavior → consume item
+  - [x] Handle system ordering and dependencies
+  - [x] **Acceptance Criteria:**
     - Full interaction workflow functions end-to-end
     - Processes InteractingComponent entities correctly
     - Integrates with existing ECS update cycle
     - Proper error handling and logging
     - System performance within acceptable limits
-  - [ ] Write integration tests for complete interaction workflows
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write integration tests for complete interaction workflows
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 ### Entity Templates & Integration
 

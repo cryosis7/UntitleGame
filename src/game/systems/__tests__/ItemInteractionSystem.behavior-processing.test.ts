@@ -49,7 +49,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
       // Create a player with interacting component
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 5, y: 5 }]
       ]);
 
       // Create a key item
@@ -60,14 +61,15 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
       // Player carries the key
       playerEntity.components[ComponentType.CarriedItem] = new CarriedItemComponent({ item: keyEntity.id });
 
-      // Create a door that transforms when unlocked
+      // Create a door that transforms when unlocked (at same position as player)
       const doorEntity = createEntityWithComponents([
         [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }],
         [ComponentType.InteractionBehavior, { 
           behaviorType: InteractionBehaviorType.TRANSFORM, 
           newSpriteId: 'door_open',
           isRepeatable: false 
-        }]
+        }],
+        [ComponentType.Position, { x: 5, y: 5 }]
       ]);
 
       // Create sprite component mock
@@ -91,6 +93,12 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
 
       // Mock component finding
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
+        if (entity === doorEntity && componentType === ComponentType.Position) {
+          return doorEntity.components[ComponentType.Position];
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }
@@ -134,7 +142,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
 
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 5, y: 5 }]
       ]);
 
       const keyEntity = createEntityWithComponents([
@@ -149,7 +158,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
           behaviorType: InteractionBehaviorType.TRANSFORM, 
           newSpriteId: 'door_open',
           isRepeatable: false 
-        }]
+        }],
+        [ComponentType.Position, { x: 5, y: 5 }]
       ]);
 
       const entities = [playerEntity, keyEntity, doorEntity];
@@ -162,6 +172,12 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
       });
 
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
+        if (entity === doorEntity && componentType === ComponentType.Position) {
+          return doorEntity.components[ComponentType.Position];
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }

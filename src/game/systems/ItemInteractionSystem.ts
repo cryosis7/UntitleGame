@@ -55,21 +55,34 @@ export class ItemInteractionSystem implements System {
   }
 
   /**
-   * Finds entities that require items and are associated with the current interaction.
-   * This method will be expanded to handle proximity-based or direct interaction logic.
+   * Finds entities that require items and are at the same position as the interacting entity.
+   * Uses position-based proximity logic to determine valid interaction targets.
    * 
    * @param entities - Array of all entities
    * @param interactingEntity - The entity currently interacting
-   * @returns Array of entities that require items for interaction
+   * @returns Array of entities that require items for interaction at the same position
    * @private
    */
   private findRequiredItemEntities(entities: Entity[], interactingEntity: Entity): Entity[] {
-    // For now, return entities with RequiresItem component that are nearby or associated
-    // This will be expanded with proximity logic and interaction targeting
+    // Get the position of the interacting entity
+    const interactingPosition = getComponentIfExists(interactingEntity, ComponentType.Position) as PositionComponent;
+    
+    if (!interactingPosition) {
+      console.log('Interacting entity does not have Position component');
+      return [];
+    }
+
+    // Find entities with RequiresItem component that are at the same position and active
     return getEntitiesWithComponents([ComponentType.RequiresItem], entities)
       .filter(entity => {
         const requiresComponent = getComponentIfExists(entity, ComponentType.RequiresItem) as RequiresItemComponent;
-        return requiresComponent?.isActive;
+        if (!requiresComponent?.isActive) return false;
+
+        // Check if entity is at the same position as the interacting entity
+        const entityPosition = getComponentIfExists(entity, ComponentType.Position) as PositionComponent;
+        if (!entityPosition) return false;
+
+        return entityPosition.x === interactingPosition.x && entityPosition.y === interactingPosition.y;
       });
   }
 
