@@ -1,5 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
+// Now import the code that uses Pixi.js
+import { setupPixiMocks } from './mocks/pixiMocks';
+
 // Mock the pixi.js module before importing our code
 vi.mock('pixi.js', async () => {
   const { 
@@ -24,9 +27,6 @@ vi.mock('pixi.js', async () => {
     Assets,
   };
 });
-
-// Now import the code that uses Pixi.js
-import { setupPixiMocks } from './mocks/pixiMocks';
 
 describe('Pixi.js Mocks Integration with Game Code', () => {
   beforeEach(() => {

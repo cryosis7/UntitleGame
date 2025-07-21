@@ -1,5 +1,10 @@
 # Untitled Game
 
+[![Tests and Coverage](https://github.com/cryosis7/UntitleGame/actions/workflows/test.yml/badge.svg)](https://github.com/cryosis7/UntitleGame/actions/workflows/test.yml)
+[![Code Quality](https://github.com/cryosis7/UntitleGame/actions/workflows/code-quality.yml/badge.svg)](https://github.com/cryosis7/UntitleGame/actions/workflows/code-quality.yml)
+[![Security Scan](https://github.com/cryosis7/UntitleGame/actions/workflows/security.yml/badge.svg)](https://github.com/cryosis7/UntitleGame/actions/workflows/security.yml)
+[![codecov](https://codecov.io/gh/cryosis7/UntitleGame/branch/main/graph/badge.svg)](https://codecov.io/gh/cryosis7/UntitleGame)
+
 This project is a game built using the Entity Component System (ECS) framework and Pixi.js as the rendering engine. The game is embedded in a React TypeScript application.
 
 ## Table of Contents

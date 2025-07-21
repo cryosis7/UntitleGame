@@ -1,6 +1,9 @@
 import '@testing-library/jest-dom/vitest';
 import { vi } from 'vitest';
 
+// React Testing Library cleanup (this should happen automatically, but ensure it does)
+import { cleanup } from '@testing-library/react';
+
 // Global test configuration for ECS testing suite
 
 // Mock GameMap to avoid Pixi.js initialization issues during testing
@@ -135,9 +138,6 @@ afterEach(() => {
     }
   });
 });
-
-// React Testing Library cleanup (this should happen automatically, but ensure it does)
-import { cleanup } from '@testing-library/react';
 afterEach(cleanup);
 
 // Mock console methods to prevent test output noise unless explicitly needed

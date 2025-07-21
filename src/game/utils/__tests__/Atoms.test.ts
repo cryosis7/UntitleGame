@@ -16,6 +16,9 @@ import { GameMap } from '../../map/GameMap';
 import { createTestEntity } from '../../../__tests__/testUtils';
 import { ComponentType } from '../../components/ComponentTypes';
 
+import { store } from '../../../App';
+import { hasComponent } from '../../components/ComponentOperations';
+
 // Mock the store from App
 vi.mock('../../../App', () => ({
   store: {
@@ -32,9 +35,6 @@ const MockGameMap = vi.mocked(GameMap);
 vi.mock('../../components/ComponentOperations', () => ({
   hasComponent: vi.fn()
 }));
-
-import { store } from '../../../App';
-import { hasComponent } from '../../components/ComponentOperations';
 
 const mockStore = vi.mocked(store);
 const mockHasComponent = vi.mocked(hasComponent);

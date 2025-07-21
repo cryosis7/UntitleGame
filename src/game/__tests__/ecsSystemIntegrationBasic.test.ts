@@ -8,6 +8,20 @@ import { ComponentType } from '../components/ComponentTypes';
 import type { Entity } from '../utils/ecsUtils';
 import type { UpdateArgs } from '../systems/Systems';
 
+import { 
+  hasComponent, 
+  getComponentIfExists, 
+  setComponent, 
+  removeComponent 
+} from '../components/ComponentOperations';
+import { 
+  getEntitiesWithComponent, 
+  hasEntitiesAtPosition,
+  addEntities,
+  removeEntities,
+  getPlayerEntity
+} from '../utils/EntityUtils';
+
 // Mock window for event listeners
 Object.defineProperty(window, 'addEventListener', {
   value: vi.fn(),
@@ -43,20 +57,6 @@ vi.mock('../utils/EntityUtils', async () => {
   };
 });
 
-import { 
-  hasComponent, 
-  getComponentIfExists, 
-  setComponent, 
-  removeComponent 
-} from '../components/ComponentOperations';
-import { 
-  getEntitiesWithComponent, 
-  hasEntitiesAtPosition,
-  addEntities,
-  removeEntities,
-  getPlayerEntity
-} from '../utils/EntityUtils';
-
 const mockHasComponent = vi.mocked(hasComponent);
 const mockGetComponentIfExists = vi.mocked(getComponentIfExists);
 const mockSetComponent = vi.mocked(setComponent);
@@ -67,6 +67,18 @@ const mockAddEntities = vi.mocked(addEntities);
 const mockRemoveEntities = vi.mocked(removeEntities);
 const mockGetPlayerEntity = vi.mocked(getPlayerEntity);
 
+/**
+ * Basic ECS System Integration Tests
+ * 
+ * This file tests fundamental system integration capabilities:
+ * - System instantiation and basic operation
+ * - System coordination and coexistence 
+ * - Error handling and robustness
+ * - Mock-based integration verification
+ * 
+ * Focuses on testing that systems can work together without conflicts,
+ * handle errors gracefully, and maintain independence.
+ */
 describe('ECS System Integration Tests', () => {
   let keyboardSystem: KeyboardInputSystem;
   let movementSystem: MovementSystem;
