@@ -8,7 +8,8 @@
 ## Task Categories
 
 ### Setup & Infrastructure
-- [x] **T001: Configure Vitest for ECS Testing** *(2 hours)*
+
+- [x] **T001: Configure Vitest for ECS Testing** _(2 hours)_
   - [x] Create vitest.config.ts with ECS-specific settings
   - [x] Configure test environment for jsdom and React components
   - [x] Set up global test configuration and setup files
@@ -16,7 +17,7 @@
   - [ ] **Dependencies**: None
   - [x] **Verification**: `npm test` runs without errors, shows proper test environment
 
-- [x] **T002: Create Pixi.js Mocking Infrastructure** *(3 hours)*
+- [x] **T002: Create Pixi.js Mocking Infrastructure** _(3 hours)_
   - [x] Create `src/__tests__/mocks/pixiMocks.ts` with core Pixi.js mocks
   - [x] Mock Application, Container, Sprite, Graphics, Ticker classes
   - [x] Implement mock methods that return predictable values for testing
@@ -25,7 +26,7 @@
   - [ ] **Dependencies**: T001 (Vitest config)
   - [x] **Verification**: Mocked Pixi.js objects can be imported and used in tests
 
-- [x] **T003: Build ECS Test Utilities** *(4 hours)*
+- [x] **T003: Build ECS Test Utilities** _(4 hours)_
   - [x] Create `src/__tests__/testUtils.ts` with ECS helper functions
   - [x] Implement entity factory functions for testing (createTestEntity, createTestComponent)
   - [x] Build component assertion helpers (expectEntityHasComponent, expectComponentProps)
@@ -35,7 +36,8 @@
   - [x] **Verification**: Test utilities can create entities and components for testing
 
 ### Component Unit Tests
-- [x] **T004: Core Position and Movement Components** *(3 hours)*
+
+- [x] **T004: Core Position and Movement Components** _(3 hours)_
   - [x] Test PositionComponent creation, validation, and edge cases
   - [x] Test VelocityComponent with valid/invalid velocity values
   - [x] Test MovableComponent behavior and state management
@@ -44,7 +46,7 @@
   - [x] **Dependencies**: T003 (test utilities)
   - [x] **Verification**: 100% test coverage for position/movement components
 
-- [x] **T005: Interaction and Item Components** *(3 hours)*
+- [x] **T005: Interaction and Item Components** _(3 hours)_
   - [x] Test PickableComponent item properties and states
   - [x] Test CarriedItemComponent inventory management
   - [x] Test InteractingComponent interaction states
@@ -53,7 +55,7 @@
   - [x] **Dependencies**: T003 (test utilities)
   - [x] **Verification**: 100% test coverage for interaction components
 
-- [x] **T006: Rendering and UI Components** *(2 hours)*
+- [x] **T006: Rendering and UI Components** _(2 hours)_
   - [x] Test SpriteComponent with various sprite configurations
   - [x] Test RenderInSidebarComponent UI state management
   - [x] Test WalkableComponent collision properties
@@ -61,7 +63,7 @@
   - [x] **Dependencies**: T002, T003 (mocks and utilities)
   - [x] **Verification**: Components work with mocked rendering system
 
-- [x] **T007: Player and Game State Components** *(2 hours)*
+- [x] **T007: Player and Game State Components** _(2 hours)_
   - [x] Test PlayerComponent player-specific properties
   - [x] Verify component state management and updates
   - [x] Test edge cases and invalid state transitions
@@ -70,7 +72,8 @@
   - [x] **Verification**: Player components pass all unit tests
 
 ### System Unit Tests
-- [x] **T008: Input and Movement Systems** *(3 hours)*
+
+- [x] **T008: Input and Movement Systems** _(3 hours)_
   - [x] Test KeyboardInputSystem key event processing
   - [x] Test MovementSystem entity position updates
   - [x] Verify collision detection and movement validation
@@ -79,7 +82,7 @@
   - [x] **Dependencies**: T003, T004 (utilities and components)
   - [x] **Verification**: Movement systems handle all scenarios correctly
 
-- [x] **T009: Interaction Systems** *(3 hours)*
+- [x] **T009: Interaction Systems** _(3 hours)_
   - [x] Test PickupSystem item collection mechanics
   - [x] Test entity state changes during pickup operations
   - [x] Test inventory management and item handling
@@ -88,7 +91,7 @@
   - [x] **Dependencies**: T003, T005 (utilities and interaction components)
   - [x] **Verification**: Pickup system correctly manages item interactions
 
-- [x] **T010: Rendering and Management Systems** *(3 hours)*
+- [x] **T010: Rendering and Management Systems** _(3 hours)_
   - [x] Test RenderSystem with mocked Pixi.js components
   - [x] Test CleanUpSystem entity cleanup operations
   - [x] Test EntityPlacementSystem for map editor functionality
@@ -98,7 +101,8 @@
   - [x] **Verification**: Rendering systems work with mocked graphics
 
 ### Utility Function Tests
-- [x] **T011: ECS and Entity Utilities** *(2 hours)*
+
+- [x] **T011: ECS and Entity Utilities** _(2 hours)_
   - [x] Test ecsUtils functions (getEmptyPosition, entity operations)
   - [x] Test EntityUtils (addEntities, entity management functions)
   - [x] Test EntityFactory (createEntitiesFromTemplates)
@@ -107,7 +111,7 @@
   - [x] **Dependencies**: T003 (test utilities)
   - [x] **Verification**: All utility functions pass unit tests
 
-- [x] **T012: Game State and Mapping Utilities** *(2 hours)*
+- [x] **T012: Game State and Mapping Utilities** _(2 hours)_
   - [x] Test MappingUtils coordinate conversion functions
   - [x] Test Atoms (Jotai state management) with mock stores
   - [x] Test utility integration with game state management
@@ -116,7 +120,8 @@
   - [x] **Verification**: State management and mapping utilities work correctly
 
 ### Integration Testing
-- [x] **T013: ECS System Integration** *(4 hours)*
+
+- [x] **T013: ECS System Integration** _(4 hours)_
   - [x] Test multiple systems processing the same entities
   - [x] Test system execution order and dependencies
   - [x] Test entity lifecycle through multiple system updates
@@ -125,7 +130,7 @@
   - [x] **Dependencies**: T008, T009, T010 (all systems tested)
   - [x] **Verification**: Systems work together without conflicts - 11 integration tests pass
 
-- [x] **T014: Core Gameplay Scenarios** *(4 hours)*
+- [x] **T014: Core Gameplay Scenarios** _(4 hours)_
   - [x] Test complete player movement workflow (input → movement → rendering)
   - [x] Test item pickup workflow (detection → collection → inventory update)
   - [x] Test collision detection preventing invalid movements
@@ -135,7 +140,8 @@
   - [x] **Verification**: All critical gameplay flows work end-to-end - 7/11 core tests passing
 
 ### Coverage & CI/CD
-- [x] **T015: Coverage Reporting and Analysis** *(2 hours)*
+
+- [x] **T015: Coverage Reporting and Analysis** _(2 hours)_
   - [x] Configure coverage thresholds (80% line coverage for game logic)
   - [x] Set up coverage reporting with detailed breakdowns
   - [x] Create coverage exclusion rules for non-game code
@@ -143,7 +149,7 @@
   - [x] **Dependencies**: T001-T014 (all tests implemented)
   - [x] **Verification**: Coverage infrastructure established, baseline documented at 40.71% lines
 
-- [x] **T016: GitHub Actions CI/CD Integration** *(3 hours)*
+- [x] **T016: GitHub Actions CI/CD Integration** _(3 hours)_
   - [x] Create `.github/workflows/test.yml` for automated testing
   - [x] Configure test execution on PR and main branch pushes
   - [x] Set up coverage reporting in PR comments
@@ -153,7 +159,8 @@
   - [x] **Verification**: Tests run automatically on GitHub, coverage reports in PRs - COMPLETE
 
 ### Documentation
-- [x] **T017: Testing Documentation and Guidelines** *(2 hours)*
+
+- [x] **T017: Testing Documentation and Guidelines** _(2 hours)_
   - [x] Create testing best practices guide for ECS architecture
   - [x] Document test utilities and helper functions usage
   - [x] Create examples for writing new component and system tests
@@ -196,32 +203,37 @@ graph TD
 ## Task Summary by Phase
 
 ### Phase 1: Foundation (8 hours)
+
 - T001: Configure Vitest (2h)
-- T002: Pixi.js Mocks (3h) 
+- T002: Pixi.js Mocks (3h)
 - T003: Test Utilities (4h)
-*Can work in sequence*
+  _Can work in sequence_
 
 ### Phase 2: Unit Tests (20 hours)
-- T004-T007: Component Tests (10h) *Can work in parallel after T003*
-- T008-T010: System Tests (9h) *Can work in parallel after component tests*
-- T011-T012: Utility Tests (4h) *Can work in parallel after T003*
+
+- T004-T007: Component Tests (10h) _Can work in parallel after T003_
+- T008-T010: System Tests (9h) _Can work in parallel after component tests_
+- T011-T012: Utility Tests (4h) _Can work in parallel after T003_
 
 ### Phase 3: Integration (8 hours)
+
 - T013: System Integration (4h)
 - T014: Gameplay Scenarios (4h)
-*Must be sequential*
+  _Must be sequential_
 
 ### Phase 4: Finalization (4 hours)
+
 - T015: Coverage Reporting (2h)
-- T016: CI/CD Integration (3h) 
+- T016: CI/CD Integration (3h)
 - T017: Documentation (2h)
-*T015-T016 sequential, T017 can be parallel*
+  _T015-T016 sequential, T017 can be parallel_
 
 **Total Estimated Time: 38 hours**
 
 ## Relevant Files
 
 ### Existing Files (To be tested)
+
 - `src/game/components/individualComponents/*.ts` - All ECS components
 - `src/game/systems/*.ts` - All ECS systems
 - `src/game/utils/ecsUtils.ts` - Core ECS utilities
@@ -233,6 +245,7 @@ graph TD
 - `src/setupTests.ts` - Current test setup
 
 ### New Files (To be created)
+
 - `vitest.config.ts` - Enhanced Vitest configuration
 - `src/__tests__/setup.ts` - Global test setup
 - `src/__tests__/testUtils.ts` - ECS testing utilities
@@ -246,6 +259,7 @@ graph TD
 - `docs/testing-guide.md` - Testing documentation
 
 ### Integration Points
+
 - **Vitest Configuration**: Enhanced setup for ECS and Pixi.js testing
 - **GitHub Actions**: Automated testing and coverage reporting
 - **Package.json**: Updated scripts and dependencies if needed

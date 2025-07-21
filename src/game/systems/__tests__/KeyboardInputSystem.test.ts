@@ -1,7 +1,11 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { KeyboardInputSystem } from '../KeyboardInputSystem';
 import { ComponentType } from '../../components/ComponentTypes';
-import { createTestUpdateArgs, createMockGameMap, createEntityWithComponents } from '../../../__tests__/testUtils';
+import {
+  createTestUpdateArgs,
+  createMockGameMap,
+  createEntityWithComponents,
+} from '../../../__tests__/testUtils';
 import { getComponentIfExists } from '../../components/ComponentOperations';
 import { InteractingComponent } from '../../components/individualComponents/InteractingComponent';
 import { HandlingComponent } from '../../components/individualComponents/HandlingComponent';
@@ -10,13 +14,13 @@ import type { Entity } from '../../utils/ecsUtils';
 // Mock ComponentOperations to work with test entities directly
 vi.mock('../../components/ComponentOperations', async () => {
   const actual = await vi.importActual('../../components/ComponentOperations');
-  
+
   return {
     ...actual,
     setComponent: vi.fn((entity: Entity, component: any) => {
       // For testing, directly modify the entity's components
       (entity.components as any)[component.type] = component;
-    })
+    }),
   };
 });
 
@@ -26,15 +30,15 @@ class TestableKeyboardInputSystem extends KeyboardInputSystem {
   public getKeys() {
     return (this as any).keys;
   }
-  
+
   public getHasChanged() {
     return (this as any).hasChanged;
   }
-  
+
   public setKeys(keys: { [key: string]: boolean }) {
     (this as any).keys = keys;
   }
-  
+
   public setHasChanged(hasChanged: boolean) {
     (this as any).hasChanged = hasChanged;
   }
@@ -46,8 +50,10 @@ const originalAddEventListener = window.addEventListener;
 
 beforeEach(() => {
   // Reset mock event handlers
-  Object.keys(mockEventHandlers).forEach(key => delete mockEventHandlers[key]);
-  
+  Object.keys(mockEventHandlers).forEach(
+    (key) => delete mockEventHandlers[key],
+  );
+
   // Mock addEventListener to capture handlers
   window.addEventListener = vi.fn((eventType: string, handler: any) => {
     mockEventHandlers[eventType] = handler;
@@ -75,27 +81,36 @@ describe('KeyboardInputSystem', () => {
 
   beforeEach(() => {
     system = new TestableKeyboardInputSystem();
-    
+
     // Create player entity with required components
     playerEntity = createEntityWithComponents([
       [ComponentType.Player, {}],
       [ComponentType.Velocity, { vx: 0, vy: 0 }],
-      [ComponentType.Position, { x: 0, y: 0 }]
+      [ComponentType.Position, { x: 0, y: 0 }],
     ]);
-    
+
     updateArgs = createTestUpdateArgs([playerEntity], createMockGameMap());
   });
 
   describe('Key Event Processing', () => {
     it('should register keydown and keyup event listeners', () => {
-      expect(window.addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function));
-      expect(window.addEventListener).toHaveBeenCalledWith('keyup', expect.any(Function));
+      expect(window.addEventListener).toHaveBeenCalledWith(
+        'keydown',
+        expect.any(Function),
+      );
+      expect(window.addEventListener).toHaveBeenCalledWith(
+        'keyup',
+        expect.any(Function),
+      );
     });
 
     it('should handle keydown events and mark as changed', () => {
       // Initially no change should happen
       system.update(updateArgs);
-      const initialVelocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
+      const initialVelocity = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
       expect(initialVelocity?.vx).toBe(0);
       expect(initialVelocity?.vy).toBe(0);
 
@@ -103,7 +118,10 @@ describe('KeyboardInputSystem', () => {
       simulateKeyEvent('keydown', 'ArrowRight');
       system.update(updateArgs);
 
-      const updatedVelocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
+      const updatedVelocity = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
       expect(updatedVelocity?.vx).toBe(1);
       expect(updatedVelocity?.vy).toBe(0);
     });
@@ -112,7 +130,7 @@ describe('KeyboardInputSystem', () => {
       // Press key down
       simulateKeyEvent('keydown', 'ArrowRight');
       system.update(updateArgs);
-      
+
       let velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
       expect(velocity?.vx).toBe(1);
 
@@ -129,17 +147,17 @@ describe('KeyboardInputSystem', () => {
       system.update(updateArgs);
       let velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
       expect(velocity?.vy).toBe(0); // Unchanged
-      
+
       // Press key to trigger change
       simulateKeyEvent('keydown', 'ArrowUp');
       system.update(updateArgs);
-      
+
       velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
       expect(velocity?.vy).toBe(-1);
-      
+
       // Update again without key change - should not process (hasChanged is false)
       system.update(updateArgs);
-      
+
       velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
       expect(velocity?.vy).toBe(-1); // Unchanged because no processing happened
     });
@@ -150,7 +168,10 @@ describe('KeyboardInputSystem', () => {
       simulateKeyEvent('keydown', 'ArrowUp');
       system.update(updateArgs);
 
-      const velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
+      const velocity = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
       expect(velocity?.vx).toBe(0);
       expect(velocity?.vy).toBe(-1);
     });
@@ -159,7 +180,10 @@ describe('KeyboardInputSystem', () => {
       simulateKeyEvent('keydown', 'ArrowDown');
       system.update(updateArgs);
 
-      const velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
+      const velocity = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
       expect(velocity?.vx).toBe(0);
       expect(velocity?.vy).toBe(1);
     });
@@ -168,7 +192,10 @@ describe('KeyboardInputSystem', () => {
       simulateKeyEvent('keydown', 'ArrowLeft');
       system.update(updateArgs);
 
-      const velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
+      const velocity = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
       expect(velocity?.vx).toBe(-1);
       expect(velocity?.vy).toBe(0);
     });
@@ -177,7 +204,10 @@ describe('KeyboardInputSystem', () => {
       simulateKeyEvent('keydown', 'ArrowRight');
       system.update(updateArgs);
 
-      const velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
+      const velocity = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
       expect(velocity?.vx).toBe(1);
       expect(velocity?.vy).toBe(0);
     });
@@ -187,7 +217,10 @@ describe('KeyboardInputSystem', () => {
       simulateKeyEvent('keydown', 'ArrowRight');
       system.update(updateArgs);
 
-      const velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
+      const velocity = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
       expect(velocity?.vx).toBe(1);
       expect(velocity?.vy).toBe(-1);
     });
@@ -197,7 +230,10 @@ describe('KeyboardInputSystem', () => {
       simulateKeyEvent('keydown', 'ArrowDown');
       system.update(updateArgs);
 
-      const velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
+      const velocity = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
       expect(velocity?.vy).toBe(1); // Down wins because it's processed after up
     });
 
@@ -223,19 +259,25 @@ describe('KeyboardInputSystem', () => {
     it('should add InteractingComponent on E key press', () => {
       // Debug test - verify entity setup
       console.log('Player entity:', JSON.stringify(playerEntity, null, 2));
-      
+
       // Directly set key state and hasChanged flag for controlled testing
-      system.setKeys({ 'E': true });
+      system.setKeys({ E: true });
       system.setHasChanged(true);
-      
+
       console.log('Keys set:', system.getKeys());
       console.log('HasChanged set:', system.getHasChanged());
-      
+
       system.update(updateArgs);
 
-      console.log('After update - Player entity:', JSON.stringify(playerEntity, null, 2));
-      
-      const interactingComponent = getComponentIfExists(playerEntity, ComponentType.Interacting);
+      console.log(
+        'After update - Player entity:',
+        JSON.stringify(playerEntity, null, 2),
+      );
+
+      const interactingComponent = getComponentIfExists(
+        playerEntity,
+        ComponentType.Interacting,
+      );
       console.log('InteractingComponent found:', interactingComponent);
       expect(interactingComponent).toBeInstanceOf(InteractingComponent);
     });
@@ -243,36 +285,54 @@ describe('KeyboardInputSystem', () => {
     it('should add HandlingComponent on space key press', () => {
       system.setKeys({ ' ': true });
       system.setHasChanged(true);
-      
+
       system.update(updateArgs);
 
-      const handlingComponent = getComponentIfExists(playerEntity, ComponentType.Handling);
+      const handlingComponent = getComponentIfExists(
+        playerEntity,
+        ComponentType.Handling,
+      );
       expect(handlingComponent).toBeInstanceOf(HandlingComponent);
     });
 
     it('should handle multiple interaction keys simultaneously', () => {
-      system.setKeys({ 'E': true, ' ': true });
+      system.setKeys({ E: true, ' ': true });
       system.setHasChanged(true);
-      
+
       system.update(updateArgs);
 
-      const interactingComponent = getComponentIfExists(playerEntity, ComponentType.Interacting);
-      const handlingComponent = getComponentIfExists(playerEntity, ComponentType.Handling);
-      
+      const interactingComponent = getComponentIfExists(
+        playerEntity,
+        ComponentType.Interacting,
+      );
+      const handlingComponent = getComponentIfExists(
+        playerEntity,
+        ComponentType.Handling,
+      );
+
       expect(interactingComponent).toBeInstanceOf(InteractingComponent);
       expect(handlingComponent).toBeInstanceOf(HandlingComponent);
     });
 
     it('should handle movement and interaction keys together', () => {
-      system.setKeys({ 'ArrowUp': true, 'E': true, ' ': true });
+      system.setKeys({ ArrowUp: true, E: true, ' ': true });
       system.setHasChanged(true);
-      
+
       system.update(updateArgs);
 
-      const velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
-      const interactingComponent = getComponentIfExists(playerEntity, ComponentType.Interacting);
-      const handlingComponent = getComponentIfExists(playerEntity, ComponentType.Handling);
-      
+      const velocity = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
+      const interactingComponent = getComponentIfExists(
+        playerEntity,
+        ComponentType.Interacting,
+      );
+      const handlingComponent = getComponentIfExists(
+        playerEntity,
+        ComponentType.Handling,
+      );
+
       expect(velocity?.vy).toBe(-1);
       expect(interactingComponent).toBeInstanceOf(InteractingComponent);
       expect(handlingComponent).toBeInstanceOf(HandlingComponent);
@@ -280,33 +340,39 @@ describe('KeyboardInputSystem', () => {
 
     it('should not add interaction components when keys are released', () => {
       // Press E key first
-      system.setKeys({ 'E': true });
+      system.setKeys({ E: true });
       system.setHasChanged(true);
-      
+
       system.update(updateArgs);
-      
-      let interactingComponent = getComponentIfExists(playerEntity, ComponentType.Interacting);
+
+      let interactingComponent = getComponentIfExists(
+        playerEntity,
+        ComponentType.Interacting,
+      );
       expect(interactingComponent).toBeInstanceOf(InteractingComponent);
-      
+
       // Release E key (simulate keyup by removing from keys and triggering change)
-      system.setKeys({ 'E': false });
+      system.setKeys({ E: false });
       system.setHasChanged(true);
-      
+
       system.update(updateArgs);
-      
+
       // The component should still exist because the system doesn't remove components,
       // but no new component should be added on subsequent updates
-      interactingComponent = getComponentIfExists(playerEntity, ComponentType.Interacting);
-      expect(interactingComponent).toBeInstanceOf(InteractingComponent); 
+      interactingComponent = getComponentIfExists(
+        playerEntity,
+        ComponentType.Interacting,
+      );
+      expect(interactingComponent).toBeInstanceOf(InteractingComponent);
     });
   });
 
   describe('System Edge Cases and Validation', () => {
     it('should handle empty entities array', () => {
       const emptyUpdateArgs = createTestUpdateArgs([], createMockGameMap());
-      
+
       simulateKeyEvent('keydown', 'ArrowUp');
-      
+
       expect(() => {
         system.update(emptyUpdateArgs);
       }).not.toThrow();
@@ -314,9 +380,9 @@ describe('KeyboardInputSystem', () => {
 
     it('should handle null/undefined map', () => {
       const nullMapArgs = createTestUpdateArgs([playerEntity], null as any);
-      
+
       simulateKeyEvent('keydown', 'ArrowUp');
-      
+
       expect(() => {
         system.update(nullMapArgs);
       }).not.toThrow();
@@ -326,29 +392,44 @@ describe('KeyboardInputSystem', () => {
       // Test with no player entities
       const nonPlayerEntity = createEntityWithComponents([
         [ComponentType.Position, { x: 0, y: 0 }],
-        [ComponentType.Velocity, { vx: 0, vy: 0 }]
+        [ComponentType.Velocity, { vx: 0, vy: 0 }],
       ]);
-      const noPlayerArgs = createTestUpdateArgs([nonPlayerEntity], createMockGameMap());
-      
+      const noPlayerArgs = createTestUpdateArgs(
+        [nonPlayerEntity],
+        createMockGameMap(),
+      );
+
       simulateKeyEvent('keydown', 'ArrowUp');
       system.update(noPlayerArgs);
-      
-      const velocity = getComponentIfExists(nonPlayerEntity, ComponentType.Velocity);
+
+      const velocity = getComponentIfExists(
+        nonPlayerEntity,
+        ComponentType.Velocity,
+      );
       expect(velocity?.vy).toBe(0); // Should not be modified
 
       // Test with multiple player entities
       const playerEntity2 = createEntityWithComponents([
         [ComponentType.Player, {}],
         [ComponentType.Velocity, { vx: 0, vy: 0 }],
-        [ComponentType.Position, { x: 1, y: 1 }]
+        [ComponentType.Position, { x: 1, y: 1 }],
       ]);
-      const multiPlayerArgs = createTestUpdateArgs([playerEntity, playerEntity2], createMockGameMap());
-      
+      const multiPlayerArgs = createTestUpdateArgs(
+        [playerEntity, playerEntity2],
+        createMockGameMap(),
+      );
+
       simulateKeyEvent('keydown', 'ArrowDown');
       system.update(multiPlayerArgs);
-      
-      const velocity1 = getComponentIfExists(playerEntity, ComponentType.Velocity);
-      const velocity2 = getComponentIfExists(playerEntity2, ComponentType.Velocity);
+
+      const velocity1 = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
+      const velocity2 = getComponentIfExists(
+        playerEntity2,
+        ComponentType.Velocity,
+      );
       expect(velocity1?.vy).toBe(0); // Should not be modified
       expect(velocity2?.vy).toBe(0); // Should not be modified
     });
@@ -356,25 +437,31 @@ describe('KeyboardInputSystem', () => {
     it('should handle player entity without velocity component', () => {
       const playerWithoutVelocity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Position, { x: 0, y: 0 }]
+        [ComponentType.Position, { x: 0, y: 0 }],
       ]);
-      const updateArgsNoVel = createTestUpdateArgs([playerWithoutVelocity], createMockGameMap());
-      
+      const updateArgsNoVel = createTestUpdateArgs(
+        [playerWithoutVelocity],
+        createMockGameMap(),
+      );
+
       // Create a new system for this test to avoid state contamination
       const testSystem = new TestableKeyboardInputSystem();
-      testSystem.setKeys({ 'ArrowUp': true });
+      testSystem.setKeys({ ArrowUp: true });
       testSystem.setHasChanged(true);
-      
+
       expect(() => {
         testSystem.update(updateArgsNoVel);
       }).not.toThrow();
-      
+
       // Should still handle interaction components
-      testSystem.setKeys({ 'E': true });
+      testSystem.setKeys({ E: true });
       testSystem.setHasChanged(true);
       testSystem.update(updateArgsNoVel);
-      
-      const interactingComponent = getComponentIfExists(playerWithoutVelocity, ComponentType.Interacting);
+
+      const interactingComponent = getComponentIfExists(
+        playerWithoutVelocity,
+        ComponentType.Interacting,
+      );
       expect(interactingComponent).toBeInstanceOf(InteractingComponent);
     });
 
@@ -382,12 +469,15 @@ describe('KeyboardInputSystem', () => {
       simulateKeyEvent('keydown', 'UnknownKey');
       simulateKeyEvent('keydown', 'Tab');
       simulateKeyEvent('keydown', 'Escape');
-      
+
       expect(() => {
         system.update(updateArgs);
       }).not.toThrow();
-      
-      const velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
+
+      const velocity = getComponentIfExists(
+        playerEntity,
+        ComponentType.Velocity,
+      );
       expect(velocity?.vx).toBe(0);
       expect(velocity?.vy).toBe(0);
     });
@@ -395,21 +485,21 @@ describe('KeyboardInputSystem', () => {
     it('should maintain key state correctly across multiple updates', () => {
       // Press and hold key
       simulateKeyEvent('keydown', 'ArrowRight');
-      
+
       // First update with key held
       system.update(updateArgs);
       let velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
       expect(velocity?.vx).toBe(1);
-      
+
       // Second update without key change - should not process (hasChanged is false)
-      system.update(updateArgs); 
+      system.update(updateArgs);
       velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
       expect(velocity?.vx).toBe(1); // Unchanged because no processing happened
-      
+
       // Release key (this will set hasChanged to true again)
       simulateKeyEvent('keyup', 'ArrowRight');
       system.update(updateArgs);
-      
+
       velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
       expect(velocity?.vx).toBe(0); // Key is no longer pressed
     });
@@ -418,20 +508,20 @@ describe('KeyboardInputSystem', () => {
       // First key press should trigger update
       simulateKeyEvent('keydown', 'ArrowUp');
       system.update(updateArgs);
-      
+
       let velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
       expect(velocity?.vy).toBe(-1);
-      
+
       // Subsequent update without key change should not process (hasChanged is false)
       system.update(updateArgs);
-      
+
       velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
       expect(velocity?.vy).toBe(-1); // Unchanged because no processing happened
-      
+
       // Another key change should trigger update again
       simulateKeyEvent('keydown', 'ArrowDown');
       system.update(updateArgs);
-      
+
       velocity = getComponentIfExists(playerEntity, ComponentType.Velocity);
       expect(velocity?.vy).toBe(1); // New input processed (down overrides up)
     });

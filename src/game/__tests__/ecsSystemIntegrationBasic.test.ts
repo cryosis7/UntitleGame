@@ -3,33 +3,37 @@ import { KeyboardInputSystem } from '../systems/KeyboardInputSystem';
 import { MovementSystem } from '../systems/MovementSystem';
 import { PickupSystem } from '../systems/PickupSystem';
 import { CleanUpSystem } from '../systems/CleanUpSystem';
-import { createTestEntity, createTestComponent, createTestUpdateArgs } from '../../__tests__/testUtils';
+import {
+  createTestEntity,
+  createTestComponent,
+  createTestUpdateArgs,
+} from '../../__tests__/testUtils';
 import { ComponentType } from '../components/ComponentTypes';
 import type { Entity } from '../utils/ecsUtils';
 import type { UpdateArgs } from '../systems/Systems';
 
-import { 
-  hasComponent, 
-  getComponentIfExists, 
-  setComponent, 
-  removeComponent 
+import {
+  hasComponent,
+  getComponentIfExists,
+  setComponent,
+  removeComponent,
 } from '../components/ComponentOperations';
-import { 
-  getEntitiesWithComponent, 
+import {
+  getEntitiesWithComponent,
   hasEntitiesAtPosition,
   addEntities,
   removeEntities,
-  getPlayerEntity
+  getPlayerEntity,
 } from '../utils/EntityUtils';
 
 // Mock window for event listeners
 Object.defineProperty(window, 'addEventListener', {
   value: vi.fn(),
-  writable: true
+  writable: true,
 });
 Object.defineProperty(window, 'removeEventListener', {
   value: vi.fn(),
-  writable: true
+  writable: true,
 });
 
 // Mock component operations with partial implementation
@@ -40,11 +44,11 @@ vi.mock('../components/ComponentOperations', async () => {
     hasComponent: vi.fn(() => false),
     getComponentIfExists: vi.fn(() => undefined),
     setComponent: vi.fn(),
-    removeComponent: vi.fn()
+    removeComponent: vi.fn(),
   };
 });
 
-// Mock entity utils with partial implementation  
+// Mock entity utils with partial implementation
 vi.mock('../utils/EntityUtils', async () => {
   const actual = await vi.importActual('../utils/EntityUtils');
   return {
@@ -53,7 +57,7 @@ vi.mock('../utils/EntityUtils', async () => {
     hasEntitiesAtPosition: vi.fn(() => false),
     addEntities: vi.fn(),
     removeEntities: vi.fn(),
-    getPlayerEntity: vi.fn(() => null)
+    getPlayerEntity: vi.fn(() => null),
   };
 });
 
@@ -69,13 +73,13 @@ const mockGetPlayerEntity = vi.mocked(getPlayerEntity);
 
 /**
  * Basic ECS System Integration Tests
- * 
+ *
  * This file tests fundamental system integration capabilities:
  * - System instantiation and basic operation
- * - System coordination and coexistence 
+ * - System coordination and coexistence
  * - Error handling and robustness
  * - Mock-based integration verification
- * 
+ *
  * Focuses on testing that systems can work together without conflicts,
  * handle errors gracefully, and maintain independence.
  */
@@ -89,16 +93,16 @@ describe('ECS System Integration Tests', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Initialize systems
     keyboardSystem = new KeyboardInputSystem();
     movementSystem = new MovementSystem();
     pickupSystem = new PickupSystem();
     cleanUpSystem = new CleanUpSystem();
-    
+
     testEntities = [];
     updateArgs = createTestUpdateArgs(testEntities);
-    
+
     // Default mocks
     mockHasComponent.mockReturnValue(false);
     mockGetComponentIfExists.mockReturnValue(undefined);
@@ -128,9 +132,12 @@ describe('ECS System Integration Tests', () => {
     });
 
     it('should handle systems with entities but no matching components', () => {
-      const entityWithoutMatchingComponents = createTestEntity({
-        position: createTestComponent(ComponentType.Position, { x: 0, y: 0 })
-      }, 'no-match');
+      const entityWithoutMatchingComponents = createTestEntity(
+        {
+          position: createTestComponent(ComponentType.Position, { x: 0, y: 0 }),
+        },
+        'no-match',
+      );
 
       testEntities = [entityWithoutMatchingComponents];
       updateArgs = createTestUpdateArgs(testEntities);
@@ -148,22 +155,30 @@ describe('ECS System Integration Tests', () => {
 
   describe('System Integration Verification', () => {
     it('should demonstrate systems can work with mocked dependencies', () => {
-      const playerEntity = createTestEntity({
-        player: createTestComponent(ComponentType.Player),
-        movable: createTestComponent(ComponentType.Movable)
-      }, 'player');
+      const playerEntity = createTestEntity(
+        {
+          player: createTestComponent(ComponentType.Player),
+          movable: createTestComponent(ComponentType.Movable),
+        },
+        'player',
+      );
 
       testEntities = [playerEntity];
       updateArgs = createTestUpdateArgs(testEntities);
 
       // Mock successful entity filtering (though systems may not use mocks directly)
-      mockGetEntitiesWithComponent.mockImplementation((componentType: ComponentType) => {
-        if (componentType === ComponentType.Player || componentType === ComponentType.Movable) {
-          return [playerEntity];
-        }
-        return [];
-      });
-      
+      mockGetEntitiesWithComponent.mockImplementation(
+        (componentType: ComponentType) => {
+          if (
+            componentType === ComponentType.Player ||
+            componentType === ComponentType.Movable
+          ) {
+            return [playerEntity];
+          }
+          return [];
+        },
+      );
+
       mockGetPlayerEntity.mockReturnValue(playerEntity);
 
       // Run systems - they should not throw regardless of whether they use mocks
@@ -178,27 +193,39 @@ describe('ECS System Integration Tests', () => {
     });
 
     it('should handle systems processing with component operations', () => {
-      const movableEntity = createTestEntity({
-        movable: createTestComponent(ComponentType.Movable),
-        position: createTestComponent(ComponentType.Position, { x: 5, y: 5 }),
-        velocity: createTestComponent(ComponentType.Velocity, { dx: 1, dy: 0 })
-      }, 'movable');
+      const movableEntity = createTestEntity(
+        {
+          movable: createTestComponent(ComponentType.Movable),
+          position: createTestComponent(ComponentType.Position, { x: 5, y: 5 }),
+          velocity: createTestComponent(ComponentType.Velocity, {
+            dx: 1,
+            dy: 0,
+          }),
+        },
+        'movable',
+      );
 
       testEntities = [movableEntity];
       updateArgs = createTestUpdateArgs(testEntities);
 
       // Mock entity filtering to return the movable entity
       mockGetEntitiesWithComponent.mockReturnValue([movableEntity]);
-      
+
       // Mock component operations
       mockHasComponent.mockReturnValue(true);
       mockGetComponentIfExists.mockImplementation((entity, componentType) => {
         if (entity === movableEntity) {
           switch (componentType) {
             case ComponentType.Position:
-              return createTestComponent(ComponentType.Position, { x: 5, y: 5 });
+              return createTestComponent(ComponentType.Position, {
+                x: 5,
+                y: 5,
+              });
             case ComponentType.Velocity:
-              return createTestComponent(ComponentType.Velocity, { dx: 1, dy: 0 });
+              return createTestComponent(ComponentType.Velocity, {
+                dx: 1,
+                dy: 0,
+              });
             default:
               return createTestComponent(componentType);
           }
@@ -216,28 +243,36 @@ describe('ECS System Integration Tests', () => {
 
   describe('System Coordination and Coexistence', () => {
     it('should run multiple systems in sequence without interference', () => {
-      const complexEntity = createTestEntity({
-        player: createTestComponent(ComponentType.Player),
-        position: createTestComponent(ComponentType.Position, { x: 3, y: 3 }),
-        velocity: createTestComponent(ComponentType.Velocity, { dx: 0, dy: 0 }),
-        movable: createTestComponent(ComponentType.Movable),
-        handling: createTestComponent(ComponentType.Handling)
-      }, 'complex');
+      const complexEntity = createTestEntity(
+        {
+          player: createTestComponent(ComponentType.Player),
+          position: createTestComponent(ComponentType.Position, { x: 3, y: 3 }),
+          velocity: createTestComponent(ComponentType.Velocity, {
+            dx: 0,
+            dy: 0,
+          }),
+          movable: createTestComponent(ComponentType.Movable),
+          handling: createTestComponent(ComponentType.Handling),
+        },
+        'complex',
+      );
 
       testEntities = [complexEntity];
       updateArgs = createTestUpdateArgs(testEntities);
 
       // Mock comprehensive entity filtering
-      mockGetEntitiesWithComponent.mockImplementation((componentType: ComponentType) => {
-        const hasComponent = [
-          ComponentType.Player,
-          ComponentType.Movable,
-          ComponentType.Handling
-        ].includes(componentType);
-        
-        return hasComponent ? [complexEntity] : [];
-      });
-      
+      mockGetEntitiesWithComponent.mockImplementation(
+        (componentType: ComponentType) => {
+          const hasComponent = [
+            ComponentType.Player,
+            ComponentType.Movable,
+            ComponentType.Handling,
+          ].includes(componentType);
+
+          return hasComponent ? [complexEntity] : [];
+        },
+      );
+
       mockGetPlayerEntity.mockReturnValue(complexEntity);
 
       // Run all systems in typical execution order - should not throw
@@ -258,20 +293,23 @@ describe('ECS System Integration Tests', () => {
     });
 
     it('should handle rapid sequential system updates without state conflicts', () => {
-      const testEntity = createTestEntity({
-        player: createTestComponent(ComponentType.Player),
-        movable: createTestComponent(ComponentType.Movable)
-      }, 'rapid-test');
+      const testEntity = createTestEntity(
+        {
+          player: createTestComponent(ComponentType.Player),
+          movable: createTestComponent(ComponentType.Movable),
+        },
+        'rapid-test',
+      );
 
       testEntities = [testEntity];
-      
+
       mockGetEntitiesWithComponent.mockReturnValue([testEntity]);
       mockGetPlayerEntity.mockReturnValue(testEntity);
 
       // Simulate rapid updates (like a game loop) - should not throw
       for (let i = 0; i < 10; i++) {
         updateArgs = createTestUpdateArgs(testEntities);
-        
+
         expect(() => {
           keyboardSystem.update(updateArgs);
           movementSystem.update(updateArgs);
@@ -284,38 +322,49 @@ describe('ECS System Integration Tests', () => {
     });
 
     it('should maintain system independence with different entity sets', () => {
-      const playerEntity = createTestEntity({
-        player: createTestComponent(ComponentType.Player)
-      }, 'player-only');
+      const playerEntity = createTestEntity(
+        {
+          player: createTestComponent(ComponentType.Player),
+        },
+        'player-only',
+      );
 
-      const movableEntity = createTestEntity({
-        movable: createTestComponent(ComponentType.Movable),
-        position: createTestComponent(ComponentType.Position, { x: 1, y: 1 }),
-        velocity: createTestComponent(ComponentType.Velocity, { dx: 0, dy: 0 })
-      }, 'movable-only');
+      const movableEntity = createTestEntity(
+        {
+          movable: createTestComponent(ComponentType.Movable),
+          position: createTestComponent(ComponentType.Position, { x: 1, y: 1 }),
+          velocity: createTestComponent(ComponentType.Velocity, {
+            dx: 0,
+            dy: 0,
+          }),
+        },
+        'movable-only',
+      );
 
       testEntities = [playerEntity, movableEntity];
       updateArgs = createTestUpdateArgs(testEntities);
 
       // Mock selective entity filtering
-      mockGetEntitiesWithComponent.mockImplementation((componentType: ComponentType) => {
-        switch (componentType) {
-          case ComponentType.Player:
-            return [playerEntity];
-          case ComponentType.Movable:
-            return [movableEntity];
-          default:
-            return [];
-        }
-      });
-      
+      mockGetEntitiesWithComponent.mockImplementation(
+        (componentType: ComponentType) => {
+          switch (componentType) {
+            case ComponentType.Player:
+              return [playerEntity];
+            case ComponentType.Movable:
+              return [movableEntity];
+            default:
+              return [];
+          }
+        },
+      );
+
       mockGetPlayerEntity.mockReturnValue(playerEntity);
 
       // Systems should work with their respective entities without conflicts
       expect(() => {
-        keyboardSystem.update(updateArgs);  // Should process playerEntity
-        movementSystem.update(updateArgs);  // Should process movableEntity
-        pickupSystem.update(updateArgs);    // Should process playerEntity
+        keyboardSystem.update(updateArgs); // Should process playerEntity
+        movementSystem.update(updateArgs); // Should process movableEntity
+        pickupSystem.update(updateArgs); // Should process playerEntity
       }).not.toThrow();
 
       // Verify independent system operation
@@ -340,9 +389,12 @@ describe('ECS System Integration Tests', () => {
     });
 
     it('should handle component operation failures gracefully', () => {
-      const testEntity = createTestEntity({
-        player: createTestComponent(ComponentType.Player)
-      }, 'test');
+      const testEntity = createTestEntity(
+        {
+          player: createTestComponent(ComponentType.Player),
+        },
+        'test',
+      );
 
       testEntities = [testEntity];
       updateArgs = createTestUpdateArgs(testEntities);
@@ -358,9 +410,12 @@ describe('ECS System Integration Tests', () => {
     });
 
     it('should continue functioning after mock function failures', () => {
-      const testEntity = createTestEntity({
-        movable: createTestComponent(ComponentType.Movable)
-      }, 'resilient');
+      const testEntity = createTestEntity(
+        {
+          movable: createTestComponent(ComponentType.Movable),
+        },
+        'resilient',
+      );
 
       testEntities = [testEntity];
       updateArgs = createTestUpdateArgs(testEntities);
@@ -386,7 +441,7 @@ describe('ECS System Integration Tests', () => {
       // Whether or not the first call threw an error, the system should remain functional
       // The test verifies that the system can handle potential mock failures gracefully
       expect(() => movementSystem.update(updateArgs)).not.toThrow();
-      
+
       // System should remain functional after any errors
       expect(movementSystem).toBeInstanceOf(MovementSystem);
     });

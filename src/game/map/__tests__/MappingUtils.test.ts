@@ -1,5 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { gridToScreen, gridToScreenAsTuple, screenToGrid } from '../../map/MappingUtils';
+import {
+  gridToScreen,
+  gridToScreenAsTuple,
+  screenToGrid,
+} from '../../map/MappingUtils';
 import { store } from '../../../App';
 import { getTileSizeAtom, mapConfigAtom } from '../../utils/Atoms';
 
@@ -7,8 +11,8 @@ import { getTileSizeAtom, mapConfigAtom } from '../../utils/Atoms';
 vi.mock('../../../App', () => ({
   store: {
     get: vi.fn(),
-    set: vi.fn()
-  }
+    set: vi.fn(),
+  },
 }));
 
 vi.mock('../../utils/Atoms', async () => {
@@ -23,7 +27,7 @@ const mockStore = vi.mocked(store);
 
 describe('MappingUtils', () => {
   const mockTileSize = 32;
-  
+
   beforeEach(() => {
     vi.clearAllMocks();
     // Default mock for tile size
@@ -42,7 +46,7 @@ describe('MappingUtils', () => {
       expect(mockStore.get).toHaveBeenCalledWith(getTileSizeAtom);
       expect(result).toEqual({
         x: 5 * mockTileSize, // 160
-        y: 3 * mockTileSize  // 96
+        y: 3 * mockTileSize, // 96
       });
     });
 
@@ -55,7 +59,7 @@ describe('MappingUtils', () => {
       expect(mockStore.get).not.toHaveBeenCalled();
       expect(result).toEqual({
         x: 2 * customTileSize, // 128
-        y: 4 * customTileSize  // 256
+        y: 4 * customTileSize, // 256
       });
     });
 
@@ -72,7 +76,7 @@ describe('MappingUtils', () => {
 
       expect(result).toEqual({
         x: -2 * mockTileSize, // -64
-        y: -1 * mockTileSize  // -32
+        y: -1 * mockTileSize, // -32
       });
     });
 
@@ -82,7 +86,7 @@ describe('MappingUtils', () => {
 
       expect(result).toEqual({
         x: 1000 * mockTileSize, // 32000
-        y: 500 * mockTileSize   // 16000
+        y: 500 * mockTileSize, // 16000
       });
     });
 
@@ -91,8 +95,8 @@ describe('MappingUtils', () => {
       const result = gridToScreen(gridPosition);
 
       expect(result).toEqual({
-        x: 2.5 * mockTileSize,  // 80
-        y: 1.75 * mockTileSize  // 56
+        x: 2.5 * mockTileSize, // 80
+        y: 1.75 * mockTileSize, // 56
       });
     });
 
@@ -113,7 +117,7 @@ describe('MappingUtils', () => {
       expect(mockStore.get).toHaveBeenCalledWith(getTileSizeAtom);
       expect(result).toEqual([
         3 * mockTileSize, // 96
-        2 * mockTileSize  // 64
+        2 * mockTileSize, // 64
       ]);
     });
 
@@ -126,7 +130,7 @@ describe('MappingUtils', () => {
       expect(mockStore.get).not.toHaveBeenCalled();
       expect(result).toEqual([
         1 * 48, // 48
-        4 * 48  // 192
+        4 * 48, // 192
       ]);
     });
 
@@ -138,7 +142,7 @@ describe('MappingUtils', () => {
       expect(mockStore.get).toHaveBeenCalledWith(getTileSizeAtom);
       expect(result).toEqual([
         2 * (mockTileSize + 4), // 2 * 36 = 72
-        1 * (mockTileSize + 4)  // 1 * 36 = 36
+        1 * (mockTileSize + 4), // 1 * 36 = 36
       ]);
     });
 
@@ -150,7 +154,7 @@ describe('MappingUtils', () => {
       expect(mockStore.get).not.toHaveBeenCalled();
       expect(result).toEqual([
         3 * (24 + 2), // 3 * 26 = 78
-        2 * (24 + 2)  // 2 * 26 = 52
+        2 * (24 + 2), // 2 * 26 = 52
       ]);
     });
 
@@ -167,7 +171,7 @@ describe('MappingUtils', () => {
 
       expect(result).toEqual([
         -1 * mockTileSize, // -32
-        -2 * mockTileSize  // -64
+        -2 * mockTileSize, // -64
       ]);
     });
 
@@ -178,7 +182,7 @@ describe('MappingUtils', () => {
 
       expect(result).toEqual([
         2 * mockTileSize, // 64
-        3 * mockTileSize  // 96
+        3 * mockTileSize, // 96
       ]);
     });
 
@@ -189,7 +193,7 @@ describe('MappingUtils', () => {
 
       expect(result).toEqual([
         2 * (mockTileSize - 4), // 2 * 28 = 56
-        1 * (mockTileSize - 4)  // 1 * 28 = 28
+        1 * (mockTileSize - 4), // 1 * 28 = 28
       ]);
     });
   });
@@ -202,7 +206,7 @@ describe('MappingUtils', () => {
       expect(mockStore.get).toHaveBeenCalledWith(getTileSizeAtom);
       expect(result).toEqual({
         x: Math.floor(96 / mockTileSize), // 3
-        y: Math.floor(64 / mockTileSize)  // 2
+        y: Math.floor(64 / mockTileSize), // 2
       });
     });
 
@@ -215,7 +219,7 @@ describe('MappingUtils', () => {
       expect(mockStore.get).not.toHaveBeenCalled();
       expect(result).toEqual({
         x: Math.floor(120 / customTileSize), // 2
-        y: Math.floor(180 / customTileSize)  // 3
+        y: Math.floor(180 / customTileSize), // 3
       });
     });
 
@@ -232,7 +236,7 @@ describe('MappingUtils', () => {
 
       expect(result).toEqual({
         x: Math.floor(-50 / mockTileSize), // Math.floor(-1.5625) = -2
-        y: Math.floor(-40 / mockTileSize)  // Math.floor(-1.25) = -2
+        y: Math.floor(-40 / mockTileSize), // Math.floor(-1.25) = -2
       });
     });
 
@@ -242,7 +246,7 @@ describe('MappingUtils', () => {
 
       expect(result).toEqual({
         x: Math.floor(95.8 / mockTileSize), // Math.floor(2.99375) = 2
-        y: Math.floor(63.2 / mockTileSize)  // Math.floor(1.975) = 1
+        y: Math.floor(63.2 / mockTileSize), // Math.floor(1.975) = 1
       });
     });
 
@@ -252,7 +256,7 @@ describe('MappingUtils', () => {
 
       expect(result).toEqual({
         x: Math.floor(64 / mockTileSize), // 2
-        y: Math.floor(32 / mockTileSize)  // 1
+        y: Math.floor(32 / mockTileSize), // 1
       });
     });
 
@@ -262,7 +266,7 @@ describe('MappingUtils', () => {
 
       expect(result).toEqual({
         x: Math.floor(3200 / mockTileSize), // 100
-        y: Math.floor(1600 / mockTileSize)  // 50
+        y: Math.floor(1600 / mockTileSize), // 50
       });
     });
   });
@@ -282,7 +286,7 @@ describe('MappingUtils', () => {
         { x: 1, y: 1 },
         { x: 10, y: 5 },
         { x: -2, y: -3 },
-        { x: 100, y: 50 }
+        { x: 100, y: 50 },
       ];
 
       for (const coords of testCoordinates) {

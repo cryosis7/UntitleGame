@@ -21,6 +21,7 @@ Your memory is a knowledge graph that contains information about the game. The f
 **Entities** are the primary nodes in the knowledge graph. Each entity has:
 
 Example:
+
 ```json
 {
   "name": "John_Smith",
@@ -32,6 +33,7 @@ Example:
 **Relations** define directed connections between entities. They are always stored in active voice and describe how entities interact or relate to each other.
 
 Example:
+
 ```json
 {
   "from": "John_Smith",

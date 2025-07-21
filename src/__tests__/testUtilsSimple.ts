@@ -1,25 +1,34 @@
 import { vi } from 'vitest';
 import type { Entity } from '../game/utils/ecsUtils';
 import type { UpdateArgs } from '../game/systems/Systems';
-import { 
-  ComponentType, 
-  type ComponentDictionary, 
+import {
+  ComponentType,
+  type ComponentDictionary,
   type Component,
-  type FullComponentDictionary 
+  type FullComponentDictionary,
 } from '../game/components/ComponentTypes';
 import {
   hasComponent,
   getComponentIfExists,
-  getComponentAbsolute
+  getComponentAbsolute,
 } from '../game/components/ComponentOperations';
 
 // Import all component classes for factory functions
-import { PositionComponent, type PositionComponentProps } from '../game/components/individualComponents/PositionComponent';
+import {
+  PositionComponent,
+  type PositionComponentProps,
+} from '../game/components/individualComponents/PositionComponent';
 import { PlayerComponent } from '../game/components/individualComponents/PlayerComponent';
 import { MovableComponent } from '../game/components/individualComponents/MovableComponent';
-import { VelocityComponent, type VelocityComponentProps } from '../game/components/individualComponents/VelocityComponent';
+import {
+  VelocityComponent,
+  type VelocityComponentProps,
+} from '../game/components/individualComponents/VelocityComponent';
 import { PickableComponent } from '../game/components/individualComponents/PickableComponent';
-import { CarriedItemComponent, type CarriedItemComponentProps } from '../game/components/individualComponents/CarriedItemComponent';
+import {
+  CarriedItemComponent,
+  type CarriedItemComponentProps,
+} from '../game/components/individualComponents/CarriedItemComponent';
 import { InteractingComponent } from '../game/components/individualComponents/InteractingComponent';
 import { HandlingComponent } from '../game/components/individualComponents/HandlingComponent';
 import { WalkableComponent } from '../game/components/individualComponents/WalkableComponent';
@@ -35,8 +44,8 @@ const createMockSprite = () => ({
   alpha: 1,
   texture: null,
   anchor: { x: 0.5, y: 0.5 },
-  tint: 0xFFFFFF,
-  destroy: vi.fn()
+  tint: 0xffffff,
+  destroy: vi.fn(),
 });
 
 // SpriteComponent needs special handling due to Pixi.js dependency
@@ -53,7 +62,7 @@ class MockSpriteComponent {
 
 /**
  * ECS Test Utilities for Entity Component System Testing
- * 
+ *
  * This module provides comprehensive testing utilities for:
  * - Creating test entities and components
  * - Asserting component states and properties
@@ -74,11 +83,11 @@ class MockSpriteComponent {
  */
 export function createTestEntity(
   components: ComponentDictionary = {},
-  id?: string
+  id?: string,
 ): Entity {
   return {
     id: id ?? crypto.randomUUID(),
-    components
+    components,
   };
 }
 
@@ -90,23 +99,31 @@ export function createTestEntity(
  */
 export function createTestComponent<T extends ComponentType>(
   componentType: T,
-  props: any = {}
+  props: any = {},
 ): FullComponentDictionary[T] {
   switch (componentType) {
     case ComponentType.Position:
-      return new PositionComponent(props as PositionComponentProps) as FullComponentDictionary[T];
+      return new PositionComponent(
+        props as PositionComponentProps,
+      ) as FullComponentDictionary[T];
     case ComponentType.Sprite:
-      return new MockSpriteComponent(props) as any as FullComponentDictionary[T];
+      return new MockSpriteComponent(
+        props,
+      ) as any as FullComponentDictionary[T];
     case ComponentType.Player:
       return new PlayerComponent() as FullComponentDictionary[T];
     case ComponentType.Movable:
       return new MovableComponent() as FullComponentDictionary[T];
     case ComponentType.Velocity:
-      return new VelocityComponent(props as VelocityComponentProps) as FullComponentDictionary[T];
+      return new VelocityComponent(
+        props as VelocityComponentProps,
+      ) as FullComponentDictionary[T];
     case ComponentType.Pickable:
       return new PickableComponent() as FullComponentDictionary[T];
     case ComponentType.CarriedItem:
-      return new CarriedItemComponent(props as CarriedItemComponentProps) as FullComponentDictionary[T];
+      return new CarriedItemComponent(
+        props as CarriedItemComponentProps,
+      ) as FullComponentDictionary[T];
     case ComponentType.Interacting:
       return new InteractingComponent() as FullComponentDictionary[T];
     case ComponentType.Handling:
@@ -125,7 +142,7 @@ export function createTestComponent<T extends ComponentType>(
  * @param componentConfigs - Array of component type and props pairs
  * @param id - Optional custom entity ID
  * @returns Test entity with all specified components attached
- * 
+ *
  * @example
  * const entity = createEntityWithComponents([
  *   [ComponentType.Position, { x: 5, y: 10 }],
@@ -135,14 +152,14 @@ export function createTestComponent<T extends ComponentType>(
  */
 export function createEntityWithComponents(
   componentConfigs: Array<[ComponentType, any]>,
-  id?: string
+  id?: string,
 ): Entity {
   const components: ComponentDictionary = {};
-  
+
   componentConfigs.forEach(([type, props]) => {
     components[type] = createTestComponent(type, props);
   });
-  
+
   return createTestEntity(components, id);
 }
 
@@ -156,9 +173,14 @@ export function createEntityWithComponents(
  * @param componentType - Expected component type
  * @throws Error if entity doesn't have the component
  */
-export function expectEntityHasComponent(entity: Entity, componentType: ComponentType): void {
+export function expectEntityHasComponent(
+  entity: Entity,
+  componentType: ComponentType,
+): void {
   if (!hasComponent(entity, componentType)) {
-    throw new Error(`Expected entity ${entity.id} to have component ${componentType}, but it doesn't`);
+    throw new Error(
+      `Expected entity ${entity.id} to have component ${componentType}, but it doesn't`,
+    );
   }
 }
 
@@ -168,9 +190,14 @@ export function expectEntityHasComponent(entity: Entity, componentType: Componen
  * @param componentType - Component type that should not exist
  * @throws Error if entity has the component
  */
-export function expectEntityDoesNotHaveComponent(entity: Entity, componentType: ComponentType): void {
+export function expectEntityDoesNotHaveComponent(
+  entity: Entity,
+  componentType: ComponentType,
+): void {
   if (hasComponent(entity, componentType)) {
-    throw new Error(`Expected entity ${entity.id} to NOT have component ${componentType}, but it does`);
+    throw new Error(
+      `Expected entity ${entity.id} to NOT have component ${componentType}, but it does`,
+    );
   }
 }
 
@@ -184,17 +211,17 @@ export function expectEntityDoesNotHaveComponent(entity: Entity, componentType: 
 export function expectComponentProps<T extends ComponentType>(
   entity: Entity,
   componentType: T,
-  expectedProps: Partial<FullComponentDictionary[T]>
+  expectedProps: Partial<FullComponentDictionary[T]>,
 ): void {
   expectEntityHasComponent(entity, componentType);
-  
+
   const component = getComponentAbsolute(entity, componentType);
-  
+
   Object.entries(expectedProps).forEach(([key, expectedValue]) => {
     const actualValue = (component as any)[key];
     if (actualValue !== expectedValue) {
       throw new Error(
-        `Expected component ${componentType} property ${key} to be ${expectedValue}, but got ${actualValue}`
+        `Expected component ${componentType} property ${key} to be ${expectedValue}, but got ${actualValue}`,
       );
     }
   });
@@ -209,11 +236,13 @@ export function expectComponentProps<T extends ComponentType>(
  */
 export function getTestComponent<T extends ComponentType>(
   entity: Entity,
-  componentType: T
+  componentType: T,
 ): FullComponentDictionary[T] {
   const component = getComponentIfExists(entity, componentType);
   if (!component) {
-    throw new Error(`Entity ${entity.id} does not have component ${componentType}`);
+    throw new Error(
+      `Entity ${entity.id} does not have component ${componentType}`,
+    );
   }
   return component as FullComponentDictionary[T];
 }
@@ -232,8 +261,14 @@ export interface MockGameMap {
   getSpriteContainer(): any;
   isPositionInMap(pos: { x: number; y: number }): boolean;
   getTile(pos: { x: number; y: number }): Entity | null;
-  getAdjacentPosition(pos: { x: number; y: number }, direction: string): { x: number; y: number };
-  getAdjacentTile(pos: { x: number; y: number }, direction: string): Entity | null;
+  getAdjacentPosition(
+    pos: { x: number; y: number },
+    direction: string,
+  ): { x: number; y: number };
+  getAdjacentTile(
+    pos: { x: number; y: number },
+    direction: string,
+  ): Entity | null;
   isTileWalkable(pos: { x: number; y: number }): boolean;
   isValidPosition(pos: { x: number; y: number }): boolean;
 }
@@ -248,12 +283,12 @@ export interface MockGameMap {
 export function createTestUpdateArgs(
   entities: Entity[] = [],
   map?: MockGameMap,
-  time?: any
+  time?: any,
 ): UpdateArgs {
   return {
     entities,
     map: map ?? createMockGameMap(),
-    time: time ?? createMockTicker()
+    time: time ?? createMockTicker(),
   } as UpdateArgs;
 }
 
@@ -273,7 +308,7 @@ export function createMockTicker(deltaTime: number = 1): any {
     remove: vi.fn(),
     start: vi.fn(),
     stop: vi.fn(),
-    update: vi.fn()
+    update: vi.fn(),
   };
 }
 
@@ -291,12 +326,14 @@ export function createMockTicker(deltaTime: number = 1): any {
 export function createMockGameMap(
   width: number = 10,
   height: number = 10,
-  entities: Entity[] = []
+  entities: Entity[] = [],
 ): MockGameMap {
-  const tiles: (Entity | null)[][] = Array(height).fill(null).map(() => Array(width).fill(null));
-  
+  const tiles: (Entity | null)[][] = Array(height)
+    .fill(null)
+    .map(() => Array(width).fill(null));
+
   // Place entities on the map
-  entities.forEach(entity => {
+  entities.forEach((entity) => {
     if (hasComponent(entity, ComponentType.Position)) {
       const pos = getTestComponent(entity, ComponentType.Position);
       if (pos.x < width && pos.y < height && pos.x >= 0 && pos.y >= 0) {
@@ -304,53 +341,63 @@ export function createMockGameMap(
       }
     }
   });
-  
+
   const mockMap: MockGameMap = {
     id: crypto.randomUUID(),
     hasChanged: true,
-    
+
     getAllEntities: vi.fn(() => entities),
-    
+
     getSpriteContainer: vi.fn(() => ({
       addChild: vi.fn(),
       removeChild: vi.fn(),
-      children: []
+      children: [],
     })),
-    
-    isPositionInMap: vi.fn((pos: { x: number; y: number }) => 
-      pos.x >= 0 && pos.y >= 0 && pos.x < width && pos.y < height
+
+    isPositionInMap: vi.fn(
+      (pos: { x: number; y: number }) =>
+        pos.x >= 0 && pos.y >= 0 && pos.x < width && pos.y < height,
     ),
-    
+
     getTile: vi.fn((pos: { x: number; y: number }) => {
       if (pos.x >= 0 && pos.y >= 0 && pos.x < width && pos.y < height) {
         return tiles[pos.y][pos.x];
       }
       return null;
     }),
-    
-    getAdjacentPosition: vi.fn((pos: { x: number; y: number }, direction: string) => {
-      switch (direction) {
-        case 'up': return { x: pos.x, y: pos.y - 1 };
-        case 'down': return { x: pos.x, y: pos.y + 1 };
-        case 'left': return { x: pos.x - 1, y: pos.y };
-        case 'right': return { x: pos.x + 1, y: pos.y };
-        default: return pos;
-      }
-    }),
-    
-    getAdjacentTile: vi.fn((pos: { x: number; y: number }, direction: string) => {
-      const adjPos = mockMap.getAdjacentPosition(pos, direction);
-      return mockMap.getTile(adjPos);
-    }),
-    
+
+    getAdjacentPosition: vi.fn(
+      (pos: { x: number; y: number }, direction: string) => {
+        switch (direction) {
+          case 'up':
+            return { x: pos.x, y: pos.y - 1 };
+          case 'down':
+            return { x: pos.x, y: pos.y + 1 };
+          case 'left':
+            return { x: pos.x - 1, y: pos.y };
+          case 'right':
+            return { x: pos.x + 1, y: pos.y };
+          default:
+            return pos;
+        }
+      },
+    ),
+
+    getAdjacentTile: vi.fn(
+      (pos: { x: number; y: number }, direction: string) => {
+        const adjPos = mockMap.getAdjacentPosition(pos, direction);
+        return mockMap.getTile(adjPos);
+      },
+    ),
+
     isTileWalkable: vi.fn((pos: { x: number; y: number }) => {
       const tile = mockMap.getTile(pos);
       return tile ? hasComponent(tile, ComponentType.Walkable) : false;
     }),
-    
+
     isValidPosition: vi.fn((pos: { x: number; y: number }) => {
       return mockMap.isPositionInMap(pos) && mockMap.isTileWalkable(pos);
-    })
+    }),
   };
 
   return mockMap;
@@ -376,40 +423,40 @@ export function cleanupTestState(): void {
 export function createTestEnvironment() {
   // Clean slate
   cleanupTestState();
-  
+
   const testEntities: Entity[] = [];
   const testMap = createMockGameMap();
-  
+
   // Helper to add entity to test environment
   const addEntity = (entity: Entity) => {
     testEntities.push(entity);
     return entity;
   };
-  
+
   // Helper to remove entity from test environment
   const removeEntity = (entityId: string) => {
-    const index = testEntities.findIndex(e => e.id === entityId);
+    const index = testEntities.findIndex((e) => e.id === entityId);
     if (index > -1) {
       testEntities.splice(index, 1);
     }
   };
-  
+
   // Helper to get current entities
   const getEntities = () => [...testEntities];
-  
+
   // Helper to set test map
   const setMap = (map: MockGameMap) => {
     // Update test map reference
     Object.assign(testMap, map);
   };
-  
+
   return {
     addEntity,
     removeEntity,
     getEntities,
     setMap,
     map: testMap,
-    cleanup: cleanupTestState
+    cleanup: cleanupTestState,
   };
 }
 
@@ -425,10 +472,10 @@ export function createTestEnvironment() {
  */
 export function createMultipleTestEntities(
   count: number,
-  componentFactory: (index: number) => ComponentDictionary = () => ({})
+  componentFactory: (index: number) => ComponentDictionary = () => ({}),
 ): Entity[] {
-  return Array.from({ length: count }, (_, index) => 
-    createTestEntity(componentFactory(index))
+  return Array.from({ length: count }, (_, index) =>
+    createTestEntity(componentFactory(index)),
   );
 }
 
@@ -442,7 +489,7 @@ export function findEntitiesWithComponents(
   entities: Entity[],
   ...componentTypes: ComponentType[]
 ): Entity[] {
-  return entities.filter(entity => 
-    componentTypes.every(type => hasComponent(entity, type))
+  return entities.filter((entity) =>
+    componentTypes.every((type) => hasComponent(entity, type)),
   );
 }

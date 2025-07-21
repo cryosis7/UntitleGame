@@ -25,12 +25,12 @@ const createDisplayObjectMock = () => ({
 // Container mock - extends display object with child management
 export const mockContainer = () => ({
   ...createDisplayObjectMock(),
-  addChild: vi.fn().mockImplementation(function(this: any, child: any) {
+  addChild: vi.fn().mockImplementation(function (this: any, child: any) {
     this.children.push(child);
     child.parent = this;
     return child;
   }),
-  removeChild: vi.fn().mockImplementation(function(this: any, child: any) {
+  removeChild: vi.fn().mockImplementation(function (this: any, child: any) {
     const index = this.children.indexOf(child);
     if (index > -1) {
       this.children.splice(index, 1);
@@ -38,8 +38,8 @@ export const mockContainer = () => ({
     }
     return child;
   }),
-  removeChildren: vi.fn().mockImplementation(function(this: any) {
-    this.children.forEach((child: any) => child.parent = null);
+  removeChildren: vi.fn().mockImplementation(function (this: any) {
+    this.children.forEach((child: any) => (child.parent = null));
     this.children.length = 0;
   }),
 });
@@ -49,8 +49,8 @@ export const mockSprite = () => ({
   ...createDisplayObjectMock(),
   texture: null,
   anchor: { x: 0, y: 0 },
-  tint: 0xFFFFFF,
-  setSize: vi.fn().mockImplementation(function(this: any, size: number) {
+  tint: 0xffffff,
+  setSize: vi.fn().mockImplementation(function (this: any, size: number) {
     this.width = size;
     this.height = size;
   }),
@@ -94,9 +94,13 @@ export const mockTicker = () => ({
   elapsedMS: 16,
   lastTime: 0,
   add: vi.fn(),
-  remove: vi.fn(), 
-  start: vi.fn().mockImplementation(function(this: any) { this.started = true; }),
-  stop: vi.fn().mockImplementation(function(this: any) { this.started = false; }),
+  remove: vi.fn(),
+  start: vi.fn().mockImplementation(function (this: any) {
+    this.started = true;
+  }),
+  stop: vi.fn().mockImplementation(function (this: any) {
+    this.started = false;
+  }),
   update: vi.fn(),
   destroy: vi.fn(),
 });
@@ -124,8 +128,8 @@ export const mockApplication = () => ({
 
 // Assets mock - handles asset loading
 export const mockAssets = {
-  load: vi.fn(async () => mockTexture()),
-  get: vi.fn(() => mockTexture()),
+  load: vi.fn(async (_path?: string) => mockTexture()),
+  get: vi.fn((_path?: string) => mockTexture()),
   add: vi.fn().mockReturnThis(),
   loadBundle: vi.fn().mockResolvedValue({}),
 };
@@ -136,11 +140,13 @@ export const Sprite = vi.fn(() => mockSprite());
 export const Graphics = vi.fn(() => mockGraphics());
 export const Application = vi.fn(() => mockApplication());
 export const Ticker = vi.fn(() => mockTicker());
-export const Spritesheet = vi.fn((_texture?: any, _data?: any) => mockSpritesheet());
+export const Spritesheet = vi.fn((_texture?: any, _data?: any) =>
+  mockSpritesheet(),
+);
 
 // Static methods and properties
 export const Texture = {
-  from: vi.fn(() => mockTexture()),
+  from: vi.fn((_source?: string) => mockTexture()),
   WHITE: mockTexture(),
   EMPTY: mockTexture(),
 };
@@ -160,7 +166,7 @@ export const createMockTicker = () => mockTicker();
 export const setupPixiMocks = () => {
   // Clear all mock call history
   vi.clearAllMocks();
-  
+
   // Reset any shared state
   Container.mockClear();
   Sprite.mockClear();

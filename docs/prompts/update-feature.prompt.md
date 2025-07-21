@@ -1,7 +1,26 @@
 ---
 mode: agent
 description: Update an existing PRD and task list with new requirements or changes
-tools: ['codebase', 'editFiles', 'fetch', 'findTestFiles', 'githubRepo', 'problems', 'runCommands', 'runTasks', 'runTests', 'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'github', 'memory']
+tools:
+  [
+    'codebase',
+    'editFiles',
+    'fetch',
+    'findTestFiles',
+    'githubRepo',
+    'problems',
+    'runCommands',
+    'runTasks',
+    'runTests',
+    'search',
+    'searchResults',
+    'terminalLastCommand',
+    'terminalSelection',
+    'testFailure',
+    'usages',
+    'github',
+    'memory',
+  ]
 ---
 
 # Update PRD and Task List Prompt

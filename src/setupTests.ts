@@ -11,23 +11,39 @@ vi.mock('../game/map/GameMap', () => {
   class MockGameMap {
     id: string;
     hasChanged: boolean;
-    
+
     constructor() {
       this.id = crypto.randomUUID();
       this.hasChanged = true;
     }
-    
+
     init() {}
-    getAllEntities() { return []; }
-    getSpriteContainer() { return {}; }
-    isPositionInMap() { return true; }
-    getTile() { return null; }
-    getAdjacentPosition(pos: any, direction: string) { return pos; }
-    getAdjacentTile() { return null; }
-    isTileWalkable() { return true; }
-    isValidPosition() { return true; }
+    getAllEntities() {
+      return [];
+    }
+    getSpriteContainer() {
+      return {};
+    }
+    isPositionInMap() {
+      return true;
+    }
+    getTile() {
+      return null;
+    }
+    getAdjacentPosition(pos: any, direction: string) {
+      return pos;
+    }
+    getAdjacentTile() {
+      return null;
+    }
+    isTileWalkable() {
+      return true;
+    }
+    isValidPosition() {
+      return true;
+    }
   }
-  
+
   return { GameMap: MockGameMap };
 });
 
@@ -49,14 +65,14 @@ vi.mock('pixi.js', () => {
     removeChild: vi.fn(),
     removeChildren: vi.fn(),
     destroy: vi.fn(),
-    eventMode: 'auto'
+    eventMode: 'auto',
   });
 
   const mockSprite = () => ({
     ...mockContainer(),
     texture: null,
     anchor: { x: 0, y: 0 },
-    tint: 0xFFFFFF,
+    tint: 0xffffff,
   });
 
   const mockTexture = () => ({
@@ -129,7 +145,7 @@ afterEach(() => {
   // Only clear elements that are not from React Testing Library
   // React Testing Library cleanup is handled separately
   const reactRoot = document.querySelector('[data-testid]')?.parentElement;
-  
+
   // Clear DOM except for React Testing Library managed elements
   Array.from(document.body.children).forEach((child) => {
     // Keep React Testing Library containers
@@ -144,8 +160,10 @@ afterEach(cleanup);
 const originalConsole = { ...console };
 Object.assign(console, {
   // Silence console.log in tests unless NODE_ENV is explicitly set for debugging
-  log: import.meta.env.NODE_ENV === 'test-debug' ? originalConsole.log : vi.fn(),
-  warn: import.meta.env.NODE_ENV === 'test-debug' ? originalConsole.warn : vi.fn(),
+  log:
+    import.meta.env.NODE_ENV === 'test-debug' ? originalConsole.log : vi.fn(),
+  warn:
+    import.meta.env.NODE_ENV === 'test-debug' ? originalConsole.warn : vi.fn(),
   error: originalConsole.error, // Keep errors visible
 });
 
@@ -158,10 +176,13 @@ vi.setConfig({
 // Common test utilities available globally
 (globalThis as any).testUtils = {
   // Helper to wait for next tick
-  waitForNextTick: () => new Promise(resolve => setTimeout(resolve, 0)),
-  
+  waitForNextTick: () => new Promise((resolve) => setTimeout(resolve, 0)),
+
   // Helper to create DOM elements for testing
-  createTestElement: (tag: string = 'div', attributes: Record<string, string> = {}) => {
+  createTestElement: (
+    tag: string = 'div',
+    attributes: Record<string, string> = {},
+  ) => {
     const element = document.createElement(tag);
     Object.entries(attributes).forEach(([key, value]) => {
       element.setAttribute(key, value);
@@ -174,6 +195,9 @@ vi.setConfig({
 declare global {
   var testUtils: {
     waitForNextTick: () => Promise<void>;
-    createTestElement: (tag?: string, attributes?: Record<string, string>) => HTMLElement;
+    createTestElement: (
+      tag?: string,
+      attributes?: Record<string, string>,
+    ) => HTMLElement;
   };
 }

@@ -7,6 +7,7 @@ This PRD defines the design and implementation of an Item Unlock System for the 
 ## Goals
 
 ### Primary Objectives
+
 - Enable items to unlock/interact with other items using the existing interaction system
 - Support configurable key consumption (consumable vs reusable keys)
 - Provide multiple unlock behaviors (transform, remove, spawn contents)
@@ -14,6 +15,7 @@ This PRD defines the design and implementation of an Item Unlock System for the 
 - Enhance player engagement through tool-based puzzle mechanics
 
 ### Business Value
+
 - Adds depth to gameplay through puzzle-solving mechanics
 - Creates opportunities for progression gating and level design
 - Establishes foundation for inventory and tool-based gameplay
@@ -22,55 +24,65 @@ This PRD defines the design and implementation of an Item Unlock System for the 
 ## User Stories
 
 ### US-001: Basic Key-Target Interaction
+
 **As a** player  
 **I want to** use a key item to unlock a target object  
-**So that** I can access new content or progress through the game  
+**So that** I can access new content or progress through the game
 
 **Acceptance Criteria:**
+
 - When I carry a valid key item and press E near a compatible target, the unlock action occurs
 - The system automatically selects the correct key from my inventory if I have multiple items
 - Visual/audio feedback confirms successful unlock attempts
 - Invalid key attempts play error sound and show no visual change
 
 ### US-002: Configurable Key Consumption
+
 **As a** game designer  
 **I want to** configure whether keys are consumed on use  
-**So that** I can balance gameplay and create different key types  
+**So that** I can balance gameplay and create different key types
 
 **Acceptance Criteria:**
+
 - Reusable keys (like drawer keys) remain in inventory after use
 - Consumable keys (like crowbars) are removed from inventory after successful use
 - Key consumption behavior is defined per key-target pair
 - Player receives appropriate feedback when keys are consumed
 
 ### US-003: Multiple Unlock Behaviors
+
 **As a** player  
 **I want** different types of unlock behaviors  
-**So that** the game world feels varied and realistic  
+**So that** the game world feels varied and realistic
 
 **Acceptance Criteria:**
+
 - Transform behavior: Target changes sprite/state (door closes/opens, chest opens/closes)
 - Destroy behavior: Target is permanently changed and cannot revert
 - Content behavior: Target spawns items at its location when unlocked
 - State persistence: Some targets remember their state, others reset
 
 ### US-004: Automatic Key Selection
+
 **As a** player  
 **I want** the game to automatically use the correct key  
-**So that** I don't need to manually manage which key to use  
+**So that** I don't need to manually manage which key to use
 
 **Acceptance Criteria:**
+
 - System scans player's carried items for valid keys
 - First matching key is automatically selected and used
 - Player doesn't need to manually select keys from inventory
 - System prioritizes keys based on defined order if multiple match
 
 ### US-005: Audio Feedback System
+
 **As a** player  
 **I want** audio feedback for unlock attempts  
-**So that** I understand the result of my interactions  
+**So that** I understand the result of my interactions
 
 **Acceptance Criteria:**
+
 - Success sound plays when unlock succeeds
 - Error sound plays when no valid key is available
 - Different sound effects for different unlock types (open, break, etc.)
@@ -79,40 +91,47 @@ This PRD defines the design and implementation of an Item Unlock System for the 
 ## Functional Requirements
 
 ### FR-001: Component Architecture
+
 - **UnlockableComponent**: Defines what keys can unlock this entity and unlock behavior
 - **KeyItemComponent**: Marks items as keys with unlock capabilities
 - **UnlockedStateComponent**: Tracks current unlock state of entities
 
 ### FR-002: Unlock System Integration
+
 - New **UnlockSystem** processes interaction attempts between players and unlockable entities
 - System integrates with existing **InteractingComponent** from KeyboardInputSystem
 - System runs after PickupSystem but before CleanUpSystem in game loop
 
 ### FR-003: Key-Target Relationships
+
 - Simple component-based approach: UnlockableComponent lists accepted key types
 - Key types identified by string identifiers (e.g., "house_key", "crowbar", "swipecard")
 - One-to-many relationship: single key can unlock multiple target types
 - Many-to-one relationship: multiple keys can unlock same target type
 
 ### FR-004: Unlock Behaviors
+
 - **Transform**: Changes entity sprite, can be reversible or permanent
 - **Remove**: Removes target entity from game world
 - **SpawnContents**: Creates new entities at target location
 - **Composite**: Combines multiple behaviors (transform + spawn contents)
 
 ### FR-005: State Management
+
 - Unlockable entities track their current state (locked/unlocked)
 - Some entities support state toggling (doors, drawers)
 - Others are permanent state changes (broken locks, destroyed barriers)
 - State persistence handled through component data
 
 ### FR-006: Audio Integration
-- Success sound: "unlock_success.wav" 
+
+- Success sound: "unlock_success.wav"
 - Error sound: "unlock_failed.wav"
 - Specific sounds per behavior type: "door_open.wav", "chest_open.wav", "break_wood.wav"
 - Audio system integration through existing game audio framework
 
 ## Non-Goals
+
 - Complex key combination requirements (multiple keys for single target)
 - Inventory management UI (keys managed through existing CarriedItem system)
 - Lock-picking mini-games or skill checks
@@ -122,12 +141,14 @@ This PRD defines the design and implementation of an Item Unlock System for the 
 ## Design Considerations
 
 ### UI/UX Requirements
+
 - No new UI elements required - uses existing interaction patterns
 - Visual indicators through sprite changes and animation
 - Audio feedback provides primary user feedback
 - Consistent with existing game's minimalist interface approach
 
 ### Visual Feedback
+
 - Unlockable items may have visual indicators (keyhole sprites, padlock overlays)
 - Successful unlocks trigger sprite transitions
 - Failed attempts have brief visual feedback (shake animation, color flash)
@@ -136,21 +157,25 @@ This PRD defines the design and implementation of an Item Unlock System for the 
 ## Technical Considerations
 
 ### Performance Requirements
+
 - System processes only entities with InteractingComponent (minimal performance impact)
 - Key lookup algorithms optimized for small inventory sizes (1-5 items typical)
 - Audio loading/caching handled efficiently for responsive feedback
 - No frame rate impact during unlock operations
 
 ### Security Considerations
+
 - Not applicable - single player game with local state
 
 ### Scalability Needs
+
 - Component system scales linearly with entity count
 - Key-target definitions support unlimited combinations
 - Audio system handles concurrent sound playback
 - Entity state changes integrate with existing save/load systems
 
 ### Integration Points
+
 - **KeyboardInputSystem**: Triggers InteractingComponent
 - **PickupSystem**: Manages key item inventory
 - **RenderSystem**: Handles sprite changes for visual feedback
@@ -159,12 +184,14 @@ This PRD defines the design and implementation of an Item Unlock System for the 
 ## Success Metrics
 
 ### Measurable Outcomes
+
 - **Functionality**: 100% of defined key-target pairs work correctly
-- **Performance**: No measurable frame rate impact during unlock operations  
+- **Performance**: No measurable frame rate impact during unlock operations
 - **User Experience**: Audio feedback plays within 100ms of interaction
 - **Code Quality**: All components follow existing ECS patterns and conventions
 
 ### Key Performance Indicators
+
 - Zero critical bugs related to unlock system in testing
 - Successful integration with existing systems without breaking changes
 - Code review approval from team members
@@ -173,6 +200,7 @@ This PRD defines the design and implementation of an Item Unlock System for the 
 ## Open Questions
 
 ### Technical Implementation
+
 1. **Audio System Architecture**: How should audio be integrated with the existing Pixi.js setup?
    - Should we use Web Audio API directly or add an audio library?
    - How do we handle audio asset loading and management?
@@ -186,6 +214,7 @@ This PRD defines the design and implementation of an Item Unlock System for the 
    - How complex should the visual feedback be?
 
 ### Design Decisions
+
 1. **Key Identification**: Should keys use display names or internal IDs?
    - Example: "House Key" vs "house_key_001"
    - Impact on localization and content management
@@ -207,25 +236,25 @@ This PRD defines the design and implementation of an Item Unlock System for the 
 ```typescript
 // UnlockableComponent: Attached to entities that can be unlocked
 export interface UnlockableComponentProps {
-  acceptedKeys: string[];          // Keys that can unlock this entity
-  unlockBehavior: UnlockBehavior;  // What happens when unlocked
-  isReversible: boolean;           // Can this be locked again?
-  isUnlocked: boolean;             // Current state
-  consumeKeyOnUse: boolean;        // Whether to remove key after use
+  acceptedKeys: string[]; // Keys that can unlock this entity
+  unlockBehavior: UnlockBehavior; // What happens when unlocked
+  isReversible: boolean; // Can this be locked again?
+  isUnlocked: boolean; // Current state
+  consumeKeyOnUse: boolean; // Whether to remove key after use
 }
 
 // KeyItemComponent: Attached to items that can unlock things
 export interface KeyItemComponentProps {
-  keyType: string;                 // Identifier for this key type
-  canUnlock: string[];             // Optional: specific targets this key works on
+  keyType: string; // Identifier for this key type
+  canUnlock: string[]; // Optional: specific targets this key works on
 }
 
 // UnlockBehavior: Defines what happens during unlock
 export interface UnlockBehavior {
   type: 'transform' | 'remove' | 'spawnContents' | 'composite';
-  transformSprite?: string;        // New sprite for transform behavior
-  spawnItems?: EntityTemplate[];   // Items to spawn for spawnContents behavior
-  permanentChange?: boolean;       // Whether this change can be reverted
+  transformSprite?: string; // New sprite for transform behavior
+  spawnItems?: EntityTemplate[]; // Items to spawn for spawnContents behavior
+  permanentChange?: boolean; // Whether this change can be reverted
 }
 ```
 
@@ -241,13 +270,13 @@ export const LockedDrawer: EntityTemplate = {
       unlockBehavior: {
         type: 'transform',
         transformSprite: 'drawer_open',
-        permanentChange: false
+        permanentChange: false,
       },
       isReversible: true,
       isUnlocked: false,
-      consumeKeyOnUse: false
-    }
-  }
+      consumeKeyOnUse: false,
+    },
+  },
 };
 
 // Door that breaks when opened with crowbar
@@ -259,13 +288,13 @@ export const WoodenDoor: EntityTemplate = {
       unlockBehavior: {
         type: 'transform',
         transformSprite: 'door_broken',
-        permanentChange: true
+        permanentChange: true,
       },
       isReversible: false,
       isUnlocked: false,
-      consumeKeyOnUse: true
-    }
-  }
+      consumeKeyOnUse: true,
+    },
+  },
 };
 
 // Chest that contains items
@@ -279,15 +308,15 @@ export const TreasureChest: EntityTemplate = {
         transformSprite: 'chest_open',
         spawnItems: [
           { components: { sprite: { sprite: 'gold_coin' }, pickable: {} } },
-          { components: { sprite: { sprite: 'potion' }, pickable: {} } }
+          { components: { sprite: { sprite: 'potion' }, pickable: {} } },
         ],
-        permanentChange: false
+        permanentChange: false,
       },
       isReversible: true,
       isUnlocked: false,
-      consumeKeyOnUse: false
-    }
-  }
+      consumeKeyOnUse: false,
+    },
+  },
 };
 
 // Key items
@@ -297,9 +326,9 @@ export const DrawerKey: EntityTemplate = {
     pickable: {},
     keyItem: {
       keyType: 'drawer_key',
-      canUnlock: ['drawer', 'cabinet']
-    }
-  }
+      canUnlock: ['drawer', 'cabinet'],
+    },
+  },
 };
 
 export const Crowbar: EntityTemplate = {
@@ -308,9 +337,9 @@ export const Crowbar: EntityTemplate = {
     pickable: {},
     keyItem: {
       keyType: 'crowbar',
-      canUnlock: ['door', 'crate', 'barrier']
-    }
-  }
+      canUnlock: ['door', 'crate', 'barrier'],
+    },
+  },
 };
 ```
 
@@ -332,15 +361,21 @@ export class UnlockSystem implements System {
     //       - Play error sound
     //       - No other changes
   }
-  
-  private findValidKey(carriedItems: Entity[], acceptedKeys: string[]): Entity | null {
+
+  private findValidKey(
+    carriedItems: Entity[],
+    acceptedKeys: string[],
+  ): Entity | null {
     // Search through carried items for first matching key
   }
-  
-  private executeUnlockBehavior(target: Entity, behavior: UnlockBehavior): void {
+
+  private executeUnlockBehavior(
+    target: Entity,
+    behavior: UnlockBehavior,
+  ): void {
     // Handle transform, remove, spawnContents, and composite behaviors
   }
-  
+
   private playUnlockSound(success: boolean, behaviorType?: string): void {
     // Play appropriate audio feedback
   }

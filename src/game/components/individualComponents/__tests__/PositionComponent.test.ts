@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { PositionComponent, type PositionComponentProps } from '../PositionComponent';
+import {
+  PositionComponent,
+  type PositionComponentProps,
+} from '../PositionComponent';
 import { ComponentType } from '../../ComponentTypes';
 
 describe('PositionComponent', () => {
@@ -40,7 +43,10 @@ describe('PositionComponent', () => {
 
   describe('Property Validation', () => {
     it('should handle very large coordinate values', () => {
-      const props: PositionComponentProps = { x: Number.MAX_SAFE_INTEGER, y: Number.MAX_SAFE_INTEGER };
+      const props: PositionComponentProps = {
+        x: Number.MAX_SAFE_INTEGER,
+        y: Number.MAX_SAFE_INTEGER,
+      };
       const component = new PositionComponent(props);
 
       expect(component.x).toBe(Number.MAX_SAFE_INTEGER);
@@ -48,7 +54,10 @@ describe('PositionComponent', () => {
     });
 
     it('should handle very small coordinate values', () => {
-      const props: PositionComponentProps = { x: Number.MIN_SAFE_INTEGER, y: Number.MIN_SAFE_INTEGER };
+      const props: PositionComponentProps = {
+        x: Number.MIN_SAFE_INTEGER,
+        y: Number.MIN_SAFE_INTEGER,
+      };
       const component = new PositionComponent(props);
 
       expect(component.x).toBe(Number.MIN_SAFE_INTEGER);
@@ -91,7 +100,7 @@ describe('PositionComponent', () => {
     it('should maintain type consistency across instances', () => {
       const component1 = new PositionComponent({ x: 0, y: 0 });
       const component2 = new PositionComponent({ x: 100, y: 200 });
-      
+
       expect(component1.type).toBe(component2.type);
       expect(component1.type).toBe(ComponentType.Position);
     });
@@ -100,20 +109,20 @@ describe('PositionComponent', () => {
   describe('Property Modification', () => {
     it('should allow direct property modification', () => {
       const component = new PositionComponent({ x: 1, y: 2 });
-      
+
       component.x = 10;
       component.y = 20;
-      
+
       expect(component.x).toBe(10);
       expect(component.y).toBe(20);
     });
 
     it('should handle property modification with edge values', () => {
       const component = new PositionComponent({ x: 1, y: 2 });
-      
+
       component.x = -0;
       component.y = 0;
-      
+
       // -0 is still 0 in JavaScript, but Object.is distinguishes them
       expect(component.x).toBe(-0);
       expect(component.y).toBe(0);
@@ -126,7 +135,7 @@ describe('PositionComponent', () => {
       const component = new PositionComponent({ x: 5, y: 10 });
       const serialized = JSON.stringify(component);
       const parsed = JSON.parse(serialized);
-      
+
       expect(parsed.x).toBe(5);
       expect(parsed.y).toBe(10);
       expect(parsed.type).toBe(ComponentType.Position);
@@ -136,7 +145,7 @@ describe('PositionComponent', () => {
       const component = new PositionComponent({ x: 0, y: -0 });
       const serialized = JSON.stringify(component);
       const parsed = JSON.parse(serialized);
-      
+
       expect(parsed.x).toBe(0);
       expect(parsed.y).toBe(0);
     });

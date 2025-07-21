@@ -6,15 +6,15 @@ import { ComponentType } from '../../components/ComponentTypes';
 vi.mock('../../../App', () => ({
   store: {
     get: vi.fn(() => ({
-      isTileWalkable: vi.fn(() => true)
-    }))
-  }
+      isTileWalkable: vi.fn(() => true),
+    })),
+  },
 }));
 
 vi.mock('../Atoms');
 vi.mock('../../components/ComponentOperations', () => ({
   hasComponent: vi.fn(() => false),
-  getComponentIfExists: vi.fn(() => undefined)
+  getComponentIfExists: vi.fn(() => undefined),
 }));
 
 describe('ecsUtils', () => {
@@ -23,10 +23,10 @@ describe('ecsUtils', () => {
       // Since getEmptyPosition has complex store/map dependencies,
       // we test that it's properly exported and has the right interface
       const { getEmptyPosition } = await import('../ecsUtils');
-      
+
       expect(getEmptyPosition).toBeDefined();
       expect(typeof getEmptyPosition).toBe('function');
-      
+
       // Function should be callable (even if it throws due to mock limitations)
       expect(() => getEmptyPosition).not.toThrow();
     });
@@ -36,9 +36,9 @@ describe('ecsUtils', () => {
     it('should define proper Entity type structure', () => {
       const mockEntity: Entity = {
         id: 'test-entity-123',
-        components: {}
+        components: {},
       };
-      
+
       expect(mockEntity).toHaveProperty('id');
       expect(mockEntity).toHaveProperty('components');
       expect(typeof mockEntity.id).toBe('string');
@@ -50,36 +50,40 @@ describe('ecsUtils', () => {
         id: 'entity-with-comps',
         components: {
           position: { type: ComponentType.Position, x: 5, y: 3 },
-          sprite: { type: ComponentType.Sprite, sprite: {} as any }
-        }
+          sprite: { type: ComponentType.Sprite, sprite: {} as any },
+        },
       };
-      
+
       expect(entityWithComponents.components).toHaveProperty('position');
       expect(entityWithComponents.components).toHaveProperty('sprite');
-      expect(entityWithComponents.components.position?.type).toBe(ComponentType.Position);
-      expect(entityWithComponents.components.sprite?.type).toBe(ComponentType.Sprite);
+      expect(entityWithComponents.components.position?.type).toBe(
+        ComponentType.Position,
+      );
+      expect(entityWithComponents.components.sprite?.type).toBe(
+        ComponentType.Sprite,
+      );
     });
 
     it('should support empty entity', () => {
       const emptyEntity: Entity = {
         id: 'empty-entity',
-        components: {}
+        components: {},
       };
-      
+
       expect(Object.keys(emptyEntity.components)).toHaveLength(0);
     });
 
     it('should support entity ID generation patterns', () => {
       const timestampEntity: Entity = {
         id: `entity-${Date.now()}`,
-        components: {}
+        components: {},
       };
-      
+
       const uuidLikeEntity: Entity = {
         id: 'entity-123e4567-e89b-12d3-a456-426614174000',
-        components: {}
+        components: {},
       };
-      
+
       expect(timestampEntity.id).toMatch(/^entity-\d+$/);
       expect(uuidLikeEntity.id).toMatch(/^entity-[a-f0-9-]+$/);
     });
@@ -91,13 +95,17 @@ describe('ecsUtils', () => {
           position: { type: ComponentType.Position, x: 10, y: 20 },
           sprite: { type: ComponentType.Sprite, sprite: {} as any },
           movable: { type: ComponentType.Movable },
-          velocity: { type: ComponentType.Velocity, x: 1, y: 0 }
-        }
+          velocity: { type: ComponentType.Velocity, x: 1, y: 0 },
+        },
       };
-      
+
       expect(Object.keys(complexEntity.components)).toHaveLength(4);
-      expect(complexEntity.components.position?.type).toBe(ComponentType.Position);
-      expect(complexEntity.components.velocity?.type).toBe(ComponentType.Velocity);
+      expect(complexEntity.components.position?.type).toBe(
+        ComponentType.Position,
+      );
+      expect(complexEntity.components.velocity?.type).toBe(
+        ComponentType.Velocity,
+      );
     });
   });
 });

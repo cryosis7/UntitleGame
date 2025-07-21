@@ -1,7 +1,26 @@
 ---
 mode: agent
 description: Generate a comprehensive Product Requirements Document (PRD) for a new feature
-tools: ['codebase', 'editFiles', 'fetch', 'findTestFiles', 'githubRepo', 'problems', 'runCommands', 'runTasks', 'runTests', 'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'github', 'memory']
+tools:
+  [
+    'codebase',
+    'editFiles',
+    'fetch',
+    'findTestFiles',
+    'githubRepo',
+    'problems',
+    'runCommands',
+    'runTasks',
+    'runTests',
+    'search',
+    'searchResults',
+    'terminalLastCommand',
+    'terminalSelection',
+    'testFailure',
+    'usages',
+    'github',
+    'memory',
+  ]
 ---
 
 # PRD Creation Prompt
@@ -36,7 +55,7 @@ You are a product requirements specialist helping to create a comprehensive Prod
    - Save in `/tasks/[feature-name]/` directory
 
 4. **Create issue in GitHub**:
-Confirm with the user before creating.
+   Confirm with the user before creating.
    - Title: "PRD for [Feature Name]"
    - Body: Include the PRD content
    - Labels: `prd`, `feature-request`
@@ -56,6 +75,7 @@ Confirm with the user before creating.
 - Include user stories, technical specifications, and success metrics
 
 **Forbidden Actions:**
+
 - Do not proceed to create tasks or implementation details
 
 ## Quality Criteria

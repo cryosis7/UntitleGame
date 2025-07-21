@@ -1,6 +1,7 @@
 # Test Utilities Quick Reference
 
 ## Overview
+
 This document provides quick reference examples for using the ECS test utilities and helper functions. Use this as a cheat sheet when writing new tests.
 
 ## Test Utilities (`src/__tests__/testUtils.ts`)
@@ -8,6 +9,7 @@ This document provides quick reference examples for using the ECS test utilities
 ### Entity Creation
 
 #### Basic Entity Creation
+
 ```typescript
 import { createTestEntity } from '../__tests__/testUtils';
 
@@ -19,6 +21,7 @@ const entity = createTestEntity('player-1');
 ```
 
 #### Entity with Components
+
 ```typescript
 import { createEntityWith } from '../__tests__/testUtils';
 import { PositionComponent, VelocityComponent } from '../game/components';
@@ -31,18 +34,25 @@ const entity = createEntityWithout(VelocityComponent);
 ```
 
 #### Specialized Entity Factories
+
 ```typescript
 // Pre-configured entities for common test scenarios
-const player = createPlayerEntity();      // Position + Player + Movable
+const player = createPlayerEntity(); // Position + Player + Movable
 const item = createPickableItem('sword'); // Position + Pickable + Sprite
-const wall = createWallEntity();          // Position + Sprite + !Walkable
+const wall = createWallEntity(); // Position + Sprite + !Walkable
 ```
 
 ### Component Operations
 
 #### Component Management
+
 ```typescript
-import { addComponent, removeComponent, hasComponent, getComponent } from '../__tests__/testUtils';
+import {
+  addComponent,
+  removeComponent,
+  hasComponent,
+  getComponent,
+} from '../__tests__/testUtils';
 
 // Add component to entity
 addComponent(entity, PositionComponent, { x: 10, y: 20 });
@@ -59,8 +69,12 @@ removeComponent(entity, PositionComponent);
 ```
 
 #### Component Assertions
+
 ```typescript
-import { expectEntityHasComponent, expectComponentProps } from '../__tests__/testUtils';
+import {
+  expectEntityHasComponent,
+  expectComponentProps,
+} from '../__tests__/testUtils';
 
 // Assert entity has required components
 expectEntityHasComponent(entity, PositionComponent);
@@ -74,6 +88,7 @@ expectComponentProps(entity, VelocityComponent, { dx: 5, dy: 0 });
 ### Mock Data Creation
 
 #### Update Arguments
+
 ```typescript
 import { createTestUpdateArgs } from '../__tests__/testUtils';
 
@@ -84,12 +99,13 @@ const mockArgs = createTestUpdateArgs();
 const mockArgs = createTestUpdateArgs({ deltaTime: 33.33 }); // 30 FPS
 
 // With custom game map
-const mockArgs = createTestUpdateArgs({ 
-  gameMap: createMockGameMap({ width: 1024, height: 768 })
+const mockArgs = createTestUpdateArgs({
+  gameMap: createMockGameMap({ width: 1024, height: 768 }),
 });
 ```
 
 #### Game Map Mocking
+
 ```typescript
 import { createMockGameMap } from '../__tests__/testUtils';
 
@@ -102,11 +118,12 @@ const gameMap = createMockGameMap({ width: 800, height: 600 });
 // Mock with specific tile behavior
 const gameMap = createMockGameMap({
   isWalkable: vi.fn().mockReturnValue(false), // All tiles blocked
-  getTileAt: vi.fn().mockReturnValue({ type: 'wall' })
+  getTileAt: vi.fn().mockReturnValue({ type: 'wall' }),
 });
 ```
 
 #### Input State Mocking
+
 ```typescript
 import { createMockInputState } from '../__tests__/testUtils';
 
@@ -115,31 +132,42 @@ const inputState = createMockInputState();
 
 // Mock with specific keys pressed
 const inputState = createMockInputState({
-  keys: { 'w': true, 'a': false, 's': false, 'd': false }
+  keys: { w: true, a: false, s: false, d: false },
 });
 
 // Mock mouse input
 const inputState = createMockInputState({
-  mouse: { x: 100, y: 150, leftButton: true }
+  mouse: { x: 100, y: 150, leftButton: true },
 });
 ```
 
 ### Collection Utilities
 
 #### Entity Filtering
-```typescript
-import { filterEntitiesWith, filterEntitiesWithout } from '../__tests__/testUtils';
 
-const entities = [/* ... */];
+```typescript
+import {
+  filterEntitiesWith,
+  filterEntitiesWithout,
+} from '../__tests__/testUtils';
+
+const entities = [
+  /* ... */
+];
 
 // Get entities with specific components
-const movableEntities = filterEntitiesWith(entities, PositionComponent, VelocityComponent);
+const movableEntities = filterEntitiesWith(
+  entities,
+  PositionComponent,
+  VelocityComponent,
+);
 
 // Get entities without specific components
 const staticEntities = filterEntitiesWithout(entities, VelocityComponent);
 ```
 
 #### Counting Utilities
+
 ```typescript
 import { countEntitiesWith, expectEntityCount } from '../__tests__/testUtils';
 
@@ -148,12 +176,13 @@ const playerCount = countEntitiesWith(entities, PlayerComponent);
 
 // Assert entity counts
 expectEntityCount(entities, PickableComponent, 5); // Expect 5 pickable items
-expectEntityCount(entities, PlayerComponent, 1);   // Expect 1 player
+expectEntityCount(entities, PlayerComponent, 1); // Expect 1 player
 ```
 
 ## PIXI.js Mocks (`src/__tests__/mocks/pixiMocks.ts`)
 
 ### Sprite Mocking
+
 ```typescript
 import { createMockSprite } from '../__tests__/mocks/pixiMocks';
 
@@ -166,7 +195,7 @@ const sprite = createMockSprite({
   y: 200,
   width: 64,
   height: 64,
-  texture: 'player.png'
+  texture: 'player.png',
 });
 
 // Sprite with event listeners
@@ -176,6 +205,7 @@ sprite.emit = vi.fn();
 ```
 
 ### Application Mocking
+
 ```typescript
 import { createMockApplication } from '../__tests__/mocks/pixiMocks';
 
@@ -192,6 +222,7 @@ expect(app.ticker.add).toHaveBeenCalledWith(gameLoop);
 ```
 
 ### Graphics Mocking
+
 ```typescript
 import { createMockGraphics } from '../__tests__/mocks/pixiMocks';
 
@@ -210,13 +241,16 @@ expect(graphics.drawRect).toHaveBeenCalledWith(0, 0, 100, 100);
 ## Component Test Templates
 
 ### Basic Component Test
+
 ```typescript
 import { ComponentName } from '../ComponentName';
 
 describe('ComponentName', () => {
   describe('constructor', () => {
     it('should create with valid data', () => {
-      const component = new ComponentName({ /* valid props */ });
+      const component = new ComponentName({
+        /* valid props */
+      });
       expect(component).toBeDefined();
     });
 
@@ -229,7 +263,7 @@ describe('ComponentName', () => {
     it('should get and set properties correctly', () => {
       const component = new ComponentName({ property: 'value' });
       expect(component.property).toBe('value');
-      
+
       component.property = 'newValue';
       expect(component.property).toBe('newValue');
     });
@@ -238,6 +272,7 @@ describe('ComponentName', () => {
 ```
 
 ### Position Component Test Example
+
 ```typescript
 import { PositionComponent } from '../PositionComponent';
 
@@ -264,9 +299,13 @@ describe('PositionComponent', () => {
 ## System Test Templates
 
 ### Basic System Test
+
 ```typescript
 import { SystemName } from '../SystemName';
-import { createTestEntity, createTestUpdateArgs } from '../../__tests__/testUtils';
+import {
+  createTestEntity,
+  createTestUpdateArgs,
+} from '../../__tests__/testUtils';
 
 describe('SystemName', () => {
   let mockUpdateArgs: UpdateArgs;
@@ -277,12 +316,15 @@ describe('SystemName', () => {
 
   describe('entity filtering', () => {
     it('should only process entities with required components', () => {
-      const validEntity = createEntityWith(RequiredComponent1, RequiredComponent2);
+      const validEntity = createEntityWith(
+        RequiredComponent1,
+        RequiredComponent2,
+      );
       const invalidEntity = createEntityWith(RequiredComponent1); // Missing component 2
-      
+
       const entities = [validEntity, invalidEntity];
       const result = SystemName.update(entities, mockUpdateArgs);
-      
+
       expect(result.processedCount).toBe(1);
     });
   });
@@ -291,9 +333,9 @@ describe('SystemName', () => {
     it('should transform entity data correctly', () => {
       const entity = createEntityWith(RequiredComponent1, RequiredComponent2);
       // Set up initial state
-      
+
       SystemName.update([entity], mockUpdateArgs);
-      
+
       // Assert expected transformations
       const component = getComponent(entity, RequiredComponent1);
       expect(component.someProperty).toBe(expectedValue);
@@ -303,6 +345,7 @@ describe('SystemName', () => {
 ```
 
 ### Movement System Test Example
+
 ```typescript
 import { MovementSystem } from '../MovementSystem';
 import { PositionComponent, VelocityComponent } from '../components';
@@ -310,14 +353,14 @@ import { PositionComponent, VelocityComponent } from '../components';
 describe('MovementSystem', () => {
   it('should update position based on velocity', () => {
     const entity = createEntityWith(PositionComponent, VelocityComponent);
-    
+
     // Set initial position and velocity
     addComponent(entity, PositionComponent, { x: 0, y: 0 });
     addComponent(entity, VelocityComponent, { dx: 5, dy: -3 });
-    
+
     const mockArgs = createTestUpdateArgs({ deltaTime: 16.67 });
     MovementSystem.update([entity], mockArgs);
-    
+
     const position = getComponent(entity, PositionComponent);
     expect(position.x).toBeCloseTo(5);
     expect(position.y).toBeCloseTo(-3);
@@ -328,23 +371,24 @@ describe('MovementSystem', () => {
 ## Integration Test Templates
 
 ### System Chain Test
+
 ```typescript
 describe('System Integration', () => {
   it('should process entities through multiple systems', () => {
     const player = createPlayerEntity();
     const entities = [player];
     const mockArgs = createTestUpdateArgs();
-    
+
     // System 1: Input Processing
     KeyboardInputSystem.update(entities, mockArgs);
     const velocity = getComponent(player, VelocityComponent);
     expect(velocity.dx).not.toBe(0); // Input should create movement
-    
-    // System 2: Movement Processing  
+
+    // System 2: Movement Processing
     MovementSystem.update(entities, mockArgs);
     const position = getComponent(player, PositionComponent);
     expect(position.x).toBe(velocity.dx); // Position should update
-    
+
     // System 3: Rendering
     RenderSystem.update(entities, mockArgs);
     const sprite = getComponent(player, SpriteComponent);
@@ -354,26 +398,27 @@ describe('System Integration', () => {
 ```
 
 ### Gameplay Scenario Test
+
 ```typescript
 describe('Item Pickup Scenario', () => {
   it('should complete full pickup workflow', () => {
     const player = createPlayerEntity();
     const item = createPickableItem('health_potion');
-    
+
     // Position item near player
     positionEntityNear(item, player);
-    
+
     const entities = [player, item];
     const mockArgs = createTestUpdateArgs();
-    
+
     // Trigger pickup
     PickupSystem.update(entities, mockArgs);
-    
+
     // Verify pickup succeeded
     expect(hasComponent(player, CarriedItemComponent)).toBe(true);
     const carried = getComponent(player, CarriedItemComponent);
     expect(carried.itemType).toBe('health_potion');
-    
+
     // Verify item removed from world
     expect(hasComponent(item, PickableComponent)).toBe(false);
   });
@@ -383,6 +428,7 @@ describe('Item Pickup Scenario', () => {
 ## Assertion Helpers
 
 ### Custom Matchers
+
 ```typescript
 // Position assertions
 expect(position).toBeAtLocation(10, 20);
@@ -400,6 +446,7 @@ expect(entities).toContainEntityWith(PlayerComponent);
 ```
 
 ### Numeric Assertions
+
 ```typescript
 // For floating point comparisons
 expect(position.x).toBeCloseTo(10.0, 2); // 2 decimal places
@@ -413,6 +460,7 @@ expect(entity).toBeVisibleOnScreen(camera);
 ## Mock Verification
 
 ### System Call Verification
+
 ```typescript
 const systemSpy = vi.spyOn(MovementSystem, 'update');
 
@@ -429,6 +477,7 @@ expect(processEntitySpy).toHaveBeenCalledTimes(2); // Two entities processed
 ```
 
 ### PIXI.js Mock Verification
+
 ```typescript
 const sprite = createMockSprite();
 
@@ -444,6 +493,7 @@ expect(sprite.visible).toBe(true);
 ## Common Test Patterns
 
 ### Setup and Teardown
+
 ```typescript
 describe('SystemName', () => {
   let entities: Entity[];
@@ -457,25 +507,26 @@ describe('SystemName', () => {
 
   afterEach(() => {
     // Cleanup if needed
-    entities.forEach(entity => entity.components = {});
+    entities.forEach((entity) => (entity.components = {}));
   });
 });
 ```
 
 ### Parameterized Tests
+
 ```typescript
 describe.each([
   { x: 0, y: 0, expected: { x: 5, y: 3 } },
   { x: 10, y: 20, expected: { x: 15, y: 23 } },
-  { x: -5, y: -10, expected: { x: 0, y: -7 } }
+  { x: -5, y: -10, expected: { x: 0, y: -7 } },
 ])('MovementSystem with position $x,$y', ({ x, y, expected }) => {
   it(`should move to ${expected.x},${expected.y}`, () => {
     const entity = createEntityWith(PositionComponent, VelocityComponent);
     addComponent(entity, PositionComponent, { x, y });
     addComponent(entity, VelocityComponent, { dx: 5, dy: 3 });
-    
+
     MovementSystem.update([entity], mockArgs);
-    
+
     const position = getComponent(entity, PositionComponent);
     expect(position.x).toBe(expected.x);
     expect(position.y).toBe(expected.y);
@@ -484,6 +535,7 @@ describe.each([
 ```
 
 ### Error Testing
+
 ```typescript
 describe('error handling', () => {
   it('should handle null entities gracefully', () => {
@@ -493,7 +545,7 @@ describe('error handling', () => {
   it('should handle invalid component data', () => {
     const entity = createTestEntity();
     addComponent(entity, PositionComponent, { x: NaN, y: 0 });
-    
+
     expect(() => SystemName.update([entity], mockArgs)).not.toThrow();
     // System should handle or skip invalid data
   });

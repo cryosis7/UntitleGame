@@ -1,7 +1,27 @@
 ---
 mode: agent
 description: Execute development tasks systematically with proper testing and git practices
-tools: ['codebase', 'editFiles', 'fetch', 'findTestFiles', 'githubRepo', 'problems', 'runCommands', 'runTasks', 'runTests', 'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'github', 'memory', 'sequential-thinking']
+tools:
+  [
+    'codebase',
+    'editFiles',
+    'fetch',
+    'findTestFiles',
+    'githubRepo',
+    'problems',
+    'runCommands',
+    'runTasks',
+    'runTests',
+    'search',
+    'searchResults',
+    'terminalLastCommand',
+    'terminalSelection',
+    'testFailure',
+    'usages',
+    'github',
+    'memory',
+    'sequential-thinking',
+  ]
 ---
 
 # Task Execution Prompt

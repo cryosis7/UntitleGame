@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { 
+import {
   createEntityFromTemplate,
   createEntitiesFromTemplates,
-  type EntityTemplate
+  type EntityTemplate,
 } from '../EntityFactory';
 import { ComponentType } from '../../components/ComponentTypes';
 
@@ -22,7 +22,7 @@ describe('EntityFactory', () => {
   describe('createEntityFromTemplate', () => {
     it('should create entity with generated ID', () => {
       const template: EntityTemplate = {
-        components: {}
+        components: {},
       };
 
       const entity = createEntityFromTemplate(template);
@@ -36,8 +36,8 @@ describe('EntityFactory', () => {
     it('should create entity with position component', () => {
       const template: EntityTemplate = {
         components: {
-          [ComponentType.Position]: { x: 10, y: 20 }
-        }
+          [ComponentType.Position]: { x: 10, y: 20 },
+        },
       };
 
       const entity = createEntityFromTemplate(template);
@@ -54,8 +54,8 @@ describe('EntityFactory', () => {
       const template: EntityTemplate = {
         components: {
           [ComponentType.Player]: {},
-          [ComponentType.Position]: { x: 0, y: 0 }
-        }
+          [ComponentType.Position]: { x: 0, y: 0 },
+        },
       };
 
       const entity = createEntityFromTemplate(template);
@@ -67,7 +67,7 @@ describe('EntityFactory', () => {
 
     it('should handle empty template', () => {
       const template: EntityTemplate = {
-        components: {}
+        components: {},
       };
 
       const entity = createEntityFromTemplate(template);
@@ -88,14 +88,14 @@ describe('EntityFactory', () => {
     it('should create multiple entities from valid templates', () => {
       const template1: EntityTemplate = {
         components: {
-          [ComponentType.Position]: { x: 1, y: 1 }
-        }
+          [ComponentType.Position]: { x: 1, y: 1 },
+        },
       };
-      
+
       const template2: EntityTemplate = {
         components: {
-          [ComponentType.Player]: {}
-        }
+          [ComponentType.Player]: {},
+        },
       };
 
       const entities = createEntitiesFromTemplates(template1, template2);
@@ -109,24 +109,24 @@ describe('EntityFactory', () => {
     it('should maintain template independence', () => {
       const template1: EntityTemplate = {
         components: {
-          [ComponentType.Position]: { x: 5, y: 5 }
-        }
+          [ComponentType.Position]: { x: 5, y: 5 },
+        },
       };
-      
+
       const template2: EntityTemplate = {
         components: {
-          [ComponentType.Position]: { x: 10, y: 10 }
-        }
+          [ComponentType.Position]: { x: 10, y: 10 },
+        },
       };
 
       const entities = createEntitiesFromTemplates(template1, template2);
 
       const pos1 = entities[0].components.position as any;
       const pos2 = entities[1].components.position as any;
-      
+
       expect(pos1?.x).toBe(5);
       expect(pos2?.x).toBe(10);
-      
+
       // Modifying one shouldn't affect the other
       pos1.x = 100;
       expect(pos2?.x).toBe(10);
@@ -143,8 +143,8 @@ describe('EntityFactory', () => {
           [ComponentType.Velocity]: { x: 2, y: 3 },
           [ComponentType.Pickable]: {},
           [ComponentType.Walkable]: {},
-          [ComponentType.RenderInSidebar]: {}
-        }
+          [ComponentType.RenderInSidebar]: {},
+        },
       };
 
       expect(basicTemplate.components).toHaveProperty(ComponentType.Position);
@@ -153,15 +153,17 @@ describe('EntityFactory', () => {
       expect(basicTemplate.components).toHaveProperty(ComponentType.Velocity);
       expect(basicTemplate.components).toHaveProperty(ComponentType.Pickable);
       expect(basicTemplate.components).toHaveProperty(ComponentType.Walkable);
-      expect(basicTemplate.components).toHaveProperty(ComponentType.RenderInSidebar);
+      expect(basicTemplate.components).toHaveProperty(
+        ComponentType.RenderInSidebar,
+      );
     });
 
     it('should support template validation', () => {
       // Templates should have a components property
       const validTemplate: EntityTemplate = {
-        components: {}
+        components: {},
       };
-      
+
       expect(validTemplate).toHaveProperty('components');
       expect(typeof validTemplate.components).toBe('object');
     });

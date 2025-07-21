@@ -1,9 +1,11 @@
 # Testing Guide: ECS Game Development
 
 ## Overview
+
 This guide provides comprehensive testing strategies and best practices for Entity-Component-System (ECS) game development. It covers unit testing, integration testing, and the testing infrastructure for this PIXI.js-based ECS game.
 
 ## Table of Contents
+
 1. [Testing Philosophy](#testing-philosophy)
 2. [Test Structure and Organization](#test-structure-and-organization)
 3. [ECS Testing Patterns](#ecs-testing-patterns)
@@ -22,13 +24,15 @@ This guide provides comprehensive testing strategies and best practices for Enti
 ## Testing Philosophy
 
 ### ECS-Specific Testing Approach
+
 The Entity-Component-System architecture requires a different testing mindset:
 
 **Entities** → Test as collections of components  
 **Components** → Test as data containers with validation  
-**Systems** → Test as pure functions processing entities  
+**Systems** → Test as pure functions processing entities
 
 ### Core Principles
+
 1. **Isolation**: Each test should be independent and focused
 2. **Predictability**: Tests should produce consistent results
 3. **Performance**: Tests should run quickly to encourage frequent execution
@@ -54,11 +58,12 @@ The Entity-Component-System architecture requires a different testing mindset:
 ## Test Structure and Organization
 
 ### Directory Structure
+
 ```
 src/
 ├── __tests__/                          # Global test utilities
 │   ├── testUtils.ts                   # ECS-specific test helpers
-│   ├── testUtilsSimple.ts            # Basic test helpers  
+│   ├── testUtilsSimple.ts            # Basic test helpers
 │   └── mocks/
 │       └── pixiMocks.ts              # PIXI.js mocking
 ├── game/
@@ -88,23 +93,25 @@ src/
 ### Naming Conventions
 
 #### Test File Naming
+
 - **Component tests**: `ComponentName.test.ts`
-- **System tests**: `SystemName.test.ts`  
+- **System tests**: `SystemName.test.ts`
 - **Integration tests**: `featureName.test.ts`
 - **Utility tests**: `utilityName.test.ts`
 
 #### Test Case Naming
+
 ```typescript
 describe('MovementSystem', () => {
   describe('when processing entities with velocity', () => {
     it('should update position based on velocity', () => {
       // Test implementation
     });
-    
+
     it('should handle zero velocity correctly', () => {
       // Test implementation
     });
-    
+
     it('should respect collision boundaries', () => {
       // Test implementation
     });
@@ -119,6 +126,7 @@ describe('MovementSystem', () => {
 ### The Three Pillars of ECS Testing
 
 #### 1. Entity Testing Pattern
+
 ```typescript
 // Test entities as component collections
 it('should create a complete player entity', () => {
@@ -126,43 +134,45 @@ it('should create a complete player entity', () => {
   addComponent(entity, PositionComponent, { x: 0, y: 0 });
   addComponent(entity, PlayerComponent, {});
   addComponent(entity, MovableComponent, {});
-  
+
   expect(hasComponent(entity, PositionComponent)).toBe(true);
   expect(hasComponent(entity, PlayerComponent)).toBe(true);
   expect(hasComponent(entity, MovableComponent)).toBe(true);
 });
 ```
 
-#### 2. Component Testing Pattern  
+#### 2. Component Testing Pattern
+
 ```typescript
 // Test components as data containers
 it('should validate position coordinates', () => {
   const position = { x: 10, y: 20 };
   const component = new PositionComponent(position);
-  
+
   expect(component.x).toBe(10);
   expect(component.y).toBe(20);
 });
 
 it('should handle invalid position data', () => {
   const invalidPosition = { x: NaN, y: -Infinity };
-  
+
   expect(() => new PositionComponent(invalidPosition)).toThrow();
 });
 ```
 
 #### 3. System Testing Pattern
+
 ```typescript
 // Test systems as pure functions
 it('should process entities with required components', () => {
   const entities = [
     createEntityWith(PositionComponent, VelocityComponent),
     createEntityWith(PositionComponent, VelocityComponent),
-    createEntityWithout(VelocityComponent) // Should be ignored
+    createEntityWithout(VelocityComponent), // Should be ignored
   ];
-  
+
   const result = MovementSystem.update(entities, mockUpdateArgs);
-  
+
   expect(result.processedCount).toBe(2);
 });
 ```
@@ -170,6 +180,7 @@ it('should process entities with required components', () => {
 ### Test Data Factories
 
 #### Entity Factories
+
 ```typescript
 // Test-specific entity creation
 export function createTestEntity(): Entity {
@@ -194,13 +205,20 @@ export function createPickableItem(itemType: string): Entity {
 ```
 
 #### Component Factories
+
 ```typescript
 // Consistent component creation for tests
-export function createPosition(x: number = 0, y: number = 0): PositionComponent {
+export function createPosition(
+  x: number = 0,
+  y: number = 0,
+): PositionComponent {
   return new PositionComponent({ x, y });
 }
 
-export function createVelocity(dx: number = 0, dy: number = 0): VelocityComponent {
+export function createVelocity(
+  dx: number = 0,
+  dy: number = 0,
+): VelocityComponent {
   return new VelocityComponent({ dx, dy });
 }
 ```
@@ -210,13 +228,16 @@ export function createVelocity(dx: number = 0, dy: number = 0): VelocityComponen
 ## Component Testing
 
 ### Component Test Structure
+
 Every component test should cover:
+
 1. **Construction**: Valid and invalid initialization
 2. **Properties**: Getter and setter behavior
 3. **Validation**: Input sanitization and bounds checking
 4. **Serialization**: JSON conversion if applicable
 
 ### Example: Position Component Testing
+
 ```typescript
 import { PositionComponent } from '../PositionComponent';
 
@@ -255,13 +276,14 @@ describe('PositionComponent', () => {
 
     it('should validate property updates', () => {
       const component = new PositionComponent({ x: 0, y: 0 });
-      expect(() => component.x = NaN).toThrow();
+      expect(() => (component.x = NaN)).toThrow();
     });
   });
 });
 ```
 
 ### Component Testing Checklist
+
 - [ ] Constructor with valid inputs
 - [ ] Constructor with edge cases (zeros, negatives)
 - [ ] Constructor with invalid inputs (should throw)
@@ -276,7 +298,9 @@ describe('PositionComponent', () => {
 ## System Testing
 
 ### System Test Structure
+
 Every system test should cover:
+
 1. **Entity Filtering**: Only processes entities with required components
 2. **Processing Logic**: Correct transformations and updates
 3. **Edge Cases**: Empty arrays, missing components
@@ -284,6 +308,7 @@ Every system test should cover:
 5. **Error Handling**: Invalid inputs, system failures
 
 ### Example: Movement System Testing
+
 ```typescript
 import { MovementSystem } from '../MovementSystem';
 import { createTestEntity, addComponent } from '../../__tests__/testUtils';
@@ -302,7 +327,7 @@ describe('MovementSystem', () => {
         createEntityWith(PositionComponent, VelocityComponent), // Should process
         createEntityWith(PositionComponent), // Should skip - no velocity
         createEntityWith(VelocityComponent), // Should skip - no position
-        createTestEntity() // Should skip - no components
+        createTestEntity(), // Should skip - no components
       ];
 
       const spy = vi.spyOn(MovementSystem, 'processEntity');
@@ -365,6 +390,7 @@ describe('MovementSystem', () => {
 ```
 
 ### System Testing Checklist
+
 - [ ] Processes only entities with required components
 - [ ] Correctly transforms entity data
 - [ ] Handles empty entity arrays
@@ -378,14 +404,16 @@ describe('MovementSystem', () => {
 ## Integration Testing
 
 ### Integration Testing Strategy
+
 Integration tests verify that multiple systems work together correctly:
 
 1. **System Chain Testing**: Multiple systems processing same entities
-2. **Game Loop Integration**: Full update cycle testing  
+2. **Game Loop Integration**: Full update cycle testing
 3. **Cross-System Communication**: Shared state and component interactions
 4. **Scenario Testing**: Complete gameplay workflows
 
 ### Example: Player Movement Integration
+
 ```typescript
 describe('Player Movement Integration', () => {
   let gameEntities: Entity[];
@@ -402,21 +430,21 @@ describe('Player Movement Integration', () => {
   it('should complete full movement cycle', () => {
     // 1. Input System processes keyboard input
     KeyboardInputSystem.update(gameEntities, mockUpdateArgs);
-    
+
     // Verify velocity was set
     const velocity = getComponent(player, VelocityComponent);
     expect(velocity.dx).not.toBe(0);
-    
+
     // 2. Movement System processes velocity
     MovementSystem.update(gameEntities, mockUpdateArgs);
-    
+
     // Verify position was updated
     const position = getComponent(player, PositionComponent);
     expect(position.x).toBe(velocity.dx);
-    
+
     // 3. Render System updates visual representation
     RenderSystem.update(gameEntities, mockUpdateArgs);
-    
+
     // Verify sprite position matches entity position
     const sprite = getComponent(player, SpriteComponent);
     expect(sprite.x).toBe(position.x);
@@ -428,15 +456,19 @@ describe('Player Movement Integration', () => {
 ### Integration Testing Patterns
 
 #### Game Loop Testing
+
 ```typescript
 describe('Game Loop Integration', () => {
   it('should execute all systems in correct order', () => {
     const systemOrder: string[] = [];
-    const spyInput = vi.spyOn(KeyboardInputSystem, 'update')
+    const spyInput = vi
+      .spyOn(KeyboardInputSystem, 'update')
       .mockImplementation(() => systemOrder.push('Input'));
-    const spyMovement = vi.spyOn(MovementSystem, 'update')
+    const spyMovement = vi
+      .spyOn(MovementSystem, 'update')
       .mockImplementation(() => systemOrder.push('Movement'));
-    const spyRender = vi.spyOn(RenderSystem, 'update')
+    const spyRender = vi
+      .spyOn(RenderSystem, 'update')
       .mockImplementation(() => systemOrder.push('Render'));
 
     GameLoop.update(entities, updateArgs);
@@ -453,6 +485,7 @@ describe('Game Loop Integration', () => {
 ### Core Test Utilities (`src/__tests__/testUtils.ts`)
 
 #### Entity Management
+
 ```typescript
 // Create test entities with specific components
 export function createTestEntity(): Entity {
@@ -461,31 +494,39 @@ export function createTestEntity(): Entity {
 
 export function createEntityWith(...componentTypes: ComponentType[]): Entity {
   const entity = createTestEntity();
-  componentTypes.forEach(ComponentType => {
+  componentTypes.forEach((ComponentType) => {
     addComponent(entity, ComponentType, getDefaultProps(ComponentType));
   });
   return entity;
 }
 
 // Component operations
-export function expectEntityHasComponent(entity: Entity, componentType: ComponentType): void {
+export function expectEntityHasComponent(
+  entity: Entity,
+  componentType: ComponentType,
+): void {
   expect(hasComponent(entity, componentType)).toBe(true);
 }
 
-export function expectComponentProps(entity: Entity, componentType: ComponentType, expectedProps: any): void {
+export function expectComponentProps(
+  entity: Entity,
+  componentType: ComponentType,
+  expectedProps: any,
+): void {
   const component = getComponent(entity, componentType);
   expect(component).toMatchObject(expectedProps);
 }
 ```
 
 #### Mock Data Creation
+
 ```typescript
 // Create consistent test data
 export function createTestUpdateArgs(): UpdateArgs {
   return {
     deltaTime: 16.67, // 60 FPS
     gameMap: createMockGameMap(),
-    inputState: createMockInputState()
+    inputState: createMockInputState(),
   };
 }
 
@@ -494,20 +535,30 @@ export function createMockGameMap(): GameMap {
     width: 800,
     height: 600,
     getTileAt: vi.fn().mockReturnValue(null),
-    isWalkable: vi.fn().mockReturnValue(true)
+    isWalkable: vi.fn().mockReturnValue(true),
   };
 }
 ```
 
 #### Assertion Helpers
+
 ```typescript
 // Custom assertions for ECS patterns
-export function expectEntityCount(entities: Entity[], componentType: ComponentType, expectedCount: number): void {
-  const count = entities.filter(entity => hasComponent(entity, componentType)).length;
+export function expectEntityCount(
+  entities: Entity[],
+  componentType: ComponentType,
+  expectedCount: number,
+): void {
+  const count = entities.filter((entity) =>
+    hasComponent(entity, componentType),
+  ).length;
   expect(count).toBe(expectedCount);
 }
 
-export function expectSystemProcessedEntities(systemSpy: any, expectedEntityCount: number): void {
+export function expectSystemProcessedEntities(
+  systemSpy: any,
+  expectedEntityCount: number,
+): void {
   expect(systemSpy).toHaveBeenCalledTimes(expectedEntityCount);
 }
 ```
@@ -524,14 +575,14 @@ export const mockApplication = {
   stage: {
     addChild: vi.fn(),
     removeChild: vi.fn(),
-    children: []
+    children: [],
   },
   ticker: {
     add: vi.fn(),
     remove: vi.fn(),
     start: vi.fn(),
-    stop: vi.fn()
-  }
+    stop: vi.fn(),
+  },
 };
 
 export const mockSprite = {
@@ -540,7 +591,7 @@ export const mockSprite = {
   width: 32,
   height: 32,
   texture: null,
-  visible: true
+  visible: true,
 };
 
 // Factory functions for consistent mocks
@@ -550,19 +601,23 @@ export function createMockSprite(overrides = {}): any {
 ```
 
 ### State Management Mocking
+
 ```typescript
 // Mock Jotai atoms for predictable state
 export function createMockAtom<T>(initialValue: T): any {
   let value = initialValue;
   return {
     get: () => value,
-    set: (newValue: T) => { value = newValue; },
-    subscribe: vi.fn()
+    set: (newValue: T) => {
+      value = newValue;
+    },
+    subscribe: vi.fn(),
   };
 }
 ```
 
 ### Game Engine Mocking
+
 ```typescript
 // Mock complex game engine interactions
 export const mockGameEngine = {
@@ -572,9 +627,9 @@ export const mockGameEngine = {
     const index = mockGameEngine.entities.indexOf(entity);
     if (index > -1) mockGameEngine.entities.splice(index, 1);
   }),
-  getEntitiesWith: vi.fn((componentType) => 
-    mockGameEngine.entities.filter(e => hasComponent(e, componentType))
-  )
+  getEntitiesWith: vi.fn((componentType) =>
+    mockGameEngine.entities.filter((e) => hasComponent(e, componentType)),
+  ),
 };
 ```
 
@@ -585,13 +640,15 @@ export const mockGameEngine = {
 ### Coverage Targets
 
 #### By Component Type
+
 - **Game Logic Components**: 95%+ coverage
-- **System Logic**: 90%+ coverage  
+- **System Logic**: 90%+ coverage
 - **Utility Functions**: 85%+ coverage
 - **Integration Scenarios**: 75%+ coverage
 - **UI Components**: 70%+ coverage
 
 #### Coverage Metrics
+
 ```yaml
 # vitest.config.ts coverage thresholds
 coverage:
@@ -599,13 +656,14 @@ coverage:
   functions: 90
   branches: 75
   statements: 80
-  
+
   # Higher standards for critical game logic
   'src/game/systems/': { lines: 85 }
   'src/game/components/': { lines: 85 }
 ```
 
 ### Exclusion Patterns
+
 ```yaml
 # Files excluded from coverage
 exclude:
@@ -618,6 +676,7 @@ exclude:
 ```
 
 ### Coverage Analysis Tools
+
 - **HTML Reports**: Detailed line-by-line coverage visualization
 - **JSON Reports**: Programmatic coverage analysis
 - **CI Integration**: Automated coverage reporting in PRs
@@ -630,6 +689,7 @@ exclude:
 ### Automated Testing Pipeline
 
 #### GitHub Actions Configuration
+
 ```yaml
 # .github/workflows/test.yml (simplified)
 name: Tests and Coverage
@@ -641,24 +701,26 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x]
-    
+
     steps:
       - name: Run tests
         run: yarn test
-        
+
       - name: Generate coverage
         run: yarn test:coverage
-        
+
       - name: Upload coverage
         uses: codecov/codecov-action@v3
 ```
 
 #### PR Coverage Comments
+
 Automated comments provide coverage feedback:
+
 ```
 ## Coverage Report
 - **Lines**: 85.2% (+2.1%)
-- **Functions**: 92.1% (+0.8%)  
+- **Functions**: 92.1% (+0.8%)
 - **Branches**: 78.3% (-0.5%)
 
 ### Changed Files
@@ -667,6 +729,7 @@ Automated comments provide coverage feedback:
 ```
 
 ### Local Development Integration
+
 ```json
 {
   "scripts": {
@@ -683,20 +746,21 @@ Automated comments provide coverage feedback:
 ## Common Patterns and Examples
 
 ### Pattern 1: Component Lifecycle Testing
+
 ```typescript
 describe('Component Lifecycle', () => {
   it('should handle component addition and removal', () => {
     const entity = createTestEntity();
-    
+
     // Add component
     addComponent(entity, PositionComponent, { x: 0, y: 0 });
     expect(hasComponent(entity, PositionComponent)).toBe(true);
-    
+
     // Modify component
     const position = getComponent(entity, PositionComponent);
     position.x = 10;
     expect(position.x).toBe(10);
-    
+
     // Remove component
     removeComponent(entity, PositionComponent);
     expect(hasComponent(entity, PositionComponent)).toBe(false);
@@ -705,16 +769,23 @@ describe('Component Lifecycle', () => {
 ```
 
 ### Pattern 2: System State Isolation
+
 ```typescript
 describe('System State Isolation', () => {
   it('should not affect entities without required components', () => {
-    const entityWithComponents = createEntityWith(PositionComponent, VelocityComponent);
+    const entityWithComponents = createEntityWith(
+      PositionComponent,
+      VelocityComponent,
+    );
     const entityWithoutComponents = createTestEntity();
-    
+
     const originalEntity = { ...entityWithoutComponents };
-    
-    MovementSystem.update([entityWithComponents, entityWithoutComponents], mockArgs);
-    
+
+    MovementSystem.update(
+      [entityWithComponents, entityWithoutComponents],
+      mockArgs,
+    );
+
     // Entity without components should be unchanged
     expect(entityWithoutComponents).toEqual(originalEntity);
   });
@@ -722,30 +793,31 @@ describe('System State Isolation', () => {
 ```
 
 ### Pattern 3: Multi-System Integration
+
 ```typescript
 describe('Multi-System Integration', () => {
   it('should handle pickup workflow correctly', () => {
     const player = createPlayerEntity();
     const item = createPickableItem('sword');
-    
+
     // Position item near player
     const itemPosition = getComponent(item, PositionComponent);
     const playerPosition = getComponent(player, PositionComponent);
     itemPosition.x = playerPosition.x;
     itemPosition.y = playerPosition.y;
-    
+
     const entities = [player, item];
-    
+
     // Run pickup system
     PickupSystem.update(entities, mockUpdateArgs);
-    
+
     // Verify item was picked up
     expect(hasComponent(player, CarriedItemComponent)).toBe(true);
     expect(hasComponent(item, PickableComponent)).toBe(false);
-    
+
     // Run cleanup system
     CleanUpSystem.update(entities, mockUpdateArgs);
-    
+
     // Verify item was removed from game
     expect(entities).not.toContain(item);
   });
@@ -759,6 +831,7 @@ describe('Multi-System Integration', () => {
 ### Common Test Issues
 
 #### Issue: Mock Not Working
+
 ```typescript
 // Problem: PIXI.js objects throwing errors in tests
 // Solution: Proper mock setup in setupTests.ts
@@ -772,6 +845,7 @@ vi.mock('pixi.js', () => ({
 ```
 
 #### Issue: Component Tests Failing
+
 ```typescript
 // Problem: Component constructor validation too strict
 // Solution: Test both valid and invalid inputs
@@ -780,7 +854,7 @@ it('should handle edge cases gracefully', () => {
   // Test boundary values
   expect(() => new PositionComponent({ x: 0, y: 0 })).not.toThrow();
   expect(() => new PositionComponent({ x: -1, y: -1 })).not.toThrow();
-  
+
   // Test invalid values
   expect(() => new PositionComponent({ x: NaN, y: 0 })).toThrow();
   expect(() => new PositionComponent(null)).toThrow();
@@ -788,6 +862,7 @@ it('should handle edge cases gracefully', () => {
 ```
 
 #### Issue: Integration Tests Flaky
+
 ```typescript
 // Problem: Test order dependencies
 // Solution: Proper test isolation
@@ -795,33 +870,31 @@ it('should handle edge cases gracefully', () => {
 beforeEach(() => {
   // Reset all mocks
   vi.clearAllMocks();
-  
+
   // Reset game state
   gameEntities.length = 0;
-  
+
   // Create fresh test data
   mockUpdateArgs = createTestUpdateArgs();
 });
 ```
 
 #### Issue: Coverage Not Updating
+
 ```typescript
 // Problem: Coverage excludes not working
 // Solution: Check vitest.config.ts patterns
 
 // vitest.config.ts
 coverage: {
-  exclude: [
-    '**/__tests__/**',
-    '**/*.test.*',
-    '**/mocks/**'
-  ]
+  exclude: ['**/__tests__/**', '**/*.test.*', '**/mocks/**'];
 }
 ```
 
 ### Performance Optimization
 
 #### Slow Tests
+
 ```typescript
 // Use beforeAll for expensive setup
 beforeAll(async () => {
@@ -838,12 +911,13 @@ beforeEach(() => {
 ```
 
 #### Memory Leaks
+
 ```typescript
 // Clean up after tests
 afterEach(() => {
   // Clear entity references
-  entities.forEach(entity => entity.components = {});
-  
+  entities.forEach((entity) => (entity.components = {}));
+
   // Clean up mocks
   vi.restoreAllMocks();
 });
@@ -854,6 +928,7 @@ afterEach(() => {
 ## Best Practices Summary
 
 ### Do's ✅
+
 - **Test behavior, not implementation details**
 - **Use descriptive test names that explain the scenario**
 - **Create focused, single-purpose tests**
@@ -864,15 +939,17 @@ afterEach(() => {
 - **Keep tests fast and deterministic**
 
 ### Don'ts ❌
+
 - **Don't test library code (PIXI.js internals)**
 - **Don't write tests that depend on other tests**
-- **Don't ignore flaky tests - fix them**  
+- **Don't ignore flaky tests - fix them**
 - **Don't mock everything - test real interactions when safe**
 - **Don't write tests just for coverage - focus on value**
 - **Don't leave debugging code (console.log) in tests**
 - **Don't skip error case testing**
 
 ### Code Quality
+
 - **Use TypeScript for test type safety**
 - **Follow consistent naming conventions**
 - **Extract complex test setup into helper functions**

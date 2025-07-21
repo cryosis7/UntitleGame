@@ -1,9 +1,11 @@
 # ECS Testing Patterns and Examples
 
 ## Overview
+
 This document provides specific testing patterns and real-world examples for Entity-Component-System (ECS) architecture testing. Each pattern includes complete, runnable test examples based on the actual codebase.
 
 ## Table of Contents
+
 1. [Component Testing Patterns](#component-testing-patterns)
 2. [System Testing Patterns](#system-testing-patterns)
 3. [Entity Lifecycle Testing](#entity-lifecycle-testing)
@@ -17,6 +19,7 @@ This document provides specific testing patterns and real-world examples for Ent
 ## Component Testing Patterns
 
 ### Pattern 1: Data Validation Components
+
 Components that validate and store data should test both valid and invalid inputs.
 
 ```typescript
@@ -52,13 +55,21 @@ describe('PositionComponent', () => {
 
   describe('invalid input handling', () => {
     it('should reject NaN coordinates', () => {
-      expect(() => new PositionComponent({ x: NaN, y: 0 })).toThrow('Invalid x coordinate: NaN');
-      expect(() => new PositionComponent({ x: 0, y: NaN })).toThrow('Invalid y coordinate: NaN');
+      expect(() => new PositionComponent({ x: NaN, y: 0 })).toThrow(
+        'Invalid x coordinate: NaN',
+      );
+      expect(() => new PositionComponent({ x: 0, y: NaN })).toThrow(
+        'Invalid y coordinate: NaN',
+      );
     });
 
     it('should reject infinite coordinates', () => {
-      expect(() => new PositionComponent({ x: Infinity, y: 0 })).toThrow('Invalid x coordinate: Infinity');
-      expect(() => new PositionComponent({ x: 0, y: -Infinity })).toThrow('Invalid y coordinate: -Infinity');
+      expect(() => new PositionComponent({ x: Infinity, y: 0 })).toThrow(
+        'Invalid x coordinate: Infinity',
+      );
+      expect(() => new PositionComponent({ x: 0, y: -Infinity })).toThrow(
+        'Invalid y coordinate: -Infinity',
+      );
     });
 
     it('should reject non-numeric coordinates', () => {
@@ -85,14 +96,15 @@ describe('PositionComponent', () => {
     });
 
     it('should validate updates', () => {
-      expect(() => component.x = NaN).toThrow();
-      expect(() => component.y = Infinity).toThrow();
+      expect(() => (component.x = NaN)).toThrow();
+      expect(() => (component.y = Infinity)).toThrow();
     });
   });
 });
 ```
 
 ### Pattern 2: State Management Components
+
 Components that track state and transitions need comprehensive state testing.
 
 ```typescript
@@ -108,7 +120,10 @@ describe('MovableComponent', () => {
     });
 
     it('should accept custom initial state', () => {
-      const component = new MovableComponent({ canMove: false, isBlocked: true });
+      const component = new MovableComponent({
+        canMove: false,
+        isBlocked: true,
+      });
       expect(component.canMove).toBe(false);
       expect(component.isBlocked).toBe(true);
     });
@@ -137,7 +152,7 @@ describe('MovableComponent', () => {
     it('should disable movement entirely', () => {
       component.setMovable(false);
       expect(component.canMove).toBe(false);
-      
+
       // Should not be unblockable when disabled
       component.setBlocked(false);
       expect(component.canMove).toBe(false);
@@ -153,11 +168,11 @@ describe('MovableComponent', () => {
   describe('edge cases', () => {
     it('should handle rapid state changes', () => {
       const component = new MovableComponent();
-      
+
       for (let i = 0; i < 100; i++) {
         component.setBlocked(i % 2 === 0);
       }
-      
+
       expect(component.isBlocked).toBe(true); // Even number (100)
     });
   });
@@ -169,13 +184,22 @@ describe('MovableComponent', () => {
 ## System Testing Patterns
 
 ### Pattern 1: Entity Filtering Systems
+
 Systems that filter entities by components need thorough filtering tests.
 
 ```typescript
 // MovementSystem.test.ts
 import { MovementSystem } from '../MovementSystem';
-import { PositionComponent, VelocityComponent, MovableComponent } from '../components';
-import { createTestEntity, createTestUpdateArgs, addComponent } from '../../__tests__/testUtils';
+import {
+  PositionComponent,
+  VelocityComponent,
+  MovableComponent,
+} from '../components';
+import {
+  createTestEntity,
+  createTestUpdateArgs,
+  addComponent,
+} from '../../__tests__/testUtils';
 
 describe('MovementSystem', () => {
   let mockUpdateArgs: UpdateArgs;
@@ -199,13 +223,21 @@ describe('MovementSystem', () => {
 
       const noComponents = createTestEntity();
 
-      const entities = [validEntity, missingPosition, missingVelocity, noComponents];
-      
+      const entities = [
+        validEntity,
+        missingPosition,
+        missingVelocity,
+        noComponents,
+      ];
+
       const processEntitySpy = vi.spyOn(MovementSystem, 'processEntity');
       MovementSystem.update(entities, mockUpdateArgs);
 
       expect(processEntitySpy).toHaveBeenCalledTimes(1);
-      expect(processEntitySpy).toHaveBeenCalledWith(validEntity, mockUpdateArgs);
+      expect(processEntitySpy).toHaveBeenCalledWith(
+        validEntity,
+        mockUpdateArgs,
+      );
     });
 
     it('should respect MovableComponent restrictions', () => {
@@ -220,12 +252,15 @@ describe('MovementSystem', () => {
       addComponent(blockedEntity, MovableComponent, { canMove: false });
 
       const entities = [movableEntity, blockedEntity];
-      
+
       const processEntitySpy = vi.spyOn(MovementSystem, 'processEntity');
       MovementSystem.update(entities, mockUpdateArgs);
 
       expect(processEntitySpy).toHaveBeenCalledTimes(1);
-      expect(processEntitySpy).toHaveBeenCalledWith(movableEntity, mockUpdateArgs);
+      expect(processEntitySpy).toHaveBeenCalledWith(
+        movableEntity,
+        mockUpdateArgs,
+      );
     });
   });
 
@@ -234,7 +269,7 @@ describe('MovementSystem', () => {
       const entity = createTestEntity();
       addComponent(entity, PositionComponent, { x: 0, y: 0 });
       addComponent(entity, VelocityComponent, { dx: 60, dy: -30 }); // 60 pixels per second
-      
+
       const mockArgs = createTestUpdateArgs({ deltaTime: 16.67 }); // ~60 FPS
       MovementSystem.update([entity], mockArgs);
 
@@ -247,7 +282,7 @@ describe('MovementSystem', () => {
       const entity = createTestEntity();
       addComponent(entity, PositionComponent, { x: 10, y: 20 });
       addComponent(entity, VelocityComponent, { dx: 0, dy: 0 });
-      
+
       MovementSystem.update([entity], mockUpdateArgs);
 
       const position = getComponent(entity, PositionComponent);
@@ -259,7 +294,7 @@ describe('MovementSystem', () => {
       const entity = createTestEntity();
       addComponent(entity, PositionComponent, { x: 100, y: 100 });
       addComponent(entity, VelocityComponent, { dx: -50, dy: -25 });
-      
+
       const mockArgs = createTestUpdateArgs({ deltaTime: 20 }); // 0.02 seconds
       MovementSystem.update([entity], mockArgs);
 
@@ -274,14 +309,14 @@ describe('MovementSystem', () => {
       const entity = createTestEntity();
       addComponent(entity, PositionComponent, { x: 95, y: 50 });
       addComponent(entity, VelocityComponent, { dx: 100, dy: 0 });
-      
+
       // Mock game map with wall at x=100
       const mockArgs = createTestUpdateArgs({
         gameMap: createMockGameMap({
-          isWalkable: vi.fn().mockImplementation((x, y) => x < 100)
-        })
+          isWalkable: vi.fn().mockImplementation((x, y) => x < 100),
+        }),
       });
-      
+
       MovementSystem.update([entity], mockArgs);
 
       const position = getComponent(entity, PositionComponent);
@@ -292,15 +327,15 @@ describe('MovementSystem', () => {
       const entity = createTestEntity();
       addComponent(entity, PositionComponent, { x: 5, y: 5 });
       addComponent(entity, VelocityComponent, { dx: -100, dy: -100 });
-      
+
       const mockArgs = createTestUpdateArgs({
         gameMap: createMockGameMap({
           width: 800,
           height: 600,
-          isWalkable: vi.fn().mockReturnValue(true)
-        })
+          isWalkable: vi.fn().mockReturnValue(true),
+        }),
       });
-      
+
       MovementSystem.update([entity], mockArgs);
 
       const position = getComponent(entity, PositionComponent);
@@ -316,14 +351,16 @@ describe('MovementSystem', () => {
 
     it('should handle null/undefined entities', () => {
       const entities = [null, undefined, createTestEntity()];
-      expect(() => MovementSystem.update(entities, mockUpdateArgs)).not.toThrow();
+      expect(() =>
+        MovementSystem.update(entities, mockUpdateArgs),
+      ).not.toThrow();
     });
 
     it('should handle zero delta time', () => {
       const entity = createTestEntity();
       addComponent(entity, PositionComponent, { x: 10, y: 20 });
       addComponent(entity, VelocityComponent, { dx: 100, dy: 200 });
-      
+
       const mockArgs = createTestUpdateArgs({ deltaTime: 0 });
       MovementSystem.update([entity], mockArgs);
 
@@ -336,7 +373,7 @@ describe('MovementSystem', () => {
       const entity = createTestEntity();
       addComponent(entity, PositionComponent, { x: 0, y: 0 });
       addComponent(entity, VelocityComponent, { dx: 10, dy: 10 });
-      
+
       const mockArgs = createTestUpdateArgs({ deltaTime: 1000000 }); // 1000 seconds!
       MovementSystem.update([entity], mockArgs);
 
@@ -350,13 +387,23 @@ describe('MovementSystem', () => {
 ```
 
 ### Pattern 2: Interaction Systems
+
 Systems that handle entity interactions need complex state testing.
 
 ```typescript
 // PickupSystem.test.ts
 import { PickupSystem } from '../PickupSystem';
-import { PositionComponent, PlayerComponent, PickableComponent, CarriedItemComponent } from '../components';
-import { createTestEntity, createPlayerEntity, createPickableItem } from '../../__tests__/testUtils';
+import {
+  PositionComponent,
+  PlayerComponent,
+  PickableComponent,
+  CarriedItemComponent,
+} from '../components';
+import {
+  createTestEntity,
+  createPlayerEntity,
+  createPickableItem,
+} from '../../__tests__/testUtils';
 
 describe('PickupSystem', () => {
   let mockUpdateArgs: UpdateArgs;
@@ -402,10 +449,10 @@ describe('PickupSystem', () => {
       addComponent(item, PositionComponent, { x: 115, y: 100 }); // Exactly at radius
 
       const entities = [player, item];
-      const mockArgs = createTestUpdateArgs({ 
-        gameConfig: { pickupRadius: 15 } 
+      const mockArgs = createTestUpdateArgs({
+        gameConfig: { pickupRadius: 15 },
       });
-      
+
       PickupSystem.update(entities, mockArgs);
 
       expect(hasComponent(player, CarriedItemComponent)).toBe(true);
@@ -416,7 +463,7 @@ describe('PickupSystem', () => {
     it('should add item to player inventory', () => {
       const player = createPlayerEntity();
       const item = createPickableItem('health_potion');
-      
+
       positionEntitiesTogether(player, item);
       PickupSystem.update([player, item], mockUpdateArgs);
 
@@ -427,7 +474,10 @@ describe('PickupSystem', () => {
 
     it('should stack identical items', () => {
       const player = createPlayerEntity();
-      addComponent(player, CarriedItemComponent, { itemType: 'arrow', count: 5 });
+      addComponent(player, CarriedItemComponent, {
+        itemType: 'arrow',
+        count: 5,
+      });
 
       const newArrows = createPickableItem('arrow');
       getComponent(newArrows, PickableComponent).count = 3;
@@ -441,15 +491,18 @@ describe('PickupSystem', () => {
 
     it('should reject pickup when inventory full', () => {
       const player = createPlayerEntity();
-      addComponent(player, CarriedItemComponent, { itemType: 'various', count: 100 });
-      
+      addComponent(player, CarriedItemComponent, {
+        itemType: 'various',
+        count: 100,
+      });
+
       const item = createPickableItem('sword');
       positionEntitiesTogether(player, item);
 
-      const mockArgs = createTestUpdateArgs({ 
-        gameConfig: { maxInventorySize: 100 } 
+      const mockArgs = createTestUpdateArgs({
+        gameConfig: { maxInventorySize: 100 },
       });
-      
+
       PickupSystem.update([player, item], mockArgs);
 
       expect(hasComponent(item, PickableComponent)).toBe(true); // Item not picked up
@@ -472,7 +525,7 @@ describe('PickupSystem', () => {
       // Only one player should get the item
       const player1HasItem = hasComponent(player1, CarriedItemComponent);
       const player2HasItem = hasComponent(player2, CarriedItemComponent);
-      
+
       expect(player1HasItem || player2HasItem).toBe(true);
       expect(player1HasItem && player2HasItem).toBe(false); // But not both
       expect(hasComponent(item, PickableComponent)).toBe(false); // Item consumed
@@ -486,17 +539,18 @@ describe('PickupSystem', () => {
 ## Entity Lifecycle Testing
 
 ### Pattern 1: Entity Creation and Destruction
+
 ```typescript
 // EntityLifecycle.test.ts
 describe('Entity Lifecycle', () => {
   describe('entity creation', () => {
     it('should create entity with components', () => {
       const entity = EntityFactory.createPlayer({ x: 10, y: 20 });
-      
+
       expectEntityHasComponent(entity, PositionComponent);
       expectEntityHasComponent(entity, PlayerComponent);
       expectEntityHasComponent(entity, MovableComponent);
-      
+
       expectComponentProps(entity, PositionComponent, { x: 10, y: 20 });
     });
 
@@ -504,8 +558,8 @@ describe('Entity Lifecycle', () => {
       const template = {
         components: [
           { type: 'Position', props: { x: 0, y: 0 } },
-          { type: 'Sprite', props: { texture: 'player.png' } }
-        ]
+          { type: 'Sprite', props: { texture: 'player.png' } },
+        ],
       };
 
       const entity = EntityFactory.createFromTemplate(template);
@@ -518,13 +572,13 @@ describe('Entity Lifecycle', () => {
   describe('component lifecycle', () => {
     it('should handle component addition during gameplay', () => {
       const entity = createTestEntity();
-      
+
       // Entity starts without velocity
       expect(hasComponent(entity, VelocityComponent)).toBe(false);
-      
+
       // Player input should add velocity
       KeyboardInputSystem.processEntity(entity, mockUpdateArgs);
-      
+
       expect(hasComponent(entity, VelocityComponent)).toBe(true);
     });
 
@@ -532,14 +586,14 @@ describe('Entity Lifecycle', () => {
       const entity = createTestEntity();
       addComponent(entity, PositionComponent, { x: 0, y: 0 });
       addComponent(entity, VelocityComponent, { dx: 5, dy: 0 });
-      
+
       // Movement into wall should remove velocity
       const mockArgs = createTestUpdateArgs({
-        gameMap: createMockGameMap({ isWalkable: () => false })
+        gameMap: createMockGameMap({ isWalkable: () => false }),
       });
-      
+
       MovementSystem.update([entity], mockArgs);
-      
+
       expect(hasComponent(entity, VelocityComponent)).toBe(false);
     });
   });
@@ -549,7 +603,7 @@ describe('Entity Lifecycle', () => {
       const entities = [
         createTestEntity(),
         createTestEntity(),
-        createTestEntity()
+        createTestEntity(),
       ];
 
       // Mark second entity for deletion
@@ -570,6 +624,7 @@ describe('Entity Lifecycle', () => {
 ## Integration Testing Patterns
 
 ### Pattern 1: Full Gameplay Scenarios
+
 ```typescript
 // GameplayScenarios.test.ts
 describe('Complete Gameplay Scenarios', () => {
@@ -583,41 +638,41 @@ describe('Complete Gameplay Scenarios', () => {
 
   describe('player movement workflow', () => {
     it('should handle complete movement from input to rendering', () => {
-      const player = entities.find(e => hasComponent(e, PlayerComponent));
+      const player = entities.find((e) => hasComponent(e, PlayerComponent));
       const initialPosition = getComponent(player, PositionComponent);
-      
+
       // Simulate key press
       const inputArgs = createTestUpdateArgs({
-        inputState: { keys: { 'ArrowRight': true } }
+        inputState: { keys: { ArrowRight: true } },
       });
-      
+
       // 1. Input System processes key press
       KeyboardInputSystem.update(entities, inputArgs);
-      
+
       // Verify velocity was set
       const velocity = getComponent(player, VelocityComponent);
       expect(velocity.dx).toBeGreaterThan(0);
       expect(velocity.dy).toBe(0);
-      
+
       // 2. Movement System processes movement
       MovementSystem.update(entities, inputArgs);
-      
+
       // Verify position changed
       const newPosition = getComponent(player, PositionComponent);
       expect(newPosition.x).toBeGreaterThan(initialPosition.x);
       expect(newPosition.y).toBe(initialPosition.y);
-      
+
       // 3. Render System updates sprites
       RenderSystem.update(entities, inputArgs);
-      
+
       // Verify sprite position matches entity position
       const sprite = getComponent(player, SpriteComponent);
       expect(sprite.x).toBe(newPosition.x);
       expect(sprite.y).toBe(newPosition.y);
-      
+
       // 4. Clean up velocity for next frame
       CleanUpSystem.update(entities, inputArgs);
-      
+
       // Verify velocity reset (if that's the design)
       const finalVelocity = getComponent(player, VelocityComponent);
       expect(finalVelocity.dx).toBe(0);
@@ -626,38 +681,38 @@ describe('Complete Gameplay Scenarios', () => {
 
   describe('item collection workflow', () => {
     it('should handle complete pickup sequence', () => {
-      const player = entities.find(e => hasComponent(e, PlayerComponent));
-      const item = entities.find(e => hasComponent(e, PickableComponent));
-      
+      const player = entities.find((e) => hasComponent(e, PlayerComponent));
+      const item = entities.find((e) => hasComponent(e, PickableComponent));
+
       // Position player near item
       const itemPos = getComponent(item, PositionComponent);
       const playerPos = getComponent(player, PositionComponent);
       playerPos.x = itemPos.x + 1; // Very close
       playerPos.y = itemPos.y;
-      
+
       const initialEntityCount = entities.length;
-      
+
       // Run pickup system
       PickupSystem.update(entities, mockUpdateArgs);
-      
+
       // Verify item was picked up
       expect(hasComponent(player, CarriedItemComponent)).toBe(true);
       const carried = getComponent(player, CarriedItemComponent);
       expect(carried.itemType).toBe('sword'); // Or whatever item type
-      
+
       // Verify item component removed
       expect(hasComponent(item, PickableComponent)).toBe(false);
-      
+
       // Run cleanup system
       CleanUpSystem.update(entities, mockUpdateArgs);
-      
+
       // Verify item entity removed from world
       expect(entities.length).toBeLessThan(initialEntityCount);
       expect(entities).not.toContain(item);
-      
+
       // Run render system to update UI
       RenderSidebarSystem.update(entities, mockUpdateArgs);
-      
+
       // Verify inventory UI updated (check UI component)
       expect(hasComponent(player, RenderInSidebarComponent)).toBe(true);
     });
@@ -665,28 +720,28 @@ describe('Complete Gameplay Scenarios', () => {
 
   describe('collision and boundaries', () => {
     it('should handle movement collision workflow', () => {
-      const player = entities.find(e => hasComponent(e, PlayerComponent));
-      
+      const player = entities.find((e) => hasComponent(e, PlayerComponent));
+
       // Position player near wall
       addComponent(player, PositionComponent, { x: 95, y: 100 });
       addComponent(player, VelocityComponent, { dx: 10, dy: 0 });
-      
+
       // Mock game map with wall at x=100
       const mockArgs = createTestUpdateArgs({
         gameMap: createMockGameMap({
           width: 200,
           height: 200,
-          isWalkable: (x, y) => x < 100 // Wall at x=100
-        })
+          isWalkable: (x, y) => x < 100, // Wall at x=100
+        }),
       });
-      
+
       // Run movement system
       MovementSystem.update(entities, mockArgs);
-      
+
       // Verify player stopped at wall
       const position = getComponent(player, PositionComponent);
       expect(position.x).toBeLessThan(100);
-      
+
       // Verify velocity cleared (hit wall)
       const velocity = getComponent(player, VelocityComponent);
       expect(velocity.dx).toBe(0);
@@ -696,13 +751,14 @@ describe('Complete Gameplay Scenarios', () => {
 ```
 
 ### Pattern 2: System Interaction Testing
+
 ```typescript
 // SystemInteraction.test.ts
 describe('System Interactions', () => {
   describe('system execution order', () => {
     it('should execute systems in correct order', () => {
       const executionOrder = [];
-      
+
       // Spy on system updates
       vi.spyOn(KeyboardInputSystem, 'update').mockImplementation(() => {
         executionOrder.push('Input');
@@ -719,17 +775,17 @@ describe('System Interactions', () => {
       vi.spyOn(CleanUpSystem, 'update').mockImplementation(() => {
         executionOrder.push('Cleanup');
       });
-      
+
       // Execute game loop
       GameLoop.update(entities, mockUpdateArgs);
-      
+
       // Verify correct execution order
       expect(executionOrder).toEqual([
         'Input',
-        'Movement', 
+        'Movement',
         'Pickup',
         'Render',
-        'Cleanup'
+        'Cleanup',
       ]);
     });
   });
@@ -738,27 +794,27 @@ describe('System Interactions', () => {
     it('should pass data correctly between systems', () => {
       const entity = createTestEntity();
       addComponent(entity, PositionComponent, { x: 0, y: 0 });
-      
+
       // Input system adds velocity
       const inputArgs = createTestUpdateArgs({
-        inputState: { keys: { 'ArrowRight': true } }
+        inputState: { keys: { ArrowRight: true } },
       });
       KeyboardInputSystem.processEntity(entity, inputArgs);
-      
+
       expect(hasComponent(entity, VelocityComponent)).toBe(true);
       const velocity = getComponent(entity, VelocityComponent);
       expect(velocity.dx).toBeGreaterThan(0);
-      
+
       // Movement system consumes velocity and updates position
       MovementSystem.processEntity(entity, inputArgs);
-      
+
       const position = getComponent(entity, PositionComponent);
       expect(position.x).toBeGreaterThan(0);
-      
+
       // Render system reads position and updates sprite
       addComponent(entity, SpriteComponent, { x: -999, y: -999 });
       RenderSystem.processEntity(entity, inputArgs);
-      
+
       const sprite = getComponent(entity, SpriteComponent);
       expect(sprite.x).toBe(position.x);
       expect(sprite.y).toBe(position.y);
@@ -772,10 +828,14 @@ describe('System Interactions', () => {
 ## Mock Testing Strategies
 
 ### Pattern 1: PIXI.js Rendering Mocks
+
 ```typescript
 // RenderSystem.test.ts with PIXI mocks
 import { RenderSystem } from '../RenderSystem';
-import { createMockSprite, createMockApplication } from '../../__tests__/mocks/pixiMocks';
+import {
+  createMockSprite,
+  createMockApplication,
+} from '../../__tests__/mocks/pixiMocks';
 
 describe('RenderSystem with PIXI mocks', () => {
   let mockApp: any;
@@ -784,7 +844,7 @@ describe('RenderSystem with PIXI mocks', () => {
   beforeEach(() => {
     mockApp = createMockApplication();
     mockStage = mockApp.stage;
-    
+
     // Mock global PIXI application
     vi.stubGlobal('pixiApp', mockApp);
   });
@@ -793,16 +853,16 @@ describe('RenderSystem with PIXI mocks', () => {
     const entity = createTestEntity();
     addComponent(entity, PositionComponent, { x: 100, y: 200 });
     addComponent(entity, SpriteComponent, { texture: 'player.png' });
-    
+
     RenderSystem.update([entity], mockUpdateArgs);
-    
+
     // Verify sprite was created and added to stage
     expect(mockStage.addChild).toHaveBeenCalled();
-    
+
     // Get the sprite that was added
     const addChildCall = mockStage.addChild.mock.calls[0];
     const sprite = addChildCall[0];
-    
+
     expect(sprite.x).toBe(100);
     expect(sprite.y).toBe(200);
     expect(sprite.texture).toBe('player.png');
@@ -811,15 +871,15 @@ describe('RenderSystem with PIXI mocks', () => {
   it('should handle sprite updates efficiently', () => {
     const entity = createTestEntity();
     const existingSprite = createMockSprite({ x: 50, y: 50 });
-    
+
     addComponent(entity, PositionComponent, { x: 100, y: 200 });
-    addComponent(entity, SpriteComponent, { 
+    addComponent(entity, SpriteComponent, {
       texture: 'player.png',
-      pixiSprite: existingSprite 
+      pixiSprite: existingSprite,
     });
-    
+
     RenderSystem.update([entity], mockUpdateArgs);
-    
+
     // Should update existing sprite, not create new one
     expect(mockStage.addChild).not.toHaveBeenCalled();
     expect(existingSprite.x).toBe(100);
@@ -829,18 +889,19 @@ describe('RenderSystem with PIXI mocks', () => {
   it('should clean up sprites when entities are removed', () => {
     const entity = createTestEntity();
     const sprite = createMockSprite();
-    
+
     addComponent(entity, SpriteComponent, { pixiSprite: sprite });
     entity.markedForDeletion = true;
-    
+
     RenderSystem.update([entity], mockUpdateArgs);
-    
+
     expect(mockStage.removeChild).toHaveBeenCalledWith(sprite);
   });
 });
 ```
 
 ### Pattern 2: State Management Mocks
+
 ```typescript
 // GameState.test.ts with Jotai mocks
 describe('Game State Management', () => {
@@ -852,34 +913,37 @@ describe('Game State Management', () => {
     mockAtoms = {
       entitiesAtom: createMockAtom([]),
       gameMapAtom: createMockAtom(null),
-      playerAtom: createMockAtom(null)
+      playerAtom: createMockAtom(null),
     };
-    
+
     vi.mocked(useStore).mockReturnValue(mockStore);
   });
 
   it('should update entity state correctly', () => {
     const entities = [createPlayerEntity(), createPickableItem('sword')];
-    
+
     // Mock store operations
     mockStore.set = vi.fn();
     mockStore.get = vi.fn().mockReturnValue(entities);
-    
+
     GameStateManager.updateEntities(entities);
-    
-    expect(mockStore.set).toHaveBeenCalledWith(mockAtoms.entitiesAtom, entities);
+
+    expect(mockStore.set).toHaveBeenCalledWith(
+      mockAtoms.entitiesAtom,
+      entities,
+    );
   });
 
   it('should handle state persistence', () => {
     const gameState = {
       entities: [createPlayerEntity()],
       level: 1,
-      score: 100
+      score: 100,
     };
-    
+
     GameStateManager.saveState(gameState);
     const loadedState = GameStateManager.loadState();
-    
+
     expect(loadedState).toEqual(gameState);
   });
 });
@@ -890,33 +954,37 @@ describe('Game State Management', () => {
 ## Performance Testing
 
 ### Pattern 1: Large Entity Set Testing
+
 ```typescript
 // Performance.test.ts
 describe('System Performance', () => {
   describe('large entity sets', () => {
     it('should handle 1000 entities efficiently', () => {
       const entities = [];
-      
+
       // Create 1000 entities with position and velocity
       for (let i = 0; i < 1000; i++) {
         const entity = createTestEntity();
-        addComponent(entity, PositionComponent, { x: i % 100, y: Math.floor(i / 100) });
+        addComponent(entity, PositionComponent, {
+          x: i % 100,
+          y: Math.floor(i / 100),
+        });
         addComponent(entity, VelocityComponent, { dx: 1, dy: 1 });
         entities.push(entity);
       }
-      
+
       const startTime = performance.now();
-      
+
       MovementSystem.update(entities, mockUpdateArgs);
-      
+
       const endTime = performance.now();
       const executionTime = endTime - startTime;
-      
+
       // Should complete in reasonable time (adjust threshold as needed)
       expect(executionTime).toBeLessThan(100); // 100ms
-      
+
       // Verify all entities were processed
-      entities.forEach(entity => {
+      entities.forEach((entity) => {
         const position = getComponent(entity, PositionComponent);
         expect(position.x).toBeGreaterThanOrEqual(0);
         expect(position.y).toBeGreaterThanOrEqual(0);
@@ -927,34 +995,34 @@ describe('System Performance', () => {
   describe('memory usage', () => {
     it('should not leak memory during entity creation/destruction', () => {
       const initialMemory = process.memoryUsage().heapUsed;
-      
+
       // Create and destroy entities many times
       for (let cycle = 0; cycle < 100; cycle++) {
         const entities = [];
-        
+
         // Create 100 entities
         for (let i = 0; i < 100; i++) {
           entities.push(createComplexEntity());
         }
-        
+
         // Process with all systems
         GameLoop.update(entities, mockUpdateArgs);
-        
+
         // Mark all for deletion
-        entities.forEach(entity => entity.markedForDeletion = true);
-        
+        entities.forEach((entity) => (entity.markedForDeletion = true));
+
         // Clean up
         CleanUpSystem.update(entities, mockUpdateArgs);
       }
-      
+
       // Force garbage collection if available
       if (global.gc) {
         global.gc();
       }
-      
+
       const finalMemory = process.memoryUsage().heapUsed;
       const memoryIncrease = finalMemory - initialMemory;
-      
+
       // Memory should not increase significantly
       expect(memoryIncrease).toBeLessThan(1024 * 1024); // Less than 1MB increase
     });
@@ -967,17 +1035,23 @@ describe('System Performance', () => {
 ## Edge Case Testing
 
 ### Pattern 1: Boundary Conditions
+
 ```typescript
 // EdgeCases.test.ts
 describe('Edge Case Handling', () => {
   describe('boundary values', () => {
     it('should handle maximum coordinate values', () => {
       const entity = createTestEntity();
-      addComponent(entity, PositionComponent, { x: Number.MAX_SAFE_INTEGER, y: Number.MAX_SAFE_INTEGER });
+      addComponent(entity, PositionComponent, {
+        x: Number.MAX_SAFE_INTEGER,
+        y: Number.MAX_SAFE_INTEGER,
+      });
       addComponent(entity, VelocityComponent, { dx: 1, dy: 1 });
-      
-      expect(() => MovementSystem.update([entity], mockUpdateArgs)).not.toThrow();
-      
+
+      expect(() =>
+        MovementSystem.update([entity], mockUpdateArgs),
+      ).not.toThrow();
+
       const position = getComponent(entity, PositionComponent);
       expect(Number.isFinite(position.x)).toBe(true);
       expect(Number.isFinite(position.y)).toBe(true);
@@ -985,11 +1059,16 @@ describe('Edge Case Handling', () => {
 
     it('should handle minimum coordinate values', () => {
       const entity = createTestEntity();
-      addComponent(entity, PositionComponent, { x: Number.MIN_SAFE_INTEGER, y: Number.MIN_SAFE_INTEGER });
+      addComponent(entity, PositionComponent, {
+        x: Number.MIN_SAFE_INTEGER,
+        y: Number.MIN_SAFE_INTEGER,
+      });
       addComponent(entity, VelocityComponent, { dx: -1, dy: -1 });
-      
-      expect(() => MovementSystem.update([entity], mockUpdateArgs)).not.toThrow();
-      
+
+      expect(() =>
+        MovementSystem.update([entity], mockUpdateArgs),
+      ).not.toThrow();
+
       const position = getComponent(entity, PositionComponent);
       expect(Number.isFinite(position.x)).toBe(true);
       expect(Number.isFinite(position.y)).toBe(true);
@@ -999,7 +1078,7 @@ describe('Edge Case Handling', () => {
       const entity = createTestEntity();
       addComponent(entity, PositionComponent, { x: 0, y: 0 });
       addComponent(entity, SpriteComponent, { width: 0, height: 0 });
-      
+
       expect(() => RenderSystem.update([entity], mockUpdateArgs)).not.toThrow();
     });
   });
@@ -1008,35 +1087,39 @@ describe('Edge Case Handling', () => {
     it('should handle null components gracefully', () => {
       const entity = createTestEntity();
       entity.components[PositionComponent.name] = null;
-      
-      expect(() => MovementSystem.update([entity], mockUpdateArgs)).not.toThrow();
+
+      expect(() =>
+        MovementSystem.update([entity], mockUpdateArgs),
+      ).not.toThrow();
     });
 
     it('should handle undefined update arguments', () => {
       const entities = [createTestEntity()];
-      
+
       expect(() => MovementSystem.update(entities, undefined)).not.toThrow();
       expect(() => MovementSystem.update(entities, null)).not.toThrow();
     });
 
     it('should handle corrupted entity data', () => {
-      const corruptedEntity = { 
+      const corruptedEntity = {
         id: 'test',
-        components: 'not an object' // Intentionally wrong type
+        components: 'not an object', // Intentionally wrong type
       };
-      
-      expect(() => MovementSystem.update([corruptedEntity], mockUpdateArgs)).not.toThrow();
+
+      expect(() =>
+        MovementSystem.update([corruptedEntity], mockUpdateArgs),
+      ).not.toThrow();
     });
   });
 
   describe('rapid state changes', () => {
     it('should handle rapid component addition/removal', () => {
       const entity = createTestEntity();
-      
+
       for (let i = 0; i < 1000; i++) {
         addComponent(entity, PositionComponent, { x: i, y: i });
         expect(hasComponent(entity, PositionComponent)).toBe(true);
-        
+
         removeComponent(entity, PositionComponent);
         expect(hasComponent(entity, PositionComponent)).toBe(false);
       }
@@ -1044,14 +1127,14 @@ describe('Edge Case Handling', () => {
 
     it('should handle simultaneous system processing', () => {
       const entities = createTestLevel();
-      
+
       // Simulate multiple systems running concurrently
       const promises = [
         Promise.resolve(MovementSystem.update(entities, mockUpdateArgs)),
         Promise.resolve(RenderSystem.update(entities, mockUpdateArgs)),
-        Promise.resolve(PickupSystem.update(entities, mockUpdateArgs))
+        Promise.resolve(PickupSystem.update(entities, mockUpdateArgs)),
       ];
-      
+
       expect(() => Promise.all(promises)).not.toThrow();
     });
   });

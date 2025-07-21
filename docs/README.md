@@ -34,45 +34,58 @@ docs/
 ## Documentation Types
 
 ### Testing Documentation (`testing/`)
+
 Complete documentation for the comprehensive testing suite including:
+
 - **Testing Guide**: Main testing documentation with patterns, examples, and best practices
 - **ECS Testing Patterns**: Specific patterns for testing Entity-Component-System architecture
 - **Test Utilities Reference**: Documentation for test helper functions and utilities
 - **Testing Suite Summary**: Final implementation summary and achievements
 
 ### Development Documentation (`development/`)
+
 Development workflow and operational documentation:
+
 - **CI/CD Configuration Guide**: Setup and configuration of continuous integration/deployment
 - **Copilot Instructions**: GitHub Copilot configuration and usage guidelines
 
 ### Project Documentation (`projects/`)
+
 Detailed documentation for specific features and implementations:
+
 - **Testing Suite**: Complete testing infrastructure implementation
 - **Unlock System**: Item unlock and progression system (planned)
 
 ### Prompts (`prompts/`)
+
 AI prompt templates for consistent development workflows:
+
 - Templates for creating PRDs, task lists, and implementation guides
 - Standardized prompts for feature development and updates
 
 ### Instructions (`instructions/`)
+
 System-level instructions and configurations:
+
 - Memory management for AI systems
 - Workflow and process instructions
 
 ## Quick Navigation
 
 ### For Developers
+
 - Start with [`testing/testing-guide.md`](testing/testing-guide.md) for comprehensive testing information
 - Check [`development/ci-cd-configuration-guide.md`](development/ci-cd-configuration-guide.md) for CI/CD setup
 - Review [`projects/`](projects/) for detailed project documentation
 
 ### For AI Systems
+
 - Use templates in [`prompts/`](prompts/) for consistent development workflows
 - Follow [`instructions/memory.instructions.md`](instructions/memory.instructions.md) for memory management
 - Reference [`development/copilot-instructions.md`](development/copilot-instructions.md) for Copilot configuration
 
 ### For Project Management
+
 - Review PRDs in [`projects/*/prd-*.md`](projects/) for project requirements
 - Check task lists in [`projects/*/task-list-*.md`](projects/) for implementation progress
 - Use [`prompts/create-prd.prompt.md`](prompts/create-prd.prompt.md) for new project documentation

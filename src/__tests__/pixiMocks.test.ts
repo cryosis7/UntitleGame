@@ -21,7 +21,7 @@ describe('Pixi.js Mocks', () => {
   describe('Mock Constructors', () => {
     it('should create Container instances', () => {
       const container = new Container();
-      
+
       expect(container).toBeDefined();
       expect(container.children).toEqual([]);
       expect(container.addChild).toBeDefined();
@@ -31,7 +31,7 @@ describe('Pixi.js Mocks', () => {
 
     it('should create Sprite instances', () => {
       const sprite = new Sprite();
-      
+
       expect(sprite).toBeDefined();
       expect(sprite.texture).toBe(null);
       expect(sprite.anchor).toEqual({ x: 0, y: 0 });
@@ -41,7 +41,7 @@ describe('Pixi.js Mocks', () => {
 
     it('should create Graphics instances', () => {
       const graphics = new Graphics();
-      
+
       expect(graphics).toBeDefined();
       expect(graphics.clear).toBeDefined();
       expect(graphics.beginFill).toBeDefined();
@@ -50,7 +50,7 @@ describe('Pixi.js Mocks', () => {
 
     it('should create Application instances', () => {
       const app = new Application();
-      
+
       expect(app).toBeDefined();
       expect(app.stage).toBeDefined();
       expect(app.ticker).toBeDefined();
@@ -63,48 +63,52 @@ describe('Pixi.js Mocks', () => {
     it('should handle Container child management', () => {
       const container = createMockContainer();
       const sprite = createMockContainer();
-      
+
       container.addChild(sprite);
-      
+
       expect(container.children).toHaveLength(1);
       expect(container.children[0]).toBe(sprite);
       expect(sprite.parent).toBe(container);
-      
+
       container.removeChild(sprite);
-      
+
       expect(container.children).toHaveLength(0);
       expect(sprite.parent).toBe(null);
     });
 
     it('should handle Graphics method chaining', () => {
       const graphics = new Graphics();
-      
-      const result = graphics.clear().beginFill(0xFF0000).drawRect(0, 0, 100, 100).endFill();
-      
+
+      const result = graphics
+        .clear()
+        .beginFill(0xff0000)
+        .drawRect(0, 0, 100, 100)
+        .endFill();
+
       expect(result).toBe(graphics);
       expect(graphics.clear).toHaveBeenCalled();
-      expect(graphics.beginFill).toHaveBeenCalledWith(0xFF0000);
+      expect(graphics.beginFill).toHaveBeenCalledWith(0xff0000);
       expect(graphics.drawRect).toHaveBeenCalledWith(0, 0, 100, 100);
     });
 
     it('should handle Application initialization', async () => {
       const app = createMockPixiApp();
-      
+
       await app.init({ resizeTo: document.body });
-      
+
       expect(app.init).toHaveBeenCalledWith({ resizeTo: document.body });
     });
 
     it('should handle Ticker functionality', () => {
       const ticker = new Ticker();
       const callback = vi.fn();
-      
+
       ticker.add(callback);
       ticker.start();
-      
+
       expect(ticker.started).toBe(true);
       expect(ticker.add).toHaveBeenCalledWith(callback);
-      
+
       ticker.stop();
       expect(ticker.started).toBe(false);
     });
@@ -113,7 +117,7 @@ describe('Pixi.js Mocks', () => {
   describe('Assets and Texture Management', () => {
     it('should handle texture loading', async () => {
       const texture = await Assets.load('/path/to/image.png');
-      
+
       expect(Assets.load).toHaveBeenCalledWith('/path/to/image.png');
       expect(texture).toBeDefined();
       expect(texture.width).toBe(100);
@@ -122,7 +126,7 @@ describe('Pixi.js Mocks', () => {
 
     it('should handle texture creation from sources', () => {
       const texture = Texture.from('/path/to/image.png');
-      
+
       expect(Texture.from).toHaveBeenCalledWith('/path/to/image.png');
       expect(texture).toBeDefined();
       expect(texture.valid).toBe(true);
@@ -130,9 +134,9 @@ describe('Pixi.js Mocks', () => {
 
     it('should handle spritesheet parsing', async () => {
       const spritesheet = new Spritesheet();
-      
+
       await spritesheet.parse();
-      
+
       expect(spritesheet.parse).toHaveBeenCalled();
       expect(spritesheet.textures).toEqual({});
     });
@@ -142,16 +146,16 @@ describe('Pixi.js Mocks', () => {
     it('should clear mock history with setupPixiMocks', () => {
       const container = new Container();
       const sprite = new Sprite();
-      
+
       // Make some calls
       container.addChild(sprite);
-      
+
       expect(Container).toHaveBeenCalled();
       expect(Sprite).toHaveBeenCalled();
-      
+
       // Setup should clear history
       setupPixiMocks();
-      
+
       expect(Container).not.toHaveBeenCalled();
       expect(Sprite).not.toHaveBeenCalled();
     });
@@ -161,14 +165,14 @@ describe('Pixi.js Mocks', () => {
     it('should work with pixiApp global pattern', () => {
       // Simulate how pixiApp is used in the codebase
       const pixiApp = createMockPixiApp();
-      
+
       // Test stage access
       expect(pixiApp.stage).toBeDefined();
       expect(pixiApp.stage.addChild).toBeDefined();
-      
+
       // Test canvas access
       expect(pixiApp.canvas).toBeInstanceOf(HTMLCanvasElement);
-      
+
       // Test ticker access
       expect(pixiApp.ticker).toBeDefined();
       expect(pixiApp.ticker.add).toBeDefined();
@@ -178,16 +182,16 @@ describe('Pixi.js Mocks', () => {
       const parent = createMockContainer();
       const child1 = createMockContainer();
       const child2 = createMockContainer();
-      
+
       parent.addChild(child1);
       parent.addChild(child2);
-      
+
       expect(parent.children).toHaveLength(2);
       expect(child1.parent).toBe(parent);
       expect(child2.parent).toBe(parent);
-      
+
       parent.removeChildren();
-      
+
       expect(parent.children).toHaveLength(0);
       expect(child1.parent).toBe(null);
       expect(child2.parent).toBe(null);

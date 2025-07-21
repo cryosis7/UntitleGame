@@ -1,15 +1,18 @@
 # CI/CD Configuration Guide
 
 ## Overview
+
 This document outlines the GitHub Actions CI/CD setup for the ECS game project, including automated testing, coverage reporting, and branch protection configuration.
 
 ## Workflows
 
 ### 1. Tests and Coverage (`test.yml`)
+
 **Triggers:** Push to main/feature branches, Pull Requests to main
 **Purpose:** Run comprehensive test suite with coverage reporting
 
 **Features:**
+
 - Multi-Node.js version testing (18.x, 20.x)
 - Type checking with TypeScript
 - ESLint code quality checks
@@ -19,6 +22,7 @@ This document outlines the GitHub Actions CI/CD setup for the ECS game project, 
 - Artifact uploads for test results and build files
 
 **Coverage Thresholds (Aspirational):**
+
 - Lines: 80%
 - Functions: 90%
 - Branches: 75%
@@ -27,10 +31,12 @@ This document outlines the GitHub Actions CI/CD setup for the ECS game project, 
 **Current Baseline (T015):** ~41% line coverage
 
 ### 2. Code Quality (`code-quality.yml`)
+
 **Triggers:** Push to main/feature branches, Pull Requests to main
 **Purpose:** Ensure code quality and security standards
 
 **Features:**
+
 - TypeScript type checking
 - ESLint linting
 - Prettier formatting validation
@@ -38,10 +44,12 @@ This document outlines the GitHub Actions CI/CD setup for the ECS game project, 
 - Dependency audit
 
 ### 3. Dependency Management (`dependency-management.yml`)
+
 **Triggers:** Weekly schedule (Mondays 9 AM UTC), Manual dispatch
 **Purpose:** Monitor and update project dependencies
 
 **Features:**
+
 - Automated dependency vulnerability checks
 - Weekly outdated dependency reports
 - Manual dependency update PRs
@@ -58,10 +66,10 @@ This document outlines the GitHub Actions CI/CD setup for the ECS game project, 
 # Required status checks
 require_status_checks_to_pass: true
 required_status_checks:
-  - "Run Tests and Coverage (18.x)"
-  - "Run Tests and Coverage (20.x)"  
-  - "Build Check"
-  - "Code Quality Checks"
+  - 'Run Tests and Coverage (18.x)'
+  - 'Run Tests and Coverage (20.x)'
+  - 'Build Check'
+  - 'Code Quality Checks'
 
 # Restrictions
 require_branches_to_be_up_to_date: true
@@ -85,23 +93,28 @@ Create `.github/pull_request_template.md`:
 
 ```markdown
 ## Description
+
 Brief description of changes
 
 ## Testing
+
 - [ ] Unit tests added/updated
 - [ ] Integration tests pass
 - [ ] Coverage maintained/improved
 
 ## Type of Change
+
 - [ ] Bug fix
-- [ ] New feature  
+- [ ] New feature
 - [ ] Breaking change
 - [ ] Documentation update
 
 ## Coverage Report
+
 Coverage will be automatically reported in PR comments.
 
 ## Checklist
+
 - [ ] Code follows project style guidelines
 - [ ] Self-review completed
 - [ ] Tests added for new functionality
@@ -111,6 +124,7 @@ Coverage will be automatically reported in PR comments.
 ## CI/CD Pipeline Flow
 
 ### For Feature Development:
+
 1. **Create feature branch** from `main`
 2. **Develop and test locally** using:
    ```bash
@@ -131,6 +145,7 @@ Coverage will be automatically reported in PR comments.
    - Branch up-to-date
 
 ### For Main Branch:
+
 1. **Merge triggers** full CI pipeline
 2. **Coverage reports** uploaded to Codecov
 3. **Build artifacts** stored
@@ -139,6 +154,7 @@ Coverage will be automatically reported in PR comments.
 ## Test Execution Strategy
 
 ### Local Development:
+
 ```bash
 # Quick test run
 yarn test
@@ -154,6 +170,7 @@ yarn coverage:validate
 ```
 
 ### CI Environment:
+
 - **Matrix testing** across Node.js 18.x and 20.x
 - **Parallel job execution** for efficiency
 - **Artifact preservation** for debugging
@@ -162,11 +179,13 @@ yarn coverage:validate
 ## Coverage Reporting
 
 ### Coverage Providers:
+
 1. **Istanbul** (local/CI generation)
 2. **Codecov** (trend tracking)
 3. **GitHub Actions** (PR comments)
 
 ### Coverage Exclusions:
+
 - Test files (`**/__tests__/**`, `**/*.test.*`)
 - Configuration files (`**/*.config.*`)
 - Type definitions (`**/*.d.ts`)
@@ -174,6 +193,7 @@ yarn coverage:validate
 - Setup files (`src/setupTests.ts`)
 
 ### Coverage Validation:
+
 - **Baseline established**: 40.71% lines (T015)
 - **Target thresholds**: 80% lines, 90% functions
 - **Progressive improvement**: Track coverage trends
@@ -204,6 +224,7 @@ yarn coverage:validate
    - Review build command settings
 
 ### Debugging Workflows:
+
 - **Job summaries** provide detailed reports
 - **Artifacts** contain test results and coverage data
 - **Action logs** show step-by-step execution
@@ -212,12 +233,14 @@ yarn coverage:validate
 ## Security Considerations
 
 ### Automated Security:
+
 - **Dependency scanning** via yarn audit
 - **Vulnerability monitoring** via Dependabot
 - **Branch protection** prevents direct pushes
 - **Required reviews** ensure code oversight
 
 ### Token Management:
+
 - **GITHUB_TOKEN** used for PR comments
 - **Minimal permissions** for workflow actions
 - **Secure artifact** handling
@@ -226,12 +249,14 @@ yarn coverage:validate
 ## Maintenance
 
 ### Weekly Tasks:
+
 - Review dependency management reports
 - Monitor coverage trends
 - Check for security vulnerabilities
 - Update workflow actions if needed
 
 ### Monthly Tasks:
+
 - Review CI/CD performance metrics
 - Update Node.js versions if needed
 - Audit workflow permissions
@@ -240,12 +265,14 @@ yarn coverage:validate
 ## Performance Optimization
 
 ### CI Speed Improvements:
+
 - **Yarn caching** reduces install time
 - **Matrix parallelization** runs concurrent jobs
 - **Conditional steps** skip unnecessary work
 - **Artifact reuse** between jobs
 
 ### Test Performance:
+
 - **Selective test execution** for coverage
 - **Parallel test running** via Vitest
 - **Mock optimization** reduces overhead
@@ -254,12 +281,14 @@ yarn coverage:validate
 ## Integration with Development Tools
 
 ### IDE Integration:
+
 - **VS Code extensions** for ESLint, Prettier
 - **Test discovery** via Vitest extension
 - **Coverage highlighting** in editors
 - **Git hooks** for pre-commit checks
 
 ### GitHub Integration:
+
 - **Status checks** in PR interface
 - **Coverage trends** via Codecov
 - **Automated notifications** for failures
