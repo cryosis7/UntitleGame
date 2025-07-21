@@ -212,7 +212,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
 
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 3, y: 3 }]
       ]);
 
       const hammerEntity = createEntityWithComponents([
@@ -226,7 +227,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
         [ComponentType.InteractionBehavior, { 
           behaviorType: InteractionBehaviorType.REMOVE,
           isRepeatable: false 
-        }]
+        }],
+        [ComponentType.Position, { x: 3, y: 3 }]
       ]);
 
       const entities = [playerEntity, hammerEntity, wallEntity];
@@ -239,6 +241,12 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
       });
 
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
+        if (entity === wallEntity && componentType === ComponentType.Position) {
+          return wallEntity.components[ComponentType.Position];
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }
@@ -276,7 +284,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
 
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 10, y: 10 }]
       ]);
 
       const keyEntity = createEntityWithComponents([
@@ -317,6 +326,9 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
       });
 
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }
@@ -372,7 +384,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
 
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 7, y: 8 }]
       ]);
 
       const keyEntity = createEntityWithComponents([
@@ -386,7 +399,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
         [ComponentType.InteractionBehavior, { 
           behaviorType: InteractionBehaviorType.SPAWN_CONTENTS,
           isRepeatable: false 
-        }]
+        }],
+        [ComponentType.Position, { x: 7, y: 8 }]
       ]);
 
       const entities = [playerEntity, keyEntity, chestEntity];
@@ -399,6 +413,12 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
       });
 
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
+        if (entity === chestEntity && componentType === ComponentType.Position) {
+          return chestEntity.components[ComponentType.Position];
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }
@@ -426,12 +446,16 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
       consoleLogSpy.mockRestore();
     });
 
-    it('should handle missing Position component', () => {
+    it('should handle missing Position component during spawn behavior', () => {
       const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+
+      // Ensure createEntitiesFromTemplates returns an empty array for this test
+      (createEntitiesFromTemplates as any).mockReturnValue([]);
 
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 9, y: 12 }]
       ]);
 
       const keyEntity = createEntityWithComponents([
@@ -449,7 +473,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
         [ComponentType.SpawnContents, {
           contents: [{ components: { sprite: { sprite: 'gold_coin' } } }],
           spawnOffset: { x: 1, y: 0 }
-        }]
+        }],
+        [ComponentType.Position, { x: 9, y: 12 }]
       ]);
 
       const entities = [playerEntity, keyEntity, chestEntity];
@@ -461,7 +486,22 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
         return [];
       });
 
+      // Mock that Position becomes unavailable at the spawn moment
+      let positionCallCount = 0;
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
+        if (entity === chestEntity && componentType === ComponentType.Position) {
+          positionCallCount++;
+          // Allow position for proximity check (first call), but return null for spawn behavior (second call)
+          if (positionCallCount <= 1) {
+            return chestEntity.components[ComponentType.Position];
+          } else {
+            // At spawn time, position is not available
+            return null;
+          }
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }
@@ -476,9 +516,6 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
         }
         if (entity === chestEntity && componentType === ComponentType.SpawnContents) {
           return chestEntity.components[ComponentType.SpawnContents];
-        }
-        if (entity === chestEntity && componentType === ComponentType.Position) {
-          return null; // No position component
         }
         return null;
       });
@@ -499,7 +536,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
 
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 2, y: 3 }]
       ]);
 
       const keyEntity = createEntityWithComponents([
@@ -510,7 +548,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
 
       // Door has RequiresItem but no InteractionBehavior component
       const doorEntity = createEntityWithComponents([
-        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }]
+        [ComponentType.RequiresItem, { requiredCapabilities: ['unlock'], isActive: true }],
+        [ComponentType.Position, { x: 2, y: 3 }]
       ]);
 
       const entities = [playerEntity, keyEntity, doorEntity];
@@ -523,6 +562,12 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
       });
 
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
+        if (entity === doorEntity && componentType === ComponentType.Position) {
+          return doorEntity.components[ComponentType.Position];
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }
@@ -552,7 +597,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
 
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 6, y: 7 }]
       ]);
 
       const keyEntity = createEntityWithComponents([
@@ -566,7 +612,8 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
         [ComponentType.InteractionBehavior, { 
           behaviorType: 'unknown_behavior' as any,
           isRepeatable: false 
-        }]
+        }],
+        [ComponentType.Position, { x: 6, y: 7 }]
       ]);
 
       const entities = [playerEntity, keyEntity, doorEntity];
@@ -579,6 +626,12 @@ describe('ItemInteractionSystem - Behavior Processing', () => {
       });
 
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
+        if (entity === doorEntity && componentType === ComponentType.Position) {
+          return doorEntity.components[ComponentType.Position];
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }

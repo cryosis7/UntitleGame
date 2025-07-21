@@ -43,7 +43,8 @@ describe('ItemInteractionSystem - Item Consumption', () => {
       // Create a player with interacting component
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 5, y: 5 }]
       ]);
 
       // Create a consumable key
@@ -61,7 +62,8 @@ describe('ItemInteractionSystem - Item Consumption', () => {
           behaviorType: 'transform', 
           newSpriteId: 'door_open',
           isRepeatable: false 
-        }]
+        }],
+        [ComponentType.Position, { x: 5, y: 5 }]
       ]);
 
       const entities = [playerEntity, keyEntity, doorEntity];
@@ -74,8 +76,14 @@ describe('ItemInteractionSystem - Item Consumption', () => {
         return [];
       });
 
-      // Mock component getters
+      // Mock component getters - consumable item test
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
+        if (entity === doorEntity && componentType === ComponentType.Position) {
+          return doorEntity.components[ComponentType.Position];
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }
@@ -126,7 +134,8 @@ describe('ItemInteractionSystem - Item Consumption', () => {
       // Create a player with interacting component
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 7, y: 7 }]
       ]);
 
       // Create a non-consumable multi-tool
@@ -144,7 +153,8 @@ describe('ItemInteractionSystem - Item Consumption', () => {
           behaviorType: 'transform', 
           newSpriteId: 'door_open',
           isRepeatable: false 
-        }]
+        }],
+        [ComponentType.Position, { x: 7, y: 7 }]
       ]);
 
       const entities = [playerEntity, multiToolEntity, doorEntity];
@@ -157,8 +167,14 @@ describe('ItemInteractionSystem - Item Consumption', () => {
         return [];
       });
 
-      // Mock component getters
+      // Mock component getters - non-consumable test
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
+        if (entity === doorEntity && componentType === ComponentType.Position) {
+          return doorEntity.components[ComponentType.Position];
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }
@@ -260,7 +276,8 @@ describe('ItemInteractionSystem - Item Consumption', () => {
       // Test both consumable and non-consumable scenarios in sequence
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 9, y: 9 }]
       ]);
 
       // Create a consumable lockpick
@@ -277,7 +294,8 @@ describe('ItemInteractionSystem - Item Consumption', () => {
           behaviorType: 'transform', 
           newSpriteId: 'door_open',
           isRepeatable: false 
-        }]
+        }],
+        [ComponentType.Position, { x: 9, y: 9 }]
       ]);
 
       const entities = [playerEntity, lockpickEntity, doorEntity];
@@ -290,8 +308,14 @@ describe('ItemInteractionSystem - Item Consumption', () => {
         return [];
       });
 
-      // Mock component getters
+      // Mock component getters - different consumability test
       (getComponentIfExists as any).mockImplementation((entity: any, componentType: ComponentType) => {
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
+        if (entity === doorEntity && componentType === ComponentType.Position) {
+          return doorEntity.components[ComponentType.Position];
+        }
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }
@@ -397,7 +421,8 @@ describe('ItemInteractionSystem - Item Consumption', () => {
       // Test that the current single-item system works correctly
       const playerEntity = createEntityWithComponents([
         [ComponentType.Player, {}],
-        [ComponentType.Interacting, {}]
+        [ComponentType.Interacting, {}],
+        [ComponentType.Position, { x: 11, y: 11 }]
       ]);
 
       // Create a consumable key
@@ -414,7 +439,8 @@ describe('ItemInteractionSystem - Item Consumption', () => {
           behaviorType: 'transform', 
           newSpriteId: 'door_open',
           isRepeatable: false 
-        }]
+        }],
+        [ComponentType.Position, { x: 11, y: 11 }]
       ]);
 
       const entities = [playerEntity, keyEntity, doorEntity];
@@ -432,6 +458,9 @@ describe('ItemInteractionSystem - Item Consumption', () => {
         if (entity === playerEntity && componentType === ComponentType.CarriedItem) {
           return playerEntity.components[ComponentType.CarriedItem];
         }
+        if (entity === playerEntity && componentType === ComponentType.Position) {
+          return playerEntity.components[ComponentType.Position];
+        }
         if (entity === keyEntity && componentType === ComponentType.UsableItem) {
           return keyEntity.components[ComponentType.UsableItem];
         }
@@ -440,6 +469,9 @@ describe('ItemInteractionSystem - Item Consumption', () => {
         }
         if (entity === doorEntity && componentType === ComponentType.InteractionBehavior) {
           return doorEntity.components[ComponentType.InteractionBehavior];
+        }
+        if (entity === doorEntity && componentType === ComponentType.Position) {
+          return doorEntity.components[ComponentType.Position];
         }
         return null;
       });

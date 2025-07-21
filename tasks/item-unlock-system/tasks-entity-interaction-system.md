@@ -188,16 +188,18 @@
 
 ### Entity Templates & Integration
 
-- [ ] **T012: Update ComponentOperations for New Components**
-  - [ ] Add utility functions for new components if needed
-  - [ ] Ensure getComponent/setComponent works with new component types
-  - [ ] Update any component validation or helper functions
-  - [ ] **Acceptance Criteria:**
+- [x] **T012: Update ComponentOperations for New Components**
+  - [x] Add utility functions for new components if needed
+  - [x] Ensure getComponent/setComponent works with new component types
+  - [x] Update any component validation or helper functions
+  - [x] **Acceptance Criteria:**
     - All new components work with existing ComponentOperations utilities
     - No breaking changes to existing component operations
     - TypeScript compilation successful
-  - [ ] Write tests for component operations with new components
-  - [ ] Run linting and formatting checks
+  - [x] Write tests for component operations with new components
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
   - [ ] All tests passing
   - [ ] Commit with conventional commit message
 
