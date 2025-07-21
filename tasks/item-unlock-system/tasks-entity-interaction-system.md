@@ -21,21 +21,21 @@
   - [x] All tests passing
   - [x] Commit with conventional commit message
 
-- [ ] **T002: Create RequiresItemComponent**
-  - [ ] Create `src/game/components/individualComponents/RequiresItemComponent.ts`
-  - [ ] Implement component with `requiredCapabilities: string[]` and `isActive: boolean`
-  - [ ] Create proper TypeScript types and props interface
-  - [ ] Follow existing component patterns (constructor, type property)
-  - [ ] **Acceptance Criteria:**
+- [x] **T002: Create RequiresItemComponent**
+  - [x] Create `src/game/components/individualComponents/RequiresItemComponent.ts`
+  - [x] Implement component with `requiredCapabilities: string[]` and `isActive: boolean`
+  - [x] Create proper TypeScript types and props interface
+  - [x] Follow existing component patterns (constructor, type property)
+  - [x] **Acceptance Criteria:**
     - Component follows established patterns from other components
     - Proper TypeScript typing with props interface
     - Constructor accepts and validates props
     - Default `isActive` to `true`
     - Supports multiple capabilities via array
-  - [ ] Write unit tests for component creation and validation
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write unit tests for component creation and validation
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 - [ ] **T003: Create UsableItemComponent**
   - [ ] Create `src/game/components/individualComponents/UsableItemComponent.ts`

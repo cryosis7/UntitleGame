@@ -25,6 +25,10 @@ import type {
   RequiresItemComponent,
   RequiresItemComponentProps,
 } from './individualComponents/RequiresItemComponent';
+import type {
+  UsableItemComponent,
+  UsableItemComponentProps,
+} from './individualComponents/UsableItemComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -39,6 +43,7 @@ export enum ComponentType {
   Walkable = 'walkable',
   RenderInSidebar = 'renderInSidebar',
   RequiresItem = 'requiresItem',
+  UsableItem = 'usableItem',
 }
 
 export type FullComponentDictionary = {
@@ -54,6 +59,7 @@ export type FullComponentDictionary = {
   [ComponentType.Walkable]: WalkableComponent;
   [ComponentType.RenderInSidebar]: RenderInSidebarComponent;
   [ComponentType.RequiresItem]: RequiresItemComponent;
+  [ComponentType.UsableItem]: UsableItemComponent;
 };
 
 export type Component = FullComponentDictionary[keyof FullComponentDictionary];
@@ -67,4 +73,5 @@ export type ComponentProps =
   | VelocityComponentProps
   | CarriedItemComponentProps
   | RequiresItemComponentProps
+  | UsableItemComponentProps
   | {};
