@@ -70,23 +70,23 @@
   - [x] All tests passing
   - [x] Commit with conventional commit message
 
-- [ ] **T005: Create SpawnContentsComponent**
-  - [ ] Create `src/game/components/individualComponents/SpawnContentsComponent.ts`
-  - [ ] Implement component with `contents: EntityTemplate[]` and `spawnOffset?: { x: number; y: number }`
-  - [ ] Create proper TypeScript types and props interface
-  - [ ] Import EntityTemplate type from utils
-  - [ ] Follow existing component patterns (constructor, type property)
-  - [ ] **Acceptance Criteria:**
+- [x] **T005: Create SpawnContentsComponent**
+  - [x] Create `src/game/components/individualComponents/SpawnContentsComponent.ts`
+  - [x] Implement component with `contents: EntityTemplate[]` and `spawnOffset?: { x: number; y: number }`
+  - [x] Create proper TypeScript types and props interface
+  - [x] Import EntityTemplate type from utils
+  - [x] Follow existing component patterns (constructor, type property)
+  - [x] **Acceptance Criteria:**
     - Component follows established patterns from other components
     - Uses EntityTemplate type properly
     - Proper TypeScript typing with props interface
     - Constructor accepts and validates props
     - `spawnOffset` defaults to `{ x: 0, y: 0 }`
     - Supports multiple entity templates in contents array
-  - [ ] Write unit tests for component creation and validation
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write unit tests for component creation and validation
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 - [ ] **T006: Update ComponentTypes Enum and Dictionary**
   - [ ] Add 4 new ComponentType entries to enum: `RequiresItem`, `UsableItem`, `InteractionBehavior`, `SpawnContents`
