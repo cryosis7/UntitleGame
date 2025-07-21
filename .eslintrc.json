@@ -11,7 +11,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "root": true,
-  "ignorePatterns": ["dist"],
+  "ignorePatterns": ["dist", "memory.json"],
   "rules": {
     "@typescript-eslint/consistent-type-imports": [
       2,
