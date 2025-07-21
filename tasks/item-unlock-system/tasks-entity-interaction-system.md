@@ -88,20 +88,20 @@
   - [x] All tests passing
   - [x] Commit with conventional commit message
 
-- [ ] **T006: Update ComponentTypes Enum and Dictionary**
-  - [ ] Add 4 new ComponentType entries to enum: `RequiresItem`, `UsableItem`, `InteractionBehavior`, `SpawnContents`
-  - [ ] Add imports for all 4 new component classes
-  - [ ] Add entries to FullComponentDictionary type mapping
-  - [ ] Add entries to ComponentPropsMap (if it exists)
-  - [ ] **Acceptance Criteria:**
+- [x] **T006: Update ComponentTypes Enum and Dictionary**
+  - [x] Add 4 new ComponentType entries to enum: `RequiresItem`, `UsableItem`, `InteractionBehavior`, `SpawnContents`
+  - [x] Add imports for all 4 new component classes
+  - [x] Add entries to FullComponentDictionary type mapping
+  - [x] Add entries to ComponentPropsMap (if it exists)
+  - [x] **Acceptance Criteria:**
     - All 4 new components properly registered
     - TypeScript compilation successful
     - Follows existing naming conventions
     - Dictionary mapping includes all new components
-  - [ ] Write unit tests to verify component type registration
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write unit tests to verify component type registration
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 ### System Implementation
 
@@ -216,19 +216,19 @@
   - [ ] All tests passing
   - [ ] Commit with conventional commit message
 
-- [ ] **T014: Register ItemInteractionSystem in Game**
-  - [ ] Import ItemInteractionSystem in `GameSystem.ts`
-  - [ ] Add system to game system registry
-  - [ ] Ensure proper system execution order (after KeyboardInputSystem, before CleanUpSystem)
-  - [ ] **Acceptance Criteria:**
+- [x] **T014: Register ItemInteractionSystem in Game**
+  - [x] Import ItemInteractionSystem in `GameSystem.ts`
+  - [x] Add system to game system registry
+  - [x] Ensure proper system execution order (after KeyboardInputSystem, before CleanUpSystem)
+  - [x] **Acceptance Criteria:**
     - System properly registered and running
     - Execution order maintains ECS data flow
     - No conflicts with existing systems
     - System receives proper UpdateArgs
-  - [ ] Write integration tests for system registration
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write integration tests for system registration
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 ### Testing
 

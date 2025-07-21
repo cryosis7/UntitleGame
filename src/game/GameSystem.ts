@@ -11,6 +11,7 @@ import {
 import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
 import { MovementSystem } from './systems/MovementSystem';
 import { PickupSystem } from './systems/PickupSystem';
+import { ItemInteractionSystem } from './systems/ItemInteractionSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
 import {
   entitiesAtom,
@@ -63,6 +64,7 @@ export const initiateSystems = () => {
     new KeyboardInputSystem(),
     new MovementSystem(),
     new PickupSystem(),
+    new ItemInteractionSystem(),
     new EntityPlacementSystem(),
 
     new RenderSystem(),
