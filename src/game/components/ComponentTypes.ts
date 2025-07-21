@@ -29,6 +29,10 @@ import type {
   UsableItemComponent,
   UsableItemComponentProps,
 } from './individualComponents/UsableItemComponent';
+import type {
+  InteractionBehaviorComponent,
+  InteractionBehaviorComponentProps,
+} from './individualComponents/InteractionBehaviorComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -44,6 +48,7 @@ export enum ComponentType {
   RenderInSidebar = 'renderInSidebar',
   RequiresItem = 'requiresItem',
   UsableItem = 'usableItem',
+  InteractionBehavior = 'interactionBehavior',
 }
 
 export type FullComponentDictionary = {
@@ -60,6 +65,7 @@ export type FullComponentDictionary = {
   [ComponentType.RenderInSidebar]: RenderInSidebarComponent;
   [ComponentType.RequiresItem]: RequiresItemComponent;
   [ComponentType.UsableItem]: UsableItemComponent;
+  [ComponentType.InteractionBehavior]: InteractionBehaviorComponent;
 };
 
 export type Component = FullComponentDictionary[keyof FullComponentDictionary];
@@ -74,4 +80,5 @@ export type ComponentProps =
   | CarriedItemComponentProps
   | RequiresItemComponentProps
   | UsableItemComponentProps
+  | InteractionBehaviorComponentProps
   | {};

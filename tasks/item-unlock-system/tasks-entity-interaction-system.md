@@ -37,21 +37,21 @@
   - [x] All tests passing
   - [x] Commit with conventional commit message
 
-- [ ] **T003: Create UsableItemComponent**
-  - [ ] Create `src/game/components/individualComponents/UsableItemComponent.ts`
-  - [ ] Implement component with `capabilities: string[]` and `isConsumable: boolean`
-  - [ ] Create proper TypeScript types and props interface
-  - [ ] Follow existing component patterns (constructor, type property)
-  - [ ] **Acceptance Criteria:**
+- [x] **T003: Create UsableItemComponent**
+  - [x] Create `src/game/components/individualComponents/UsableItemComponent.ts`
+  - [x] Implement component with `capabilities: string[]` and `isConsumable: boolean`
+  - [x] Create proper TypeScript types and props interface
+  - [x] Follow existing component patterns (constructor, type property)
+  - [x] **Acceptance Criteria:**
     - Component follows established patterns from other components
     - Proper TypeScript typing with props interface
     - Constructor accepts and validates props
     - Default `isConsumable` to `true`
     - Supports multiple capabilities via array
-  - [ ] Write unit tests for component creation and validation
-  - [ ] Run linting and formatting checks
-  - [ ] All tests passing
-  - [ ] Commit with conventional commit message
+  - [x] Write unit tests for component creation and validation
+  - [x] Run linting and formatting checks
+  - [x] All tests passing
+  - [x] Commit with conventional commit message
 
 - [ ] **T004: Create InteractionBehaviorComponent**
   - [ ] Create `src/game/components/individualComponents/InteractionBehaviorComponent.ts`
