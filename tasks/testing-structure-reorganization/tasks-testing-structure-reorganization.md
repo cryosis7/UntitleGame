@@ -41,13 +41,13 @@
 
 ### Exemplary Migration (Phase 1)
 
-- [ ] **T004: Migrate MovementSystem as Unit Test Example**
-  - [ ] Move `MovementSystem.test.ts` adjacent to `MovementSystem.ts`
-  - [ ] Ensure test focuses on isolated unit testing (mock dependencies)
-  - [ ] Improve test quality to meet new standards (clear naming, comprehensive edge cases)
-  - [ ] Document as exemplary unit test following new patterns
-  - [ ] Pre-merge checks have been run and pass
-  - [ ] Changes are committed with conventional commit structured message
+- [x] **T004: Migrate MovementSystem as Unit Test Example**
+  - [x] Move `MovementSystem.test.ts` adjacent to `MovementSystem.ts`
+  - [x] Ensure test focuses on isolated unit testing (mock dependencies)
+  - [x] Improve test quality to meet new standards (clear naming, comprehensive edge cases)
+  - [x] Document as exemplary unit test following new patterns
+  - [x] Pre-merge checks have been run and pass
+  - [x] Changes are committed with conventional commit structured message
   - **Estimated Time:** 2 hours
 
 - [ ] **T005: Create Key-Chest Interaction Integration Test Example**
