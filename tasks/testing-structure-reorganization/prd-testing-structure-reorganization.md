@@ -156,13 +156,28 @@ src/
 - **Single responsibility**: Test one component or system in isolation
 - **Comprehensive edge cases**: Cover boundary conditions, invalid inputs, error states
 - **Clear naming**: Follow pattern "should [expected behavior] when [condition]"
-- **Proper mocking**: Mock dependencies to maintain test isolation
+- **Proper testing approach**: Use store-based testing with real ComponentOperations instead of mocking
+- **Entity creation**: Leverage existing EntityFactory for consistent entity creation
 - **Adjacent location**: Placed next to corresponding source file
+
+#### Store-Based Testing Approach (New Standards)
+- **Real ComponentOperations**: Use actual `setComponent()`, `getComponentIfExists()` etc. functions instead of mocking them
+- **Store integration**: Create test entities in the real Jotai store using `store.set(entitiesAtom, ...)`
+- **EntityFactory usage**: Use `createEntityFromTemplate()` and `createEntitiesFromTemplates()` etc. from existing EntityFactory
+- **Test isolation**: Clear store between tests using helper functions to prevent test pollution
+- **Fresh data retrieval**: Get updated entity data from store after system operations to verify real state changes
+
+#### ComponentOperations Mocking Issues (Anti-Pattern to Avoid)
+- **Avoid mocking ComponentOperations**: The current approach of mocking `setComponent()` creates false test security
+- **Architectural mismatch problem**: Real ComponentOperations work with global Jotai store, but mocks work with plain objects
+- **Integration failure**: Mocked tests don't catch real bugs in ComponentOperations or store interactions
+- **Maintenance burden**: Keeping mocks synchronized with real implementations is error-prone
 
 #### Integration Test Requirements
 - **Complete workflows**: Test feature flows spanning multiple systems
 - **System interaction focus**: Verify data flow between systems
 - **Realistic scenarios**: Use actual game situations, not contrived test cases
+- **Store-based setup**: Use real store and EntityFactory for authentic test scenarios
 - **Dedicated location**: Placed in `tests/integration/` directory
 - **Clear documentation**: Comments explaining the workflow being tested
 
@@ -181,6 +196,60 @@ src/
 - **Incremental migration**: This is an immediate, comprehensive restructure with all work paused
 
 ## Design Considerations
+
+### New Store-Based Testing Approach
+
+#### Problem with Current Mocking Strategy
+The existing tests extensively mock ComponentOperations (e.g., `setComponent()`, `getComponentIfExists()`), which creates several critical issues:
+
+1. **Architectural Mismatch**: Real `setComponent()` updates the global Jotai store, but mocks directly modify plain entity objects
+2. **False Security**: Tests pass but don't verify actual ComponentOperations behavior  
+3. **Integration Blind Spots**: Real bugs in store interactions go undetected
+4. **Maintenance Overhead**: Mocks must be kept synchronized with evolving real implementations
+
+#### Recommended Store-Based Solution
+Replace ComponentOperations mocking with authentic store-based testing:
+
+```typescript
+// ✅ GOOD: Store-based testing with real ComponentOperations
+function createStoreEntity(components: Array<[ComponentType, any]> = []): Entity {
+  const template: EntityTemplate = {
+    components: Object.fromEntries(components)
+  };
+  
+  // Use existing EntityFactory
+  const entity = createEntityFromTemplate(template);
+  
+  // Add to real store
+  store.set(entitiesAtom, (entities: Entity[]) => [...entities, entity]);
+  
+  return entity;
+}
+
+// Test with real store interactions
+it('should update entity position based on velocity', () => {
+  const entity = createStoreEntity([
+    [ComponentType.Position, { x: 5, y: 5 }],
+    [ComponentType.Velocity, { vx: 1, vy: -1 }],
+  ]);
+
+  // Use real entities from store
+  const entitiesFromStore = store.get(entitiesAtom);
+  system.update({ entities: entitiesFromStore, map: createMockGameMap() });
+
+  // Verify using fresh store data
+  const updatedEntity = store.get(entitiesAtom).find(e => e.id === entity.id);
+  const position = getComponentIfExists(updatedEntity!, ComponentType.Position);
+  expect(position?.x).toBe(6);
+  expect(position?.y).toBe(4);
+});
+```
+
+#### EntityFactory Integration Benefits
+- **Consistency**: Test entity creation matches production entity creation patterns
+- **Validation**: Leverages existing EntityFactory validation logic
+- **Maintainability**: Single source of truth for entity creation reduces duplication
+- **Type Safety**: EntityFactory templates provide better TypeScript support
 
 ### Naming Conventions
 - **Unit tests**: `ComponentName.test.ts` or `SystemName.test.ts`
@@ -212,9 +281,17 @@ src/
 - **Create migration guide**: Document process for adding new tests
 
 ### Mock Management
-- **Centralize common mocks** in `tests/mocks/`
+- **Avoid ComponentOperations mocking**: Use store-based testing instead of mocking core ECS operations
+- **Centralize external service mocks** in `tests/mocks/` (e.g., Pixi.js, browser APIs)
 - **Maintain Pixi.js mocking infrastructure** for rendering tests
-- **Create reusable ECS test utilities** for integration tests
+- **Leverage EntityFactory**: Use existing `createEntityFromTemplate()` instead of duplicating entity creation logic
+- **Create reusable store-based test utilities** for integration tests
+
+### Store-Based Testing Infrastructure
+- **Shared store setup**: Create utilities in `tests/helpers/` for store initialization and cleanup
+- **EntityFactory integration**: Extend existing EntityFactory patterns for test entity creation
+- **Store isolation**: Ensure tests clear `entitiesAtom` between test runs to prevent interference
+- **Real component operations**: Tests use actual ComponentOperations functions to verify authentic behavior
 
 ## Success Metrics
 

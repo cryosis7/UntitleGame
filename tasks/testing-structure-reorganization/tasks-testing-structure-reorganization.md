@@ -39,37 +39,55 @@
   - [x] Changes are committed with conventional commit structured message
   - **Estimated Time:** 3 hours
 
+- [ ] **T003a: Create Store-Based Testing Utilities**
+  - [ ] Create store-based entity creation helpers that use real ComponentOperations
+  - [ ] Integrate existing EntityFactory (`createEntityFromTemplate`) for consistent entity creation
+  - [ ] Create store cleanup utilities to ensure test isolation
+  - [ ] Document the anti-pattern of mocking ComponentOperations and provide store-based alternatives
+  - [ ] Tests written for new store-based utilities
+  - [ ] Pre-merge checks have been run and pass
+  - [ ] Documentation of store-based testing approach has been created
+  - [ ] Changes are committed with conventional commit structured message
+  - **Estimated Time:** 4 hours
+
 ### Exemplary Migration (Phase 1)
 
-- [x] **T004: Migrate MovementSystem as Unit Test Example**
-  - [x] Move `MovementSystem.test.ts` adjacent to `MovementSystem.ts`
-  - [x] Ensure test focuses on isolated unit testing (mock dependencies)
-  - [x] Improve test quality to meet new standards (clear naming, comprehensive edge cases)
-  - [x] Document as exemplary unit test following new patterns
-  - [x] Pre-merge checks have been run and pass
-  - [x] Changes are committed with conventional commit structured message
-  - **Estimated Time:** 2 hours
+- [ ] **T004: Migrate MovementSystem as Unit Test Example**
+  - [ ] Move `MovementSystem.test.ts` adjacent to `MovementSystem.ts`
+  - [ ] **CRITICAL**: Remove ComponentOperations mocking and implement store-based testing approach
+  - [ ] Use EntityFactory (`createEntityFromTemplate`) instead of custom test entity creation
+  - [ ] Ensure test uses real ComponentOperations with actual store interactions
+  - [ ] Improve test quality to meet new standards (clear naming, comprehensive edge cases)
+  - [ ] Document as exemplary store-based unit test following new patterns
+  - [ ] Pre-merge checks have been run and pass
+  - [ ] Changes are committed with conventional commit structured message
+  - **Estimated Time:** 4 hours (increased due to store-based refactoring)
 
 - [ ] **T005: Create Key-Chest Interaction Integration Test Example**
   - [ ] Create `tests/integration/keyChestInteraction.integration.test.ts`
   - [ ] Implement complete workflow: pickup key → move to chest → use key → chest opens
   - [ ] Test system interactions: PickupSystem, MovementSystem, ItemInteractionSystem
+  - [ ] **Use store-based testing**: Real entities in store, real ComponentOperations, no mocking of ECS internals
+  - [ ] **Use EntityFactory**: Leverage `createEntityFromTemplate` for consistent entity creation
   - [ ] Use realistic game scenario with proper ECS component setup
   - [ ] Tests written for integration test scenarios
   - [ ] Pre-merge checks have been run and pass
   - [ ] Changes are committed with conventional commit structured message
-  - **Estimated Time:** 4 hours
+  - **Estimated Time:** 5 hours (increased due to store-based approach)
 
 - [ ] **T006: Establish Testing Quality Standards Document**
   - [ ] Create comprehensive testing standards documentation
-  - [ ] Define unit test requirements (isolation, edge cases, naming conventions)
+  - [ ] **Define store-based testing requirements**: No ComponentOperations mocking, real store usage
+  - [ ] **Document EntityFactory integration**: How to use existing EntityFactory in tests
+  - [ ] Define unit test requirements (store-based isolation, edge cases, naming conventions)
   - [ ] Define integration test requirements (workflows, system interactions, realistic scenarios)
   - [ ] Document file naming patterns and organization principles
+  - [ ] **Document anti-patterns**: Explain why ComponentOperations mocking is problematic
   - [ ] Provide examples from T004 and T005 as reference implementations
   - [ ] Pre-merge checks have been run and pass
   - [ ] Documentation of testing standards has been created
   - [ ] Changes are committed with conventional commit structured message
-  - **Estimated Time:** 3 hours
+  - **Estimated Time:** 4 hours (increased due to store-based documentation)
 
 ### Unit Test Migration - Priority 1 Systems
 
@@ -85,11 +103,13 @@
 - [ ] **T008: Consolidate and Migrate PickupSystem Tests**
   - [ ] Identify all existing PickupSystem test files across `__tests__` directories
   - [ ] Consolidate duplicated test logic into single `PickupSystem.test.ts`
+  - [ ] **Remove ComponentOperations mocking**: Implement store-based testing approach
+  - [ ] **Use EntityFactory**: Leverage existing entity creation patterns
   - [ ] Place adjacent to `PickupSystem.ts` source file
   - [ ] Improve test quality during migration (better assertions, edge cases)
   - [ ] Pre-merge checks have been run and pass
   - [ ] Changes are committed with conventional commit structured message
-  - **Estimated Time:** 3 hours
+  - **Estimated Time:** 4 hours (increased due to store-based refactoring)
 
 - [ ] **T009: Migrate KeyboardInputSystem Tests**
   - [ ] Locate existing KeyboardInputSystem test files
@@ -103,12 +123,14 @@
 - [ ] **T010: Consolidate ItemInteractionSystem Tests (Major Consolidation)**
   - [ ] Identify all 5+ separate ItemInteractionSystem test files mentioned in PRD
   - [ ] Analyze overlapping test logic and eliminate duplication
+  - [ ] **Remove ComponentOperations mocking**: Replace with store-based testing throughout
+  - [ ] **Use EntityFactory**: Consistent entity creation for interaction tests
   - [ ] Create single comprehensive `ItemInteractionSystem.test.ts`
   - [ ] Place adjacent to `ItemInteractionSystem.ts` source file
   - [ ] Significantly improve test quality during consolidation
   - [ ] Pre-merge checks have been run and pass
   - [ ] Changes are committed with conventional commit structured message
-  - **Estimated Time:** 6 hours
+  - **Estimated Time:** 8 hours (increased due to complex consolidation + store-based refactoring)
 
 ### Unit Test Migration - Priority 2 Components
 
@@ -289,8 +311,9 @@
 ### Phase 1 Dependencies (Infrastructure & Examples)
 - T002 depends on T001 (directory structure must exist)
 - T003 depends on T001 (shared utilities need directory structure)
-- T004 depends on T001, T002 (structure and config ready)
-- T005 depends on T001, T002, T003 (needs infrastructure and shared utilities)
+- T003a depends on T003 (store-based utilities build on shared infrastructure)
+- T004 depends on T001, T002, T003a (structure, config, and store-based utilities ready)
+- T005 depends on T001, T002, T003a (needs infrastructure and store-based utilities)
 - T006 depends on T004, T005 (examples needed to establish standards)
 
 ### Phase 2A Dependencies (Priority 1 Systems)
@@ -318,7 +341,7 @@
 _To be updated during development:_
 
 ### Source Files to be Migrated
-- `src/game/systems/MovementSystem.ts` + tests
+- `src/game/systems/MovementSystem.ts` + tests (**Priority**: Remove ComponentOperations mocking)
 - `src/game/systems/PickupSystem.ts` + tests  
 - `src/game/systems/KeyboardInputSystem.ts` + tests
 - `src/game/systems/ItemInteractionSystem.ts` + tests (5+ test files to consolidate)
@@ -329,6 +352,7 @@ _To be updated during development:_
 - `src/game/systems/RenderSystem.ts` + tests
 - `src/game/systems/CleanUpSystem.ts` + tests
 - `src/game/utils/ecsUtils.ts` + tests
+- `src/game/utils/EntityFactory.ts` + tests (**To leverage**: Use in test utilities)
 
 ### Configuration Files
 - `vitest.config.ts`

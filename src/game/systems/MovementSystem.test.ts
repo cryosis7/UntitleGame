@@ -4,66 +4,61 @@ import { ComponentType } from '../components/ComponentTypes';
 import {
   createTestUpdateArgs,
   createMockGameMap,
-  createEntityWithComponents,
 } from '../../../tests/helpers/testUtils';
 import { setupECSTestEnvironment } from '../../../tests/helpers/ecsTestSetup';
 import {
   getComponentIfExists,
   setComponent,
+  setComponents,
 } from '../components/ComponentOperations';
 import { PositionComponent } from '../components/individualComponents/PositionComponent';
+import { VelocityComponent } from '../components/individualComponents/VelocityComponent';
+import { MovableComponent } from '../components/individualComponents/MovableComponent';
+import { PickableComponent } from '../components/individualComponents/PickableComponent';
 import type { Entity } from '../utils/ecsUtils';
+import { store } from '../../App';
+import { entitiesAtom } from '../utils/Atoms';
 
-// Mock ComponentOperations to work with test entities directly
-vi.mock('../components/ComponentOperations', async () => {
-  const actual = await vi.importActual('../components/ComponentOperations');
-
-  return {
-    ...actual,
-    setComponent: vi.fn((entity: Entity, component: any) => {
-      // For testing, directly modify the entity's components
-      (entity.components as any)[component.type] = component;
-    }),
+// Helper to create entities in the store for testing
+function createStoreEntity(components: Array<[ComponentType, any]> = []): Entity {
+  const entity: Entity = {
+    id: crypto.randomUUID(),
+    components: {},
   };
-});
 
-// Global variable to track current test entities for EntityUtils mock
-let currentTestEntities: Entity[] = [];
+  // Add entity to store
+  store.set(entitiesAtom, (currentEntities: Entity[]) => [...currentEntities, entity]);
 
-// Mock EntityUtils to work with test entities directly
-vi.mock('../utils/EntityUtils', async () => {
-  const actual = await vi.importActual('../utils/EntityUtils');
+  // Add components using real ComponentOperations
+  components.forEach(([type, props]) => {
+    switch (type) {
+      case ComponentType.Position:
+        setComponent(entity, new PositionComponent(props));
+        break;
+      case ComponentType.Velocity:
+        setComponent(entity, new VelocityComponent(props));
+        break;
+      case ComponentType.Movable:
+        setComponent(entity, new MovableComponent());
+        break;
+      case ComponentType.Pickable:
+        setComponent(entity, new PickableComponent());
+        break;
+    }
+  });
 
-  return {
-    ...actual,
-    hasEntitiesAtPosition: vi.fn((position: { x: number; y: number }) => {
-      const result = currentTestEntities.some((entity) => {
-        const positionComponent = entity.components.position as any;
-        return (
-          positionComponent?.x === position.x &&
-          positionComponent?.y === position.y
-        );
-      });
-      return result;
-    }),
-    getEntitiesAtPosition: vi.fn(
-      (position: { x: number; y: number }, entities?: Entity[]) => {
-        const entitiesToCheck = entities || currentTestEntities;
-        return entitiesToCheck.filter((entity) => {
-          const positionComponent = entity.components.position as any;
-          return (
-            positionComponent?.x === position.x &&
-            positionComponent?.y === position.y
-          );
-        });
-      },
-    ),
-  };
-});
+  return entity;
+}
 
-// Helper function to update the test entities context
-function setCurrentTestEntities(entities: Entity[]) {
-  currentTestEntities = entities;
+// Helper to get fresh entity data from store
+function getEntityFromStore(entityId: string): Entity | undefined {
+  const entities = store.get(entitiesAtom);
+  return entities.find((e: Entity) => e.id === entityId);
+}
+
+// Helper to clear all test entities from store
+function clearTestEntities(): void {
+  store.set(entitiesAtom, []);
 }
 
 describe('MovementSystem', () => {
@@ -75,19 +70,29 @@ describe('MovementSystem', () => {
 
   beforeEach(() => {
     system = new MovementSystem();
+    // Clear the store before each test to ensure isolation
+    clearTestEntities();
+  });
+
+  afterEach(() => {
+    // Clean up after each test
+    clearTestEntities();
   });
 
   describe('Entity Position Updates', () => {
     it('should properly set components using setComponent helper', () => {
-      const entity = createEntityWithComponents([
+      const entity = createStoreEntity([
         [ComponentType.Position, { x: 5, y: 5 }],
         [ComponentType.Velocity, { vx: 1, vy: -1 }],
       ]);
 
       // Test setting velocity component
       setComponent(entity, { type: ComponentType.Velocity, vx: 99, vy: 88 });
+      
+      // Get fresh entity data from store to verify changes
+      const updatedEntity = getEntityFromStore(entity.id);
       const velocityAfterSet = getComponentIfExists(
-        entity,
+        updatedEntity!,
         ComponentType.Velocity,
       );
       expect(velocityAfterSet?.vx).toBe(99);
@@ -95,8 +100,9 @@ describe('MovementSystem', () => {
 
       // Test setting position component  
       setComponent(entity, new PositionComponent({ x: 77, y: 66 }));
+      const entityAfterPositionSet = getEntityFromStore(entity.id);
       const positionAfterSet = getComponentIfExists(
-        entity,
+        entityAfterPositionSet!,
         ComponentType.Position,
       );
       expect(positionAfterSet?.x).toBe(77);
@@ -104,31 +110,17 @@ describe('MovementSystem', () => {
     });
 
     it('should update entity position based on velocity', () => {
-      const entity = createEntityWithComponents([
+      const entity = createStoreEntity([
         [ComponentType.Position, { x: 5, y: 5 }],
         [ComponentType.Velocity, { vx: 1, vy: -1 }],
       ]);
 
-      // Test that setComponent mock is working by manually setting a position
-      const testPosition = new PositionComponent({ x: 99, y: 99 });
-      setComponent(entity, testPosition);
-
-      // Verify the manual setComponent worked
-      const manualSetPosition = getComponentIfExists(
-        entity,
-        ComponentType.Position,
-      );
-      expect(manualSetPosition?.x).toBe(99);
-      expect(manualSetPosition?.y).toBe(99);
-
-      // Reset position for actual test
-      const originalPosition = new PositionComponent({ x: 5, y: 5 });
-      setComponent(entity, originalPosition);
-
-      updateArgs = createTestUpdateArgs([entity], createMockGameMap());
+      const entitiesFromStore = store.get(entitiesAtom);
+      updateArgs = createTestUpdateArgs(entitiesFromStore, createMockGameMap());
       system.update(updateArgs);
 
-      const position = getComponentIfExists(entity, ComponentType.Position);
+      const updatedEntity = getEntityFromStore(entity.id);
+      const position = getComponentIfExists(updatedEntity!, ComponentType.Position);
       expect(position?.x).toBe(6);
       expect(position?.y).toBe(4);
     });
