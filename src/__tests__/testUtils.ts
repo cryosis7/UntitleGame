@@ -33,6 +33,22 @@ import { InteractingComponent } from '../game/components/individualComponents/In
 import { HandlingComponent } from '../game/components/individualComponents/HandlingComponent';
 import { WalkableComponent } from '../game/components/individualComponents/WalkableComponent';
 import { RenderInSidebarComponent } from '../game/components/individualComponents/RenderInSidebarComponent';
+import {
+  RequiresItemComponent,
+  type RequiresItemComponentProps,
+} from '../game/components/individualComponents/RequiresItemComponent';
+import {
+  UsableItemComponent,
+  type UsableItemComponentProps,
+} from '../game/components/individualComponents/UsableItemComponent';
+import {
+  InteractionBehaviorComponent,
+  type InteractionBehaviorComponentProps,
+} from '../game/components/individualComponents/InteractionBehaviorComponent';
+import {
+  SpawnContentsComponent,
+  type SpawnContentsComponentProps,
+} from '../game/components/individualComponents/SpawnContentsComponent';
 
 // Create a simple mock sprite for SpriteComponent testing
 const createMockSprite = () => ({
@@ -132,6 +148,22 @@ export function createTestComponent<T extends ComponentType>(
       return new WalkableComponent() as FullComponentDictionary[T];
     case ComponentType.RenderInSidebar:
       return new RenderInSidebarComponent() as FullComponentDictionary[T];
+    case ComponentType.RequiresItem:
+      return new RequiresItemComponent(
+        props as RequiresItemComponentProps,
+      ) as FullComponentDictionary[T];
+    case ComponentType.UsableItem:
+      return new UsableItemComponent(
+        props as UsableItemComponentProps,
+      ) as FullComponentDictionary[T];
+    case ComponentType.InteractionBehavior:
+      return new InteractionBehaviorComponent(
+        props as InteractionBehaviorComponentProps,
+      ) as FullComponentDictionary[T];
+    case ComponentType.SpawnContents:
+      return new SpawnContentsComponent(
+        props as SpawnContentsComponentProps,
+      ) as FullComponentDictionary[T];
     default:
       throw new Error(`Unknown component type: ${componentType}`);
   }

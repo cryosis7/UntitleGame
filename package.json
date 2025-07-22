@@ -15,9 +15,14 @@
     "test:watch:coverage": "vitest --coverage",
     "coverage:validate": "vitest run --coverage --reporter=json --outputFile=coverage-results.json",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "pre-merge": "npm run pre-merge:checks",
+    "pre-merge:checks": "echo \"🔍 Running pre-merge checks...\" && npm run type-check && npm run lint && npm run format:check && npm run test && npm run build && echo \"✅ All pre-merge checks passed!\"",
+    "pre-merge:fix": "echo \"🔧 Running pre-merge fixes...\" && npm run lint:fix && npm run format && echo \"✅ All fixes applied! Re-run 'npm run pre-merge' to verify.\"",
+    "setup-hooks": "node -e \"require('child_process').execSync(process.platform === 'win32' ? 'powershell -ExecutionPolicy Bypass -File scripts/setup-hooks.ps1' : 'bash scripts/setup-hooks.sh', {stdio: 'inherit'})\""
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",

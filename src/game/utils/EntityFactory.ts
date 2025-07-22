@@ -13,6 +13,14 @@ import type { VelocityComponentProps } from '../components/individualComponents/
 import { VelocityComponent } from '../components/individualComponents/VelocityComponent';
 import type { CarriedItemComponentProps } from '../components/individualComponents/CarriedItemComponent';
 import { CarriedItemComponent } from '../components/individualComponents/CarriedItemComponent';
+import type { RequiresItemComponentProps } from '../components/individualComponents/RequiresItemComponent';
+import { RequiresItemComponent } from '../components/individualComponents/RequiresItemComponent';
+import type { UsableItemComponentProps } from '../components/individualComponents/UsableItemComponent';
+import { UsableItemComponent } from '../components/individualComponents/UsableItemComponent';
+import type { InteractionBehaviorComponentProps } from '../components/individualComponents/InteractionBehaviorComponent';
+import { InteractionBehaviorComponent } from '../components/individualComponents/InteractionBehaviorComponent';
+import type { SpawnContentsComponentProps } from '../components/individualComponents/SpawnContentsComponent';
+import { SpawnContentsComponent } from '../components/individualComponents/SpawnContentsComponent';
 
 type ComponentsTemplate = Partial<{ [type in ComponentType]: ComponentProps }>;
 export type EntityTemplate = {
@@ -35,6 +43,49 @@ function isValidCarriedItemProps(obj: any): obj is CarriedItemComponent {
   return obj && typeof obj.item === 'string';
 }
 
+function isValidRequiresItemProps(obj: any): obj is RequiresItemComponentProps {
+  return (
+    obj &&
+    Array.isArray(obj.requiredCapabilities) &&
+    obj.requiredCapabilities.every((cap: any) => typeof cap === 'string') &&
+    typeof obj.isActive === 'boolean'
+  );
+}
+
+function isValidUsableItemProps(obj: any): obj is UsableItemComponentProps {
+  return (
+    obj &&
+    Array.isArray(obj.capabilities) &&
+    obj.capabilities.every((cap: any) => typeof cap === 'string') &&
+    typeof obj.isConsumable === 'boolean'
+  );
+}
+
+function isValidInteractionBehaviorProps(
+  obj: any,
+): obj is InteractionBehaviorComponentProps {
+  return (
+    obj &&
+    typeof obj.behaviorType === 'string' &&
+    ['transform', 'remove', 'spawn_contents'].includes(obj.behaviorType) &&
+    typeof obj.isRepeatable === 'boolean' &&
+    (obj.newSpriteId === undefined || typeof obj.newSpriteId === 'string')
+  );
+}
+
+function isValidSpawnContentsProps(
+  obj: any,
+): obj is SpawnContentsComponentProps {
+  return (
+    obj &&
+    Array.isArray(obj.contents) &&
+    obj.contents.every((template: any) => isValidEntityTemplate(template)) &&
+    obj.spawnOffset &&
+    typeof obj.spawnOffset.x === 'number' &&
+    typeof obj.spawnOffset.y === 'number'
+  );
+}
+
 function isValidComponentProps(type: ComponentType, props: unknown): boolean {
   switch (type) {
     // Explicit validation for the cases where specific props are required
@@ -46,6 +97,14 @@ function isValidComponentProps(type: ComponentType, props: unknown): boolean {
       return isValidVelocityProps(props);
     case ComponentType.CarriedItem:
       return isValidCarriedItemProps(props);
+    case ComponentType.RequiresItem:
+      return isValidRequiresItemProps(props);
+    case ComponentType.UsableItem:
+      return isValidUsableItemProps(props);
+    case ComponentType.InteractionBehavior:
+      return isValidInteractionBehaviorProps(props);
+    case ComponentType.SpawnContents:
+      return isValidSpawnContentsProps(props);
 
     // Simple validation for the cases where no specific props are required
     default:
@@ -95,6 +154,16 @@ function createComponentsFromTemplate(template: EntityTemplate): Component[] {
         return new VelocityComponent(props as VelocityComponentProps);
       case ComponentType.CarriedItem:
         return new CarriedItemComponent(props as CarriedItemComponentProps);
+      case ComponentType.RequiresItem:
+        return new RequiresItemComponent(props as RequiresItemComponentProps);
+      case ComponentType.UsableItem:
+        return new UsableItemComponent(props as UsableItemComponentProps);
+      case ComponentType.InteractionBehavior:
+        return new InteractionBehaviorComponent(
+          props as InteractionBehaviorComponentProps,
+        );
+      case ComponentType.SpawnContents:
+        return new SpawnContentsComponent(props as SpawnContentsComponentProps);
       default:
         if (Object.values(ComponentType).includes(type as ComponentType)) {
           return { type } as Component;

@@ -1,0 +1,18 @@
+#!/bin/sh
+# Pre-commit hook to run quality checks
+# This hook runs the same checks as GitHub Actions
+
+echo "🔍 Running pre-commit checks..."
+
+# Run the pre-merge checks
+npm run pre-merge:checks
+
+# Check if the command succeeded
+if [ $? -ne 0 ]; then
+    echo "❌ Pre-commit checks failed!"
+    echo "💡 Tip: Run 'npm run pre-merge:fix' to auto-fix linting and formatting issues"
+    echo "💡 Then run 'npm run pre-merge' again to verify all checks pass"
+    exit 1
+fi
+
+echo "✅ Pre-commit checks passed!"

@@ -19,7 +19,6 @@ tools:
     'testFailure',
     'usages',
     'github',
-    'memory',
   ]
 ---
 

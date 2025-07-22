@@ -21,6 +21,22 @@ import type { InteractingComponent } from './individualComponents/InteractingCom
 import type { HandlingComponent } from './individualComponents/HandlingComponent';
 import type { WalkableComponent } from './individualComponents/WalkableComponent';
 import type { RenderInSidebarComponent } from './individualComponents/RenderInSidebarComponent';
+import type {
+  RequiresItemComponent,
+  RequiresItemComponentProps,
+} from './individualComponents/RequiresItemComponent';
+import type {
+  UsableItemComponent,
+  UsableItemComponentProps,
+} from './individualComponents/UsableItemComponent';
+import type {
+  InteractionBehaviorComponent,
+  InteractionBehaviorComponentProps,
+} from './individualComponents/InteractionBehaviorComponent';
+import type {
+  SpawnContentsComponent,
+  SpawnContentsComponentProps,
+} from './individualComponents/SpawnContentsComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -34,6 +50,10 @@ export enum ComponentType {
   Handling = 'handling',
   Walkable = 'walkable',
   RenderInSidebar = 'renderInSidebar',
+  RequiresItem = 'requiresItem',
+  UsableItem = 'usableItem',
+  InteractionBehavior = 'interactionBehavior',
+  SpawnContents = 'spawnContents',
 }
 
 export type FullComponentDictionary = {
@@ -48,6 +68,10 @@ export type FullComponentDictionary = {
   [ComponentType.Handling]: HandlingComponent;
   [ComponentType.Walkable]: WalkableComponent;
   [ComponentType.RenderInSidebar]: RenderInSidebarComponent;
+  [ComponentType.RequiresItem]: RequiresItemComponent;
+  [ComponentType.UsableItem]: UsableItemComponent;
+  [ComponentType.InteractionBehavior]: InteractionBehaviorComponent;
+  [ComponentType.SpawnContents]: SpawnContentsComponent;
 };
 
 export type Component = FullComponentDictionary[keyof FullComponentDictionary];
@@ -60,4 +84,8 @@ export type ComponentProps =
   | SpriteComponentProps
   | VelocityComponentProps
   | CarriedItemComponentProps
+  | RequiresItemComponentProps
+  | UsableItemComponentProps
+  | InteractionBehaviorComponentProps
+  | SpawnContentsComponentProps
   | {};
