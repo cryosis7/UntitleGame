@@ -13,38 +13,11 @@ This is a **React + TypeScript game** using **Entity Component System (ECS)** ar
 - **Systems**: Logic processors in `src/game/systems/` that implement `System` interface
 - **ComponentTypes enum** acts as the single source of truth for all component types
 
-**State Management:**
-
-- **Jotai atoms** in `src/game/utils/Atoms.ts` manage game state (entities, systems, map config)
-
-## Component System Conventions
-
-**Component Operations:**
-
+## Development Conventions
 - Use utilities from `ComponentOperations.ts`
-
-**Entity Templates:**
-
-- Define reusable entity configs in `src/game/templates/EntityTemplates.ts`
-- Use `createEntitiesFromTemplates()` for instantiation
-
-## System Development
-
-**System Interface:**
-Create systems by implementing the base system class.
-
-**System Registration:**
-
-- Add systems in `GameSystem.ts`
-- Order matters - register systems in execution order
-
-## Map and Positioning
-
-**Grid-Based Movement:**
-
+- Create systems following established patterns.
 - Positions are grid coordinates, not pixels
 - Use utilities in `MappingUtils.ts` for rendering
-
-## Required Development Practices
-
-- When modifying this codebase, always consider ECS data flow.
+- Use comments wisely. Do not comment everything. Prefer self documenting code.
+    - Only use comments when the code is complex and hard to follow.
+- Detailed guides and practices are available in `./docs/`.
