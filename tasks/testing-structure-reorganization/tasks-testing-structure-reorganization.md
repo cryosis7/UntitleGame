@@ -8,14 +8,14 @@
 
 ### Infrastructure Setup
 
-- [ ] **T001: Create New Directory Structure**
-  - [ ] Create `tests/integration/` directory
-  - [ ] Create `tests/mocks/` directory for shared test utilities
-  - [ ] Create `tests/helpers/` directory for test setup utilities
-  - [ ] Ensure directory structure matches PRD specifications
-  - [ ] Pre-merge checks have been run and pass
-  - [ ] Documentation of directory structure has been updated
-  - [ ] Changes are committed with conventional commit structured message
+- [x] **T001: Create New Directory Structure**
+  - [x] Create `tests/integration/` directory
+  - [x] Create `tests/mocks/` directory for shared test utilities
+  - [x] Create `tests/helpers/` directory for test setup utilities
+  - [x] Ensure directory structure matches PRD specifications
+  - [x] Pre-merge checks have been run and pass
+  - [x] Documentation of directory structure has been updated
+  - [x] Changes are committed with conventional commit structured message
   - **Estimated Time:** 1 hour
 
 - [ ] **T002: Update Vitest Configuration**
