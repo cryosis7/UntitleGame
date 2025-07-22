@@ -22,9 +22,10 @@ export default defineConfig({
         '**/*.d.ts',
         '**/*.config.*',
         'dist/',
-        '**/__tests__/**',
+        '**/__tests__/**',           // Legacy test directories (will be removed)
         '**/*.test.*',
         '**/*.spec.*',
+        'tests/**',                  // Exclude test directories themselves from coverage
       ],
       // Coverage thresholds for game logic (as specified in PRD)
       thresholds: {
@@ -58,8 +59,12 @@ export default defineConfig({
       },
     },
 
-    // Test file patterns - only include src directory
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    // Test file patterns - hybrid structure: adjacent unit tests + integration directory
+    include: [
+      'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',    // Adjacent unit tests  
+      'tests/integration/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', // Integration tests
+      'tests/helpers/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',     // Test utility tests
+    ],
 
     // Exclude patterns
     exclude: [

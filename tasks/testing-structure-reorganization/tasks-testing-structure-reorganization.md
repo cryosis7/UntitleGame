@@ -18,14 +18,14 @@
   - [x] Changes are committed with conventional commit structured message
   - **Estimated Time:** 1 hour
 
-- [ ] **T002: Update Vitest Configuration**
-  - [ ] Modify `vitest.config.ts` to recognize adjacent test pattern (`*.test.ts`)
-  - [ ] Update test file patterns to include `tests/integration/**/*.test.ts`
-  - [ ] Ensure coverage reporting includes both adjacent and integration tests
-  - [ ] Validate configuration works with existing test setup
-  - [ ] Pre-merge checks have been run and pass
-  - [ ] Documentation of vitest configuration has been updated
-  - [ ] Changes are committed with conventional commit structured message
+- [x] **T002: Update Vitest Configuration**
+  - [x] Modify `vitest.config.ts` to recognize adjacent test pattern (`*.test.ts`)
+  - [x] Update test file patterns to include `tests/integration/**/*.test.ts`
+  - [x] Ensure coverage reporting includes both adjacent and integration tests
+  - [x] Validate configuration works with existing test setup
+  - [x] Pre-merge checks have been run and pass
+  - [x] Documentation of vitest configuration has been updated
+  - [x] Changes are committed with conventional commit structured message
   - **Estimated Time:** 2 hours
 
 - [ ] **T003: Set Up Shared Test Utilities Infrastructure**
