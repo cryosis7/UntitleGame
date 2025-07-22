@@ -101,11 +101,12 @@ src/
 2. **Migrate one exemplary unit test**: Choose `MovementSystem.test.ts` as it's fundamental and well-defined
 3. **Migrate one exemplary integration test**: Create `keyChestInteraction.integration.test.ts` demonstrating complete workflow testing
 4. **Establish quality standards** based on these examples
+5. **Integrate with rewritten test helpers**: Ensure migrated tests work with new test helper infrastructure
 
 #### Phase 2: Full Migration with Quality Improvements  
 1. **Migrate all existing unit tests** to adjacent structure
 2. **Consolidate duplicated tests**: Especially `ItemInteractionSystem` which has 5+ separate files
-3. **Improve test quality during migration**: Fix poor tests rather than copying as-is
+3. **Improve test quality during migration**: Rewrite tests to work with new helper infrastructure rather than copying problematic patterns
 4. **Create comprehensive integration tests** for key game features
 
 #### Phase 3: Documentation Updates
@@ -159,13 +160,7 @@ src/
 - **Proper testing approach**: Use store-based testing with real ComponentOperations instead of mocking
 - **Entity creation**: Leverage existing EntityFactory for consistent entity creation
 - **Adjacent location**: Placed next to corresponding source file
-
-#### Store-Based Testing Approach (New Standards)
-- **Real ComponentOperations**: Use actual `setComponent()`, `getComponentIfExists()` etc. functions instead of mocking them
-- **Store integration**: Create test entities in the real Jotai store using `store.set(entitiesAtom, ...)`
-- **EntityFactory usage**: Use `createEntityFromTemplate()` and `createEntitiesFromTemplates()` etc. from existing EntityFactory
-- **Test isolation**: Clear store between tests using helper functions to prevent test pollution
-- **Fresh data retrieval**: Get updated entity data from store after system operations to verify real state changes
+- **Test helper integration**: Must work with rewritten test helper infrastructure. (Do not recreate the old helpers)
 
 #### ComponentOperations Mocking Issues (Anti-Pattern to Avoid)
 - **Avoid mocking ComponentOperations**: The current approach of mocking `setComponent()` creates false test security
@@ -180,6 +175,13 @@ src/
 - **Store-based setup**: Use real store and EntityFactory for authentic test scenarios
 - **Dedicated location**: Placed in `tests/integration/` directory
 - **Clear documentation**: Comments explaining the workflow being tested
+- **Helper compatibility**: Tests must be compatible with rewritten test helper infrastructure
+
+#### Migration Quality Requirements
+- **Migration success**: All migrated tests must pass with new test helper infrastructure
+- **No legacy dependencies**: Migrated tests should not rely on old test patterns that don't work with new helpers
+- **Quality improvement**: Migration is an opportunity to improve test quality, not just move files
+- **Helper integration**: Tests should leverage the capabilities of the rewritten test helpers
 
 #### General Quality Requirements
 - **No duplication**: Eliminate redundant test logic across files
@@ -197,53 +199,18 @@ src/
 
 ## Design Considerations
 
-### New Store-Based Testing Approach
+### New Testing Approach
 
 #### Problem with Current Mocking Strategy
-The existing tests extensively mock ComponentOperations (e.g., `setComponent()`, `getComponentIfExists()`), which creates several critical issues:
+The previous tests extensively mocked ComponentOperations (e.g., `setComponent()`, `getComponentIfExists()`) as well as the global Store, which creates several critical issues:
 
 1. **Architectural Mismatch**: Real `setComponent()` updates the global Jotai store, but mocks directly modify plain entity objects
 2. **False Security**: Tests pass but don't verify actual ComponentOperations behavior  
 3. **Integration Blind Spots**: Real bugs in store interactions go undetected
 4. **Maintenance Overhead**: Mocks must be kept synchronized with evolving real implementations
 
-#### Recommended Store-Based Solution
-Replace ComponentOperations mocking with authentic store-based testing:
-
-```typescript
-// ✅ GOOD: Store-based testing with real ComponentOperations
-function createStoreEntity(components: Array<[ComponentType, any]> = []): Entity {
-  const template: EntityTemplate = {
-    components: Object.fromEntries(components)
-  };
-  
-  // Use existing EntityFactory
-  const entity = createEntityFromTemplate(template);
-  
-  // Add to real store
-  store.set(entitiesAtom, (entities: Entity[]) => [...entities, entity]);
-  
-  return entity;
-}
-
-// Test with real store interactions
-it('should update entity position based on velocity', () => {
-  const entity = createStoreEntity([
-    [ComponentType.Position, { x: 5, y: 5 }],
-    [ComponentType.Velocity, { vx: 1, vy: -1 }],
-  ]);
-
-  // Use real entities from store
-  const entitiesFromStore = store.get(entitiesAtom);
-  system.update({ entities: entitiesFromStore, map: createMockGameMap() });
-
-  // Verify using fresh store data
-  const updatedEntity = store.get(entitiesAtom).find(e => e.id === entity.id);
-  const position = getComponentIfExists(updatedEntity!, ComponentType.Position);
-  expect(position?.x).toBe(6);
-  expect(position?.y).toBe(4);
-});
-```
+#### Recommended Solution
+Replace ComponentOperations mocking with ComponentOperations usage. The `ecsTestSetup.ts` has been rewritten to create an authentic testing environment.
 
 #### EntityFactory Integration Benefits
 - **Consistency**: Test entity creation matches production entity creation patterns
@@ -263,7 +230,7 @@ it('should update entity position based on velocity', () => {
 - **Shared utilities**: Common mocks and helpers centralized in `tests/` directory
 
 ### Test Isolation Strategy
-- **Unit tests**: Mock all external dependencies
+- **Unit tests**: Mock external dependencies
 - **Integration tests**: Mock only external services (not internal ECS systems)
 - **Shared setup**: Use `tests/helpers/` for common test configuration
 
@@ -281,40 +248,24 @@ it('should update entity position based on velocity', () => {
 - **Create migration guide**: Document process for adding new tests
 
 ### Mock Management
-- **Avoid ComponentOperations mocking**: Use store-based testing instead of mocking core ECS operations
 - **Centralize external service mocks** in `tests/mocks/` (e.g., Pixi.js, browser APIs)
 - **Maintain Pixi.js mocking infrastructure** for rendering tests
-- **Leverage EntityFactory**: Use existing `createEntityFromTemplate()` instead of duplicating entity creation logic
-- **Create reusable store-based test utilities** for integration tests
-
-### Store-Based Testing Infrastructure
-- **Shared store setup**: Create utilities in `tests/helpers/` for store initialization and cleanup
-- **EntityFactory integration**: Extend existing EntityFactory patterns for test entity creation
-- **Store isolation**: Ensure tests clear `entitiesAtom` between test runs to prevent interference
-- **Real component operations**: Tests use actual ComponentOperations functions to verify authentic behavior
 
 ## Success Metrics
 
 ### Quantitative Measures
 - **Test organization**: 100% of unit tests adjacent to source files
 - **Integration coverage**: All major game features have dedicated integration tests
-- **Duplication elimination**: Reduce ItemInteractionSystem from 5+ files to 1 unit + integration tests
-- **Test discovery**: Developers can locate relevant tests in < 30 seconds
-
-### Qualitative Measures  
-- **Developer feedback**: Improved ease of writing and finding tests
-- **Maintenance efficiency**: Faster test updates when code changes
-- **Code quality**: Better bug detection through proper integration testing
-- **Onboarding experience**: New developers understand test structure immediately
+- **Tests Passing**: All tests have been migrated and are passing
 
 ### Coverage Targets
 - **Unit test coverage**: Maintain existing coverage levels during migration
 - **Integration coverage**: Achieve 100% coverage of core game workflows
 - **Documentation coverage**: All testing docs updated to reflect new structure
 
-## Open Questions
-
-*No open questions - all requirements have been clarified through user feedback.*
+### Migration Requirements
+- **Previous test suite compatibility**: NOT REQUIRED - existing tests may not pass due to rewritten test helpers
+- **Migrated test compatibility**: REQUIRED - any tests that are migrated to the new structure must pass
 
 ---
 

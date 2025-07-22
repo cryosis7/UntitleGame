@@ -22,7 +22,9 @@ import { InteractionBehaviorComponent } from '../components/individualComponents
 import type { SpawnContentsComponentProps } from '../components/individualComponents/SpawnContentsComponent';
 import { SpawnContentsComponent } from '../components/individualComponents/SpawnContentsComponent';
 
-type ComponentsTemplate = Partial<{ [type in ComponentType]: ComponentProps }>;
+export type ComponentsTemplate = Partial<{
+  [type in ComponentType]: ComponentProps;
+}>;
 export type EntityTemplate = {
   components: ComponentsTemplate;
 };
