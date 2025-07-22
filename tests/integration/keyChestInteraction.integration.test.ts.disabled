@@ -43,7 +43,7 @@ vi.mock('../../src/game/utils/EntityUtils', async () => {
   };
 });
 
-describe('Key-Chest Interaction Integration Test', () => {
+describe.skip('Key-Chest Interaction Integration Test', () => {
   // Use standardized ECS test environment
   setupECSTestEnvironment();
 

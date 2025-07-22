@@ -15,7 +15,7 @@
 
 - [ ] **T001: Create New Directory Structure**
   - [ ] Create `tests/integration/` directory
-  - [ ] Create `tests/mocks/` directory  
+  - [ ] Create `tests/mocks/` directory
   - [ ] Create `tests/helpers/` directory
   - [ ] Verify directory structure matches PRD specification
   - [ ] Pre-merge checks have been run and pass
@@ -208,6 +208,7 @@
 ### Documentation Updates
 
 **Guiding Prinicpals**
+
 - Documentation updates should not mention changes in strategy
 - Documentation should not mention previous behaviour
 - Documentation should mention the current, recommended approach
@@ -265,18 +266,21 @@
 ## Task Dependencies
 
 **Phase 1 (Setup & Examples):**
+
 - T002 depends on T001 (directory structure created)
 - T003 depends on T001 (directory structure created)
 - T004 depends on T002, T003 (configuration and utilities ready)
 - T005 depends on T002, T003 (configuration and utilities ready)
 
 **Phase 2 (Full Migration):**
+
 - T006, T007, T008, T009 depend on T004, T005 (examples established)
 - T010, T011, T012, T013 depend on T004, T005 (examples established)
 - T014, T015, T016 depend on T006, T007, T008, T009 (critical systems migrated)
 - T017, T018, T019 depend on T006, T007, T008 (core systems available for integration testing)
 
 **Phase 3 (Documentation & Cleanup):**
+
 - T020, T021, T022 depend on T016 (all migrations complete)
 - T023 depends on T020, T021, T022 (documentation updated before cleanup)
 - T024 depends on T023 (final cleanup complete)
@@ -286,6 +290,7 @@
 _To be updated during development:_
 
 ## Feature Completion Checklist
+
 - [ ] Review codebase and ensure all tasks are complete
 - [ ] Review PRD requirements to ensure all requirements are covered:
   - [ ] Hybrid testing structure implemented (adjacent unit tests + dedicated integration directory)

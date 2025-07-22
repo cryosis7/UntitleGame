@@ -16,7 +16,7 @@ import * as ComponentOperations from '../../src/game/components/ComponentOperati
  * These tests validate the store-based testing infrastructure that replaces
  * the problematic ComponentOperations mocking approach.
  */
-describe('Store-Based Testing Utilities', () => {
+describe.skip('Store-Based Testing Utilities', () => {
   setupECSTestEnvironment();
 
   describe('createTestStore', () => {

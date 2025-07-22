@@ -1,7 +1,8 @@
 ---
 mode: agent
 description: Convert a PRD into actionable development tasks with clear dependencies
-tools: [
+tools:
+  [
     'codebase',
     'editFiles',
     'fetch',
@@ -52,25 +53,28 @@ It is expected that tests should be written for all new functionality as it is d
 3. **Use Sequential Thinking to generate a list of tasks required to implement the PRD.**
 
 Tasks should:
-  - Be sized for 1-4 hours of work
-  - Have clear, measurable outcomes
-  - Include specific sub-tasks with acceptance criteria
-  - Map dependencies between tasks (e.g. "T002 blocks T001" or "T003 unblocks T004")
+
+- Be sized for 1-4 hours of work
+- Have clear, measurable outcomes
+- Include specific sub-tasks with acceptance criteria
+- Map dependencies between tasks (e.g. "T002 blocks T001" or "T003 unblocks T004")
 
 4. **Additionally, Each task list should require:**
-  - [If relevant for task] Tests written for new functionality
-  - Pre-merge checks run and pass
-  - [If relevant for task] Documentation updates
-  - A commit with conventional commit structured message
+
+- [If relevant for task] Tests written for new functionality
+- Pre-merge checks run and pass
+- [If relevant for task] Documentation updates
+- A commit with conventional commit structured message
 
 5. **Feature Completion:** Create a checklist of tasks that must be completed before the feature can be considered complete. This should include:
-  - Review codebase and ensure all tasks are complete
-  - Review PRD requirements to ensure all requirements are covered
-  - Run pre-merge checks and tests
-  - Commit remaining changes with conventional commit structured message
-  - Raise a PR for review with clear description
-    - Mention all GitHub issues the PR closes in the body (PRD, tasks and subtasks if they exist)
-  - Request review from Copilot
+
+- Review codebase and ensure all tasks are complete
+- Review PRD requirements to ensure all requirements are covered
+- Run pre-merge checks and tests
+- Commit remaining changes with conventional commit structured message
+- Raise a PR for review with clear description
+  - Mention all GitHub issues the PR closes in the body (PRD, tasks and subtasks if they exist)
+- Request review from Copilot
 
 ## Output Format
 
@@ -109,6 +113,7 @@ Save the task list in a markdown file in the `/tasks/[feature-name]/` directory 
 _To be updated during development_
 
 ## Feature Completion Checklist
+
 - [ ] Review codebase and ensure all tasks are complete
 - [ ] Review PRD requirements to ensure all requirements are covered
 - [ ] Run pre-merge checks and tests
