@@ -13,21 +13,21 @@
   - [x] Pre-merge checks run and pass.
   - [x] Changes are committed with conventional commit
 
-- [ ] **T001: Create New Directory Structure**
-  - [ ] Create `tests/integration/` directory
-  - [ ] Create `tests/mocks/` directory
-  - [ ] Create `tests/helpers/` directory
-  - [ ] Verify directory structure matches PRD specification
-  - [ ] Pre-merge checks have been run and pass
-  - [ ] Changes are committed with conventional commit
+- [x] **T001: Create New Directory Structure** ✅ COMPLETE
+  - [x] Create `tests/integration/` directory
+  - [x] Create `tests/mocks/` directory
+  - [x] Create `tests/helpers/` directory
+  - [x] Verify directory structure matches PRD specification
+  - [x] Pre-merge checks have been run and pass
+  - [x] Changes are committed with conventional commit
 
-- [ ] **T002: Update Vitest Configuration**
-  - [ ] Update `vitest.config.ts` to recognize new test file patterns (`.test.ts` adjacent files)
-  - [ ] Update `vitest.config.ts` to include `tests/integration/*.integration.test.ts` pattern
-  - [ ] Verify test discovery works for both adjacent and integration test locations
-  - [ ] Run `npm test` to confirm configuration works
-  - [ ] Pre-merge checks have been run and pass
-  - [ ] Changes are committed with conventional commit
+- [x] **T002: Update Vitest Configuration** ✅ COMPLETE
+  - [x] Update `vitest.config.ts` to recognize new test file patterns (`.test.ts` adjacent files)
+  - [x] Update `vitest.config.ts` to include `tests/integration/*.integration.test.ts` pattern
+  - [x] Verify test discovery works for both adjacent and integration test locations
+  - [x] Run `npm test` to confirm configuration works
+  - [x] Pre-merge checks have been run and pass
+  - [x] Changes are committed with conventional commit
 
 - [ ] **T003: Migrate Shared Test Utilities**
   - [ ] Move `tests/helpers/ecsTestSetup.ts` to new location (if not already there)
