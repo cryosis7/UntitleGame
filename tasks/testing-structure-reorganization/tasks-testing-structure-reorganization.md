@@ -28,15 +28,15 @@
   - [x] Changes are committed with conventional commit structured message
   - **Estimated Time:** 2 hours
 
-- [ ] **T003: Set Up Shared Test Utilities Infrastructure**
-  - [ ] Move existing shared mocks to `tests/mocks/` directory
-  - [ ] Create centralized `tests/helpers/ecsTestSetup.ts` for common ECS test configuration
-  - [ ] Update existing `tests/helpers/testUtils.ts` for new structure
-  - [ ] Ensure Pixi.js mocking infrastructure is properly centralized
-  - [ ] Tests written for new utility functions
-  - [ ] Pre-merge checks have been run and pass
-  - [ ] Documentation of shared utilities has been updated
-  - [ ] Changes are committed with conventional commit structured message
+- [x] **T003: Set Up Shared Test Utilities Infrastructure**
+  - [x] Move existing shared mocks to `tests/mocks/` directory
+  - [x] Create centralized `tests/helpers/ecsTestSetup.ts` for common ECS test configuration
+  - [x] Update existing `tests/helpers/testUtils.ts` for new structure
+  - [x] Ensure Pixi.js mocking infrastructure is properly centralized
+  - [x] Tests written for new utility functions
+  - [x] Pre-merge checks have been run and pass
+  - [x] Documentation of shared utilities has been updated
+  - [x] Changes are committed with conventional commit structured message
   - **Estimated Time:** 3 hours
 
 ### Exemplary Migration (Phase 1)
