@@ -1,8 +1,7 @@
 ---
 mode: agent
 description: Convert a PRD into actionable development tasks with clear dependencies
-tools:
-  [
+tools: [
     'codebase',
     'editFiles',
     'fetch',
@@ -59,9 +58,9 @@ Tasks should:
   - Map dependencies between tasks (e.g. "T002 blocks T001" or "T003 unblocks T004")
 
 4. **Additionally, Each task list should require:**
-  - Tests written for new functionality
+  - [If relevant for task] Tests written for new functionality
   - Pre-merge checks run and pass
-  - Documentation updates if applicable
+  - [If relevant for task] Documentation updates
   - A commit with conventional commit structured message
 
 5. **Feature Completion:** Create a checklist of tasks that must be completed before the feature can be considered complete. This should include:
