@@ -29,26 +29,32 @@
   - [x] Pre-merge checks have been run and pass
   - [x] Changes are committed with conventional commit
 
-- [ ] **T003: Migrate Shared Test Utilities**
-  - [ ] Move `tests/helpers/ecsTestSetup.ts` to new location (if not already there)
-  - [ ] Move `tests/helpers/testUtils.ts` to new location (if not already there)
-  - [ ] Move `tests/mocks/pixiMocks.ts` to new location (if not already there)
-  - [ ] Verify all shared utilities are accessible from new structure
-  - [ ] Update import paths in any existing tests that reference these utilities
-  - [ ] Pre-merge checks have been run and pass
-  - [ ] Changes are committed with conventional commit
+- [x] **T003: Migrate Shared Test Utilities** ✅ COMPLETE
+  - [x] Move `tests/helpers/ecsTestSetup.ts` to new location (if not already there)
+  - [x] Move `tests/helpers/testUtils.ts` to new location (if not already there)
+  - [x] Move `tests/mocks/pixiMocks.ts` to new location (if not already there)
+  - [x] Verify all shared utilities are accessible from new structure
+  - [x] Update import paths in any existing tests that reference these utilities
+  - [x] Pre-merge checks have been run and pass
+  - [x] Changes are committed with conventional commit
 
 ### Example Migration (Phase 1)
 
-- [ ] **T004: Migrate MovementSystem Unit Test (Example)**
-  - [ ] Locate existing MovementSystem test files in `__tests__` directories
-  - [ ] Create `src/game/systems/MovementSystem.test.ts` adjacent to source file
-  - [ ] Rewrite test to use new test helper infrastructure (avoid ComponentOperations mocking)
-  - [ ] Use EntityFactory for entity creation in tests
-  - [ ] Include comprehensive edge cases (boundary conditions, invalid inputs)
-  - [ ] Follow naming pattern: "should [expected behavior] when [condition]"
-  - [ ] Verify test passes with new structure
-  - [ ] Document any quality improvements made during migration
+- [x] **T004: Migrate MovementSystem Unit Test (Example)** ✅ COMPLETE
+  - [x] Locate existing MovementSystem test files in `__tests__` directories
+  - [x] Create `src/game/systems/MovementSystem.test.ts` adjacent to source file
+  - [x] Rewrite test to use new test helper infrastructure (avoid ComponentOperations mocking)
+  - [x] Use EntityFactory for entity creation in tests
+  - [x] Include comprehensive edge cases (boundary conditions, invalid inputs)
+  - [x] Follow naming pattern: "should [expected behavior] when [condition]"
+  - [x] Verify test passes with new structure
+  - [x] DISCOVERED: Component operations work with global store - tests must check updated entities from store, not local variables
+  - [x] IMPLEMENTED: Helper functions to handle store-based entity testing patterns
+  - [x] Pre-merge checks have been run and pass
+  - [x] Changes are committed with conventional commit
+  - [x] Document any quality improvements made during migration
+  - **Completion Date**: 2024-12-19
+  - **Key Discovery**: ✅ BREAKTHROUGH - ECS systems modify entities in global Jotai store via entitiesAtom. Tests must use getUpdatedEntity() helper to retrieve store-updated entities, not check local entity variables. This pattern applies to all system-level testing.
   - [ ] Pre-merge checks have been run and pass
   - [ ] Changes are committed with conventional commit
 

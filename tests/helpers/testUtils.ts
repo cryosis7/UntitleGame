@@ -1,5 +1,5 @@
 import type { Position } from '../../src/game/map/GameMap';
-import { GameMap } from '../../src/game/map/GameMap';
+import type { GameMap } from '../../src/game/map/GameMap';
 import type { Component } from '../../src/game/components/ComponentTypes';
 import { PlayerComponent } from '../../src/game/components/individualComponents/PlayerComponent';
 import { PositionComponent } from '../../src/game/components/individualComponents/PositionComponent';
@@ -12,14 +12,41 @@ import { RequiresItemComponent } from '../../src/game/components/individualCompo
 import { UsableItemComponent } from '../../src/game/components/individualComponents/UsableItemComponent';
 import type { Entity } from '../../src/game/utils/ecsUtils';
 import type { UpdateArgs } from '../../src/game/systems/Systems';
+import { store } from '../../src/App';
+import { entitiesAtom } from '../../src/game/utils/Atoms';
 
 export function createStandardUpdateArgs(entities: Entity[] = []): UpdateArgs {
-  const mockGameMap = new GameMap();
+  // Create a mock GameMap that allows movement in a 20x20 area
+  const mockGameMap = {
+    isValidPosition: ({ x, y }: Position) =>
+      x >= 0 && y >= 0 && x < 20 && y < 20,
+    isPositionInMap: ({ x, y }: Position) =>
+      x >= 0 && y >= 0 && x < 20 && y < 20,
+    isTileWalkable: ({ x, y }: Position) => true, // All tiles are walkable in tests
+    getTile: ({ x, y }: Position) => null,
+  } as GameMap;
 
   return {
     entities,
     map: mockGameMap,
     time: undefined,
+  };
+}
+
+/**
+ * Sets up the global store with test entities for systems that depend on the global state.
+ * IMPORTANT: This must be called in tests that interact with systems that use EntityUtils functions,
+ * as those functions depend on the global entitiesAtom store.
+ *
+ * @param entities The entities to set in the global store
+ * @returns A cleanup function that restores the original store state
+ */
+export function setupGlobalStoreForTesting(entities: Entity[]): () => void {
+  const originalEntities = store.get(entitiesAtom);
+  store.set(entitiesAtom, entities);
+
+  return () => {
+    store.set(entitiesAtom, originalEntities);
   };
 }
 
