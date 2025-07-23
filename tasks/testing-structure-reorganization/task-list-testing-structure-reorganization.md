@@ -8,10 +8,10 @@
 
 ### Setup & Infrastructure
 
-- [x] **T000: Prerequisite**
-  - [x] Any failing tests are disabled
-  - [x] Pre-merge checks run and pass.
-  - [x] Changes are committed with conventional commit
+- [ ] **T000: Prerequisite**
+  - [ ] Any failing tests are disabled
+  - [ ] Pre-merge checks run and pass.
+  - [ ] Changes are committed with conventional commit
 
 - [x] **T001: Create New Directory Structure** ✅ COMPLETE
   - [x] Create `tests/integration/` directory
