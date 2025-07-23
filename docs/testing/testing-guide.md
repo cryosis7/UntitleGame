@@ -35,11 +35,10 @@ The Entity-Component-System architecture requires a different testing mindset:
 
 1. **Isolation**: Each test should be independent and focused
 2. **Predictability**: Tests should produce consistent results
-4. **Maintainability**: Tests should be easy to understand and modify
-5. **Coverage**: Critical game logic should have comprehensive coverage
+3. **Maintainability**: Tests should be easy to understand and modify
+4. **Coverage**: Critical game logic should have comprehensive coverage
 
 ### Testing Pyramid for ECS Games
-
 
 //TODO: FIX - This ascii diargam doesn't show the complete triangle, the sides are cutoff
 
@@ -62,7 +61,7 @@ The Entity-Component-System architecture requires a different testing mindset:
 ### Directory Structure
 
 // TODO: This will need to be rewritten after refactor
- 
+
 ```
 src/
 ├── __tests__/                          # Global test utilities
