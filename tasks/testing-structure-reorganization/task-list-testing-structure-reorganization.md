@@ -40,23 +40,17 @@
 
 ### Example Migration (Phase 1)
 
-- [x] **T004: Migrate MovementSystem Unit Test (Example)** ✅ COMPLETE
-  - [x] Locate existing MovementSystem test files in `__tests__` directories
-  - [x] Create `src/game/systems/MovementSystem.test.ts` adjacent to source file
-  - [x] Rewrite test to use new test helper infrastructure (avoid ComponentOperations mocking)
-  - [x] Use EntityFactory for entity creation in tests
-  - [x] Include comprehensive edge cases (boundary conditions, invalid inputs)
-  - [x] Follow naming pattern: "should [expected behavior] when [condition]"
-  - [x] Verify test passes with new structure
-  - [x] DISCOVERED: Component operations work with global store - tests must check updated entities from store, not local variables
-  - [x] IMPLEMENTED: Helper functions to handle store-based entity testing patterns
-  - [x] Pre-merge checks have been run and pass
-  - [x] Changes are committed with conventional commit
-  - [x] Document any quality improvements made during migration
-  - **Completion Date**: 2024-12-19
-  - **Key Discovery**: ✅ BREAKTHROUGH - ECS systems modify entities in global Jotai store via entitiesAtom. Tests must use getUpdatedEntity() helper to retrieve store-updated entities, not check local entity variables. This pattern applies to all system-level testing.
-  - [ ] Pre-merge checks have been run and pass
-  - [ ] Changes are committed with conventional commit
+ - [ ] **T004: Migrate MovementSystem Unit Test (Example)**
+   - [ ] Locate existing MovementSystem test files in `__tests__` directories
+   - [ ] Create `src/game/systems/MovementSystem.test.ts` adjacent to source file
+   - [ ] Rewrite test to use new test helper infrastructure (avoid ComponentOperations mocking)
+   - [ ] Use EntityFactory for entity creation in tests
+   - [ ] Include comprehensive edge cases (boundary conditions, invalid inputs)
+   - [ ] Follow naming pattern: "should [expected behavior] when [condition]"
+   - [ ] Verify test passes with new structure
+   - [ ] Pre-merge checks have been run and pass
+   - [ ] Changes are committed with conventional commit
+   - [ ] Document any quality improvements made during migration
 
 - [ ] **T005: Create Key-Chest Interaction Integration Test (Example)**
   - [ ] Create `tests/integration/keyChestInteraction.integration.test.ts`
@@ -64,6 +58,8 @@
   - [ ] Test systems interaction: PickupSystem, MovementSystem, ItemInteractionSystem
   - [ ] Test components usage: PositionComponent, InventoryComponent, InteractableComponent, PickableComponent
   - [ ] Use realistic game scenarios with proper setup using ecsTestSetup
+  - [ ] Implement missing scenarios
+  - [ ] Remove the disabled keyChestIntraction suite
   - [ ] Add clear documentation comments explaining the workflow being tested
   - [ ] Verify test passes and demonstrates proper integration testing patterns
   - [ ] Pre-merge checks have been run and pass

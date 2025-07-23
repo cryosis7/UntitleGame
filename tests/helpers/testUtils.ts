@@ -50,6 +50,34 @@ export function setupGlobalStoreForTesting(entities: Entity[]): () => void {
   };
 }
 
+/**
+ * Sets up entities in the global Jotai store for store-based testing.
+ * This is required for systems that modify entities through ComponentOperations,
+ * as those operations work with the global entitiesAtom store.
+ *
+ * @param entityList The entities to set up in the global store
+ */
+export function setupEntities(entityList: Entity[]): void {
+  store.set(entitiesAtom, entityList);
+}
+
+/**
+ * Retrieves the updated version of an entity from the global store.
+ * This is necessary because systems modify entities in the global store,
+ * not the local entity objects passed to tests.
+ *
+ * @param originalEntity The original entity to get the updated version of
+ * @returns The updated entity from the global store
+ */
+export function getUpdatedEntity(originalEntity: Entity): Entity {
+  const allEntities = store.get(entitiesAtom);
+  const updated = allEntities.find((e) => e.id === originalEntity.id);
+  if (!updated) {
+    throw new Error(`Entity with id ${originalEntity.id} not found in store`);
+  }
+  return updated;
+}
+
 export const ConvenienceComponentSets = {
   player: (position: Position = { x: 0, y: 0 }): Component[] => [
     new PlayerComponent(),
