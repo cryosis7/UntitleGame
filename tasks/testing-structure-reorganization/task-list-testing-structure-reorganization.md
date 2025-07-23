@@ -40,17 +40,17 @@
 
 ### Example Migration (Phase 1)
 
- - [ ] **T004: Migrate MovementSystem Unit Test (Example)**
-   - [ ] Locate existing MovementSystem test files in `__tests__` directories
-   - [ ] Create `src/game/systems/MovementSystem.test.ts` adjacent to source file
-   - [ ] Rewrite test to use new test helper infrastructure (avoid ComponentOperations mocking)
-   - [ ] Use EntityFactory for entity creation in tests
-   - [ ] Include comprehensive edge cases (boundary conditions, invalid inputs)
-   - [ ] Follow naming pattern: "should [expected behavior] when [condition]"
-   - [ ] Verify test passes with new structure
-   - [ ] Pre-merge checks have been run and pass
-   - [ ] Changes are committed with conventional commit
-   - [ ] Document any quality improvements made during migration
+ - [x] **T004: Migrate MovementSystem Unit Test (Example)** ✅ COMPLETE
+   - [x] Locate existing MovementSystem test files in `__tests__` directories
+   - [x] Create `src/game/systems/MovementSystem.test.ts` adjacent to source file
+   - [x] Rewrite test to use new test helper infrastructure (avoid ComponentOperations mocking)
+   - [x] Use EntityFactory for entity creation in tests
+   - [x] Include comprehensive edge cases (boundary conditions, invalid inputs)
+   - [x] Follow naming pattern: "should [expected behavior] when [condition]"
+   - [x] Verify test passes with new structure
+   - [x] Pre-merge checks have been run and pass
+   - [x] Changes are committed with conventional commit
+   - [x] Document any quality improvements made during migration
 
 - [ ] **T005: Create Key-Chest Interaction Integration Test (Example)**
   - [ ] Create `tests/integration/keyChestInteraction.integration.test.ts`
