@@ -3,7 +3,13 @@ import { store } from '../App';
 import type { Ticker } from 'pixi.js';
 import { pixiApp } from './Pixi';
 import { createEntitiesFromTemplates } from './utils/EntityFactory';
-import { Beaker, Boulder, Player } from './templates/EntityTemplates';
+import {
+  Beaker,
+  Boulder,
+  Chest,
+  Key,
+  Player,
+} from './templates/EntityTemplates';
 import {
   getComponentIfExists,
   setComponent,
@@ -26,18 +32,21 @@ import { ComponentType } from './components/ComponentTypes';
 import { RenderSystem } from './systems/RenderSystem';
 import { RenderSidebarSystem } from './systems/LevelEditorSystems/RenderSidebarSystem';
 import { addEntities } from './utils/EntityUtils';
+import { DirectionSystem } from './systems/DirectionSystem';
 
 export const initiateEntities = () => {
-  const [player, boulder, beaker] = createEntitiesFromTemplates(
+  const newEntities = createEntitiesFromTemplates(
     Player,
     Boulder,
     Beaker,
+    Key,
+    Chest,
   );
-  addEntities([player, boulder, beaker]);
+  addEntities(newEntities);
 
-  setComponent(player, new PositionComponent(getEmptyPosition()));
-  setComponent(boulder, new PositionComponent(getEmptyPosition()));
-  setComponent(beaker, new PositionComponent(getEmptyPosition()));
+  newEntities.forEach((e) => {
+    setComponent(e, new PositionComponent(getEmptyPosition()));
+  });
 
   const tileSize = store.get(getTileSizeAtom);
   const entities = store.get(entitiesAtom);
@@ -62,6 +71,7 @@ export const initiateSystems = () => {
   const systems = store.get(systemsAtom);
   systems.push(
     new KeyboardInputSystem(),
+    new DirectionSystem(),
     new MovementSystem(),
     new PickupSystem(),
     new ItemInteractionSystem(),

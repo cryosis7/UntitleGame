@@ -10,8 +10,6 @@ import {
 import { mapConfigAtom } from '../utils/Atoms';
 import { store } from '../../App';
 
-export type Direction = 'up' | 'down' | 'left' | 'right';
-
 export interface Position {
   x: number;
   y: number;
@@ -90,9 +88,7 @@ export class GameMap {
   }
 
   public getSpriteContainer = (): Container => {
-    if (!this.pixiContainer) {
-      this.pixiContainer = this.createSpriteContainer();
-    }
+    this.pixiContainer ??= this.createSpriteContainer();
     return this.pixiContainer;
   };
 
@@ -107,30 +103,6 @@ export class GameMap {
       return null;
     }
     return this.tiles[y][x];
-  }
-
-  getAdjacentPosition({ x, y }: Position, direction: Direction): Position {
-    switch (direction) {
-      case 'up':
-        return { x, y: y - 1 };
-      case 'down':
-        return { x, y: y + 1 };
-      case 'left':
-        return { x: x - 1, y };
-      case 'right':
-        return { x: x + 1, y };
-      default:
-        return { x, y };
-    }
-  }
-
-  getAdjacentTile({ x, y }: Position, direction: Direction): Entity | null {
-    const adjacentPosition = this.getAdjacentPosition({ x, y }, direction);
-    if (!this.isPositionInMap(adjacentPosition)) {
-      return null;
-    }
-
-    return this.getTile(adjacentPosition);
   }
 
   isTileWalkable({ x, y }: Position): boolean {

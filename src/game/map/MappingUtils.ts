@@ -1,6 +1,7 @@
 import { getTileSizeAtom } from '../utils/Atoms';
 import { store } from '../../App';
 import type { Position } from './GameMap';
+import type { Direction } from '../components/individualComponents/DirectionComponent';
 
 /**
  * Converts a grid position to a screen coordinate.
@@ -52,4 +53,22 @@ export const screenToGrid = (
     x: Math.floor(screenPosition.x / size),
     y: Math.floor(screenPosition.y / size),
   };
+};
+
+export const getAdjacentPosition = (
+  { x, y }: Position,
+  direction: Direction,
+): Position => {
+  switch (direction) {
+    case 'up':
+      return { x, y: y - 1 };
+    case 'down':
+      return { x, y: y + 1 };
+    case 'left':
+      return { x: x - 1, y };
+    case 'right':
+      return { x: x + 1, y };
+    default:
+      return { x, y };
+  }
 };

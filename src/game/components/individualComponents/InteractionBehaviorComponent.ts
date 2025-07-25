@@ -1,5 +1,10 @@
 import { ComponentType } from '../ComponentTypes';
-import { InteractionBehaviorType } from './InteractionBehaviorType';
+
+export enum InteractionBehaviorType {
+  TRANSFORM = 'transform',
+  REMOVE = 'remove',
+  SPAWN_CONTENTS = 'spawn_contents',
+}
 
 export type InteractionBehaviorComponentProps = {
   behaviorType: InteractionBehaviorType;
@@ -27,7 +32,6 @@ export class InteractionBehaviorComponent {
     this.newSpriteId = newSpriteId;
     this.isRepeatable = isRepeatable;
 
-    // Validate that newSpriteId is provided when using TRANSFORM behavior
     if (behaviorType === InteractionBehaviorType.TRANSFORM && !newSpriteId) {
       throw new Error(
         'InteractionBehaviorComponent: newSpriteId is required when behaviorType is TRANSFORM',

@@ -70,7 +70,7 @@ export class KeyboardInputSystem implements System {
   }
 
   private handleInteraction(playerEntity: Entity) {
-    if (this.keys['E']) {
+    if (this.keys['e']) {
       setComponent(playerEntity, new InteractingComponent());
     }
   }

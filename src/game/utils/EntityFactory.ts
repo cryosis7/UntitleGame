@@ -21,6 +21,7 @@ import type { InteractionBehaviorComponentProps } from '../components/individual
 import { InteractionBehaviorComponent } from '../components/individualComponents/InteractionBehaviorComponent';
 import type { SpawnContentsComponentProps } from '../components/individualComponents/SpawnContentsComponent';
 import { SpawnContentsComponent } from '../components/individualComponents/SpawnContentsComponent';
+import type { DirectionComponentProps } from '../components/individualComponents/DirectionComponent';
 
 export type ComponentsTemplate = Partial<{
   [type in ComponentType]: ComponentProps;
@@ -39,6 +40,16 @@ function isValidSpriteProps(obj: any): obj is SpriteComponentProps {
 
 function isValidVelocityProps(obj: any): obj is VelocityComponentProps {
   return obj && typeof obj.vx === 'number' && typeof obj.vy === 'number';
+}
+
+export function isValidDirectionProps(
+  obj: any,
+): obj is DirectionComponentProps {
+  return (
+    obj &&
+    typeof obj.direction === 'string' &&
+    ['up', 'down', 'left', 'right'].includes(obj.direction)
+  );
 }
 
 function isValidCarriedItemProps(obj: any): obj is CarriedItemComponent {
@@ -88,7 +99,10 @@ function isValidSpawnContentsProps(
   );
 }
 
-function isValidComponentProps(type: ComponentType, props: unknown): boolean {
+export function isValidComponentProps(
+  type: ComponentType,
+  props: unknown,
+): boolean {
   switch (type) {
     // Explicit validation for the cases where specific props are required
     case ComponentType.Position:
@@ -97,6 +111,8 @@ function isValidComponentProps(type: ComponentType, props: unknown): boolean {
       return isValidSpriteProps(props);
     case ComponentType.Velocity:
       return isValidVelocityProps(props);
+    case ComponentType.Direction:
+      return isValidDirectionProps(props);
     case ComponentType.CarriedItem:
       return isValidCarriedItemProps(props);
     case ComponentType.RequiresItem:

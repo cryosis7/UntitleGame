@@ -2,11 +2,7 @@ import type { Position } from '../map/GameMap';
 import { store } from '../../App';
 import { ComponentType } from '../components/ComponentTypes';
 import type { Entity } from './ecsUtils';
-import {
-  getComponentIfExists,
-  hasAllComponents,
-  hasComponent,
-} from '../components/ComponentOperations';
+import { getComponentIfExists, hasAllComponents, hasComponent } from '../components/ComponentOperations';
 import { entitiesAtom } from './Atoms';
 import type { PositionComponent } from '../components/individualComponents/PositionComponent';
 
@@ -92,6 +88,12 @@ export const removeEntities = (entityIds: string[]) => {
 export const updateEntity = (entity: Entity) => {
   store.set(entitiesAtom, (entities) =>
     entities.map((e) => (e.id === entity.id ? entity : e)),
+  );
+};
+
+export const replaceEntity = (entityId: string, newEntity: Entity) => {
+  store.set(entitiesAtom, (entities) =>
+    entities.map((e) => (e.id === entityId ? newEntity : e)),
   );
 };
 

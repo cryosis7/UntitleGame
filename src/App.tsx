@@ -1,7 +1,7 @@
 import { Game } from './react/components/Game';
 import './App.scss';
 import { Route, Routes } from 'react-router-dom';
-import { SidePanel } from './react/components/SidePanel';
+import { DebugPanel } from './react/components/DebugPanel';
 import { createStore, Provider } from 'jotai';
 import { Editor } from './react/components/Editor/Editor';
 import { Slide, ToastContainer } from 'react-toastify';
@@ -25,8 +25,8 @@ const App = () => {
               />
               <div className='game-container'>
                 <Game />
-                <SidePanel />
               </div>
+              <DebugPanel />
             </Provider>
           </div>
         }
