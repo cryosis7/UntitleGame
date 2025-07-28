@@ -1,4 +1,4 @@
-import type { Spritesheet } from 'pixi.js';
+import type { Sprite, Spritesheet } from 'pixi.js';
 import { atom, createStore } from 'jotai';
 import { GameMap } from '../map/GameMap';
 import { hasComponent } from '../components/ComponentOperations';
@@ -17,7 +17,6 @@ export const getTexture = (textureName: string) => {
   }
   return null;
 };
-
 export const addSpritesheetAtom = atom(
   null,
   (get, set, update: Spritesheet) => {
@@ -27,6 +26,24 @@ export const addSpritesheetAtom = atom(
     ]);
   },
 );
+
+export const spritesAtom = atom<Record<string, Sprite>>({});
+export const setSprite = atom(
+  null,
+  (get, set, { name, sprite }: { name: string; sprite: Sprite }) => {
+    set(
+      spritesAtom,
+      (currentSprites): Record<string, Sprite> => ({
+        ...currentSprites,
+        [name]: sprite,
+      }),
+    );
+  },
+);
+export const getSprite = atom((get) => (name: string): Sprite | null => {
+  const sprites = get(spritesAtom);
+  return sprites[name] || null;
+});
 
 interface MapConfig {
   rows?: number;
