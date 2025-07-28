@@ -1,5 +1,5 @@
 import { getEmptyPosition } from './utils/ecsUtils';
-import { store } from '../App';
+import { store } from '../game/utils/Atoms';
 import type { Ticker } from 'pixi.js';
 import { pixiApp } from './Pixi';
 import { createEntitiesFromTemplates } from './utils/EntityFactory';

@@ -1,9 +1,8 @@
 import type { Position } from '../map/GameMap';
-import { store } from '../../App';
 import { ComponentType } from '../components/ComponentTypes';
 import type { Entity } from './ecsUtils';
 import { getComponentIfExists, hasAllComponents, hasComponent } from '../components/ComponentOperations';
-import { entitiesAtom } from './Atoms';
+import { entitiesAtom, store } from './Atoms';
 import type { PositionComponent } from '../components/individualComponents/PositionComponent';
 
 /**

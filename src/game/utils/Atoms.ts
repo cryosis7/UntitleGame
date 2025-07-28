@@ -1,12 +1,12 @@
 import type { Spritesheet } from 'pixi.js';
-import { store } from '../../App';
-import { atom } from 'jotai/index';
+import { atom, createStore } from 'jotai';
 import { GameMap } from '../map/GameMap';
 import { hasComponent } from '../components/ComponentOperations';
 import { ComponentType } from '../components/ComponentTypes';
 import type { System } from '../systems/Systems';
 import type { Entity } from './ecsUtils';
 
+export const store = createStore();
 export const spritesheetsAtom = atom<Spritesheet[]>([]);
 export const getTexture = (textureName: string) => {
   const spritesheets = store.get(spritesheetsAtom);

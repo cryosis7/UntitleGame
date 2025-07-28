@@ -7,8 +7,7 @@ import {
   getComponentAbsolute,
   hasComponent,
 } from '../components/ComponentOperations';
-import { mapConfigAtom } from '../utils/Atoms';
-import { store } from '../../App';
+import { mapConfigAtom, store } from '../utils/Atoms';
 
 export interface Position {
   x: number;

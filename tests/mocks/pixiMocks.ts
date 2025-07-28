@@ -136,7 +136,10 @@ export const mockAssets = {
 
 // Mock constructors that return our mock objects
 export const Container = vi.fn(() => mockContainer());
-export const Sprite = vi.fn(() => mockSprite());
+export const Sprite = vi.fn((texture?: any) => ({
+  ...mockSprite(),
+  texture: texture || null,
+}));
 export const Graphics = vi.fn(() => mockGraphics());
 export const Application = vi.fn(() => mockApplication());
 export const Ticker = vi.fn(() => mockTicker());

@@ -2,9 +2,9 @@ import type { SpriteSheetJson } from 'pixi.js';
 import { Application, Assets, Spritesheet, Texture } from 'pixi.js';
 import { basicSpritesheet } from '../assets/basicSpritesheet';
 import { addSpritesheetAtom } from './utils/Atoms';
-import { store } from '../App';
 import { originalImages } from '../assets/originalImages';
 import { tinyTownData } from '../assets/tinyTownData';
+import { store } from '../game/utils/Atoms';
 
 export const pixiApp = new Application();
 

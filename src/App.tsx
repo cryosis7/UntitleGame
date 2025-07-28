@@ -2,11 +2,10 @@ import { Game } from './react/components/Game';
 import './App.scss';
 import { Route, Routes } from 'react-router-dom';
 import { DebugPanel } from './react/components/DebugPanel';
-import { createStore, Provider } from 'jotai';
+import { Provider } from 'jotai';
 import { Editor } from './react/components/Editor/Editor';
 import { Slide, ToastContainer } from 'react-toastify';
-
-export const store = createStore();
+import { store } from './game/utils/Atoms';
 
 const App = () => {
   return (
