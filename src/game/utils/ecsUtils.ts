@@ -1,10 +1,9 @@
-import { store } from '../../App';
 import type { Position } from '../map/GameMap';
 import {
   getComponentIfExists,
   hasComponent,
 } from '../components/ComponentOperations';
-import { entitiesAtom, mapAtom } from './Atoms';
+import { entitiesAtom, mapAtom, store } from './Atoms';
 import type { ComponentDictionary } from '../components/ComponentTypes';
 import { ComponentType } from '../components/ComponentTypes';
 

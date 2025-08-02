@@ -1,7 +1,6 @@
 import { getEmptyPosition } from './utils/ecsUtils';
 import { store } from '../game/utils/Atoms';
 import type { Ticker } from 'pixi.js';
-import { pixiApp } from './Pixi';
 import { createEntitiesFromTemplates } from './utils/EntityFactory';
 import {
   Beaker,
@@ -11,7 +10,6 @@ import {
   Player,
 } from './templates/EntityTemplates';
 import {
-  getComponentIfExists,
   setComponent,
 } from './components/ComponentOperations';
 import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
@@ -21,14 +19,11 @@ import { ItemInteractionSystem } from './systems/ItemInteractionSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
 import {
   entitiesAtom,
-  getTileSizeAtom,
   mapAtom,
   systemsAtom,
 } from './utils/Atoms';
-import { gridToScreenAsTuple } from './map/MappingUtils';
 import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
 import { PositionComponent } from './components/individualComponents/PositionComponent';
-import { ComponentType } from './components/ComponentTypes';
 import { RenderSystem } from './systems/RenderSystem';
 import { RenderSidebarSystem } from './systems/LevelEditorSystems/RenderSidebarSystem';
 import { addEntities } from './utils/EntityUtils';
@@ -46,24 +41,6 @@ export const initiateEntities = () => {
 
   newEntities.forEach((e) => {
     setComponent(e, new PositionComponent(getEmptyPosition()));
-  });
-
-  const tileSize = store.get(getTileSizeAtom);
-  const entities = store.get(entitiesAtom);
-  entities.forEach((entity) => {
-    const positionComponent = getComponentIfExists(
-      entity,
-      ComponentType.Position,
-    );
-    const spriteComponent = getComponentIfExists(entity, ComponentType.Sprite);
-
-    if (positionComponent && spriteComponent) {
-      spriteComponent.sprite.setSize(tileSize);
-      spriteComponent.sprite.position.set(
-        ...gridToScreenAsTuple(positionComponent),
-      );
-      pixiApp.stage.addChild(spriteComponent.sprite);
-    }
   });
 };
 

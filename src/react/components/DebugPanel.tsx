@@ -18,7 +18,7 @@ export const DebugPanel: React.FC = () => {
             <br />
             {value.type !== ComponentType.Sprite
               ? JSON.stringify(value)
-              : (value as SpriteComponent).sprite.texture.label}
+              : (value as SpriteComponent).spriteName}
           </li>
         ))}
       </ul>

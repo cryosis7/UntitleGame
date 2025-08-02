@@ -72,7 +72,7 @@ export const getComponentAbsolute = <T extends ComponentType>(
 ): FullComponentDictionary[T] => {
   if (!entity.components[type]) {
     console.dir(entity);
-    throw new Error(`Component ${type} not found for entity`);
+    throw new Error(`Component ${type} not found for entity: ${entity.id}`);
   }
   return entity.components[type] as FullComponentDictionary[T];
 };

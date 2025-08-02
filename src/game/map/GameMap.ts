@@ -51,11 +51,6 @@ export class GameMap {
           },
         };
         const entity = createEntityFromTemplate(entityTemplate);
-        const sprite = getComponentAbsolute(
-          entity,
-          ComponentType.Sprite,
-        ).sprite;
-        container.addChild(sprite);
         row.push(entity);
       }
       this.tiles.push(row);
@@ -76,13 +71,13 @@ export class GameMap {
    */
   private createSpriteContainer(): Container {
     const container = new Container();
-    container.addChild(
-      ...this.tiles.flatMap((entityArray) =>
-        entityArray.map(
-          (entity) => getComponentAbsolute(entity, ComponentType.Sprite).sprite,
-        ),
-      ),
-    );
+    // container.addChild(
+    //   ...this.tiles.flatMap((entityArray) =>
+    //     entityArray.map(
+    //       (entity) => getComponentAbsolute(entity, ComponentType.Sprite).spriteName,
+    //     ),
+    //   ),
+    // );
     return container;
   }
 

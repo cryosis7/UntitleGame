@@ -1,5 +1,5 @@
 import type { System, UpdateArgs } from '../Systems';
-import { Container, Graphics } from 'pixi.js';
+import { Container, Graphics, Sprite } from 'pixi.js';
 import { pixiApp } from '../../Pixi';
 import { ComponentType } from '../../components/ComponentTypes';
 import { getEntitiesWithComponents } from '../../utils/EntityUtils';
@@ -8,17 +8,24 @@ import {
   getComponentIfExists,
 } from '../../components/ComponentOperations';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
+import {
+  getSidebarRenderedSprites,
+  getTexture,
+  getTileSizeAtom,
+  setSidebarSprite,
+  store,
+} from '../../utils/Atoms';
+import type { SpriteComponent } from '../../components/individualComponents/SpriteComponent';
+import type { Entity } from '../../utils/ecsUtils';
 
 export class RenderSidebarSystem implements System {
-  private sidebarWidth = 150;
+  private readonly sidebarWidth = 150;
   private readonly sidebarContainer: Container;
-  private renderedEntities: { [id: string]: Container } = {};
 
   constructor() {
     this.sidebarContainer = new Container({
       width: this.sidebarWidth,
       height: pixiApp.canvas.height,
-      // interactive: true,
     }).addChild(
       new Graphics({
         x: 0,
@@ -40,6 +47,7 @@ export class RenderSidebarSystem implements System {
       [ComponentType.RenderInSidebar, ComponentType.Sprite],
       entities,
     );
+    const renderedEntities = store.get(getSidebarRenderedSprites);
 
     sidebarEntities.forEach((entity) => {
       const spriteComponent = getComponentAbsolute(
@@ -52,26 +60,52 @@ export class RenderSidebarSystem implements System {
       );
 
       // Remove any from the sidebar that are no longer have position components
-      if (positionComponent === undefined && this.renderedEntities[entity.id]) {
-        this.sidebarContainer.removeChild(spriteComponent.sprite);
-        delete this.renderedEntities[entity.id];
+      if (positionComponent === undefined && renderedEntities[entity.id]) {
+        this.removeFromScreen(renderedEntities, entity);
         return;
       }
-      if (!positionComponent) return;
 
-      // Add any to the sidebar that are not already there
-      if (this.renderedEntities[entity.id] === undefined) {
-        // spriteComponent.sprite.position.set(...gridToScreenAsTuple(positionComponent, 16));
-        this.sidebarContainer.addChild(spriteComponent.sprite);
-        this.renderedEntities[entity.id] = spriteComponent.sprite;
+      // No position and no rendered entity means it's not on the screen and doesn't need to be.
+      if (!positionComponent) {
+        return;
       }
 
-      spriteComponent.sprite.position.set(
+      // If the entity is not already rendered, add it to the screen.
+      if (renderedEntities[entity.id] === undefined) {
+        this.addToScreen(spriteComponent, entity);
+      }
+
+      // Update the position of the sprite on the screen.
+      // TODO: Should really only be updating the position if it has changed.
+      const sprite = renderedEntities[entity.id];
+      sprite.position.set(
         ...gridToScreenAsTuple(positionComponent, {
-          tileSize: 16,
+          tileSize: store.get(getTileSizeAtom),
           gap: 4,
         }),
       );
     });
+  }
+
+  private removeFromScreen(
+    renderedEntities: Record<string, Container>,
+    entity: Entity,
+  ) {
+    this.sidebarContainer.removeChild(renderedEntities[entity.id]);
+    delete renderedEntities[entity.id];
+  }
+
+  private addToScreen(spriteComponent: SpriteComponent, entity: Entity) {
+    const texture = getTexture(spriteComponent.spriteName);
+    if (texture === null) {
+      throw Error(
+        `No matching texture found for sprite: ${spriteComponent.spriteName}`,
+      );
+    }
+    const sprite = new Sprite(texture);
+    sprite.setSize(store.get(getTileSizeAtom));
+
+    this.sidebarContainer.addChild(sprite);
+    store.set(setSidebarSprite, { entityId: entity.id, sprite: sprite });
   }
 }

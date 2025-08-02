@@ -1,4 +1,4 @@
-import type { Sprite, Spritesheet } from 'pixi.js';
+import type { Container, Spritesheet } from 'pixi.js';
 import { atom, createStore } from 'jotai';
 import { GameMap } from '../map/GameMap';
 import { hasComponent } from '../components/ComponentOperations';
@@ -27,23 +27,112 @@ export const addSpritesheetAtom = atom(
   },
 );
 
-export const spritesAtom = atom<Record<string, Sprite>>({});
+type RenderSection = 'game' | 'sidebar';
+export const renderedEntities = atom<
+  Record<RenderSection, Record<string, Container>>
+>({
+  game: {},
+  sidebar: {},
+});
+export const getSidebarRenderedSprites = atom((get) => {
+  return get(renderedEntities).sidebar;
+});
+export const getGameRenderedSprites = atom((get) => {
+  return get(renderedEntities).game;
+});
+
 export const setSprite = atom(
   null,
-  (get, set, { name, sprite }: { name: string; sprite: Sprite }) => {
+  (
+    get,
+    set,
+    {
+      section,
+      entityId,
+      sprite,
+    }: { section: RenderSection; entityId: string; sprite: Container },
+  ) => {
     set(
-      spritesAtom,
-      (currentSprites): Record<string, Sprite> => ({
-        ...currentSprites,
-        [name]: sprite,
-      }),
+      renderedEntities,
+      (
+        currentRenderedEntities,
+      ): Record<RenderSection, Record<string, Container>> => {
+        const sectionEntities = currentRenderedEntities[section] || {};
+        return {
+          ...currentRenderedEntities,
+          [section]: {
+            ...sectionEntities,
+            [entityId]: sprite,
+          },
+        };
+      },
     );
   },
 );
-export const getSprite = atom((get) => (name: string): Sprite | null => {
-  const sprites = get(spritesAtom);
-  return sprites[name] || null;
+export const setSidebarSprite = atom(
+  null,
+  (get, set, { entityId, sprite }: { entityId: string; sprite: Container }) => {
+    set(setSprite, { section: 'sidebar', entityId, sprite });
+  },
+);
+export const setGameSprite = atom(
+  null,
+  (get, set, { entityId, sprite }: { entityId: string; sprite: Container }) => {
+    set(setSprite, { section: 'game', entityId, sprite });
+  },
+);
+
+export const getSprite = atom((get) => {
+  return (section: RenderSection, entityId: string): Container | undefined => {
+    const sectionEntities = get(renderedEntities)[section];
+    return sectionEntities ? sectionEntities[entityId] : undefined;
+  };
 });
+export const getSidebarSprite = atom((get) => {
+  return (entityId: string): Container | undefined => {
+    return get(getSprite)('sidebar', entityId);
+  };
+});
+export const getGameSprite = atom((get) => {
+  return (entityId: string): Container | undefined => {
+    return get(getSprite)('game', entityId);
+  };
+});
+export const hasSidebarSprite = atom((get) => {
+  return (entityId: string): boolean => {
+    return get(getSidebarSprite)(entityId) !== undefined;
+  };
+});
+export const hasGameSprite = atom((get) => {
+  return (entityId: string): boolean => {
+    return get(getGameSprite)(entityId) !== undefined;
+  };
+});
+export const removeSprite = atom(
+  null,
+  (get, set, { section, entityId }: { section: RenderSection; entityId: string }) => {
+    set(renderedEntities, (currentRenderedEntities) => {
+      const sectionEntities = currentRenderedEntities[section] || {};
+      delete sectionEntities[entityId];
+      return {
+        ...currentRenderedEntities,
+        [section]: sectionEntities,
+      };
+    });
+  },
+);
+export const removeSidebarSprite = atom(
+  null,
+  (get, set, entityId: string) => {
+    set(removeSprite, { section: 'sidebar', entityId });
+  },
+);
+export const removeGameSprite = atom(
+  null,
+  (get, set, entityId: string) => {
+    set(removeSprite, { section: 'game', entityId });
+  },
+);
 
 interface MapConfig {
   rows?: number;

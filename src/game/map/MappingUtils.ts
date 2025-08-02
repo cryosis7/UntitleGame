@@ -1,5 +1,4 @@
-import { getTileSizeAtom } from '../utils/Atoms';
-import { store } from '../../App';
+import { getTileSizeAtom, store } from '../utils/Atoms';
 import type { Position } from './GameMap';
 import type { Direction } from '../components/individualComponents/DirectionComponent';
 

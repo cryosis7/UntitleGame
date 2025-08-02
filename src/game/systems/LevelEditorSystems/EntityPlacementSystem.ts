@@ -7,8 +7,7 @@ import { createEntityFromTemplate } from '../../utils/EntityFactory';
 import { getComponentIfExists } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components/ComponentTypes';
 import { addEntities, removeEntities } from '../../utils/EntityUtils';
-import { store } from '../../../App';
-import { mapAtom } from '../../utils/Atoms';
+import { mapAtom, store } from '../../utils/Atoms';
 
 export class EntityPlacementSystem implements System {
   private selectedItem: string;
@@ -80,7 +79,7 @@ export class EntityPlacementSystem implements System {
         if (
           positionComponent?.x === position.x &&
           positionComponent?.y === position.y &&
-          spriteComponent?.sprite.texture.label === this.selectedItem
+          spriteComponent?.spriteName.texture.label === this.selectedItem
         ) {
           ids.push(entity.id);
         }

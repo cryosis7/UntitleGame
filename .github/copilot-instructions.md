@@ -33,3 +33,10 @@ rendering. The game runs embedded in a React app with **Jotai** for global state
 - Keep a log of your progress and decisions at the end of the document
 - Summarise the progress and decisions each time you update the document
 - Reread the document before starting a new task to ensure you understand the context
+
+---
+
+When solving a problem; you must constantly check the document you have created.
+It is very easy to allow scope creep. Re-read the document after every step; ensuring you are still on track.
+If your current task is not in the document, then you are not on track.
+Read the objective and requirements to decide the next steps.
