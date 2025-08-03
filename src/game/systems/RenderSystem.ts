@@ -16,6 +16,7 @@ import type { SpriteComponent } from '../components/individualComponents/SpriteC
 import type { PositionComponent } from '../components/individualComponents/PositionComponent';
 import {
   getGameRenderedSprites,
+  getGameSprite,
   getTexture,
   getTileSizeAtom,
   hasGameSprite,
@@ -84,7 +85,7 @@ export class RenderSystem implements System {
   private readonly updatePositions = (entities: Entity[]) => {
     const renderedEntities = store.get(getGameRenderedSprites);
 
-    entities.forEach((entity) => { // TODO: Fix. Picking up the key breaks this. It's still trying to update it's position.
+    entities.forEach((entity) => {
       const positionComponent = getComponentAbsolute(
         entity,
         ComponentType.Position,
@@ -124,10 +125,10 @@ export class RenderSystem implements System {
         this.shouldRemoveFromStage(
           entity.id,
           spriteComponent,
-          positionComponent
+          positionComponent,
         )
       ) {
-        this.removeFromScreen(renderedEntities, entity, stage);
+        this.removeFromScreen(entity, stage);
       }
     });
 
@@ -173,15 +174,11 @@ export class RenderSystem implements System {
     store.set(setGameSprite, { entityId: entity.id, sprite: sprite });
   };
 
-  private readonly removeFromScreen = (
-    renderedEntities: Record<string, Container>,
-    entity: Entity,
-    stage: Container,
-  ) => {
-    const sprite = renderedEntities[entity.id];
+  private readonly removeFromScreen = (entity: Entity, stage: Container) => {
+    const sprite = store.get(getGameSprite)(entity.id);
     if (sprite) {
       stage.removeChild(sprite);
-      delete renderedEntities[entity.id];
+      store.set(removeGameSprite, entity.id);
     }
   };
 
@@ -213,7 +210,9 @@ export class RenderSystem implements System {
     positionComponent: PositionComponent | undefined,
   ) => {
     return (
-      spriteComponent && !positionComponent && store.get(hasGameSprite)(entityId)
+      spriteComponent &&
+      !positionComponent &&
+      store.get(hasGameSprite)(entityId)
     );
   };
 }
