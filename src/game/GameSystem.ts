@@ -1,5 +1,5 @@
 import { getEmptyPosition } from './utils/ecsUtils';
-import { store } from '../game/utils/Atoms';
+import { entitiesAtom, mapAtom, store, systemsAtom } from './utils/Atoms';
 import type { Ticker } from 'pixi.js';
 import { createEntitiesFromTemplates } from './utils/EntityFactory';
 import {
@@ -9,19 +9,12 @@ import {
   Key,
   Player,
 } from './templates/EntityTemplates';
-import {
-  setComponent,
-} from './components/ComponentOperations';
+import { setComponent } from './components/ComponentOperations';
 import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
 import { MovementSystem } from './systems/MovementSystem';
 import { PickupSystem } from './systems/PickupSystem';
 import { ItemInteractionSystem } from './systems/ItemInteractionSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
-import {
-  entitiesAtom,
-  mapAtom,
-  systemsAtom,
-} from './utils/Atoms';
 import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
 import { PositionComponent } from './components/individualComponents/PositionComponent';
 import { RenderSystem } from './systems/RenderSystem';

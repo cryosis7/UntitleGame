@@ -40,8 +40,47 @@ export const getSidebarRenderedSprites = atom((get) => {
 export const getGameRenderedSprites = atom((get) => {
   return get(renderedEntities).game;
 });
+const setRenderedSprites = atom(
+  null,
+  (
+    get,
+    set,
+    {
+      section,
+      entities,
+    }: { section: RenderSection; entities: Record<string, Container> },
+  ) => {
+    set(
+      renderedEntities,
+      (
+        currentRenderedEntities,
+      ): Record<RenderSection, Record<string, Container>> => {
+        return {
+          ...currentRenderedEntities,
+          [section]: {
+            ...currentRenderedEntities[section],
+            ...entities,
+          },
+        };
+      },
+    );
+  },
+);
 
-export const setSprite = atom(
+export const setGameRenderedSprites = atom(
+  null,
+  (get, set, entities: Record<string, Container>) => {
+    set(setRenderedSprites, { section: 'game', entities });
+  },
+);
+export const setSidebarRenderedSprites = atom(
+  null,
+  (get, set, entities: Record<string, Container>) => {
+    set(setRenderedSprites, { section: 'sidebar', entities });
+  },
+);
+
+const setSprite = atom(
   null,
   (
     get,
@@ -82,7 +121,7 @@ export const setGameSprite = atom(
   },
 );
 
-export const getSprite = atom((get) => {
+const getSprite = atom((get) => {
   return (section: RenderSection, entityId: string): Container | undefined => {
     const sectionEntities = get(renderedEntities)[section];
     return sectionEntities ? sectionEntities[entityId] : undefined;
@@ -108,9 +147,13 @@ export const hasGameSprite = atom((get) => {
     return get(getGameSprite)(entityId) !== undefined;
   };
 });
-export const removeSprite = atom(
+const removeSprite = atom(
   null,
-  (get, set, { section, entityId }: { section: RenderSection; entityId: string }) => {
+  (
+    get,
+    set,
+    { section, entityId }: { section: RenderSection; entityId: string },
+  ) => {
     set(renderedEntities, (currentRenderedEntities) => {
       const sectionEntities = currentRenderedEntities[section] || {};
       delete sectionEntities[entityId];
@@ -121,18 +164,12 @@ export const removeSprite = atom(
     });
   },
 );
-export const removeSidebarSprite = atom(
-  null,
-  (get, set, entityId: string) => {
-    set(removeSprite, { section: 'sidebar', entityId });
-  },
-);
-export const removeGameSprite = atom(
-  null,
-  (get, set, entityId: string) => {
-    set(removeSprite, { section: 'game', entityId });
-  },
-);
+export const removeSidebarSprite = atom(null, (get, set, entityId: string) => {
+  set(removeSprite, { section: 'sidebar', entityId });
+});
+export const removeGameSprite = atom(null, (get, set, entityId: string) => {
+  set(removeSprite, { section: 'game', entityId });
+});
 
 interface MapConfig {
   rows?: number;

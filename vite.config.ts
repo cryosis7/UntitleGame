@@ -14,7 +14,7 @@ export default defineConfig({
     }),
   ],
   server: {
-    open: false,
+    open: true,
   },
   css: {
     preprocessorOptions: {

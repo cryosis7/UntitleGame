@@ -3,6 +3,7 @@ import type { System, UpdateArgs } from './Systems';
 import {
   getComponentAbsolute,
   getComponentIfExists,
+  hasAllComponents,
   hasComponent,
 } from '../components/ComponentOperations';
 import type { Entity } from '../utils/ecsUtils';
@@ -13,10 +14,8 @@ import { gridToScreenAsTuple } from '../map/MappingUtils';
 import { pixiApp } from '../Pixi';
 import { ComponentType } from '../components/ComponentTypes';
 import type { SpriteComponent } from '../components/individualComponents/SpriteComponent';
-import type { PositionComponent } from '../components/individualComponents/PositionComponent';
 import {
   getGameRenderedSprites,
-  getGameSprite,
   getTexture,
   getTileSizeAtom,
   hasGameSprite,
@@ -25,6 +24,10 @@ import {
   setGameSprite,
   store,
 } from '../utils/Atoms';
+
+type EntitySpriteMap = {
+  [id: string]: { entity?: Entity; sprite?: Container };
+};
 
 export class RenderSystem implements System {
   constructor() {
@@ -47,8 +50,14 @@ export class RenderSystem implements System {
       (entity) => !hasComponent(entity, ComponentType.RenderInSidebar),
     );
 
-    this.updateStage(gameEntities, pixiApp.stage);
-    this.updatePositions(gameEntities);
+    const renderedSprites = store.get(getGameRenderedSprites);
+    const entitiesWithSprites = this.mergeEntitiesWithSprites(
+      gameEntities,
+      renderedSprites,
+    );
+
+    this.updateStage(entitiesWithSprites, pixiApp.stage);
+    this.updatePositions(entitiesWithSprites);
   }
 
   private readonly updateMap = (map: GameMap) => {
@@ -82,71 +91,79 @@ export class RenderSystem implements System {
     });
   };
 
-  private readonly updatePositions = (entities: Entity[]) => {
-    const renderedEntities = store.get(getGameRenderedSprites);
+  private readonly mergeEntitiesWithSprites = (
+    entities: Entity[],
+    renderedSprites: Record<string, Container>,
+  ): EntitySpriteMap => {
+    const map: EntitySpriteMap = {};
 
+    // Merge entities with their matching sprites, if they exist.
     entities.forEach((entity) => {
+      const sprite = renderedSprites[entity.id];
+      map[entity.id] = { entity, sprite };
+      delete renderedSprites[entity.id];
+    });
+
+    // Add remaining sprites that are not associated with any entity
+    for (const id in renderedSprites) {
+      map[id] = { sprite: renderedSprites[id] };
+    }
+
+    return map;
+  };
+
+  private readonly updateStage = (
+    entitySpriteMap: EntitySpriteMap,
+    stage: Container,
+  ) => {
+    Object.entries(entitySpriteMap).forEach(
+      ([entityId, { entity, sprite }]) => {
+        // 1. If the entity has not been added to the stage yet, add it.
+        if (entity && !sprite) {
+          const spriteComponent = getComponentIfExists(
+            entity,
+            ComponentType.Sprite,
+          );
+          const positionComponent = getComponentIfExists(
+            entity,
+            ComponentType.Position,
+          );
+
+          if (spriteComponent && positionComponent) {
+            const newSprite = this.createSprite(spriteComponent!);
+            stage.addChild(newSprite);
+            entitySpriteMap[entityId].sprite = newSprite;
+            store.set(setGameSprite, { entityId, sprite: newSprite });
+          }
+        }
+
+        // 2. If the entity no longer has the required components for rendering, remove it from the stage.
+        // 3. If the entity no longer exists in the game, remove it from the stage.
+        if (this.shouldRemoveFromScreen(sprite, entity)) {
+          stage.removeChild(sprite);
+          delete entitySpriteMap[entityId];
+          store.set(removeGameSprite, entityId);
+        }
+      },
+    );
+  };
+
+  private readonly updatePositions = (entitySpriteMap: EntitySpriteMap) => {
+    Object.entries(entitySpriteMap).forEach(([, { entity, sprite }]) => {
+      if (!entity || !sprite) {
+        throw new Error(
+          'Encountered item without sprite or entity during position update of render cycle.',
+        );
+      }
+
       const positionComponent = getComponentAbsolute(
         entity,
         ComponentType.Position,
       );
-
-      const sprite = renderedEntities[entity.id];
-      if (sprite) {
-        sprite.position.set(...gridToScreenAsTuple(positionComponent));
-      }
+      sprite.position.set(...gridToScreenAsTuple(positionComponent));
     });
   };
 
-  private readonly updateStage = (entities: Entity[], stage: Container) => {
-    const renderedEntities = store.get(getGameRenderedSprites);
-
-    entities.forEach((entity) => {
-      const spriteComponent = getComponentIfExists(
-        entity,
-        ComponentType.Sprite,
-      );
-
-      const positionComponent = getComponentIfExists(
-        entity,
-        ComponentType.Position,
-      );
-
-      if (
-        this.shouldAddToStage(
-          entity.id,
-          spriteComponent,
-          positionComponent,
-          renderedEntities,
-        )
-      ) {
-        this.addToScreen(spriteComponent!, entity, stage);
-      } else if (
-        this.shouldRemoveFromStage(
-          entity.id,
-          spriteComponent,
-          positionComponent,
-        )
-      ) {
-        this.removeFromScreen(entity, stage);
-      }
-    });
-
-    this.cleanUpMissingEntities(entities, stage);
-  };
-
-  private readonly cleanUpMissingEntities = (
-    entities: Entity[],
-    stage: Container,
-  ) => {
-    const renderedEntities = store.get(getGameRenderedSprites);
-    for (const entityId in renderedEntities) {
-      if (!entities.some((e) => e.id === entityId)) {
-        stage.removeChild(renderedEntities[entityId]);
-        store.set(removeGameSprite, entityId);
-      }
-    }
-  };
   private readonly stageContainer = (
     container: Container,
     position: Position,
@@ -155,12 +172,7 @@ export class RenderSystem implements System {
     container.position.set(...gridToScreenAsTuple(position));
     parent.addChild(container);
   };
-
-  private readonly addToScreen = (
-    spriteComponent: SpriteComponent,
-    entity: Entity,
-    stage: Container,
-  ) => {
+  private readonly createSprite = (spriteComponent: SpriteComponent) => {
     const texture = getTexture(spriteComponent.spriteName);
     if (texture === null) {
       throw Error(
@@ -169,50 +181,17 @@ export class RenderSystem implements System {
     }
     const sprite = new Sprite(texture);
     sprite.setSize(store.get(getTileSizeAtom));
-
-    stage.addChild(sprite);
-    store.set(setGameSprite, { entityId: entity.id, sprite: sprite });
+    return sprite;
   };
 
-  private readonly removeFromScreen = (entity: Entity, stage: Container) => {
-    const sprite = store.get(getGameSprite)(entity.id);
-    if (sprite) {
-      stage.removeChild(sprite);
-      store.set(removeGameSprite, entity.id);
-    }
-  };
-
-  private readonly shouldAddToStage = (
-    entityId: string,
-    spriteComponent: SpriteComponent | undefined,
-    positionComponent: PositionComponent | undefined,
-    renderedEntities: Record<string, Container>,
-  ) => {
+  private shouldRemoveFromScreen = (
+    sprite?: Container,
+    entity?: Entity,
+  ): sprite is Container => {
     return (
-      spriteComponent !== undefined &&
-      positionComponent !== undefined &&
-      renderedEntities[entityId] === undefined
-    );
-  };
-
-  /**
-   * Determines if an entity's sprite should be removed from the stage.
-   * True if the entity has a sprite, no position, and is currently rendered; otherwise, false.
-   *
-   * @param entityId - The unique identifier of the entity.
-   * @param spriteComponent - The sprite component of the entity, if it exists.
-   * @param positionComponent - The position component of the entity, if it exists.
-   * @returns True if the entity has a sprite, no position, and is currently rendered; otherwise, false.
-   */
-  private readonly shouldRemoveFromStage = (
-    entityId: string,
-    spriteComponent: SpriteComponent | undefined,
-    positionComponent: PositionComponent | undefined,
-  ) => {
-    return (
-      spriteComponent &&
-      !positionComponent &&
-      store.get(hasGameSprite)(entityId)
+      sprite !== undefined &&
+      (!entity ||
+        !hasAllComponents(entity, ComponentType.Sprite, ComponentType.Position))
     );
   };
 }

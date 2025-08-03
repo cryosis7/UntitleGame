@@ -7,13 +7,6 @@ export class SpriteComponent {
   spriteName: string;
 
   constructor({ sprite }: SpriteComponentProps) {
-    // const texture = getTexture(sprite);
-    // if (texture === null) {
-    //   throw Error('No matching texture found for sprite: ' + sprite);
-    // }
-
-    // this.spriteName = new Sprite(texture);
-    // this.spriteName.setSize(store.get(getTileSizeAtom));
     this.spriteName = sprite;
   }
 }
