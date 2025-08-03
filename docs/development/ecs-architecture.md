@@ -17,7 +17,8 @@ This document describes the Entity-Component-System (ECS) architecture implement
 
 ### Entity
 
-An entity is a unique identifier with a collection of components. Entities are plain data structures that hold references to their components.
+An entity is a unique identifier with a collection of components. Entities are plain data structures that hold
+references to their components.
 
 ```typescript
 interface Entity {
@@ -32,7 +33,8 @@ Components are pure data containers that define the properties of entities. They
 
 ### System
 
-Systems contain the logic that operates on entities with specific component combinations. They process entities during each update cycle.
+Systems contain the logic that operates on entities with specific component combinations. They process entities during
+each update cycle.
 
 ## Component System
 
@@ -93,7 +95,7 @@ Systems are executed in a specific order to maintain data flow integrity:
 2. **MovementSystem** - Processes movement logic
 3. **PickupSystem** - Handles item collection
 4. **ItemInteractionSystem** - Processes item-based interactions
-5. **RenderSystem** - Updates display elements
+5. **GameRenderSystem** - Updates display elements
 6. **CleanUpSystem** - Removes temporary components
 
 ## Entity Interaction System
@@ -267,15 +269,17 @@ Removes target entity and creates new entities from SpawnContentsComponent:
 
 #### KeyboardInputSystem Integration
 
-The ItemInteractionSystem processes `InteractingComponent` entities created by KeyboardInputSystem when the player presses the E key.
+The ItemInteractionSystem processes `InteractingComponent` entities created by KeyboardInputSystem when the player
+presses the E key.
 
 #### PickupSystem Integration
 
-Items collected by PickupSystem receive `CarriedItemComponent`, making them available for interaction system capability matching.
+Items collected by PickupSystem receive `CarriedItemComponent`, making them available for interaction system capability
+matching.
 
-#### RenderSystem Integration
+#### GameRenderSystem Integration
 
-When InteractionBehaviorComponent executes TRANSFORM behavior, RenderSystem automatically displays updated sprites.
+When InteractionBehaviorComponent executes TRANSFORM behavior, GameRenderSystem automatically displays updated sprites.
 
 ### Component Dependencies
 
@@ -287,7 +291,7 @@ graph TD
     C -->|uses| E[UsableItemComponent]
     C -->|executes| F[InteractionBehaviorComponent]
     F -->|may create| G[SpawnContentsComponent entities]
-    C --> H[RenderSystem]
+    C --> H[GameRenderSystem]
     H -->|displays| I[Updated sprites]
 ```
 
@@ -475,7 +479,8 @@ const magicalDoorEntity = createEntityFromTemplate({
 
 1. **Test capability matching**: Verify all capability combinations work correctly
 2. **Test interaction behaviors**: Ensure TRANSFORM, REMOVE, and SPAWN_CONTENTS work as expected
-3. **Test system integration**: Verify proper workflow between KeyboardInputSystem, ItemInteractionSystem, and other systems
+3. **Test system integration**: Verify proper workflow between KeyboardInputSystem, ItemInteractionSystem, and other
+   systems
 
 ## Performance Considerations
 

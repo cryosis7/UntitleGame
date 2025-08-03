@@ -3,10 +3,7 @@ import type { Entity } from '../utils/ecsUtils';
 import type { EntityTemplate } from '../utils/EntityFactory';
 import { createEntityFromTemplate } from '../utils/EntityFactory';
 import { ComponentType } from '../components/ComponentTypes';
-import {
-  getComponentAbsolute,
-  hasComponent,
-} from '../components/ComponentOperations';
+import { hasComponent } from '../components/ComponentOperations';
 import { mapConfigAtom, store } from '../utils/Atoms';
 
 export interface Position {
@@ -63,22 +60,8 @@ export class GameMap {
     return this.tiles.flat();
   }
 
-  /**
-   * Creates a PIXI.Container and adds all sprite components from the tiles to it.
-   * The container has not been added to the pixi stage.
-   *
-   * @returns {Container} The container with all sprite components added as children.
-   */
   private createSpriteContainer(): Container {
-    const container = new Container();
-    // container.addChild(
-    //   ...this.tiles.flatMap((entityArray) =>
-    //     entityArray.map(
-    //       (entity) => getComponentAbsolute(entity, ComponentType.Sprite).spriteName,
-    //     ),
-    //   ),
-    // );
-    return container;
+    return new Container();
   }
 
   public getSpriteContainer = (): Container => {

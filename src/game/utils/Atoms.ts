@@ -27,60 +27,19 @@ export const addSpritesheetAtom = atom(
   },
 );
 
-type RenderSection = 'game' | 'sidebar';
+export type RenderSection = 'game' | 'sidebar' | 'map';
 export const renderedEntities = atom<
   Record<RenderSection, Record<string, Container>>
 >({
   game: {},
   sidebar: {},
+  map: {},
 });
-export const getSidebarRenderedSprites = atom((get) => {
+atom((get) => {
   return get(renderedEntities).sidebar;
 });
-export const getGameRenderedSprites = atom((get) => {
-  return get(renderedEntities).game;
-});
-const setRenderedSprites = atom(
-  null,
-  (
-    get,
-    set,
-    {
-      section,
-      entities,
-    }: { section: RenderSection; entities: Record<string, Container> },
-  ) => {
-    set(
-      renderedEntities,
-      (
-        currentRenderedEntities,
-      ): Record<RenderSection, Record<string, Container>> => {
-        return {
-          ...currentRenderedEntities,
-          [section]: {
-            ...currentRenderedEntities[section],
-            ...entities,
-          },
-        };
-      },
-    );
-  },
-);
 
-export const setGameRenderedSprites = atom(
-  null,
-  (get, set, entities: Record<string, Container>) => {
-    set(setRenderedSprites, { section: 'game', entities });
-  },
-);
-export const setSidebarRenderedSprites = atom(
-  null,
-  (get, set, entities: Record<string, Container>) => {
-    set(setRenderedSprites, { section: 'sidebar', entities });
-  },
-);
-
-const setSprite = atom(
+export const setSprite = atom(
   null,
   (
     get,
@@ -108,16 +67,11 @@ const setSprite = atom(
     );
   },
 );
-export const setSidebarSprite = atom(
+
+export const setMapSprite = atom(
   null,
   (get, set, { entityId, sprite }: { entityId: string; sprite: Container }) => {
-    set(setSprite, { section: 'sidebar', entityId, sprite });
-  },
-);
-export const setGameSprite = atom(
-  null,
-  (get, set, { entityId, sprite }: { entityId: string; sprite: Container }) => {
-    set(setSprite, { section: 'game', entityId, sprite });
+    set(setSprite, { section: 'map', entityId, sprite });
   },
 );
 
@@ -147,7 +101,7 @@ export const hasGameSprite = atom((get) => {
     return get(getGameSprite)(entityId) !== undefined;
   };
 });
-const removeSprite = atom(
+export const removeSprite = atom(
   null,
   (
     get,

@@ -17,10 +17,11 @@ import { ItemInteractionSystem } from './systems/ItemInteractionSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
 import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
 import { PositionComponent } from './components/individualComponents/PositionComponent';
-import { RenderSystem } from './systems/RenderSystem';
-import { RenderSidebarSystem } from './systems/LevelEditorSystems/RenderSidebarSystem';
+import { GameRenderSystem } from './systems/RenderSystems/GameRenderSystem';
 import { addEntities } from './utils/EntityUtils';
 import { DirectionSystem } from './systems/DirectionSystem';
+import { RenderSidebarSystem } from './systems/RenderSystems/RenderSidebarSystem';
+import { MapRenderSystem } from './systems/RenderSystems/MapRenderSystem';
 
 export const initiateEntities = () => {
   const newEntities = createEntitiesFromTemplates(
@@ -47,7 +48,8 @@ export const initiateSystems = () => {
     new ItemInteractionSystem(),
     new EntityPlacementSystem(),
 
-    new RenderSystem(),
+    new MapRenderSystem(),
+    new GameRenderSystem(),
     new RenderSidebarSystem(),
 
     new CleanUpSystem(),
@@ -60,6 +62,7 @@ export const gameLoop = (ticker: Ticker) => {
   systems.forEach((system) => {
     const map = store.get(mapAtom);
     const entities = store.get(entitiesAtom) ?? [];
+
     system.update({ entities, time: ticker, map });
   });
 };
