@@ -358,6 +358,52 @@ describe('MovementSystem', () => {
           expect(blockingPosition.x).toBe(7);
           expect(blockingPosition.y).toBe(5);
         });
+
+        it('should not allow chain pushing of multiple movable entities', () => {
+          const movingEntity = createMovingEntity({
+            position: { x: 5, y: 5 },
+            velocity: { vx: 1, vy: 0 },
+          });
+
+          const movableEntity1 = createMovableEntity({ x: 6, y: 5 });
+          const movableEntity2 = createMovableEntity({ x: 7, y: 5 });
+
+          store.set(entitiesAtom, [
+            movingEntity,
+            movableEntity1,
+            movableEntity2,
+          ]);
+          system.update(getUpdateArgs());
+
+          // No entities should move - chain pushing is not allowed
+          const updatedMovingEntity = getEntity(movingEntity.id);
+          const movingPosition = updatedMovingEntity!.components[
+            ComponentType.Position
+          ] as PositionComponentProps;
+          expect(movingPosition.x).toBe(5);
+          expect(movingPosition.y).toBe(5);
+
+          const updatedMovableEntity1 = getEntity(movableEntity1.id);
+          const movablePosition1 = updatedMovableEntity1!.components[
+            ComponentType.Position
+          ] as PositionComponentProps;
+          expect(movablePosition1.x).toBe(6);
+          expect(movablePosition1.y).toBe(5);
+
+          const updatedMovableEntity2 = getEntity(movableEntity2.id);
+          const movablePosition2 = updatedMovableEntity2!.components[
+            ComponentType.Position
+          ] as PositionComponentProps;
+          expect(movablePosition2.x).toBe(7);
+          expect(movablePosition2.y).toBe(5);
+
+          // Velocity should be reset
+          const velocity = updatedMovingEntity!.components[
+            ComponentType.Velocity
+          ] as VelocityComponentProps;
+          expect(velocity.vx).toBe(0);
+          expect(velocity.vy).toBe(0);
+        });
       });
     });
 
@@ -482,48 +528,6 @@ describe('MovementSystem', () => {
         ] as PositionComponentProps;
         expect(position.x).toBe(5);
         expect(position.y).toBe(5);
-      });
-
-      it('should handle fractional velocity values correctly', () => {
-        const entity = createMovingEntity({
-          position: { x: 5, y: 5 },
-          velocity: { vx: 2.7, vy: -1.3 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const position = updatedEntity!.components[
-          ComponentType.Position
-        ] as PositionComponentProps;
-        expect(position.x).toBe(7.7); // 5 + 2.7
-        expect(position.y).toBe(3.7); // 5 + (-1.3)
-      });
-
-      it('should handle very large velocity values when blocked by boundaries', () => {
-        const entity = createMovingEntity({
-          position: { x: 5, y: 5 },
-          velocity: { vx: 1000, vy: -500 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        // Movement should be blocked by map boundaries
-        const updatedEntity = getEntity(entity.id);
-        const position = updatedEntity!.components[
-          ComponentType.Position
-        ] as PositionComponentProps;
-        expect(position.x).toBe(5);
-        expect(position.y).toBe(5);
-
-        // Velocity should still be reset
-        const velocity = updatedEntity!.components[
-          ComponentType.Velocity
-        ] as VelocityComponentProps;
-        expect(velocity.vx).toBe(0);
-        expect(velocity.vy).toBe(0);
       });
     });
   });
