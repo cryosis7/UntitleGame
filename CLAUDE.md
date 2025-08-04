@@ -2,7 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-This is a **React + TypeScript game** using **Entity Component System (ECS)** architecture with **Pixi.js** for rendering and **Jotai** for state management.
+This is a **React + TypeScript game** using **Entity Component System (ECS)** architecture with **Pixi.js** for
+rendering and **Jotai** for state management.
 
 ### ECS Implementation
 
@@ -11,6 +12,7 @@ This is a **React + TypeScript game** using **Entity Component System (ECS)** ar
 - **Systems**: Logic that operates on entities with specific components (`src/game/systems/`)
 
 Key ECS utilities:
+
 - Use `ComponentOperations.ts` for component access/modification
 - Use `EntityFactory.ts` for creating entities from templates
 - Use `MappingUtils.ts` for rendering utilities
@@ -20,8 +22,8 @@ Key ECS utilities:
 
 - **Minimal comments**: Only comment complex, hard-to-follow code
 - **Self-documenting code** preferred over extensive commenting
-- **TypeScript strict mode** enabled
 - Follow established patterns when creating new systems or components
+- **Always use Yarn instead of npm**
 
 ## Important Files
 
@@ -29,4 +31,3 @@ Key ECS utilities:
 - `src/game/components/ComponentOperations.ts` - Component manipulation utilities
 - `src/game/utils/ecsUtils.ts` - Core ECS types and utilities
 - `src/game/templates/EntityTemplates.ts` - Predefined entity configurations
-- `vitest.config.ts` - Test configuration with coverage thresholds

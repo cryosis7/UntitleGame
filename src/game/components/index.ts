@@ -1,4 +1,5 @@
 export * from './ComponentOperations';
+export { removeComponent } from './ComponentOperations';
 export * from './ComponentTypes';
 export * from './individualComponents/CarriedItemComponent';
 export * from './individualComponents/DirectionComponent';

@@ -89,6 +89,7 @@ export class ItemInteractionSystem implements System {
           carriedItemEntity,
           usableItemComponent,
         );
+        removeComponent(interactingEntity, ComponentType.Interacting);
       }
     }
   }
@@ -213,14 +214,14 @@ export class ItemInteractionSystem implements System {
     const replacementEntity = createEntity(
       Object.values(targetEntity.components),
     );
+    replaceEntity(targetEntity.id, replacementEntity);
+
     setComponent(
       replacementEntity,
       new SpriteComponent({ sprite: behaviorComponent.newSpriteId }),
     );
     removeComponent(replacementEntity, ComponentType.RequiresItem);
     removeComponent(replacementEntity, ComponentType.InteractionBehavior);
-
-    replaceEntity(targetEntity.id, replacementEntity);
   }
 
   /**

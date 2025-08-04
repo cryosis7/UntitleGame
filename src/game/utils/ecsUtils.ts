@@ -1,11 +1,11 @@
 import type { Position } from '../map/GameMap';
+import type { ComponentDictionary } from '../components';
 import {
+  ComponentType,
   getComponentIfExists,
   hasComponent,
-} from '../components/ComponentOperations';
+} from '../components';
 import { entitiesAtom, mapAtom, store } from './Atoms';
-import type { ComponentDictionary } from '../components/ComponentTypes';
-import { ComponentType } from '../components/ComponentTypes';
 
 export type Entity = {
   id: string;
