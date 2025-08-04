@@ -6,6 +6,7 @@ import type { System } from '../systems/Systems';
 import type { Entity } from './ecsUtils';
 
 export const store = createStore();
+
 export const spritesheetsAtom = atom<Spritesheet[]>([]);
 export const getTexture = (textureName: string) => {
   const spritesheets = store.get(spritesheetsAtom);

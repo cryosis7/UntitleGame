@@ -53,7 +53,7 @@
     - [x] Document any quality improvements made during migration
 
 - [ ] **T005: Create Key-Chest Interaction Integration Test (Example)**
-    - [ ] Create `tests/integration/keyChestInteraction.integration.test.ts`
+    - [ ] Create `tests/integration/ItemUsage.integration.test.ts`
     - [ ] Implement complete workflow: Player picks up key → Player moves to chest → Player uses key on chest → Chest
       opens
     - [ ] Test systems interaction: PickupSystem, MovementSystem, ItemInteractionSystem

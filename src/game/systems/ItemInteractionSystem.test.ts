@@ -624,6 +624,178 @@ describe('ItemInteractionSystem', () => {
       });
     });
 
+    describe('Remove Behavior', () => {
+      it('should remove target entity when interaction succeeds', () => {
+        const keyItem = createUsableItem({ capabilities: ['key'] });
+        const interactingEntity = createInteractingEntityWithItem({
+          position: { x: 5, y: 6 },
+          carriedItemId: keyItem.id,
+        });
+
+        const targetEntity = createTargetEntity(
+          { x: 5, y: 5 },
+          ['key'],
+          InteractionBehaviorType.REMOVE,
+        );
+
+        store.set(entitiesAtom, [interactingEntity, keyItem, targetEntity]);
+
+        system.update(getUpdateArgs());
+
+        expect(getEntity(targetEntity.id)).toBeUndefined();
+        expect(getEntity(keyItem.id)).toBeUndefined();
+        expect(getEntitiesAtPosition({ x: 5, y: 5 })).toHaveLength(0);
+      });
+
+      it('should remove multiple target entities when multiple interactions occur', () => {
+        const keyItem1 = createUsableItem({ capabilities: ['key'] });
+        const keyItem2 = createUsableItem({ capabilities: ['key'] });
+
+        const interactingEntity1 = createInteractingEntityWithItem({
+          position: { x: 5, y: 6 },
+          carriedItemId: keyItem1.id,
+        });
+
+        const interactingEntity2 = createInteractingEntityWithItem({
+          position: { x: 7, y: 8 },
+          carriedItemId: keyItem2.id,
+        });
+
+        const targetEntity1 = createTargetEntity(
+          { x: 5, y: 5 },
+          ['key'],
+          InteractionBehaviorType.REMOVE,
+        );
+
+        const targetEntity2 = createTargetEntity(
+          { x: 7, y: 7 },
+          ['key'],
+          InteractionBehaviorType.REMOVE,
+        );
+
+        store.set(entitiesAtom, [
+          interactingEntity1,
+          interactingEntity2,
+          keyItem1,
+          keyItem2,
+          targetEntity1,
+          targetEntity2,
+        ]);
+
+        system.update(getUpdateArgs());
+
+        expect(getEntity(keyItem1.id)).toBeUndefined();
+        expect(getEntity(keyItem2.id)).toBeUndefined();
+        expect(getEntity(targetEntity1.id)).toBeUndefined();
+        expect(getEntity(targetEntity2.id)).toBeUndefined();
+        expect(getEntitiesAtPosition({ x: 5, y: 5 })).toHaveLength(0);
+        expect(getEntitiesAtPosition({ x: 7, y: 7 })).toHaveLength(0);
+      });
+
+      it('should preserve other entities when removing target', () => {
+        const keyItem = createUsableItem({ capabilities: ['key'] });
+        const interactingEntity = createInteractingEntityWithItem({
+          position: { x: 5, y: 6 },
+          carriedItemId: keyItem.id,
+        });
+
+        const targetEntity = createTargetEntity(
+          { x: 5, y: 5 },
+          ['key'],
+          InteractionBehaviorType.REMOVE,
+        );
+
+        const bystander = createEntity([
+          new PositionComponent({ x: 10, y: 10 }),
+        ]);
+
+        store.set(entitiesAtom, [
+          interactingEntity,
+          keyItem,
+          targetEntity,
+          bystander,
+        ]);
+
+        system.update(getUpdateArgs());
+
+        expect(getEntity(targetEntity.id)).toBeUndefined();
+        expect(getEntity(keyItem.id)).toBeUndefined();
+        expect(getEntity(bystander.id)).toBeDefined();
+
+        const updatedInteractingEntity = getEntity(interactingEntity.id);
+        expect(updatedInteractingEntity).toBeDefined();
+        expect(updatedInteractingEntity!.components).not.toHaveProperty(
+          ComponentType.CarriedItem,
+        );
+        expect(updatedInteractingEntity!.components).not.toHaveProperty(
+          ComponentType.Interacting,
+        );
+      });
+
+      it('should handle REMOVE behavior with non-consumable items', () => {
+        const permanentKey = createUsableItem({
+          capabilities: ['key'],
+          isConsumable: false,
+        });
+        const interactingEntity = createInteractingEntityWithItem({
+          position: { x: 5, y: 6 },
+          carriedItemId: permanentKey.id,
+        });
+
+        const targetEntity = createTargetEntity(
+          { x: 5, y: 5 },
+          ['key'],
+          InteractionBehaviorType.REMOVE,
+        );
+
+        store.set(entitiesAtom, [
+          interactingEntity,
+          permanentKey,
+          targetEntity,
+        ]);
+
+        system.update(getUpdateArgs());
+
+        expect(getEntity(permanentKey.id)).toBeDefined();
+        expect(getEntity(targetEntity.id)).toBeUndefined();
+        expect(getEntitiesAtPosition({ x: 5, y: 5 })).toHaveLength(0);
+      });
+
+      it('should not remove target when item capabilities do not match', () => {
+        const toolItem = createUsableItem({ capabilities: ['tool'] });
+        const interactingEntity = createInteractingEntityWithItem({
+          position: { x: 5, y: 6 },
+          carriedItemId: toolItem.id,
+        });
+
+        const keyRequiredTarget = createTargetEntity(
+          { x: 5, y: 5 },
+          ['key'],
+          InteractionBehaviorType.REMOVE,
+        );
+
+        store.set(entitiesAtom, [
+          interactingEntity,
+          toolItem,
+          keyRequiredTarget,
+        ]);
+
+        system.update(getUpdateArgs());
+
+        expect(getEntity(keyRequiredTarget.id)).toBeDefined();
+        expect(getEntity(toolItem.id)).toBeDefined();
+        expect(getEntity(interactingEntity.id)).toBeDefined();
+
+        const unchangedInteractingEntity = getEntity(interactingEntity.id);
+        expect(unchangedInteractingEntity!.components).toHaveProperty(
+          ComponentType.CarriedItem,
+        );
+        expect(unchangedInteractingEntity!.components).toHaveProperty(
+          ComponentType.Interacting,
+        );
+      });
+    });
+
     describe('Spawn Contents Behavior', () => {
       it('should spawn single entity at target position with default offset', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });

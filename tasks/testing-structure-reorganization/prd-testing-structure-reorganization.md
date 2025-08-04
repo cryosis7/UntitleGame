@@ -98,7 +98,7 @@ src/
     ├── integration/                              # Dedicated integration tests
     │   ├── playerMovement.integration.test.ts
     │   ├── itemPickup.integration.test.ts
-    │   ├── keyChestInteraction.integration.test.ts
+    │   ├── ItemUsage.integration.test.ts
     │   └── gameplayScenarios.integration.test.ts
     ├── mocks/                                    # Shared test utilities
     │   ├── componentMocks.ts
@@ -115,7 +115,7 @@ src/
 
 1. **Create new directory structure** (`tests/integration/`, `tests/mocks/`, `tests/helpers/`)
 2. **Migrate one exemplary unit test**: Choose `MovementSystem.test.ts` as it's fundamental and well-defined
-3. **Migrate one exemplary integration test**: Create `keyChestInteraction.integration.test.ts` demonstrating complete
+3. **Migrate one exemplary integration test**: Create `ItemUsage.integration.test.ts` demonstrating complete
    workflow testing
 4. **Establish quality standards** based on these examples
 5. **Integrate with rewritten test helpers**: Ensure migrated tests work with new test helper infrastructure
@@ -321,7 +321,7 @@ an authentic testing environment.
 
 - Create directory structure
 - Migrate MovementSystem.test.ts as unit test example
-- Create keyChestInteraction.integration.test.ts as integration example
+- Create ItemUsage.integration.test.ts as integration example
 - Establish quality standards documentation
 
 ### Phase 2: Full Migration (1-2 weeks)

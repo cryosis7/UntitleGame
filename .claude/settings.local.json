@@ -4,7 +4,8 @@
       "Bash(find:*)",
       "Bash(rg:*)",
       "Bash(yarn:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }

@@ -44,7 +44,7 @@ export class ItemInteractionSystem implements System {
       ComponentType.RequiresItem,
       ComponentType.InteractionBehavior,
       ComponentType.Position,
-    ]);
+    ], entities);
 
     for (const interactingEntity of interactingEntitiesCarryingItem) {
       const carriedItemId = getComponentAbsolute(

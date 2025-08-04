@@ -1,14 +1,15 @@
 import {
+  CarriedItemComponent,
+  ComponentType,
   getComponentIfExists,
   hasComponent,
+  PositionComponent,
   removeComponent,
   removeMapComponents,
   setComponent,
-} from '../components/ComponentOperations';
+} from '../components';
 import type { System, UpdateArgs } from './Systems';
 import { getEntitiesAtPosition, getPlayerEntity } from '../utils/EntityUtils';
-import { ComponentType } from '../components/ComponentTypes';
-import { PositionComponent, CarriedItemComponent } from '../components';
 
 export class PickupSystem implements System {
   update({ entities }: UpdateArgs) {

@@ -1,16 +1,19 @@
 import type { GameMap, Position } from '../../src/game/map/GameMap';
-import type { Component } from '../../src/game/components/ComponentTypes';
-import { PlayerComponent } from '../../src/game/components/individualComponents/PlayerComponent';
-import { PositionComponent } from '../../src/game/components/individualComponents/PositionComponent';
-import { VelocityComponent } from '../../src/game/components/individualComponents/VelocityComponent';
-import { SpriteComponent } from '../../src/game/components/individualComponents/SpriteComponent';
-import { PickableComponent } from '../../src/game/components/individualComponents/PickableComponent';
-import { InteractionBehaviorComponent, InteractionBehaviorType } from '../../src/game/components/individualComponents/InteractionBehaviorComponent';
-import { RequiresItemComponent } from '../../src/game/components/individualComponents/RequiresItemComponent';
-import { UsableItemComponent } from '../../src/game/components/individualComponents/UsableItemComponent';
+import type { Component } from '../../src/game/components';
+import {
+  InteractionBehaviorComponent,
+  InteractionBehaviorType,
+  PickableComponent,
+  PlayerComponent,
+  PositionComponent,
+  RequiresItemComponent,
+  SpriteComponent,
+  UsableItemComponent,
+  VelocityComponent,
+} from '../../src/game/components';
 import type { Entity } from '../../src/game/utils/ecsUtils';
 import type { UpdateArgs } from '../../src/game/systems/Systems';
-import { store, entitiesAtom } from '../../src/game/utils/Atoms';
+import { entitiesAtom, store } from '../../src/game/utils/Atoms';
 
 export function createStandardUpdateArgs(entities?: Entity[]): UpdateArgs {
   entities = entities ?? store.get(entitiesAtom) ?? [];
