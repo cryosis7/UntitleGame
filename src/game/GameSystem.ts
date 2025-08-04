@@ -16,7 +16,7 @@ import { PickupSystem } from './systems/PickupSystem';
 import { ItemInteractionSystem } from './systems/ItemInteractionSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
 import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
-import { PositionComponent } from './components/individualComponents/PositionComponent';
+import { PositionComponent } from './components';
 import { GameRenderSystem } from './systems/RenderSystems/GameRenderSystem';
 import { addEntities } from './utils/EntityUtils';
 import { DirectionSystem } from './systems/DirectionSystem';

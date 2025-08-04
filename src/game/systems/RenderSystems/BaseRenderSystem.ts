@@ -4,7 +4,7 @@ import type { Container } from 'pixi.js';
 import { Sprite } from 'pixi.js';
 import type { Position } from '../../map/GameMap';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
-import type { SpriteComponent } from '../../components/individualComponents/SpriteComponent';
+import type { PositionComponent, SpriteComponent } from '../../components';
 import type { RenderSection } from '../../utils/Atoms';
 import {
   getTexture,
@@ -20,7 +20,6 @@ import {
   hasAllComponents,
 } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components/ComponentTypes';
-import type { PositionComponent } from '../../components/individualComponents/PositionComponent';
 import { pixiApp } from '../../Pixi';
 
 type EntitySpriteMap = {
@@ -131,9 +130,7 @@ export abstract class BaseRenderSystem implements System {
   private updatePositions = (entitySpriteMap: EntitySpriteMap) => {
     Object.entries(entitySpriteMap).forEach(([, { entity, sprite }]) => {
       if (!entity || !sprite) {
-        throw new Error(
-          'Encountered item without sprite or entity during position update of render cycle.',
-        );
+        return;
       }
 
       const positionComponent = getComponentAbsolute(

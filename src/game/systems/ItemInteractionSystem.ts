@@ -17,12 +17,12 @@ import {
 } from '../components/ComponentOperations';
 import {
   type InteractionBehaviorComponent,
-  InteractionBehaviorType
-} from '../components/individualComponents/InteractionBehaviorComponent';
+  InteractionBehaviorType,
+  PositionComponent,
+  SpriteComponent,
+  type UsableItemComponent
+} from '../components';
 import { createEntitiesFromTemplates, createEntity } from '../utils/EntityFactory';
-import { PositionComponent } from '../components/individualComponents/PositionComponent';
-import { SpriteComponent } from '../components/individualComponents/SpriteComponent';
-import type { UsableItemComponent } from '../components/individualComponents/UsableItemComponent';
 import { getAdjacentPosition } from '../map/MappingUtils';
 
 /**

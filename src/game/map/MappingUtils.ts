@@ -1,6 +1,6 @@
 import { getTileSizeAtom, store } from '../utils/Atoms';
 import type { Position } from './GameMap';
-import type { Direction } from '../components/individualComponents/DirectionComponent';
+import type { Direction } from '../components';
 
 /**
  * Converts a grid position to a screen coordinate.

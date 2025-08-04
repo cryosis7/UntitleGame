@@ -13,20 +13,18 @@ import { entitiesAtom, store } from '../utils/Atoms';
 import {
   InteractionBehaviorComponent,
   InteractionBehaviorType,
-} from '../components/individualComponents/InteractionBehaviorComponent';
-import type { PositionComponentProps } from '../components/individualComponents/PositionComponent';
-import { PositionComponent } from '../components/individualComponents/PositionComponent';
-import { InteractingComponent } from '../components/individualComponents/InteractingComponent';
-import { CarriedItemComponent } from '../components/individualComponents/CarriedItemComponent';
-import type {
-  Direction,
-  DirectionComponentProps,
-} from '../components/individualComponents/DirectionComponent';
-import { DirectionComponent } from '../components/individualComponents/DirectionComponent';
-import type { UsableItemComponentProps } from '../components/individualComponents/UsableItemComponent';
-import { UsableItemComponent } from '../components/individualComponents/UsableItemComponent';
-import { RequiresItemComponent } from '../components/individualComponents/RequiresItemComponent';
-import { SpawnContentsComponent } from '../components/individualComponents/SpawnContentsComponent';
+  type PositionComponentProps,
+  PositionComponent,
+  InteractingComponent,
+  CarriedItemComponent,
+  type Direction,
+  type DirectionComponentProps,
+  DirectionComponent,
+  type UsableItemComponentProps,
+  UsableItemComponent,
+  RequiresItemComponent,
+  SpawnContentsComponent,
+} from '../components';
 import { GameMap, type Position } from '../map/GameMap';
 import type { UpdateArgs } from './Systems';
 import { getEntity } from '../utils/EntityUtils';

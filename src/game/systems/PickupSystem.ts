@@ -8,8 +8,7 @@ import {
 import type { System, UpdateArgs } from './Systems';
 import { getEntitiesAtPosition, getPlayerEntity } from '../utils/EntityUtils';
 import { ComponentType } from '../components/ComponentTypes';
-import { PositionComponent } from '../components/individualComponents/PositionComponent';
-import { CarriedItemComponent } from '../components/individualComponents/CarriedItemComponent';
+import { PositionComponent, CarriedItemComponent } from '../components';
 
 export class PickupSystem implements System {
   update({ entities }: UpdateArgs) {

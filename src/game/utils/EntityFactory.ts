@@ -1,27 +1,29 @@
 import type { Entity } from './ecsUtils';
 import type {
+  CarriedItemComponentProps,
   Component,
   ComponentDictionary,
   ComponentProps,
-} from '../components/ComponentTypes';
-import { ComponentType } from '../components/ComponentTypes';
-import type { PositionComponentProps } from '../components/individualComponents/PositionComponent';
-import { PositionComponent } from '../components/individualComponents/PositionComponent';
-import type { SpriteComponentProps } from '../components/individualComponents/SpriteComponent';
-import { SpriteComponent } from '../components/individualComponents/SpriteComponent';
-import type { VelocityComponentProps } from '../components/individualComponents/VelocityComponent';
-import { VelocityComponent } from '../components/individualComponents/VelocityComponent';
-import type { CarriedItemComponentProps } from '../components/individualComponents/CarriedItemComponent';
-import { CarriedItemComponent } from '../components/individualComponents/CarriedItemComponent';
-import type { RequiresItemComponentProps } from '../components/individualComponents/RequiresItemComponent';
-import { RequiresItemComponent } from '../components/individualComponents/RequiresItemComponent';
-import type { UsableItemComponentProps } from '../components/individualComponents/UsableItemComponent';
-import { UsableItemComponent } from '../components/individualComponents/UsableItemComponent';
-import type { InteractionBehaviorComponentProps } from '../components/individualComponents/InteractionBehaviorComponent';
-import { InteractionBehaviorComponent } from '../components/individualComponents/InteractionBehaviorComponent';
-import type { SpawnContentsComponentProps } from '../components/individualComponents/SpawnContentsComponent';
-import { SpawnContentsComponent } from '../components/individualComponents/SpawnContentsComponent';
-import type { DirectionComponentProps } from '../components/individualComponents/DirectionComponent';
+  DirectionComponentProps,
+  InteractionBehaviorComponentProps,
+  PositionComponentProps,
+  RequiresItemComponentProps,
+  SpawnContentsComponentProps,
+  SpriteComponentProps,
+  UsableItemComponentProps,
+  VelocityComponentProps,
+} from '../components';
+import {
+  CarriedItemComponent,
+  ComponentType,
+  InteractionBehaviorComponent,
+  PositionComponent,
+  RequiresItemComponent,
+  SpawnContentsComponent,
+  SpriteComponent,
+  UsableItemComponent,
+  VelocityComponent,
+} from '../components';
 
 export type ComponentsTemplate = Partial<{
   [type in ComponentType]: ComponentProps;
