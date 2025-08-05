@@ -30,7 +30,7 @@ import { getEntitiesAtPosition, getEntity } from '../utils/EntityUtils';
 describe('ItemInteractionSystem', () => {
   let system: ItemInteractionSystem;
   let entities: Entity[];
-  const map = new GameMap(); // Not needed for this test, but required by the updateArgs
+  const map = new GameMap();
 
   beforeEach(() => {
     system = new ItemInteractionSystem();
@@ -42,7 +42,6 @@ describe('ItemInteractionSystem', () => {
     vi.restoreAllMocks();
   });
 
-  // Test fixtures for reusable entity configurations
   const createInteractingEntityWithItem = ({
     position = { x: 0, y: 0 },
     carriedItemId = 'carried-item-id',
@@ -122,9 +121,9 @@ describe('ItemInteractionSystem', () => {
     };
   };
 
-  describe('Core Interaction Flow', () => {
-    describe('Happy Path Tests', () => {
-      describe('Complete Successful Interaction', () => {
+  describe('on update', () => {
+    describe('when interaction succeeds', () => {
+      describe('with valid requirements matching', () => {
         it.each`
           condition                      | directions
           ${'accepts all directions'}    | ${['up', 'down', 'left', 'right']}
@@ -167,7 +166,7 @@ describe('ItemInteractionSystem', () => {
           },
         );
 
-        it('should process interactions when there is no direction component', () => {
+        it('should process interaction when entity has no direction component', () => {
           const keyItem = createUsableItem({ capabilities: ['key'] });
           const interactingEntity = createInteractingEntityWithItem({
             position: { x: 5, y: 6 },
@@ -196,8 +195,8 @@ describe('ItemInteractionSystem', () => {
         });
       });
 
-      describe('Multiple Entities Interaction', () => {
-        it('should handle multiple entities in same position', () => {
+      describe('with multiple entities', () => {
+        it('should process all valid interactions when multiple entities are at same position', () => {
           const keyItem = createUsableItem({ capabilities: ['key'] });
           const toolItem = createUsableItem({ capabilities: ['tool'] });
 
@@ -266,9 +265,9 @@ describe('ItemInteractionSystem', () => {
       });
     });
 
-    describe('Validation Tests', () => {
-      describe('Capability Matching Validation', () => {
-        it('should process interaction when item has multiple capabilities', () => {
+    describe('when validating capabilities', () => {
+      describe('with capability matching', () => {
+        it('should allow interaction when item has multiple matching capabilities', () => {
           const multiCapabilityItem = createUsableItem({
             capabilities: ['key', 'tool'],
           });
@@ -301,7 +300,7 @@ describe('ItemInteractionSystem', () => {
           );
         });
 
-        it('should process interaction when item has more capabilities than required', () => {
+        it('should allow interaction when item has superset of required capabilities', () => {
           const masterKey = createUsableItem({
             capabilities: ['key', 'tool', 'lockpick'],
           });
@@ -330,7 +329,7 @@ describe('ItemInteractionSystem', () => {
           );
         });
 
-        it('should filter out entities when item has only some required capabilities', () => {
+        it('should reject interaction when item has only partial required capabilities', () => {
           const partialItem = createUsableItem({ capabilities: ['key'] });
           const interactingEntity = createInteractingEntityWithItem({
             position: { x: 5, y: 6 },
@@ -358,7 +357,7 @@ describe('ItemInteractionSystem', () => {
           ]);
         });
 
-        it('should not interact when item capabilities do not match entity requirements', () => {
+        it('should reject interaction when item capabilities do not match requirements', () => {
           const keyItem = createUsableItem({ capabilities: ['key'] });
           const interactingEntity = createInteractingEntityWithItem({
             position: { x: 5, y: 5 },
@@ -389,123 +388,118 @@ describe('ItemInteractionSystem', () => {
     });
   });
 
-  describe('Component Compatibility', () => {
-    describe('Required Components', () => {
-      describe('Missing Component Scenarios', () => {
-        it.each([
-          { componentType: ComponentType.Interacting },
-          { componentType: ComponentType.CarriedItem },
-          { componentType: ComponentType.Position },
-        ])(
-          'should do nothing when entities lack %s component',
-          ({ componentType }) => {
-            const key = createUsableItem({ capabilities: ['key'] });
-            const entityWithoutComponent = createEntity([
-              new PositionComponent({ x: 5, y: 5 }),
-              new InteractingComponent(),
-              new CarriedItemComponent({ item: key.id }),
-            ]);
+  describe('when components are missing', () => {
+    describe('with required components absent', () => {
+      it.each([
+        { componentType: ComponentType.Interacting },
+        { componentType: ComponentType.CarriedItem },
+        { componentType: ComponentType.Position },
+      ])(
+        'should skip processing when entity lacks %s component',
+        ({ componentType }) => {
+          const key = createUsableItem({ capabilities: ['key'] });
+          const entityWithoutComponent = createEntity([
+            new PositionComponent({ x: 5, y: 5 }),
+            new InteractingComponent(),
+            new CarriedItemComponent({ item: key.id }),
+          ]);
 
-            delete entityWithoutComponent.components[componentType];
-            store.set(entitiesAtom, [entityWithoutComponent, key]);
+          delete entityWithoutComponent.components[componentType];
+          store.set(entitiesAtom, [entityWithoutComponent, key]);
 
-            expect(() => system.update(getUpdateArgs())).not.toThrow();
+          expect(() => system.update(getUpdateArgs())).not.toThrow();
 
-            expect(store.get(entitiesAtom)).toEqual([
-              entityWithoutComponent,
-              key,
-            ]);
-          },
+          expect(store.get(entitiesAtom)).toEqual([
+            entityWithoutComponent,
+            key,
+          ]);
+        },
+      );
+    });
+
+    describe('with UsableItem component', () => {
+      it('should skip entity when carried item lacks UsableItem component', () => {
+        const nonUsableItem = createEntity([]);
+
+        const interactingEntity = createInteractingEntityWithItem({
+          position: { x: 5, y: 5 },
+          carriedItemId: nonUsableItem.id,
+        });
+
+        const targetEntity = createTargetEntity(
+          { x: 5, y: 4 },
+          ['key'],
+          InteractionBehaviorType.REMOVE,
         );
+
+        store.set(entitiesAtom, [
+          interactingEntity,
+          nonUsableItem,
+          targetEntity,
+        ]);
+
+        system.update(getUpdateArgs());
+
+        expect(store.get(entitiesAtom)).toEqual([
+          interactingEntity,
+          nonUsableItem,
+          targetEntity,
+        ]);
       });
 
-      describe('UsableItem Component Tests', () => {
-        it('should skip processing when carried item lacks UsableItem component', () => {
-          const nonUsableItem = createEntity([]);
-
-          const interactingEntity = createInteractingEntityWithItem({
+      it('should process valid entities while skipping entities with unusable items', () => {
+        const nonUsableItem = createEntity([]);
+        const interactingEntityWithUnusableItem =
+          createInteractingEntityWithItem({
             position: { x: 5, y: 5 },
             carriedItemId: nonUsableItem.id,
           });
 
-          const targetEntity = createTargetEntity(
-            { x: 5, y: 4 },
-            ['key'],
-            InteractionBehaviorType.REMOVE,
-          );
+        const usableItem = createUsableItem({ capabilities: ['key'] });
+        const interactingEntityWithUsableItem = createInteractingEntityWithItem(
+          {
+            position: { x: 5, y: 5 },
+            carriedItemId: usableItem.id,
+          },
+        );
 
-          store.set(entitiesAtom, [
-            interactingEntity,
-            nonUsableItem,
-            targetEntity,
-          ]);
+        const targetEntity = createTargetEntity(
+          { x: 5, y: 4 },
+          ['key'],
+          InteractionBehaviorType.REMOVE,
+        );
 
-          system.update(getUpdateArgs());
+        store.set(entitiesAtom, [
+          nonUsableItem,
+          interactingEntityWithUnusableItem,
+          usableItem,
+          interactingEntityWithUsableItem,
+          targetEntity,
+        ]);
 
-          expect(store.get(entitiesAtom)).toEqual([
-            interactingEntity,
-            nonUsableItem,
-            targetEntity,
-          ]);
-        });
+        system.update(getUpdateArgs());
 
-        it('should skip unusable item but still process other entities', () => {
-          const nonUsableItem = createEntity([]);
-          const interactingEntityWithUnusableItem =
-            createInteractingEntityWithItem({
-              position: { x: 5, y: 5 },
-              carriedItemId: nonUsableItem.id,
-            });
+        const updatedEntities = store.get(entitiesAtom);
+        expect(updatedEntities).toContain(nonUsableItem);
+        expect(updatedEntities).toContain(interactingEntityWithUnusableItem);
+        expect(updatedEntities).not.toContainEqual(usableItem);
 
-          const usableItem = createUsableItem({ capabilities: ['key'] });
-          const interactingEntityWithUsableItem =
-            createInteractingEntityWithItem({
-              position: { x: 5, y: 5 },
-              carriedItemId: usableItem.id,
-            });
+        const expectedInteractingEntity: Entity = {
+          ...interactingEntityWithUsableItem,
+        };
+        delete expectedInteractingEntity.components[ComponentType.CarriedItem];
+        delete expectedInteractingEntity.components[ComponentType.Interacting];
+        expect(updatedEntities).toContainEqual(expectedInteractingEntity);
+        expect(updatedEntities).not.toContainEqual(targetEntity);
 
-          const targetEntity = createTargetEntity(
-            { x: 5, y: 4 },
-            ['key'],
-            InteractionBehaviorType.REMOVE,
-          );
-
-          store.set(entitiesAtom, [
-            nonUsableItem,
-            interactingEntityWithUnusableItem,
-            usableItem,
-            interactingEntityWithUsableItem,
-            targetEntity,
-          ]);
-
-          system.update(getUpdateArgs());
-
-          const updatedEntities = store.get(entitiesAtom);
-          expect(updatedEntities).toContain(nonUsableItem);
-          expect(updatedEntities).toContain(interactingEntityWithUnusableItem);
-          expect(updatedEntities).not.toContainEqual(usableItem);
-
-          const expectedInteractingEntity: Entity = {
-            ...interactingEntityWithUsableItem,
-          };
-          delete expectedInteractingEntity.components[
-            ComponentType.CarriedItem
-          ];
-          delete expectedInteractingEntity.components[
-            ComponentType.Interacting
-          ];
-          expect(updatedEntities).toContainEqual(expectedInteractingEntity);
-          expect(updatedEntities).not.toContainEqual(targetEntity);
-
-          expect(updatedEntities).toHaveLength(3);
-        });
+        expect(updatedEntities).toHaveLength(3);
       });
     });
   });
 
-  describe('Spatial Interaction Logic', () => {
-    describe('Position Validation', () => {
-      it('should do nothing when entity is in wrong position', () => {
+  describe('when validating spatial requirements', () => {
+    describe('with position validation', () => {
+      it('should reject interaction when entity is not adjacent to target', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 10, y: 10 },
@@ -529,7 +523,7 @@ describe('ItemInteractionSystem', () => {
         ]);
       });
 
-      it('should handle diagonal vs cardinal direction positioning', () => {
+      it('should reject interaction when entity is diagonally positioned', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 6, y: 6 },
@@ -555,8 +549,8 @@ describe('ItemInteractionSystem', () => {
       });
     });
 
-    describe('Direction Validation', () => {
-      it('should do nothing when entity is facing wrong direction', () => {
+    describe('with direction validation', () => {
+      it('should reject interaction when entity faces wrong direction', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 5, y: 6 },
@@ -584,9 +578,9 @@ describe('ItemInteractionSystem', () => {
     });
   });
 
-  describe('Interaction Behaviors', () => {
-    describe('Transform Behavior', () => {
-      it('should handle transformations correctly', () => {
+  describe('when applying interaction behaviors', () => {
+    describe('with transform behavior', () => {
+      it('should transform target entity and remove interaction components', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 5, y: 6 },
@@ -624,8 +618,8 @@ describe('ItemInteractionSystem', () => {
       });
     });
 
-    describe('Remove Behavior', () => {
-      it('should remove target entity when interaction succeeds', () => {
+    describe('with remove behavior', () => {
+      it('should remove target entity and consume item on successful interaction', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 5, y: 6 },
@@ -647,7 +641,7 @@ describe('ItemInteractionSystem', () => {
         expect(getEntitiesAtPosition({ x: 5, y: 5 })).toHaveLength(0);
       });
 
-      it('should remove multiple target entities when multiple interactions occur', () => {
+      it('should handle multiple simultaneous removal interactions', () => {
         const keyItem1 = createUsableItem({ capabilities: ['key'] });
         const keyItem2 = createUsableItem({ capabilities: ['key'] });
 
@@ -692,7 +686,7 @@ describe('ItemInteractionSystem', () => {
         expect(getEntitiesAtPosition({ x: 7, y: 7 })).toHaveLength(0);
       });
 
-      it('should preserve other entities when removing target', () => {
+      it('should only remove target entity while preserving unrelated entities', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 5, y: 6 },
@@ -732,7 +726,7 @@ describe('ItemInteractionSystem', () => {
         );
       });
 
-      it('should handle REMOVE behavior with non-consumable items', () => {
+      it('should preserve non-consumable items during remove interaction', () => {
         const permanentKey = createUsableItem({
           capabilities: ['key'],
           isConsumable: false,
@@ -761,7 +755,7 @@ describe('ItemInteractionSystem', () => {
         expect(getEntitiesAtPosition({ x: 5, y: 5 })).toHaveLength(0);
       });
 
-      it('should not remove target when item capabilities do not match', () => {
+      it('should preserve target when item capabilities do not match requirements', () => {
         const toolItem = createUsableItem({ capabilities: ['tool'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 5, y: 6 },
@@ -796,8 +790,8 @@ describe('ItemInteractionSystem', () => {
       });
     });
 
-    describe('Spawn Contents Behavior', () => {
-      it('should spawn single entity at target position with default offset', () => {
+    describe('with spawn contents behavior', () => {
+      it('should spawn entity at target position when using default offset', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 5, y: 6 },
@@ -837,7 +831,7 @@ describe('ItemInteractionSystem', () => {
         );
       });
 
-      it('should spawn multiple entities with correct positioning offset', () => {
+      it('should spawn multiple entities using calculated positioning offsets', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 10, y: 9 },
@@ -884,7 +878,7 @@ describe('ItemInteractionSystem', () => {
         expect(getEntitiesAtPosition({ x: 11, y: 11 })).toHaveLength(1); // index 3: x+1, y+1
       });
 
-      it('should spawn entities with custom spawn offset', () => {
+      it('should apply custom spawn offset to spawned entities', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 5, y: 6 },
@@ -920,7 +914,7 @@ describe('ItemInteractionSystem', () => {
         expect(getEntitiesAtPosition({ x: 7, y: 9 })).toHaveLength(1); // index 1: base+0, base+1
       });
 
-      it('should spawn entities with complex components', () => {
+      it('should create spawned entities with all specified components', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 5, y: 6 },
@@ -959,7 +953,7 @@ describe('ItemInteractionSystem', () => {
         expect(spawnedEntity.components[ComponentType.Position]).toBeDefined();
       });
 
-      it('should handle empty spawn contents array', () => {
+      it('should complete interaction without spawning when contents array is empty', () => {
         const keyItem = createUsableItem({ capabilities: ['key'] });
         const interactingEntity = createInteractingEntityWithItem({
           position: { x: 5, y: 6 },
@@ -996,14 +990,14 @@ describe('ItemInteractionSystem', () => {
     });
   });
 
-  describe('Item Management', () => {
-    describe('Item Consumption', () => {
+  describe('when managing items', () => {
+    describe('with item consumption', () => {
       it.each`
         isConsumable | description                 | consumable
         ${true}      | ${'and consume item'}       | ${'consumable'}
         ${false}     | ${'without consuming item'} | ${'not consumable'}
       `(
-        'should process interaction $description when carried item is $consumable',
+        'should $description based on item consumability',
         ({ isConsumable }) => {
           const keyItem = createUsableItem({
             capabilities: ['key'],
@@ -1048,10 +1042,10 @@ describe('ItemInteractionSystem', () => {
     });
   });
 
-  describe('Error Handling & Edge Cases', () => {
-    describe('Data Integrity Issues', () => {
-      describe('Invalid Entity References', () => {
-        it('should log error and continue when carried item entity does not exist', () => {
+  describe('when handling errors and edge cases', () => {
+    describe('with data integrity issues', () => {
+      describe('with invalid entity references', () => {
+        it('should log error and continue processing when carried item reference is invalid', () => {
           const consoleSpy = vi
             .spyOn(console, 'error')
             .mockImplementation(() => {});

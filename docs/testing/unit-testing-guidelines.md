@@ -14,37 +14,26 @@ Always follow established practices in similar files.
 - `src/game/components/PositionComponent.test.ts` for `PositionComponent.ts`
 
 **Test Organization**: Structure tests using nested `describe` blocks that follow a clear hierarchy:
+  - Top level: Component/class name
+  - Second-Fifth level: Specific scenarios
+  - Use descriptive names that read like sentences
+  - Group related tests together
+  - Use beforeEach/afterEach within describe blocks for shared setup
 
 ```typescript
-describe('SystemName', () => {
-  describe('Core Functionality', () => {
-    describe('Happy Path Tests', () => {
-      // Successful operation tests
-    });
-
-    describe('Validation Tests', () => {
-      // Input validation and edge cases
-    });
-  });
-
-  describe('Component Compatibility', () => {
-    // Component interaction tests
-  });
-
-  describe('Error Handling & Edge Cases', () => {
-    // Error scenarios and boundary conditions
-  });
-});
+  describe('ItemInteractionSystem', () => {
+    describe('when applying interaction behaviors', () => {
+      describe('with transform behavior', () => {
 ```
 
 ### Test Naming Conventions
 
-Use descriptive test names that follow the pattern: `should [expected behavior] when [condition]`
+Set up the `Given/When` scenarios in the describe blocks, and use descriptive test names that follow the pattern: `it('should [expected behavior]',`
 
 **Good Examples**:
 
-- `should process interaction and consume item when target entity accepts all directions`
-- `should skip processing when carried item lacks UsableItem component`
+- `should consume item when target entity accepts all directions`
+- `should skip processing`
 - `should handle multiple entities in same position`
 
 **Avoid Generic Names**:
@@ -73,9 +62,9 @@ beforeEach(() => {
 
 ```typescript
 const createTestEntity = ({
-                            position = { x: 0, y: 0 },
-                            customProperty = 'default',
-                          }: {
+  position = { x: 0, y: 0 },
+  customProperty = 'default',
+}: {
   position?: PositionComponentProps;
   customProperty?: string;
 } = {}) => {
@@ -86,11 +75,9 @@ const createTestEntity = ({
 };
 ```
 
-## ECS-Specific Guidelines
-
 ### Use Real ECS Infrastructure
 
-**Do**: Use actual ComponentOperations and EntityFactory
+**Do**: Use actual entity and component implementations
 
 ```typescript
 const entity = createEntity([
@@ -120,56 +107,6 @@ const player = createEntity([
 ]);
 ```
 
-**Store Management**: Always update the store with test entities:
-
-```typescript
-store.set(entitiesAtom, [entity1, entity2, entity3]);
-```
-
-### Component Testing
-
-**Test Component States**: Verify component addition, modification, and removal:
-
-```typescript
-it('should remove interacting component after successful interaction', () => {
-  // Setup entity with InteractingComponent
-  system.update(getUpdateArgs());
-
-  const updatedEntity = getEntity(entity.id);
-  expect(updatedEntity!.components).not.toHaveProperty(ComponentType.Interacting);
-});
-```
-
-## Test Coverage Patterns
-
-### Happy Path Testing
-
-Cover the primary success scenarios:
-
-- Valid inputs produce expected outputs
-- All required components are present
-- System behaves correctly under normal conditions
-
-### Edge Case Testing
-
-**Boundary Conditions**:
-
-- Empty arrays or collections
-- Maximum/minimum values
-- Null/undefined inputs
-
-**Component Compatibility**:
-
-- Missing required components
-- Invalid component combinations
-- Component state transitions
-
-**Spatial Logic** (for position-based systems):
-
-- Entities at boundaries
-- Overlapping positions
-- Out-of-bounds scenarios
-
 ### Parameterized Testing
 
 Use `it.each` for testing multiple similar scenarios. Always use the template literal syntax:
@@ -187,24 +124,9 @@ it.each`
 );
 ```
 
-## Error Handling
+### Error Handling
 
-### Graceful Degradation
-
-Test that systems handle errors without crashing:
-
-```typescript
-it('should continue processing when entity reference is invalid', () => {
-  const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {
-  });
-
-  // Setup invalid state
-  system.update(getUpdateArgs());
-
-  expect(consoleSpy).toHaveBeenCalledWith('Expected error message');
-  expect(() => system.update(getUpdateArgs())).not.toThrow();
-});
-```
+Test that systems handle errors without crashing using console spy and asserting `toThrow` and `not.toThrow`.
 
 ## Assertions and Expectations
 
@@ -230,15 +152,6 @@ expect(entity!.components).not.toHaveProperty(ComponentType.Interacting);
 ```typescript
 expect(getEntitiesAtPosition({ x: 5, y: 5 })).toHaveLength(2);
 expect(getEntitiesAtPosition({ x: 10, y: 10 })).toHaveLength(0);
-```
-
-### Array and Collection Assertions
-
-```typescript
-const entities = store.get(entitiesAtom);
-expect(entities).toContainEqual(expectedEntity);
-expect(entities).not.toContainEqual(removedEntity);
-expect(entities).toHaveLength(expectedCount);
 ```
 
 ## Best Practices

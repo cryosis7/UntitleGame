@@ -16,10 +16,7 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "type-check": "tsc --noEmit",
-    "pre-merge": "yarn type-check && yarn lint && yarn format:check && yarn test && yarn build",
-    "pre-merge:fix": "yarn lint:fix && yarn format",
-    "setup-hooks": "node -e \"require('child_process').execSync(process.platform === 'win32' ? 'powershell -ExecutionPolicy Bypass -File scripts/setup-hooks.ps1' : 'bash scripts/setup-hooks.sh', {stdio: 'inherit'})\""
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
