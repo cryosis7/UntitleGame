@@ -4,7 +4,6 @@ description: >
   Use this agent when the user needs to create a new ECS component for their game. Examples:
   <example>Context: User is working on their ECS-based game and needs a new component for health tracking. user: 'I need a Health component that stores current health, max health, and regeneration rate' assistant: 'I'll use the ecs-component-creator agent to create this Health component following the project's ECS patterns' <commentary>Since the user needs a new ECS component created, use the ecs-component-creator agent to handle this task according to the established patterns.</commentary></example>
   <example>Context: User wants to add inventory functionality to their game. user: 'Can you create an Inventory component that can hold items with quantities?' assistant: 'Let me use the ecs-component-creator agent to create the Inventory component with proper TypeScript types' <commentary>The user is requesting a new component for their ECS game, so use the ecs-component-creator agent to implement it correctly.</commentary></example>
-tools: Bash, Glob, Grep, LS, Read, Edit, MultiEdit, Write, NotebookRead, NotebookEdit, WebFetch, TodoWrite, WebSearch
 model: sonnet
 color: orange
 ---
