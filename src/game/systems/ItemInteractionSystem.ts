@@ -2,19 +2,28 @@ import type { System, UpdateArgs } from './Systems';
 import type { Entity } from '../utils/ecsUtils';
 import { ComponentType } from '../components/ComponentTypes';
 import {
-  getEntitiesWithComponents,
-  removeEntities,
   addEntities,
+  getEntitiesWithComponents,
+  getEntity,
+  removeEntities,
+  removeEntity,
+  replaceEntity
 } from '../utils/EntityUtils';
 import {
+  getComponentAbsolute,
   getComponentIfExists,
-  setComponent,
   removeComponent,
+  setComponent
 } from '../components/ComponentOperations';
-import type { InteractionBehaviorComponent } from '../components/individualComponents/InteractionBehaviorComponent';
-import { InteractionBehaviorType } from '../components/individualComponents/InteractionBehaviorType';
-import { createEntitiesFromTemplates } from '../utils/EntityFactory';
-import { PositionComponent } from '../components/individualComponents/PositionComponent';
+import {
+  type InteractionBehaviorComponent,
+  InteractionBehaviorType,
+  PositionComponent,
+  SpriteComponent,
+  type UsableItemComponent
+} from '../components';
+import { createEntitiesFromTemplates, createEntity } from '../utils/EntityFactory';
+import { getAdjacentPosition } from '../map/MappingUtils';
 
 /**
  * ItemInteractionSystem handles interactions between entities that require items
@@ -22,182 +31,158 @@ import { PositionComponent } from '../components/individualComponents/PositionCo
  * item consumption, and interaction behaviors.
  */
 export class ItemInteractionSystem implements System {
-  update(args: UpdateArgs): void {
-    const { entities } = args;
-    this.processInteractions(entities);
-  }
-
-  /**
-   * Processes all active interactions between entities.
-   */
-  private processInteractions(entities: Entity[]): void {
-    const interactingEntities = getEntitiesWithComponents(
-      [ComponentType.Interacting],
+  update({ entities }: UpdateArgs): void {
+    const interactingEntitiesCarryingItem = getEntitiesWithComponents(
+      [
+        ComponentType.Interacting,
+        ComponentType.CarriedItem,
+        ComponentType.Position,
+      ],
       entities,
     );
+    const allInteractableEntities = getEntitiesWithComponents([
+      ComponentType.RequiresItem,
+      ComponentType.InteractionBehavior,
+      ComponentType.Position,
+    ], entities);
 
-    for (const entity of interactingEntities) {
-      const requiresItemEntities = this.findRequiredItemEntities(
-        entities,
-        entity,
+    for (const interactingEntity of interactingEntitiesCarryingItem) {
+      const carriedItemId = getComponentAbsolute(
+        interactingEntity,
+        ComponentType.CarriedItem,
+      ).item;
+      const carriedItemEntity = getEntity(carriedItemId);
+
+      if (!carriedItemEntity) {
+        console.error(`Carried item entity with ID ${carriedItemId} not found`);
+        continue;
+      }
+
+      const usableItemComponent = getComponentIfExists(
+        carriedItemEntity,
+        ComponentType.UsableItem,
       );
 
-      for (const requiredEntity of requiresItemEntities) {
-        this.validateCapabilities(entity, requiredEntity, entities);
+      // If the carried item is not usable, skip further processing
+      if (!usableItemComponent) {
+        continue;
+      }
+
+      const compatibleEntities = this.findCompatibleEntities(
+        usableItemComponent.capabilities,
+        allInteractableEntities,
+      );
+
+      for (const compatibleEntity of compatibleEntities) {
+        if (
+          !this.approachingFromCorrectPositionAndDirection(
+            interactingEntity,
+            compatibleEntity,
+          )
+        ) {
+          continue;
+        }
+
+        this.processInteraction(compatibleEntity, entities);
+        this.handleItemConsumption(
+          interactingEntity,
+          carriedItemEntity,
+          usableItemComponent,
+        );
+        removeComponent(interactingEntity, ComponentType.Interacting);
       }
     }
   }
 
-  /**
-   * Finds entities that require items and are at the same position as the interacting entity.
-   */
-  private findRequiredItemEntities(
-    entities: Entity[],
-    interactingEntity: Entity,
-  ): Entity[] {
-    const interactingPosition = getComponentIfExists(
-      interactingEntity,
-      ComponentType.Position,
-    );
-
-    if (!interactingPosition) {
-      console.log('Interacting entity does not have Position component');
-      return [];
-    }
-
-    return getEntitiesWithComponents(
-      [ComponentType.RequiresItem],
-      entities,
-    ).filter((entity) => {
-      const requiresComponent = getComponentIfExists(
+  private findCompatibleEntities(
+    capabilities: string[],
+    interactableEntities: Entity[],
+  ) {
+    return interactableEntities.filter((entity) => {
+      const requiresItemComponent = getComponentAbsolute(
         entity,
         ComponentType.RequiresItem,
       );
-      if (!requiresComponent?.isActive) return false;
 
-      const entityPosition = getComponentIfExists(
-        entity,
-        ComponentType.Position,
-      );
-      if (!entityPosition) return false;
-
-      return (
-        entityPosition.x === interactingPosition.x &&
-        entityPosition.y === interactingPosition.y
+      return requiresItemComponent.requiredCapabilities.every(
+        (requiredCapability) => capabilities.includes(requiredCapability),
       );
     });
   }
 
-  /**
-   * Validates that the interacting entity has items with capabilities that match
-   * the requirements of the target entity.
-   */
-  private validateCapabilities(
+  private approachingFromCorrectPositionAndDirection(
     interactingEntity: Entity,
-    requiredEntity: Entity,
-    entities: Entity[],
-  ): void {
-    const requiresComponent = getComponentIfExists(
-      requiredEntity,
+    targetEntity: Entity,
+  ): boolean {
+    const requiresItemComponent = getComponentAbsolute(
+      targetEntity,
       ComponentType.RequiresItem,
     );
-    if (!requiresComponent?.isActive) return;
 
-    const compatibleItem = this.findCompatibleItem(
+    const targetEntityPosition = getComponentAbsolute(
+      targetEntity,
+      ComponentType.Position,
+    );
+
+    const permittedPositions = requiresItemComponent.interactionDirections.map(
+      (direction) => getAdjacentPosition(targetEntityPosition, direction),
+    );
+
+    const interactingEntityPosition = getComponentAbsolute(
       interactingEntity,
-      requiresComponent.requiredCapabilities,
-      entities,
+      ComponentType.Position,
     );
 
-    if (compatibleItem) {
-      console.log(
-        `Compatible item found for interaction: ${compatibleItem.id} with capabilities matching ${requiresComponent.requiredCapabilities.join(', ')}`,
-      );
-
-      this.processBehavior(requiredEntity, compatibleItem, entities);
-      this.handleItemConsumption(interactingEntity, compatibleItem);
+    if (
+      !permittedPositions.some(
+        (pos) =>
+          pos.x === interactingEntityPosition.x &&
+          pos.y === interactingEntityPosition.y,
+      )
+    ) {
+      return false;
     }
-  }
 
-  /**
-   * Finds a compatible item in the player's inventory that has the required capabilities.
-   */
-  private findCompatibleItem(
-    interactingEntity: Entity,
-    requiredCapabilities: string[],
-    entities: Entity[],
-  ): Entity | null {
-    const carriedItemComponent = getComponentIfExists(
+    const interactingEntitiesDirection = getComponentIfExists(
       interactingEntity,
-      ComponentType.CarriedItem,
+      ComponentType.Direction,
     );
 
-    if (!carriedItemComponent) {
-      console.log('No carried items found for interaction');
-      return null;
-    }
-
-    const carriedItemEntity = entities.find(
-      (entity) => entity.id === carriedItemComponent.item,
-    );
-
-    if (!carriedItemEntity) {
-      console.log('Carried item entity not found in entities array');
-      return null;
-    }
-
-    const usableComponent = getComponentIfExists(
-      carriedItemEntity,
-      ComponentType.UsableItem,
-    );
-
-    if (!usableComponent) {
-      console.log('Carried item does not have UsableItem component');
-      return null;
-    }
-
-    const hasMatchingCapability = usableComponent.capabilities.some(
-      (capability) => requiredCapabilities.includes(capability),
-    );
-
-    if (hasMatchingCapability) {
-      console.log(
-        `Found compatible item with matching capabilities: ${usableComponent.capabilities.filter((cap) => requiredCapabilities.includes(cap)).join(', ')}`,
+    if (interactingEntitiesDirection) {
+      // If the interacting entity has a DirectionComponent, require the entity to be facing the target entity
+      const facingPosition = getAdjacentPosition(
+        interactingEntityPosition,
+        interactingEntitiesDirection.direction,
       );
-      return carriedItemEntity;
+      return (
+        facingPosition.x === targetEntityPosition.x &&
+        facingPosition.y === targetEntityPosition.y
+      );
+    } else {
+      // If the interacting entity does not have a DirectionComponent, assume it can interact from any direction
+      return true;
     }
-
-    console.log(
-      'No compatible capabilities found between carried item and requirements',
-    );
-    return null;
   }
 
   /**
    * Processes the interaction behavior for a target entity based on its InteractionBehaviorComponent.
    */
-  private processBehavior(
-    targetEntity: Entity,
-    compatibleItem: Entity,
-    entities: Entity[],
-  ): void {
-    const behaviorComponent = getComponentIfExists(
+  private processInteraction(targetEntity: Entity, entities: Entity[]): void {
+    const interactionBehaviorComponent = getComponentIfExists(
       targetEntity,
       ComponentType.InteractionBehavior,
     );
 
-    if (!behaviorComponent) {
-      console.log('Target entity does not have InteractionBehavior component');
-      return;
+    if (!interactionBehaviorComponent) {
+      throw new Error('InteractionBehaviorComponent not found on usable item');
     }
 
-    console.log(
-      `Processing behavior: ${behaviorComponent.behaviorType} for entity ${targetEntity.id}`,
-    );
-
-    switch (behaviorComponent.behaviorType) {
+    switch (interactionBehaviorComponent.behaviorType) {
       case InteractionBehaviorType.TRANSFORM:
-        this.processBehaviorTransform(targetEntity, behaviorComponent);
+        this.processBehaviorTransform(
+          targetEntity,
+          interactionBehaviorComponent,
+        );
         break;
 
       case InteractionBehaviorType.REMOVE:
@@ -209,52 +194,41 @@ export class ItemInteractionSystem implements System {
         break;
 
       default:
-        console.log(`Unknown behavior type: ${behaviorComponent.behaviorType}`);
+        throw new Error(
+          `Unknown interaction behavior type: ${interactionBehaviorComponent.behaviorType}`,
+        );
     }
   }
 
   /**
-   * Handles TRANSFORM behavior - updates sprite and deactivates RequiresItem component.
+   * Handles TRANSFORM behavior - Replaces the target entity with a new entity
    */
   private processBehaviorTransform(
     targetEntity: Entity,
     behaviorComponent: InteractionBehaviorComponent,
   ): void {
-    if (behaviorComponent.newSpriteId) {
-      const spriteComponent = getComponentIfExists(
-        targetEntity,
-        ComponentType.Sprite,
-      );
-      if (spriteComponent) {
-        (spriteComponent.sprite as any).texture = {
-          label: behaviorComponent.newSpriteId,
-        };
-        console.log(
-          `Transformed entity sprite to: ${behaviorComponent.newSpriteId}`,
-        );
-      } else {
-        console.log(
-          'Warning: Entity does not have Sprite component for TRANSFORM behavior',
-        );
-      }
+    if (!behaviorComponent.newSpriteId) {
+      throw new Error('newSpriteId is required for TRANSFORM behavior');
     }
 
-    const requiresComponent = getComponentIfExists(
-      targetEntity,
-      ComponentType.RequiresItem,
+    const replacementEntity = createEntity(
+      Object.values(targetEntity.components),
     );
-    if (requiresComponent) {
-      requiresComponent.isActive = false;
-      console.log('Deactivated RequiresItem component after transformation');
-    }
+    replaceEntity(targetEntity.id, replacementEntity);
+
+    setComponent(
+      replacementEntity,
+      new SpriteComponent({ sprite: behaviorComponent.newSpriteId }),
+    );
+    removeComponent(replacementEntity, ComponentType.RequiresItem);
+    removeComponent(replacementEntity, ComponentType.InteractionBehavior);
   }
 
   /**
    * Handles REMOVE behavior - removes entity from game world.
    */
   private processBehaviorRemove(targetEntity: Entity): void {
-    console.log(`Removing entity ${targetEntity.id} from game world`);
-    removeEntities([targetEntity.id]);
+    removeEntity(targetEntity.id);
   }
 
   /**
@@ -270,10 +244,9 @@ export class ItemInteractionSystem implements System {
     );
 
     if (!spawnComponent) {
-      console.log(
-        'Warning: Entity has SPAWN_CONTENTS behavior but no SpawnContentsComponent',
+      throw new Error(
+        `Cannot spawn contents: target entity has no SpawnContentsComponent`,
       );
-      return;
     }
 
     const targetPosition = getComponentIfExists(
@@ -281,10 +254,9 @@ export class ItemInteractionSystem implements System {
       ComponentType.Position,
     );
     if (!targetPosition) {
-      console.log(
-        'Warning: Cannot spawn contents - target entity has no Position component',
+      throw new Error(
+        `Cannot spawn contents: target entity has no PositionComponent`,
       );
-      return;
     }
 
     const spawnOffset = spawnComponent.spawnOffset || { x: 0, y: 0 };
@@ -293,11 +265,8 @@ export class ItemInteractionSystem implements System {
       y: targetPosition.y + spawnOffset.y,
     };
 
-    console.log(
-      `Spawning ${spawnComponent.contents.length} entities at position (${spawnPosition.x}, ${spawnPosition.y})`,
-    );
-
     const newEntities = createEntitiesFromTemplates(...spawnComponent.contents);
+    addEntities(newEntities);
 
     newEntities.forEach((entity, index) => {
       const offsetIndex = Math.floor(index / 2);
@@ -308,12 +277,7 @@ export class ItemInteractionSystem implements System {
       setComponent(entity, position);
     });
 
-    addEntities(newEntities);
-
-    console.log(
-      `Removing original entity ${targetEntity.id} after spawning contents`,
-    );
-    removeEntities([targetEntity.id]);
+    removeEntity(targetEntity.id);
   }
 
   /**
@@ -322,47 +286,22 @@ export class ItemInteractionSystem implements System {
   private handleItemConsumption(
     interactingEntity: Entity,
     usedItem: Entity,
+    usableItemComponent: UsableItemComponent,
   ): void {
-    const usableComponent = getComponentIfExists(
-      usedItem,
-      ComponentType.UsableItem,
-    );
-
-    if (!usableComponent) {
-      console.log('Warning: Used item does not have UsableItem component');
-      return;
-    }
-
-    console.log(
-      `Processing item consumption for ${usedItem.id}, consumable: ${usableComponent.isConsumable}`,
-    );
-
-    if (usableComponent.isConsumable) {
+    if (usableItemComponent.isConsumable) {
       const carriedItemComponent = getComponentIfExists(
         interactingEntity,
         ComponentType.CarriedItem,
       );
 
       if (carriedItemComponent && carriedItemComponent.item === usedItem.id) {
-        console.log(
-          `Removing consumable item ${usedItem.id} from player inventory`,
-        );
-
         removeComponent(interactingEntity, ComponentType.CarriedItem);
         removeEntities([usedItem.id]);
-
-        console.log(
-          `Consumable item ${usedItem.id} has been consumed and removed from game`,
-        );
       } else {
-        console.log(
+        console.error(
           'Warning: Carried item component not found or item ID mismatch during consumption',
         );
       }
-    } else {
-      console.log(
-        `Retaining non-consumable item ${usedItem.id} in player inventory for future use`,
-      );
     }
   }
 }

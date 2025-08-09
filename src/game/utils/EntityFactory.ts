@@ -1,28 +1,33 @@
 import type { Entity } from './ecsUtils';
 import type {
+  CarriedItemComponentProps,
   Component,
   ComponentDictionary,
   ComponentProps,
-} from '../components/ComponentTypes';
-import { ComponentType } from '../components/ComponentTypes';
-import type { PositionComponentProps } from '../components/individualComponents/PositionComponent';
-import { PositionComponent } from '../components/individualComponents/PositionComponent';
-import type { SpriteComponentProps } from '../components/individualComponents/SpriteComponent';
-import { SpriteComponent } from '../components/individualComponents/SpriteComponent';
-import type { VelocityComponentProps } from '../components/individualComponents/VelocityComponent';
-import { VelocityComponent } from '../components/individualComponents/VelocityComponent';
-import type { CarriedItemComponentProps } from '../components/individualComponents/CarriedItemComponent';
-import { CarriedItemComponent } from '../components/individualComponents/CarriedItemComponent';
-import type { RequiresItemComponentProps } from '../components/individualComponents/RequiresItemComponent';
-import { RequiresItemComponent } from '../components/individualComponents/RequiresItemComponent';
-import type { UsableItemComponentProps } from '../components/individualComponents/UsableItemComponent';
-import { UsableItemComponent } from '../components/individualComponents/UsableItemComponent';
-import type { InteractionBehaviorComponentProps } from '../components/individualComponents/InteractionBehaviorComponent';
-import { InteractionBehaviorComponent } from '../components/individualComponents/InteractionBehaviorComponent';
-import type { SpawnContentsComponentProps } from '../components/individualComponents/SpawnContentsComponent';
-import { SpawnContentsComponent } from '../components/individualComponents/SpawnContentsComponent';
+  DirectionComponentProps,
+  InteractionBehaviorComponentProps,
+  PositionComponentProps,
+  RequiresItemComponentProps,
+  SpawnContentsComponentProps,
+  SpriteComponentProps,
+  UsableItemComponentProps,
+  VelocityComponentProps,
+} from '../components';
+import {
+  CarriedItemComponent,
+  ComponentType,
+  InteractionBehaviorComponent,
+  PositionComponent,
+  RequiresItemComponent,
+  SpawnContentsComponent,
+  SpriteComponent,
+  UsableItemComponent,
+  VelocityComponent,
+} from '../components';
 
-type ComponentsTemplate = Partial<{ [type in ComponentType]: ComponentProps }>;
+export type ComponentsTemplate = Partial<{
+  [type in ComponentType]: ComponentProps;
+}>;
 export type EntityTemplate = {
   components: ComponentsTemplate;
 };
@@ -37,6 +42,16 @@ function isValidSpriteProps(obj: any): obj is SpriteComponentProps {
 
 function isValidVelocityProps(obj: any): obj is VelocityComponentProps {
   return obj && typeof obj.vx === 'number' && typeof obj.vy === 'number';
+}
+
+export function isValidDirectionProps(
+  obj: any,
+): obj is DirectionComponentProps {
+  return (
+    obj &&
+    typeof obj.direction === 'string' &&
+    ['up', 'down', 'left', 'right'].includes(obj.direction)
+  );
 }
 
 function isValidCarriedItemProps(obj: any): obj is CarriedItemComponent {
@@ -86,7 +101,10 @@ function isValidSpawnContentsProps(
   );
 }
 
-function isValidComponentProps(type: ComponentType, props: unknown): boolean {
+export function isValidComponentProps(
+  type: ComponentType,
+  props: unknown,
+): boolean {
   switch (type) {
     // Explicit validation for the cases where specific props are required
     case ComponentType.Position:
@@ -95,6 +113,8 @@ function isValidComponentProps(type: ComponentType, props: unknown): boolean {
       return isValidSpriteProps(props);
     case ComponentType.Velocity:
       return isValidVelocityProps(props);
+    case ComponentType.Direction:
+      return isValidDirectionProps(props);
     case ComponentType.CarriedItem:
       return isValidCarriedItemProps(props);
     case ComponentType.RequiresItem:

@@ -1,6 +1,7 @@
 # Untitled Game
 
-This project is a game built using the Entity Component System (ECS) framework and Pixi.js as the rendering engine. The game is embedded in a React TypeScript application.
+This project is a game built using the Entity Component System (ECS) framework and Pixi.js as the rendering engine. The
+game is embedded in a React TypeScript application.
 
 ## Table of Contents
 
@@ -25,18 +26,25 @@ This project is a game built using the Entity Component System (ECS) framework a
 
 The ECS architecture is a design pattern that is commonly used in game development. It is composed of three main parts:
 
-1. **Entities**: These are the objects in the game. They are essentially IDs that are associated with various components.
-2. **Components**: These are data containers that hold the properties of the entities. For example, a `PositionComponent` might hold `x` and `y` coordinates.
-3. **Systems**: These are the logic that operates on the entities and their components. For example, a `RenderSystem` might update the rendering of all entities that have a `SpriteComponent`.
+1. **Entities**: These are the objects in the game. They are essentially IDs that are associated with various
+   components.
+2. **Components**: These are data containers that hold the properties of the entities. For example, a
+   `PositionComponent` might hold `x` and `y` coordinates.
+3. **Systems**: These are the logic that operates on the entities and their components. For example, a
+   `GameRenderSystem` might update the rendering of all entities that have a `SpriteComponent`.
 
 ### Implementation with Pixi.js
 
-Pixi.js is used as the rendering engine to draw the game objects on the screen. Here's how the ECS system is integrated with Pixi.js:
+Pixi.js is used as the rendering engine to draw the game objects on the screen. Here's how the ECS system is integrated
+with Pixi.js:
 
-1. **Entity Creation**: Entities are created and assigned unique IDs. Any relavent components are also added to the entity at object creation.
+1. **Entity Creation**: Entities are created and assigned unique IDs. Any relavent components are also added to the
+   entity at object creation.
 2. **Component Management**: Components are stored in a way that allows systems to efficiently query and update them.
-3. **System Execution**: Systems are executed in a game loop. Each system queries the entities that have the required components and performs operations on them.
-4. **Rendering**: A `RenderSystem` is responsible for drawing the entities on the screen using Pixi.js. It queries all entities that have a `SpriteComponent` and uses Pixi.js to render them.
+3. **System Execution**: Systems are executed in a game loop. Each system queries the entities that have the required
+   components and performs operations on them.
+4. **Rendering**: A `GameRenderSystem` is responsible for drawing the entities on the screen using Pixi.js. It queries
+   all entities that have a `SpriteComponent` and uses Pixi.js to render them.
 
 ### Example
 

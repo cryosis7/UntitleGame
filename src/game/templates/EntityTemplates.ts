@@ -1,11 +1,12 @@
+import { InteractionBehaviorType } from '../components';
 import type { EntityTemplate } from '../utils/EntityFactory';
-import { InteractionBehaviorType } from '../components/individualComponents/InteractionBehaviorType';
 
 export const Player: EntityTemplate = {
   components: {
     sprite: { sprite: 'player' },
     player: {},
     velocity: { vx: 0, vy: 0 },
+    direction: { direction: 'down' },
   },
 };
 

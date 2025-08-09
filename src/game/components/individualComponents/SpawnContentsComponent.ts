@@ -1,9 +1,10 @@
 import { ComponentType } from '../ComponentTypes';
 import type { EntityTemplate } from '../../utils/EntityFactory';
+import type { Position } from '../../map/GameMap';
 
 export type SpawnContentsComponentProps = {
   contents: EntityTemplate[];
-  spawnOffset?: { x: number; y: number };
+  spawnOffset?: Position;
 };
 
 /**
@@ -14,7 +15,7 @@ export type SpawnContentsComponentProps = {
 export class SpawnContentsComponent {
   type = ComponentType.SpawnContents;
   contents: EntityTemplate[];
-  spawnOffset: { x: number; y: number };
+  spawnOffset: Position;
 
   constructor({
     contents,

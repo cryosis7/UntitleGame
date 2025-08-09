@@ -6,9 +6,8 @@ import {
   initiateEntities,
   initiateSystems,
 } from '../../game/GameSystem';
-import { mapAtom, updateMapConfigAtom } from '../../game/utils/Atoms';
+import { mapAtom, store, updateMapConfigAtom } from '../../game/utils/Atoms';
 import { useSetAtom } from 'jotai';
-import { store } from '../../App';
 
 export const Game: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -31,7 +30,7 @@ export const Game: React.FC = () => {
       // - Figure out the sidebar/sprite picker
 
       updateMapConfig({ rows: 10, cols: 10, tileSize: 32 });
-      const map = store.get(mapAtom);
+    const map = store.get(mapAtom);
       map.init();
 
       initiateEntities();

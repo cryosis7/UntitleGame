@@ -3,14 +3,8 @@ import type { Entity } from '../utils/ecsUtils';
 import type { EntityTemplate } from '../utils/EntityFactory';
 import { createEntityFromTemplate } from '../utils/EntityFactory';
 import { ComponentType } from '../components/ComponentTypes';
-import {
-  getComponentAbsolute,
-  hasComponent,
-} from '../components/ComponentOperations';
-import { mapConfigAtom } from '../utils/Atoms';
-import { store } from '../../App';
-
-export type Direction = 'up' | 'down' | 'left' | 'right';
+import { hasComponent } from '../components/ComponentOperations';
+import { mapConfigAtom, store } from '../utils/Atoms';
 
 export interface Position {
   x: number;
@@ -54,11 +48,6 @@ export class GameMap {
           },
         };
         const entity = createEntityFromTemplate(entityTemplate);
-        const sprite = getComponentAbsolute(
-          entity,
-          ComponentType.Sprite,
-        ).sprite;
-        container.addChild(sprite);
         row.push(entity);
       }
       this.tiles.push(row);
@@ -71,28 +60,12 @@ export class GameMap {
     return this.tiles.flat();
   }
 
-  /**
-   * Creates a PIXI.Container and adds all sprite components from the tiles to it.
-   * The container has not been added to the pixi stage.
-   *
-   * @returns {Container} The container with all sprite components added as children.
-   */
   private createSpriteContainer(): Container {
-    const container = new Container();
-    container.addChild(
-      ...this.tiles.flatMap((entityArray) =>
-        entityArray.map(
-          (entity) => getComponentAbsolute(entity, ComponentType.Sprite).sprite,
-        ),
-      ),
-    );
-    return container;
+    return new Container();
   }
 
   public getSpriteContainer = (): Container => {
-    if (!this.pixiContainer) {
-      this.pixiContainer = this.createSpriteContainer();
-    }
+    this.pixiContainer ??= this.createSpriteContainer();
     return this.pixiContainer;
   };
 
@@ -107,30 +80,6 @@ export class GameMap {
       return null;
     }
     return this.tiles[y][x];
-  }
-
-  getAdjacentPosition({ x, y }: Position, direction: Direction): Position {
-    switch (direction) {
-      case 'up':
-        return { x, y: y - 1 };
-      case 'down':
-        return { x, y: y + 1 };
-      case 'left':
-        return { x: x - 1, y };
-      case 'right':
-        return { x: x + 1, y };
-      default:
-        return { x, y };
-    }
-  }
-
-  getAdjacentTile({ x, y }: Position, direction: Direction): Entity | null {
-    const adjacentPosition = this.getAdjacentPosition({ x, y }, direction);
-    if (!this.isPositionInMap(adjacentPosition)) {
-      return null;
-    }
-
-    return this.getTile(adjacentPosition);
   }
 
   isTileWalkable({ x, y }: Position): boolean {

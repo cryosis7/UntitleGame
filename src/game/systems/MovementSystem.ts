@@ -10,7 +10,7 @@ import {
   setComponent,
 } from '../components/ComponentOperations';
 import { ComponentType } from '../components/ComponentTypes';
-import { PositionComponent } from '../components/individualComponents/PositionComponent';
+import { PositionComponent } from '../components';
 
 export class MovementSystem implements System {
   update({ entities, map }: UpdateArgs) {
@@ -65,12 +65,13 @@ export class MovementSystem implements System {
       });
 
       if (entitiesAtNewPosition.length !== 0) {
-        // Only movable entities can be pushed and pickable entities can be walked on.
+        // Only movable entities can be pushed and pickable/walkable entities can be walked on.
         const isMovementBlocked = entitiesAtNewPosition.some((e) => {
           return !hasAnyComponent(
             e,
             ComponentType.Movable,
             ComponentType.Pickable,
+            ComponentType.Walkable,
           );
         });
 

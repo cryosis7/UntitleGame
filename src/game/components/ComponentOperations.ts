@@ -1,6 +1,5 @@
-import { store } from '../../App';
+import { entitiesAtom, store } from '../utils/Atoms';
 import type { Entity } from '../utils/ecsUtils';
-import { entitiesAtom } from '../utils/Atoms';
 import type { Component, FullComponentDictionary } from './ComponentTypes';
 import { ComponentType } from './ComponentTypes';
 
@@ -73,7 +72,7 @@ export const getComponentAbsolute = <T extends ComponentType>(
 ): FullComponentDictionary[T] => {
   if (!entity.components[type]) {
     console.dir(entity);
-    throw new Error(`Component ${type} not found for entity`);
+    throw new Error(`Component ${type} not found for entity: ${entity.id}`);
   }
   return entity.components[type] as FullComponentDictionary[T];
 };
@@ -120,17 +119,17 @@ export const hasAnyComponent = (
 /**
  * Removes a component(s) from an entity.
  * @param entity
- * @param components
+ * @param componentTypes
  */
 export const removeComponent = (
   entity: Entity,
-  ...components: ComponentType[]
+  ...componentTypes: ComponentType[]
 ) => {
   store.set(entitiesAtom, (entities) => {
     return entities.map((e) => {
       if (e.id === entity.id) {
         const existingComponents = { ...e.components };
-        components.forEach((c) => {
+        componentTypes.forEach((c) => {
           delete existingComponents[c];
         });
         return {

@@ -37,6 +37,10 @@ import type {
   SpawnContentsComponent,
   SpawnContentsComponentProps,
 } from './individualComponents/SpawnContentsComponent';
+import type {
+  DirectionComponent,
+  DirectionComponentProps,
+} from './individualComponents/DirectionComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -44,6 +48,7 @@ export enum ComponentType {
   Player = 'player',
   Movable = 'movable',
   Velocity = 'velocity',
+  Direction = 'direction',
   Pickable = 'pickable',
   CarriedItem = 'carriedItem',
   Interacting = 'interacting',
@@ -62,6 +67,7 @@ export type FullComponentDictionary = {
   [ComponentType.Player]: PlayerComponent;
   [ComponentType.Movable]: MovableComponent;
   [ComponentType.Velocity]: VelocityComponent;
+  [ComponentType.Direction]: DirectionComponent;
   [ComponentType.Pickable]: PickableComponent;
   [ComponentType.CarriedItem]: CarriedItemComponent;
   [ComponentType.Interacting]: InteractingComponent;
@@ -83,6 +89,7 @@ export type ComponentProps =
   | PositionComponentProps
   | SpriteComponentProps
   | VelocityComponentProps
+  | DirectionComponentProps
   | CarriedItemComponentProps
   | RequiresItemComponentProps
   | UsableItemComponentProps

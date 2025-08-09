@@ -6,8 +6,7 @@ import {
   setComponent,
 } from '../components/ComponentOperations';
 import { ComponentType } from '../components/ComponentTypes';
-import { InteractingComponent } from '../components/individualComponents/InteractingComponent';
-import { HandlingComponent } from '../components/individualComponents/HandlingComponent';
+import { InteractingComponent, HandlingComponent } from '../components';
 
 export class KeyboardInputSystem implements System {
   private keys: { [key: string]: boolean } = {};
@@ -70,7 +69,7 @@ export class KeyboardInputSystem implements System {
   }
 
   private handleInteraction(playerEntity: Entity) {
-    if (this.keys['E']) {
+    if (this.keys['e']) {
       setComponent(playerEntity, new InteractingComponent());
     }
   }

@@ -10,19 +10,13 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:ui": "vitest --ui",
+    "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:coverage:ui": "vitest --ui --coverage",
-    "test:watch:coverage": "vitest --coverage",
-    "coverage:validate": "vitest run --coverage --reporter=json --outputFile=coverage-results.json",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "type-check": "tsc --noEmit",
-    "pre-merge": "npm run pre-merge:checks",
-    "pre-merge:checks": "echo \"🔍 Running pre-merge checks...\" && npm run type-check && npm run lint && npm run format:check && npm run test && npm run build && echo \"✅ All pre-merge checks passed!\"",
-    "pre-merge:fix": "echo \"🔧 Running pre-merge fixes...\" && npm run lint:fix && npm run format && echo \"✅ All fixes applied! Re-run 'npm run pre-merge' to verify.\"",
-    "setup-hooks": "node -e \"require('child_process').execSync(process.platform === 'win32' ? 'powershell -ExecutionPolicy Bypass -File scripts/setup-hooks.ps1' : 'bash scripts/setup-hooks.sh', {stdio: 'inherit'})\""
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
@@ -31,6 +25,7 @@
     "@mui/icons-material": "^6.3.0",
     "@mui/material": "^6.3.0",
     "jotai": "^2.11.0",
+    "jotai-devtools": "^0.12.0",
     "pixi.js": "^8.6.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -57,5 +52,6 @@
     "typescript": "^5.7.2",
     "vite": "^6.0.6",
     "vitest": "^2.1.8"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
