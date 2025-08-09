@@ -8,6 +8,7 @@ export * from './individualComponents/MovableComponent';
 export * from './individualComponents/PickableComponent';
 export * from './individualComponents/PlayerComponent';
 export * from './individualComponents/PositionComponent';
+export * from './individualComponents/RenderComponent';
 export * from './individualComponents/RenderInSidebarComponent';
 export * from './individualComponents/RequiresItemComponent';
 export * from './individualComponents/SpawnContentsComponent';

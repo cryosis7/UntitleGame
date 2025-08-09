@@ -1,9 +1,10 @@
 import type { UpdateArgs } from '../Systems';
 
-import { hasComponent } from '../../components/ComponentOperations';
+import { getComponentAbsolute, hasComponent } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components/ComponentTypes';
 import { mapAtom, store } from '../../utils/Atoms';
 import { BaseRenderSystem } from './BaseRenderSystem';
+import type { RenderComponent } from '../../components/individualComponents/RenderComponent';
 
 export class GameRenderSystem extends BaseRenderSystem {
   constructor() {
@@ -13,11 +14,15 @@ export class GameRenderSystem extends BaseRenderSystem {
   }
 
   update({ entities }: UpdateArgs) {
-    // Filter out entities that should be rendered in sidebar
-    // TODO: Create a component specifically for game entities instead, or a multipurpose one.
-    const gameEntities = entities.filter(
-      (entity) => !hasComponent(entity, ComponentType.RenderInSidebar),
-    );
+    // Filter entities that should be rendered in the game section
+    const gameEntities = entities.filter((entity) => {
+      if (hasComponent(entity, ComponentType.Render)) {
+        const renderComponent = getComponentAbsolute(entity, ComponentType.Render) as RenderComponent;
+        return renderComponent.section === 'game';
+      }
+      // If no render component, default to game rendering (backward compatibility)
+      return !hasComponent(entity, ComponentType.RenderInSidebar);
+    });
 
     this.updateStageAndPositions(gameEntities);
   }

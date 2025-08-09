@@ -5,7 +5,7 @@ import { Sprite } from 'pixi.js';
 import type { Position } from '../../map/GameMap';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
 import type { PositionComponent, SpriteComponent } from '../../components';
-import type { RenderSection } from '../../utils/Atoms';
+import type { RenderSection } from '../../components/individualComponents/RenderComponent';
 import {
   getTexture,
   getTileSizeAtom,

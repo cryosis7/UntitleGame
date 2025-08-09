@@ -5,6 +5,7 @@ import { ComponentType } from '../components';
 import { hasComponent } from '../components/ComponentOperations';
 import type { System } from '../systems/Systems';
 import type { Entity } from './ecsUtils';
+import type { RenderSection } from '../components/individualComponents/RenderComponent';
 
 export const store = createStore();
 
@@ -28,7 +29,6 @@ export const addSpritesheetAtom = atom(
   },
 );
 
-export type RenderSection = 'game' | 'sidebar' | 'map';
 export const renderedEntities = atom<
   Record<RenderSection, Record<string, Container>>
 >({

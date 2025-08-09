@@ -41,6 +41,10 @@ import type {
   DirectionComponent,
   DirectionComponentProps,
 } from './individualComponents/DirectionComponent';
+import type {
+  RenderComponent,
+  RenderComponentProps,
+} from './individualComponents/RenderComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -54,6 +58,7 @@ export enum ComponentType {
   Interacting = 'interacting',
   Handling = 'handling',
   Walkable = 'walkable',
+  Render = 'render',
   RenderInSidebar = 'renderInSidebar',
   RequiresItem = 'requiresItem',
   UsableItem = 'usableItem',
@@ -73,6 +78,7 @@ export type FullComponentDictionary = {
   [ComponentType.Interacting]: InteractingComponent;
   [ComponentType.Handling]: HandlingComponent;
   [ComponentType.Walkable]: WalkableComponent;
+  [ComponentType.Render]: RenderComponent;
   [ComponentType.RenderInSidebar]: RenderInSidebarComponent;
   [ComponentType.RequiresItem]: RequiresItemComponent;
   [ComponentType.UsableItem]: UsableItemComponent;
@@ -90,6 +96,7 @@ export type ComponentProps =
   | SpriteComponentProps
   | VelocityComponentProps
   | DirectionComponentProps
+  | RenderComponentProps
   | CarriedItemComponentProps
   | RequiresItemComponentProps
   | UsableItemComponentProps
