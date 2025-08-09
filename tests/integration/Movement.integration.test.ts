@@ -1,23 +1,3 @@
-/**
- * Movement Integration Test
- *
- * This test demonstrates comprehensive movement mechanics in the ECS system:
- * - MovementSystem: Basic player movement, collision detection, and pushing
- * - Component interactions: Position, Velocity, Movable, Pickable, Walkable
- * - Map boundaries and entity blocking behavior
- *
- * This serves as an integration test showing how movement interacts with
- * different entity types and collision rules using the actual Jotai atom store.
- *
- * WORKFLOW TESTED:
- * 1. Basic player movement in open space
- * 2. Movement blocking by walls and non-walkable entities
- * 3. Walking on pickable and walkable entities
- * 4. Pushing movable entities
- * 5. Blocked pushing when target position is occupied
- * 6. Map boundary collision detection
- */
-
 import { describe, expect, it } from 'vitest';
 import {
   ConvenienceComponentSets,

@@ -1,23 +1,3 @@
-/**
- * Key-Chest Interaction Integration Test
- *
- * This test demonstrates a complete gameplay workflow that spans multiple ECS systems:
- * - PickupSystem: Player picks up a key
- * - MovementSystem: Player moves to chest location
- * - ItemInteractionSystem: Player uses key to open chest
- *
- * This serves as an exemplary integration test showing how systems work together
- * to implement complex game mechanics using the actual Jotai atom store.
- *
- * WORKFLOW TESTED:
- * 1. Player starts at position (0,0) with a key at position (1,1)
- * 2. Player moves to key position (MovementSystem)
- * 3. Player picks up the key (PickupSystem)
- * 4. Player moves to chest at position (5,5) (MovementSystem)
- * 5. Player uses key to open chest (ItemInteractionSystem)
- * 6. Chest spawns treasure and becomes unlocked
- */
-
 import { describe, expect, it } from 'vitest';
 import {
   ConvenienceComponentSets,
@@ -25,14 +5,16 @@ import {
 } from '../helpers/testUtils';
 import {
   ComponentType,
-  getComponentAbsolute,
-  getComponentIfExists,
   HandlingComponent,
-  hasComponent,
   InteractingComponent,
-  setComponent,
   VelocityComponent,
 } from '../../src/game/components';
+import {
+  getComponentAbsolute,
+  getComponentIfExists,
+  hasComponent,
+  setComponent,
+} from '../../src/game/components/ComponentOperations';
 import { createEntity } from '../../src/game/utils/EntityFactory';
 import { PickupSystem } from '../../src/game/systems/PickupSystem';
 import { MovementSystem } from '../../src/game/systems/MovementSystem';
