@@ -3,7 +3,7 @@ import { atom, createStore } from 'jotai';
 import { GameMap } from '../map/GameMap';
 import { ComponentType } from '../components';
 import { hasComponent } from '../components/ComponentOperations';
-import type { System } from '../systems/Systems';
+import type { System } from '../systems/Framework/Systems';
 import type { Entity } from './ecsUtils';
 
 export const store = createStore();
@@ -126,11 +126,103 @@ export const removeGameSprite = atom(null, (get, set, entityId: string) => {
   set(removeSprite, { section: 'game', entityId });
 });
 
+export interface InterfaceConfig {
+  tileSize: number;
+  gap: number;
+}
+
+export interface RenderConfig {
+  interfaceConfig: InterfaceConfig;
+  rootContainer: Container | null;
+}
+
+export const renderConfigAtom = atom<{
+  map: RenderConfig;
+  sidebar: RenderConfig;
+}>({
+  map: {
+    interfaceConfig: { tileSize: 32, gap: 0 },
+    rootContainer: null,
+  },
+  sidebar: {
+    interfaceConfig: { tileSize: 32, gap: 4 },
+    rootContainer: null,
+  },
+});
+
 interface MapConfig {
   rows?: number;
   cols?: number;
   tileSize?: number;
 }
+
+export const getMapRenderConfigAtom = atom((get) => get(renderConfigAtom).map);
+export const getSidebarRenderConfigAtom = atom(
+  (get) => get(renderConfigAtom).sidebar,
+);
+export const getInterfaceConfigBySectionAtom = atom(
+  (get) => (section: RenderSection) => {
+    switch (section) {
+      case 'map':
+      case 'game':
+        return get(getMapRenderConfigAtom).interfaceConfig;
+      case 'sidebar':
+        return get(getSidebarRenderConfigAtom).interfaceConfig;
+      default:
+        throw new Error(`Unknown render section: ${section}`);
+    }
+  },
+);
+
+export const getContainersAtom = atom((get) => {
+  const mapContainer = get(getMapRenderConfigAtom).rootContainer;
+  const sidebarContainer = get(getSidebarRenderConfigAtom).rootContainer;
+  return {
+    mapContainer,
+    sidebarContainer,
+  };
+});
+export const getMapContainerAtom = atom(
+  (get) => get(getMapRenderConfigAtom).rootContainer,
+);
+export const getSidebarContainerAtom = atom(
+  (get) => get(getSidebarRenderConfigAtom).rootContainer,
+);
+
+export const getMapConfigAtom = atom(
+  (get) => get(getMapRenderConfigAtom).interfaceConfig,
+);
+export const getSidebarConfigAtom = atom(
+  (get) => get(getSidebarRenderConfigAtom).interfaceConfig,
+);
+
+export const setContainersAtom = atom(
+  null,
+  (
+    get,
+    set,
+    {
+      mapContainer,
+      sidebarContainer,
+    }: { mapContainer: Container; sidebarContainer: Container },
+  ) => {
+    set(renderConfigAtom, {
+      map: {
+        ...get(getMapRenderConfigAtom),
+        rootContainer: mapContainer,
+      },
+      sidebar: {
+        ...get(getSidebarRenderConfigAtom),
+        rootContainer: sidebarContainer,
+      },
+    });
+  },
+);
+
+//TODO: Continue pulling changes from this commit: https://github.com/cryosis7/UntitleGame/commit/eb5c3b40b1ac3660ef389e1fa679c0fd2324f1c8#diff-252c13a77903ac6fbec7b43836c0cdd58027ae532e5bddb2946cb4aebed3f3d5
+//TODO: The above atoms were from the commit, but they need to be adapted to the new structure of the game.
+//TODO: The atoms below are the current ones to be replaced.
+//TODO: The game will still be using the old atoms, I haven't updated the references.
 
 export const mapConfigAtom = atom<MapConfig>();
 export const updateMapConfigAtom = atom(null, (get, set, update: MapConfig) => {

@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from './Systems';
+import type { System, UpdateArgs } from './Framework/Systems';
 import type { Entity } from '../utils/ecsUtils';
 import { ComponentType } from '../components/ComponentTypes';
 import {
@@ -40,11 +40,14 @@ export class ItemInteractionSystem implements System {
       ],
       entities,
     );
-    const allInteractableEntities = getEntitiesWithComponents([
-      ComponentType.RequiresItem,
-      ComponentType.InteractionBehavior,
-      ComponentType.Position,
-    ], entities);
+    const allInteractableEntities = getEntitiesWithComponents(
+      [
+        ComponentType.RequiresItem,
+        ComponentType.InteractionBehavior,
+        ComponentType.Position,
+      ],
+      entities,
+    );
 
     for (const interactingEntity of interactingEntitiesCarryingItem) {
       const carriedItemId = getComponentAbsolute(

@@ -15,7 +15,7 @@ import { MovementSystem } from './systems/MovementSystem';
 import { PickupSystem } from './systems/PickupSystem';
 import { ItemInteractionSystem } from './systems/ItemInteractionSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
-import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
+import { LevelEditorPlacementSystem } from './systems/LevelEditorSystems/LevelEditorPlacementSystem';
 import { PositionComponent } from './components';
 import { GameRenderSystem } from './systems/RenderSystems/GameRenderSystem';
 import { addEntities } from './utils/EntityUtils';
@@ -46,7 +46,7 @@ export const initiateSystems = () => {
     new MovementSystem(),
     new PickupSystem(),
     new ItemInteractionSystem(),
-    new EntityPlacementSystem(),
+    new LevelEditorPlacementSystem(),
 
     new MapRenderSystem(),
     new GameRenderSystem(),

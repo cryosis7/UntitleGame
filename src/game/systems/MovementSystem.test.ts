@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { MovementSystem } from './MovementSystem';
 import { createEntity } from '../utils/EntityFactory';
 import type { Entity } from '../utils/ecsUtils';
-import type { UpdateArgs } from './Systems';
+import type { UpdateArgs } from './Framework/Systems';
 import { entitiesAtom, store } from '../utils/Atoms';
 import type { GameMap, Position } from '../map/GameMap';
 import type {

@@ -1,6 +1,6 @@
 import { BaseRenderSystem } from './BaseRenderSystem';
 import { mapAtom, store } from '../../utils/Atoms';
-import type { UpdateArgs } from '../Systems';
+import type { UpdateArgs } from '../Framework/Systems';
 
 export class MapRenderSystem extends BaseRenderSystem {
   constructor() {

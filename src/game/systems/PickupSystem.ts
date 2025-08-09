@@ -10,7 +10,7 @@ import {
   removeMapComponents,
   setComponent,
 } from '../components/ComponentOperations';
-import type { System, UpdateArgs } from './Systems';
+import type { System, UpdateArgs } from './Framework/Systems';
 import { getEntitiesAtPosition, getPlayerEntity } from '../utils/EntityUtils';
 
 export class PickupSystem implements System {

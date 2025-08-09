@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from './Systems';
+import type { System, UpdateArgs } from './Framework/Systems';
 import { getEntitiesWithComponents } from '../utils/EntityUtils';
 import { ComponentType } from '../components/ComponentTypes';
 import {

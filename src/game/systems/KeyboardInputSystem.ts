@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from './Systems';
+import type { System, UpdateArgs } from './Framework/Systems';
 import type { Entity } from '../utils/ecsUtils';
 import { getEntitiesWithComponent } from '../utils/EntityUtils';
 import {
@@ -6,7 +6,7 @@ import {
   setComponent,
 } from '../components/ComponentOperations';
 import { ComponentType } from '../components/ComponentTypes';
-import { InteractingComponent, HandlingComponent } from '../components';
+import { HandlingComponent, InteractingComponent } from '../components';
 
 export class KeyboardInputSystem implements System {
   private keys: { [key: string]: boolean } = {};

@@ -1,12 +1,15 @@
-import type { System, UpdateArgs } from '../Systems';
+import type { System, UpdateArgs } from '../Framework/Systems';
 import type { Entity } from '../../utils/ecsUtils';
 import type { Container } from 'pixi.js';
 import { Sprite } from 'pixi.js';
 import type { Position } from '../../map/GameMap';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
 import type { PositionComponent, SpriteComponent } from '../../components';
-import type { RenderSection } from '../../utils/Atoms';
+import type {
+  InterfaceConfig,
+  RenderSection} from '../../utils/Atoms';
 import {
+  getInterfaceConfigBySectionAtom,
   getTexture,
   getTileSizeAtom,
   removeSprite,
@@ -31,6 +34,7 @@ export abstract class BaseRenderSystem implements System {
 
   protected stage: Container;
   protected renderSectionAtomKey: RenderSection;
+  protected interfaceConfig: InterfaceConfig;
 
   protected constructor(
     container: Container,
@@ -42,6 +46,10 @@ export abstract class BaseRenderSystem implements System {
 
     pixiApp.stage.addChild(container);
     container.position.set(...position);
+
+    this.interfaceConfig = store.get(getInterfaceConfigBySectionAtom)(
+      this.renderSectionAtomKey,
+    );
   }
 
   update(updateArgs: UpdateArgs) {
@@ -137,7 +145,10 @@ export abstract class BaseRenderSystem implements System {
         entity,
         ComponentType.Position,
       );
-      sprite.position.set(...gridToScreenAsTuple(positionComponent));
+
+      sprite.position.set(
+        ...gridToScreenAsTuple(positionComponent, this.interfaceConfig),
+      );
     });
   };
 
@@ -171,7 +182,7 @@ export abstract class BaseRenderSystem implements System {
     position: Position,
     parent: Container,
   ) => {
-    child.position.set(...gridToScreenAsTuple(position));
+    child.position.set(...gridToScreenAsTuple(position, this.interfaceConfig));
     parent.addChild(child);
   };
 

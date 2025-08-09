@@ -1,4 +1,4 @@
-import type { UpdateArgs } from '../Systems';
+import type { UpdateArgs } from '../Framework/Systems';
 import { Container, Graphics } from 'pixi.js';
 import { pixiApp } from '../../Pixi';
 import { ComponentType } from '../../components/ComponentTypes';
