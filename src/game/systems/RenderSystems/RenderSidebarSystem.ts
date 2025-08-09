@@ -2,9 +2,8 @@ import type { UpdateArgs } from '../Systems';
 import { Container, Graphics } from 'pixi.js';
 import { pixiApp } from '../../Pixi';
 import { ComponentType } from '../../components/ComponentTypes';
-import { getComponentAbsolute, hasComponent } from '../../components/ComponentOperations';
+import { getComponentIfExists } from '../../components/ComponentOperations';
 import { BaseRenderSystem } from './BaseRenderSystem';
-import type { RenderComponent } from '../../components/individualComponents/RenderComponent';
 
 export class RenderSidebarSystem extends BaseRenderSystem {
   private readonly sidebarWidth = 150;
@@ -27,12 +26,14 @@ export class RenderSidebarSystem extends BaseRenderSystem {
   update({ entities }: UpdateArgs) {
     // Filter entities that should be rendered in the sidebar section
     const sidebarEntities = entities.filter((entity) => {
-      if (hasComponent(entity, ComponentType.Render)) {
-        const renderComponent = getComponentAbsolute(entity, ComponentType.Render) as RenderComponent;
-        return renderComponent.section === 'sidebar';
+      const renderComponent = getComponentIfExists(entity, ComponentType.Render);
+      
+      if (!renderComponent) {
+        // If no render component, don't render in sidebar
+        return false;
       }
-      // Backward compatibility: still support RenderInSidebar component
-      return hasComponent(entity, ComponentType.RenderInSidebar);
+      
+      return renderComponent.section === 'sidebar';
     });
 
     this.updateStageAndPositions(sidebarEntities);

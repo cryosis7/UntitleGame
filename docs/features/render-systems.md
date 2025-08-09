@@ -57,7 +57,7 @@ Sprites are maintained in their own Jotai atom; separate from the entities array
 4. Remove the entity or its components - sprite is automatically cleaned up
 
 ### Sidebar Interface Elements
-1. Create a UI entity with Sprite, Position, and RenderInSidebar components
+1. Create a UI entity with Sprite, Position, and Render components (with section: 'sidebar')
 2. Entity appears in the sidebar area instead of the main game view
 3. Sidebar provides consistent UI space separate from game content
 4. UI elements can be added, removed, or repositioned independently of game entities
@@ -143,14 +143,14 @@ The Render Systems feature provides a robust, automatic, and performance-optimiz
    });
    ```
 
-2. **Add Render Section Targeting**: Use specific components to control which render system handles the entity
+2. **Add Render Section Targeting**: Use the Render component to control which render system handles the entity
    ```typescript
    // For sidebar rendering
    const sidebarEntity = EntityFactory.createEntity({
      components: {
        [ComponentType.Position]: { x: 0, y: 0 },
        [ComponentType.Sprite]: { sprite: 'ui-icon' },
-       [ComponentType.RenderInSidebar]: {}, // Routes to sidebar render system
+       [ComponentType.Render]: { section: 'sidebar' }, // Routes to sidebar render system
      }
    });
    ```
@@ -169,7 +169,7 @@ The Render Systems feature provides a robust, automatic, and performance-optimiz
 1. **Understand Render Sections**: Each render system operates on a specific section
    - `'game'`: Main game world entities (GameRenderSystem)
    - `'map'`: Background terrain and static elements (MapRenderSystem)  
-   - `'sidebar'`: UI elements and interface components (filtered by RenderInSidebar component)
+   - `'sidebar'`: UI elements and interface components (filtered by Render component with section: 'sidebar')
 
 2. **Sprite Atom Management**: Sprites are stored separately from entities in Jotai atoms
    ```typescript

@@ -20,7 +20,6 @@ import type {
 import type { InteractingComponent } from './individualComponents/InteractingComponent';
 import type { HandlingComponent } from './individualComponents/HandlingComponent';
 import type { WalkableComponent } from './individualComponents/WalkableComponent';
-import type { RenderInSidebarComponent } from './individualComponents/RenderInSidebarComponent';
 import type {
   RequiresItemComponent,
   RequiresItemComponentProps,
@@ -59,7 +58,6 @@ export enum ComponentType {
   Handling = 'handling',
   Walkable = 'walkable',
   Render = 'render',
-  RenderInSidebar = 'renderInSidebar',
   RequiresItem = 'requiresItem',
   UsableItem = 'usableItem',
   InteractionBehavior = 'interactionBehavior',
@@ -79,7 +77,6 @@ export type FullComponentDictionary = {
   [ComponentType.Handling]: HandlingComponent;
   [ComponentType.Walkable]: WalkableComponent;
   [ComponentType.Render]: RenderComponent;
-  [ComponentType.RenderInSidebar]: RenderInSidebarComponent;
   [ComponentType.RequiresItem]: RequiresItemComponent;
   [ComponentType.UsableItem]: UsableItemComponent;
   [ComponentType.InteractionBehavior]: InteractionBehaviorComponent;
