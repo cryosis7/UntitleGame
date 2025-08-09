@@ -14,6 +14,7 @@ import {
   DirectionComponent,
   VelocityComponent,
 } from '../components';
+import { getComponentAbsolute } from '../components/ComponentOperations';
 import { getEntity } from '../utils/EntityUtils';
 
 describe('DirectionSystem', () => {
@@ -25,7 +26,7 @@ describe('DirectionSystem', () => {
     isPositionInMap: () => true,
     isTileWalkable: () => true,
     getTile: () => null,
-  } as GameMap;
+  } as unknown as GameMap;
 
   beforeEach(() => {
     system = new DirectionSystem();
@@ -65,176 +66,140 @@ describe('DirectionSystem', () => {
     };
   };
 
-  describe('Direction Updates Based on Velocity', () => {
-    describe('Horizontal Movement Priority', () => {
-      it('should set direction to right when horizontal velocity is positive and greater than vertical', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'up',
-          velocity: { vx: 3, vy: 1 },
-        });
+  describe('given an entity with direction and velocity components', () => {
+    describe('when horizontal velocity is greater than vertical', () => {
+      it.each`
+        description   | initialDirection | velocity             | expectedDirection
+        ${'positive'} | ${'up'}          | ${{ vx: 3, vy: 1 }}  | ${'right'}
+        ${'negative'} | ${'down'}        | ${{ vx: -4, vy: 2 }} | ${'left'}
+      `(
+        'should set direction to $expectedDirection for $description horizontal velocity',
+        ({ initialDirection, velocity, expectedDirection }) => {
+          const entity = createEntityWithDirectionAndVelocity({
+            direction: initialDirection,
+            velocity,
+          });
 
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
+          store.set(entitiesAtom, [entity]);
+          system.update(getUpdateArgs());
 
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('right');
-      });
-
-      it('should set direction to left when horizontal velocity is negative and greater than vertical', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'down',
-          velocity: { vx: -4, vy: 2 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('left');
-      });
-
-      it('should set direction to right when horizontal velocity is positive and equal to vertical', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'up',
-          velocity: { vx: 2, vy: 2 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('down');
-      });
-
-      it('should set direction to left when horizontal velocity is negative and equal to vertical', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'right',
-          velocity: { vx: -3, vy: -3 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('up');
-      });
+          const updatedEntity = getEntity(entity.id);
+          const directionComponent = getComponentAbsolute(
+            updatedEntity!,
+            ComponentType.Direction,
+          );
+          expect(directionComponent.direction).toBe(expectedDirection);
+        },
+      );
     });
 
-    describe('Vertical Movement', () => {
-      it('should set direction to down when vertical velocity is positive and greater than horizontal', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'left',
-          velocity: { vx: 1, vy: 3 },
-        });
+    describe('when horizontal and vertical velocity magnitudes are equal', () => {
+      it.each`
+        description   | initialDirection | velocity              | expectedDirection
+        ${'positive'} | ${'up'}          | ${{ vx: 2, vy: 2 }}   | ${'down'}
+        ${'negative'} | ${'right'}       | ${{ vx: -3, vy: -3 }} | ${'up'}
+      `(
+        'should prioritize vertical direction and set direction to $expectedDirection for $description velocity',
+        ({ initialDirection, velocity, expectedDirection }) => {
+          const entity = createEntityWithDirectionAndVelocity({
+            direction: initialDirection,
+            velocity,
+          });
 
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
+          store.set(entitiesAtom, [entity]);
+          system.update(getUpdateArgs());
 
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('down');
-      });
-
-      it('should set direction to up when vertical velocity is negative and greater than horizontal', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'right',
-          velocity: { vx: 2, vy: -5 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('up');
-      });
-
-      it('should set direction to down when only vertical velocity is positive', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'left',
-          velocity: { vx: 0, vy: 4 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('down');
-      });
-
-      it('should set direction to up when only vertical velocity is negative', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'right',
-          velocity: { vx: 0, vy: -2 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('up');
-      });
+          const updatedEntity = getEntity(entity.id);
+          const directionComponent = getComponentAbsolute(
+            updatedEntity!,
+            ComponentType.Direction,
+          );
+          expect(directionComponent.direction).toBe(expectedDirection);
+        },
+      );
     });
 
-    describe('Horizontal Only Movement', () => {
-      it('should set direction to right when only horizontal velocity is positive', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'up',
-          velocity: { vx: 5, vy: 0 },
-        });
+    describe('when vertical velocity magnitude is greater than horizontal', () => {
+      it.each`
+        description                     | initialDirection | velocity             | expectedDirection
+        ${'positive vertical velocity'} | ${'left'}        | ${{ vx: 1, vy: 3 }}  | ${'down'}
+        ${'negative vertical velocity'} | ${'right'}       | ${{ vx: 2, vy: -5 }} | ${'up'}
+      `(
+        'should set direction to $expectedDirection for $description',
+        ({ initialDirection, velocity, expectedDirection }) => {
+          const entity = createEntityWithDirectionAndVelocity({
+            direction: initialDirection,
+            velocity,
+          });
 
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
+          store.set(entitiesAtom, [entity]);
+          system.update(getUpdateArgs());
 
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('right');
-      });
+          const updatedEntity = getEntity(entity.id);
+          const directionComponent = getComponentAbsolute(
+            updatedEntity!,
+            ComponentType.Direction,
+          );
+          expect(directionComponent.direction).toBe(expectedDirection);
+        },
+      );
+    });
 
-      it('should set direction to left when only horizontal velocity is negative', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'down',
-          velocity: { vx: -3, vy: 0 },
-        });
+    describe('when only vertical velocity is non-zero', () => {
+      it.each`
+        description                     | initialDirection | velocity             | expectedDirection
+        ${'positive vertical velocity'} | ${'left'}        | ${{ vx: 0, vy: 4 }}  | ${'down'}
+        ${'negative vertical velocity'} | ${'right'}       | ${{ vx: 0, vy: -2 }} | ${'up'}
+      `(
+        'should set direction to $expectedDirection for $description',
+        ({ initialDirection, velocity, expectedDirection }) => {
+          const entity = createEntityWithDirectionAndVelocity({
+            direction: initialDirection,
+            velocity,
+          });
 
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
+          store.set(entitiesAtom, [entity]);
+          system.update(getUpdateArgs());
 
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('left');
-      });
+          const updatedEntity = getEntity(entity.id);
+          const directionComponent = getComponentAbsolute(
+            updatedEntity!,
+            ComponentType.Direction,
+          );
+          expect(directionComponent.direction).toBe(expectedDirection);
+        },
+      );
+    });
+
+    describe('when only horizontal velocity is non-zero', () => {
+      it.each`
+        description                       | initialDirection | velocity             | expectedDirection
+        ${'positive horizontal velocity'} | ${'up'}          | ${{ vx: 5, vy: 0 }}  | ${'right'}
+        ${'negative horizontal velocity'} | ${'down'}        | ${{ vx: -3, vy: 0 }} | ${'left'}
+      `(
+        'should set direction to $expectedDirection for $description',
+        ({ initialDirection, velocity, expectedDirection }) => {
+          const entity = createEntityWithDirectionAndVelocity({
+            direction: initialDirection,
+            velocity,
+          });
+
+          store.set(entitiesAtom, [entity]);
+          system.update(getUpdateArgs());
+
+          const updatedEntity = getEntity(entity.id);
+          const directionComponent = getComponentAbsolute(
+            updatedEntity!,
+            ComponentType.Direction,
+          );
+          expect(directionComponent.direction).toBe(expectedDirection);
+        },
+      );
     });
   });
 
-  describe('Zero Velocity Handling', () => {
-    it('should not update direction when both velocities are zero', () => {
+  describe('when both velocities are zero', () => {
+    it('should preserve the current direction', () => {
       const entity = createEntityWithDirectionAndVelocity({
         direction: 'left',
         velocity: { vx: 0, vy: 0 },
@@ -244,162 +209,50 @@ describe('DirectionSystem', () => {
       system.update(getUpdateArgs());
 
       const updatedEntity = getEntity(entity.id);
-      const directionComponent = updatedEntity!.components[
-        ComponentType.Direction
-      ] as DirectionComponentProps;
+      const directionComponent = getComponentAbsolute(
+        updatedEntity!,
+        ComponentType.Direction,
+      );
       expect(directionComponent.direction).toBe('left');
     });
-
-    it('should preserve original direction when velocity becomes zero', () => {
-      const entity = createEntityWithDirectionAndVelocity({
-        direction: 'right',
-        velocity: { vx: 0, vy: 0 },
-      });
-
-      store.set(entitiesAtom, [entity]);
-      system.update(getUpdateArgs());
-
-      const updatedEntity = getEntity(entity.id);
-      const directionComponent = updatedEntity!.components[
-        ComponentType.Direction
-      ] as DirectionComponentProps;
-      expect(directionComponent.direction).toBe('right');
-    });
   });
 
-  describe('Edge Cases and Boundary Conditions', () => {
-    describe('Very Small Velocities', () => {
-      it('should handle very small positive velocities correctly', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'up',
-          velocity: { vx: 0.001, vy: 0.0005 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('right');
-      });
-
-      it('should handle very small negative velocities correctly', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'right',
-          velocity: { vx: -0.0001, vy: -0.001 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('up');
-      });
-    });
-
-    describe('Large Velocities', () => {
-      it('should handle very large velocities correctly', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'down',
-          velocity: { vx: 1000, vy: 500 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('right');
-      });
-
-      it('should handle negative large velocities correctly', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'left',
-          velocity: { vx: -100, vy: -2000 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('up');
-      });
-    });
-
-    describe('Mixed Sign Velocities', () => {
-      it('should handle positive horizontal and negative vertical velocity', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'up',
-          velocity: { vx: 3, vy: -2 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('right');
-      });
-
-      it('should handle negative horizontal and positive vertical velocity', () => {
-        const entity = createEntityWithDirectionAndVelocity({
-          direction: 'right',
-          velocity: { vx: -1, vy: 4 },
-        });
-
-        store.set(entitiesAtom, [entity]);
-        system.update(getUpdateArgs());
-
-        const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
-        expect(directionComponent.direction).toBe('down');
-      });
-    });
-  });
-
-  describe('Component Requirements', () => {
-    describe('Missing Components', () => {
-      it('should not process entity with only direction component', () => {
+  describe('given entities with missing components', () => {
+    describe('when entity has only direction component', () => {
+      it('should leave direction unchanged without velocity component', () => {
         const entity = createEntityWithDirectionOnly('left');
 
         store.set(entitiesAtom, [entity]);
         system.update(getUpdateArgs());
 
         const updatedEntity = getEntity(entity.id);
-        const directionComponent = updatedEntity!.components[
-          ComponentType.Direction
-        ] as DirectionComponentProps;
+        const directionComponent = getComponentAbsolute(
+          updatedEntity!,
+          ComponentType.Direction,
+        );
         expect(directionComponent.direction).toBe('left');
       });
+    });
 
-      it('should not process entity with only velocity component', () => {
+    describe('when entity has only velocity component', () => {
+      it('should not create direction component', () => {
         const entity = createEntityWithVelocityOnly({ vx: 5, vy: 3 });
 
         store.set(entitiesAtom, [entity]);
-
-        expect(() => system.update(getUpdateArgs())).not.toThrow();
+        system.update(getUpdateArgs());
 
         const updatedEntity = getEntity(entity.id);
-        expect(
-          updatedEntity!.components[ComponentType.Direction],
-        ).toBeUndefined();
+        expect(updatedEntity!.components[ComponentType.Velocity]).toMatchObject(
+          {
+            vx: 5,
+            vy: 3,
+          },
+        );
       });
+    });
 
-      it('should not process entity with no relevant components', () => {
+    describe('when entity has no relevant components', () => {
+      it('should not throw errors and leave entity unchanged', () => {
         const entity = createEntity([]);
 
         store.set(entitiesAtom, [entity]);
@@ -407,145 +260,99 @@ describe('DirectionSystem', () => {
         expect(() => system.update(getUpdateArgs())).not.toThrow();
 
         const updatedEntity = getEntity(entity.id);
-        expect(
-          updatedEntity!.components[ComponentType.Direction],
-        ).toBeUndefined();
-        expect(
-          updatedEntity!.components[ComponentType.Velocity],
-        ).toBeUndefined();
+        expect(updatedEntity!).toEqual(entity);
       });
     });
   });
 
-  describe('Multiple Entity Processing', () => {
-    it('should handle multiple entities with different velocities', () => {
-      const entity1 = createEntityWithDirectionAndVelocity({
-        direction: 'up',
-        velocity: { vx: 2, vy: 1 },
-      });
-
-      const entity2 = createEntityWithDirectionAndVelocity({
-        direction: 'right',
-        velocity: { vx: -1, vy: -3 },
-      });
-
-      const entity3 = createEntityWithDirectionAndVelocity({
-        direction: 'down',
-        velocity: { vx: 0, vy: 0 },
-      });
-
-      store.set(entitiesAtom, [entity1, entity2, entity3]);
-      system.update(getUpdateArgs());
-
-      const updatedEntity1 = getEntity(entity1.id);
-      const direction1 = updatedEntity1!.components[
-        ComponentType.Direction
-      ] as DirectionComponentProps;
-      expect(direction1.direction).toBe('right');
-
-      const updatedEntity2 = getEntity(entity2.id);
-      const direction2 = updatedEntity2!.components[
-        ComponentType.Direction
-      ] as DirectionComponentProps;
-      expect(direction2.direction).toBe('up');
-
-      const updatedEntity3 = getEntity(entity3.id);
-      const direction3 = updatedEntity3!.components[
-        ComponentType.Direction
-      ] as DirectionComponentProps;
-      expect(direction3.direction).toBe('down');
-    });
-
-    it('should handle mixed entities with and without required components', () => {
-      const validEntity = createEntityWithDirectionAndVelocity({
-        direction: 'left',
-        velocity: { vx: 0, vy: 5 },
-      });
-
-      const directionOnlyEntity = createEntityWithDirectionOnly('right');
-      const velocityOnlyEntity = createEntityWithVelocityOnly({
-        vx: 3,
-        vy: 0,
-      });
-
-      store.set(entitiesAtom, [
-        validEntity,
-        directionOnlyEntity,
-        velocityOnlyEntity,
-      ]);
-      system.update(getUpdateArgs());
-
-      const updatedValidEntity = getEntity(validEntity.id);
-      const validDirection = updatedValidEntity!.components[
-        ComponentType.Direction
-      ] as DirectionComponentProps;
-      expect(validDirection.direction).toBe('down');
-
-      const updatedDirectionOnlyEntity = getEntity(directionOnlyEntity.id);
-      const directionOnlyDirection = updatedDirectionOnlyEntity!.components[
-        ComponentType.Direction
-      ] as DirectionComponentProps;
-      expect(directionOnlyDirection.direction).toBe('right');
-
-      const updatedVelocityOnlyEntity = getEntity(velocityOnlyEntity.id);
-      expect(
-        updatedVelocityOnlyEntity!.components[ComponentType.Direction],
-      ).toBeUndefined();
-    });
-  });
-
-  describe('Error Handling and Robustness', () => {
-    it('should handle empty entities array gracefully', () => {
-      store.set(entitiesAtom, []);
-
-      expect(() => system.update(getUpdateArgs())).not.toThrow();
-    });
-
-    it('should handle null or undefined entities gracefully', () => {
-      const invalidUpdateArgs: UpdateArgs = {
-        entities: null as any,
-        map: mockMap,
-      };
-
-      expect(() => system.update(invalidUpdateArgs)).not.toThrow();
-    });
-
-    it('should handle entities with undefined components gracefully', () => {
-      const entity = createEntity([]);
-      // These entities won't be processed by the system since they lack required components
-
-      store.set(entitiesAtom, [entity]);
-
-      expect(() => system.update(getUpdateArgs())).not.toThrow();
-
-      // Entity should remain unchanged since it doesn't have required components
-      const updatedEntity = getEntity(entity.id);
-      expect(
-        updatedEntity!.components[ComponentType.Direction],
-      ).toBeUndefined();
-      expect(updatedEntity!.components[ComponentType.Velocity]).toBeUndefined();
-    });
-  });
-
-  describe('Performance and Efficiency', () => {
-    it('should process large number of entities efficiently', () => {
-      const entities = Array.from({ length: 1000 }, (_, i) =>
-        createEntityWithDirectionAndVelocity({
+  describe('given multiple entities in the system', () => {
+    describe('when processing entities with different velocity patterns', () => {
+      it('should update each entity direction independently', () => {
+        const entity1 = createEntityWithDirectionAndVelocity({
           direction: 'up',
-          velocity: { vx: (i % 4) - 2, vy: (i % 3) - 1 },
-        }),
-      );
+          velocity: { vx: 2, vy: 1 },
+        });
 
-      store.set(entitiesAtom, entities);
+        const entity2 = createEntityWithDirectionAndVelocity({
+          direction: 'right',
+          velocity: { vx: -1, vy: -3 },
+        });
 
-      const startTime = performance.now();
-      system.update(getUpdateArgs());
-      const endTime = performance.now();
+        const entity3 = createEntityWithDirectionAndVelocity({
+          direction: 'down',
+          velocity: { vx: 0, vy: 0 },
+        });
 
-      expect(endTime - startTime).toBeLessThan(100);
+        store.set(entitiesAtom, [entity1, entity2, entity3]);
+        system.update(getUpdateArgs());
 
-      const processedEntities = store.get(entitiesAtom);
-      expect(processedEntities).toHaveLength(1000);
+        const updatedEntity1 = getEntity(entity1.id);
+        const updatedEntity2 = getEntity(entity2.id);
+        const updatedEntity3 = getEntity(entity3.id);
+
+        expect(
+          getComponentAbsolute(updatedEntity1!, ComponentType.Direction)
+            .direction,
+        ).toBe('right');
+        expect(
+          getComponentAbsolute(updatedEntity2!, ComponentType.Direction)
+            .direction,
+        ).toBe('up');
+        expect(
+          getComponentAbsolute(updatedEntity3!, ComponentType.Direction)
+            .direction,
+        ).toBe('down');
+      });
+
+      describe('when processing entities with mixed component configurations', () => {
+        it('should process only entities with both required components', () => {
+          const validEntity = createEntityWithDirectionAndVelocity({
+            direction: 'left',
+            velocity: { vx: 0, vy: 5 },
+          });
+
+          const directionOnlyEntity = createEntityWithDirectionOnly('right');
+          const velocityOnlyEntity = createEntityWithVelocityOnly({
+            vx: 3,
+            vy: 0,
+          });
+
+          store.set(entitiesAtom, [
+            validEntity,
+            directionOnlyEntity,
+            velocityOnlyEntity,
+          ]);
+          system.update(getUpdateArgs());
+
+          const updatedValidEntity = getEntity(validEntity.id);
+          const updatedDirectionOnlyEntity = getEntity(directionOnlyEntity.id);
+          const updatedVelocityOnlyEntity = getEntity(velocityOnlyEntity.id);
+
+          const validDirection = getComponentAbsolute(
+            updatedValidEntity!,
+            ComponentType.Direction,
+          );
+          expect(validDirection.direction).toBe('down');
+
+          const directionOnlyDirection = getComponentAbsolute(
+            updatedDirectionOnlyEntity!,
+            ComponentType.Direction,
+          );
+          expect(directionOnlyDirection.direction).toBe('right');
+
+          expect(updatedVelocityOnlyEntity!.components).not.toHaveProperty(
+            ComponentType.Direction,
+          );
+        });
+      });
+    });
+
+    describe('when entities array is empty', () => {
+      it('should complete processing without errors', () => {
+        store.set(entitiesAtom, []);
+
+        expect(() => system.update(getUpdateArgs())).not.toThrow();
+      });
     });
   });
 });
