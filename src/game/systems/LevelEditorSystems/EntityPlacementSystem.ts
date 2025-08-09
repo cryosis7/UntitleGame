@@ -79,7 +79,7 @@ export class EntityPlacementSystem implements System {
         if (
           positionComponent?.x === position.x &&
           positionComponent?.y === position.y &&
-          spriteComponent?.spriteName.texture.label === this.selectedItem
+          spriteComponent?.spriteName === this.selectedItem
         ) {
           ids.push(entity.id);
         }
