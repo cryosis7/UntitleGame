@@ -1,8 +1,6 @@
 import type { Container, Spritesheet } from 'pixi.js';
 import { atom, createStore } from 'jotai';
 import { GameMap } from '../map/GameMap';
-import { ComponentType } from '../components';
-import { hasComponent } from '../components/ComponentOperations';
 import type { System } from '../systems/Systems';
 import type { Entity } from './ecsUtils';
 
@@ -143,7 +141,3 @@ export const getTileSizeAtom = atom((get) => {
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<System[]>([]);
 export const mapAtom = atom<GameMap>(new GameMap());
-export const playerAtom = atom((get) => {
-  const entities = get(entitiesAtom);
-  return entities.find((entity) => hasComponent(entity, ComponentType.Player));
-});

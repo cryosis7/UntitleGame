@@ -56,8 +56,12 @@ export const getEntitiesWithComponents = (
   return entities.filter((entity) => hasAllComponents(entity, ...types));
 };
 
+export const getPlayerEntities = (entities?: Entity[]): Entity[] => {
+  return getEntitiesWithComponent(ComponentType.Player, entities);
+};
+
 export const getPlayerEntity = (entities?: Entity[]): Entity | undefined => {
-  const players = getEntitiesWithComponent(ComponentType.Player, entities);
+  const players = getPlayerEntities(entities);
   return players.length === 1 ? players[0] : undefined;
 };
 
