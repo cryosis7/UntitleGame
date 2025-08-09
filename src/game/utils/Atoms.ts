@@ -1,7 +1,8 @@
 import type { Container, Spritesheet } from 'pixi.js';
 import { atom, createStore } from 'jotai';
 import { GameMap } from '../map/GameMap';
-import { ComponentType, hasComponent } from '../components';
+import { ComponentType } from '../components';
+import { hasComponent } from '../components/ComponentOperations';
 import type { System } from '../systems/Systems';
 import type { Entity } from './ecsUtils';
 

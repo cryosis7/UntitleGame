@@ -1,13 +1,15 @@
 import {
   CarriedItemComponent,
   ComponentType,
+  PositionComponent,
+} from '../components';
+import {
   getComponentIfExists,
   hasComponent,
-  PositionComponent,
   removeComponent,
   removeMapComponents,
   setComponent,
-} from '../components';
+} from '../components/ComponentOperations';
 import type { System, UpdateArgs } from './Systems';
 import { getEntitiesAtPosition, getPlayerEntity } from '../utils/EntityUtils';
 
