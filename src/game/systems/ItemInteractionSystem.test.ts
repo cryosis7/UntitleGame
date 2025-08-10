@@ -24,7 +24,7 @@ import {
 import type { Entity } from '../utils/ecsUtils';
 import { entitiesAtom, store } from '../utils/Atoms';
 import { GameMap, type Position } from '../map/GameMap';
-import type { UpdateArgs } from './Systems';
+import type { UpdateArgs } from './Framework/Systems';
 import { getEntitiesAtPosition, getEntity } from '../utils/EntityUtils';
 
 describe('ItemInteractionSystem', () => {

@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from './Systems';
+import type { BaseSystem, UpdateArgs } from './Framework/Systems';
 import type { Entity } from '../utils/ecsUtils';
 import {
   getEntitiesWithComponent,
@@ -7,14 +7,16 @@ import {
 import {
   getComponentIfExists,
   hasAnyComponent,
+  hasComponent,
   setComponent,
 } from '../components/ComponentOperations';
-import { ComponentType } from '../components/ComponentTypes';
-import { PositionComponent } from '../components';
+import { ComponentType, PositionComponent } from '../components';
 
-export class MovementSystem implements System {
+export class MovementSystem implements BaseSystem {
   update({ entities, map }: UpdateArgs) {
-    if (!entities || !map) return;
+    const gameEntities = entities.filter(
+      (entity: Entity) => !hasComponent(entity, ComponentType.RenderInSidebar),
+    );
 
     const resetVelocity = (entity: Entity) => {
       setComponent(entity, {
@@ -24,7 +26,7 @@ export class MovementSystem implements System {
       });
     };
 
-    entities.forEach((entity) => {
+    gameEntities.forEach((entity) => {
       const positionComponent = getComponentIfExists(
         entity,
         ComponentType.Position,
@@ -52,7 +54,7 @@ export class MovementSystem implements System {
         return;
       }
 
-      const entitiesAtNewPosition = entities.filter((e) => {
+      const entitiesAtNewPosition = gameEntities.filter((e) => {
         if (e.id === entity.id) return false;
         const otherPositionComponent = getComponentIfExists(
           e,

@@ -10,6 +10,7 @@ export * from './individualComponents/PlayerComponent';
 export * from './individualComponents/PositionComponent';
 export * from './individualComponents/RenderInSidebarComponent';
 export * from './individualComponents/RequiresItemComponent';
+export * from './individualComponents/SelectedComponent';
 export * from './individualComponents/SpawnContentsComponent';
 export * from './individualComponents/SpriteComponent';
 export * from './individualComponents/UsableItemComponent';
