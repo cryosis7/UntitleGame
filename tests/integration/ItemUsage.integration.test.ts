@@ -28,11 +28,6 @@ import { entitiesAtom, mapAtom, store } from '../../src/game/utils/Atoms';
 import { GameMap } from '../../src/game/map/GameMap';
 
 describe('Item Usage Integration Test', () => {
-  // Helper function to get player entity for tests
-  const getPlayerEntity = () => {
-    const players = getEntitiesWithComponent(ComponentType.Player);
-    return players.length === 1 ? players[0] : undefined;
-  };
   describe('Full workflow: move to key → pickup key → move to chest → use key → chest opens', () => {
     const originalKey = createEntity(
       ConvenienceComponentSets.key({ x: 1, y: 1 }, 'unlock'),
@@ -54,22 +49,24 @@ describe('Item Usage Integration Test', () => {
     });
 
     it('should move player to key position', () => {
-      let player = getPlayerEntity();
-      expect(player).toBeDefined();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players.length).toBe(1);
+      let player = players[0];
       const positionComponent = getComponentAbsolute(
-        player!,
+        player,
         ComponentType.Position,
       );
       expect(positionComponent.x).toEqual(0);
       expect(positionComponent.y).toEqual(0);
 
-      setComponent(player!, new VelocityComponent({ vx: 1, vy: 1 }));
+      setComponent(player, new VelocityComponent({ vx: 1, vy: 1 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      player = getPlayerEntity();
-      expect(player).toBeDefined();
+      const playersAfterMove = getEntitiesWithComponent(ComponentType.Player);
+      expect(playersAfterMove.length).toBe(1);
+      player = playersAfterMove[0];
       const playerPositionAfterMove = getComponentAbsolute(
-        player!,
+        player,
         ComponentType.Position,
       );
       expect(playerPositionAfterMove.x).toBe(1);
@@ -77,15 +74,18 @@ describe('Item Usage Integration Test', () => {
     });
 
     it('should pick up the key', () => {
-      let player = getPlayerEntity();
-      setComponent(player!, new HandlingComponent());
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players.length).toBe(1);
+      let player = players[0];
+      setComponent(player, new HandlingComponent());
       pickupSystem.update(createStandardUpdateArgs());
 
       // Verify key was picked up
-      player = getPlayerEntity();
-      expect(player).toBeDefined();
+      const playersAfterPickup = getEntitiesWithComponent(ComponentType.Player);
+      expect(playersAfterPickup.length).toBe(1);
+      player = playersAfterPickup[0];
       const carriedItemComponent = getComponentAbsolute(
-        player!,
+        player,
         ComponentType.CarriedItem,
       );
       expect(carriedItemComponent).toBeDefined();
@@ -99,35 +99,41 @@ describe('Item Usage Integration Test', () => {
     });
 
     it('should remove handling component from player after pickup', () => {
-      const player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players.length).toBe(1);
+      const player = players[0];
       const handlingComponent = getComponentIfExists(
-        player!,
+        player,
         ComponentType.Handling,
       );
       expect(handlingComponent).toBeUndefined();
     });
 
     it('should move player to chest position', () => {
-      let player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players.length).toBe(1);
+      let player = players[0];
 
       // Move right 4 tiles
       for (let i = 0; i < 4; i++) {
-        setComponent(player!, new VelocityComponent({ vx: 1, vy: 0 }));
+        setComponent(player, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
-        player = getPlayerEntity();
-        expect(player).toBeDefined();
+        const currentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(currentPlayers.length).toBe(1);
+        player = currentPlayers[0];
       }
 
       // Move down 3 tiles
       for (let i = 0; i < 3; i++) {
-        setComponent(player!, new VelocityComponent({ vx: 0, vy: 1 }));
+        setComponent(player, new VelocityComponent({ vx: 0, vy: 1 }));
         movementSystem.update(createStandardUpdateArgs());
-        player = getPlayerEntity();
-        expect(player).toBeDefined();
+        const currentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(currentPlayers.length).toBe(1);
+        player = currentPlayers[0];
       }
 
       const playerPosition = getComponentAbsolute(
-        player!,
+        player,
         ComponentType.Position,
       );
       expect(playerPosition.x).toBe(5);
@@ -135,7 +141,7 @@ describe('Item Usage Integration Test', () => {
 
       // Velocity should be reset after movement
       const playerVelocity = getComponentAbsolute(
-        player!,
+        player,
         ComponentType.Velocity,
       );
       expect(playerVelocity.vx).toBe(0);
@@ -143,15 +149,18 @@ describe('Item Usage Integration Test', () => {
     });
 
     it('should use key to open chest', () => {
-      let player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players.length).toBe(1);
+      let player = players[0];
 
-      setComponent(player!, new InteractingComponent());
+      setComponent(player, new InteractingComponent());
       itemInteractionSystem.update(createStandardUpdateArgs());
 
-      player = getPlayerEntity();
-      expect(player).toBeDefined();
-      expect(hasComponent(player!, ComponentType.Interacting)).toBeFalsy();
-      expect(hasComponent(player!, ComponentType.CarriedItem)).toBeFalsy();
+      const playersAfterInteraction = getEntitiesWithComponent(ComponentType.Player);
+      expect(playersAfterInteraction.length).toBe(1);
+      player = playersAfterInteraction[0];
+      expect(hasComponent(player, ComponentType.Interacting)).toBeFalsy();
+      expect(hasComponent(player, ComponentType.CarriedItem)).toBeFalsy();
     });
 
     it('should open the chest', () => {
@@ -165,6 +174,74 @@ describe('Item Usage Integration Test', () => {
       expect(
         getComponentAbsolute(chest, ComponentType.Sprite).spriteName,
       ).toEqual('chest_open');
+    });
+  });
+
+  describe('Multiple players scenario', () => {
+    it('should handle multiple players picking up different items', () => {
+      const player1 = createEntity(
+        ConvenienceComponentSets.player({ x: 0, y: 0 }),
+      );
+      const player2 = createEntity(
+        ConvenienceComponentSets.player({ x: 2, y: 0 }),
+      );
+      const key1 = createEntity(
+        ConvenienceComponentSets.key({ x: 1, y: 0 }, 'unlock'),
+      );
+      const key2 = createEntity(
+        ConvenienceComponentSets.key({ x: 3, y: 0 }, 'unlock'),
+      );
+
+      const pickupSystem = new PickupSystem();
+      const movementSystem = new MovementSystem();
+
+      // Initialize with multiple players and keys
+      store.set(entitiesAtom, [player1, player2, key1, key2]);
+      store.set(mapAtom, new GameMap());
+
+      // Verify we have 2 players
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players.length).toBe(2);
+
+      // Move both players to their respective keys
+      setComponent(players[0], new VelocityComponent({ vx: 1, vy: 0 }));
+      setComponent(players[1], new VelocityComponent({ vx: 1, vy: 0 }));
+      movementSystem.update(createStandardUpdateArgs());
+
+      // Both players should now be at key positions
+      const playersAfterMove = getEntitiesWithComponent(ComponentType.Player);
+      expect(playersAfterMove.length).toBe(2);
+      
+      const player1Position = getComponentAbsolute(playersAfterMove[0], ComponentType.Position);
+      const player2Position = getComponentAbsolute(playersAfterMove[1], ComponentType.Position);
+      
+      // Players should be at key positions (order might vary)
+      const positions = [
+        { x: player1Position.x, y: player1Position.y },
+        { x: player2Position.x, y: player2Position.y }
+      ];
+      expect(positions).toContainEqual({ x: 1, y: 0 });
+      expect(positions).toContainEqual({ x: 3, y: 0 });
+
+      // Both players try to pick up keys
+      setComponent(playersAfterMove[0], new HandlingComponent());
+      setComponent(playersAfterMove[1], new HandlingComponent());
+      pickupSystem.update(createStandardUpdateArgs());
+
+      // Verify both players picked up their respective keys
+      const playersAfterPickup = getEntitiesWithComponent(ComponentType.Player);
+      expect(playersAfterPickup.length).toBe(2);
+
+      const playersWithItems = playersAfterPickup.filter(player => 
+        hasComponent(player, ComponentType.CarriedItem)
+      );
+      expect(playersWithItems.length).toBe(2);
+
+      // Verify handling components were removed
+      const playersWithHandling = playersAfterPickup.filter(player => 
+        hasComponent(player, ComponentType.Handling)
+      );
+      expect(playersWithHandling.length).toBe(0);
     });
   });
 });
