@@ -18,12 +18,17 @@ import { createEntity } from '../../src/game/utils/EntityFactory';
 import { MovementSystem } from '../../src/game/systems/MovementSystem';
 import {
   getEntitiesAtPosition,
-  getPlayerEntity,
+  getEntitiesWithComponent,
 } from '../../src/game/utils/EntityUtils';
 import { entitiesAtom, mapAtom, store } from '../../src/game/utils/Atoms';
 import { GameMap } from '../../src/game/map/GameMap';
 
 describe('Movement Integration Test', () => {
+  // Helper function to get player entity for tests
+  const getPlayerEntity = () => {
+    const players = getEntitiesWithComponent(ComponentType.Player);
+    return players.length === 1 ? players[0] : undefined;
+  };
   describe('when player moves in open space', () => {
     const originalPlayer = createEntity(
       ConvenienceComponentSets.player({ x: 5, y: 5 }),

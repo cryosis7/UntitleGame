@@ -22,12 +22,17 @@ import { ItemInteractionSystem } from '../../src/game/systems/ItemInteractionSys
 import {
   getEntitiesAtPosition,
   getEntity,
-  getPlayerEntity,
+  getEntitiesWithComponent,
 } from '../../src/game/utils/EntityUtils';
 import { entitiesAtom, mapAtom, store } from '../../src/game/utils/Atoms';
 import { GameMap } from '../../src/game/map/GameMap';
 
 describe('Item Usage Integration Test', () => {
+  // Helper function to get player entity for tests
+  const getPlayerEntity = () => {
+    const players = getEntitiesWithComponent(ComponentType.Player);
+    return players.length === 1 ? players[0] : undefined;
+  };
   describe('Full workflow: move to key → pickup key → move to chest → use key → chest opens', () => {
     const originalKey = createEntity(
       ConvenienceComponentSets.key({ x: 1, y: 1 }, 'unlock'),

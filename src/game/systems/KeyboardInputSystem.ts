@@ -1,6 +1,6 @@
 import type { System, UpdateArgs } from './Systems';
 import type { Entity } from '../utils/ecsUtils';
-import { getPlayerEntities } from '../utils/EntityUtils';
+import { getEntitiesWithComponent } from '../utils/EntityUtils';
 import {
   getComponentIfExists,
   setComponent,
@@ -28,7 +28,7 @@ export class KeyboardInputSystem implements System {
   update({ entities, map }: UpdateArgs) {
     if (entities.length === 0 || !map || !this.hasChanged) return;
 
-    const playerEntities = getPlayerEntities(entities);
+    const playerEntities = getEntitiesWithComponent(ComponentType.Player, entities);
 
     for (const playerEntity of playerEntities) {
       this.handleMovement(playerEntity);

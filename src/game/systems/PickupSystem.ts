@@ -11,11 +11,11 @@ import {
   setComponent,
 } from '../components/ComponentOperations';
 import type { System, UpdateArgs } from './Systems';
-import { getEntitiesAtPosition, getPlayerEntities } from '../utils/EntityUtils';
+import { getEntitiesAtPosition, getEntitiesWithComponent } from '../utils/EntityUtils';
 
 export class PickupSystem implements System {
   update({ entities }: UpdateArgs) {
-    const playerEntities = getPlayerEntities(entities);
+    const playerEntities = getEntitiesWithComponent(ComponentType.Player, entities);
 
     for (const playerEntity of playerEntities) {
       const handlingComponent = getComponentIfExists(
