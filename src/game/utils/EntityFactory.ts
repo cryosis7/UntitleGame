@@ -26,7 +26,7 @@ import {
 } from '../components';
 
 export type ComponentsTemplate = Partial<{
-  [type in ComponentType]: ComponentProps;
+  [_type in ComponentType]: ComponentProps;
 }>;
 export type EntityTemplate = {
   components: ComponentsTemplate;

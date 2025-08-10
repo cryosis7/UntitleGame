@@ -13,7 +13,7 @@ import type {
 } from '../../../game/components/ComponentTypes';
 
 interface EntityFormProps {
-  setEntityJson: (json: string | null) => void;
+  setEntityJson: (_json: string | null) => void;
 }
 
 export const EntityForm: React.FC<EntityFormProps> = ({ setEntityJson }) => {

@@ -5,7 +5,7 @@ import type { EntitiesComponentsSchema } from './ComponentSchemas';
 import { ComponentType } from '../../../game/components/ComponentTypes';
 
 interface ComponentSelectorProps {
-  onAddComponent: (type: ComponentType) => void;
+  onAddComponent: (_type: ComponentType) => void;
   entityTemplate: EntitiesComponentsSchema;
 }
 

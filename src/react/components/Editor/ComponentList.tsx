@@ -7,11 +7,11 @@ import type { EntitiesComponentsSchema } from './ComponentSchemas';
 
 interface ComponentListProps {
   entityTemplate: EntitiesComponentsSchema;
-  onRemoveComponent: (type: string) => void;
+  onRemoveComponent: (_type: string) => void;
   onComponentChange: (
-    type: string,
-    field: string,
-    value: string | number,
+    _type: string,
+    _field: string,
+    _value: string | number,
   ) => void;
 }
 

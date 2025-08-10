@@ -22,10 +22,10 @@ export function createStandardUpdateArgs(entities?: Entity[]): UpdateArgs {
   const mockGameMap = {
     isValidPosition: ({ x, y }: Position) =>
       x >= 0 && y >= 0 && x < 20 && y < 20,
-    isPositionInMap: ({ x, y }: Position) =>
-      x >= 0 && y >= 0 && x < 20 && y < 20,
-    isTileWalkable: ({ x, y }: Position) => true,
-    getTile: ({ x, y }: Position) => null,
+    isPositionInMap: ({ x: _x, y: _y }: Position) =>
+      _x >= 0 && _y >= 0 && _x < 20 && _y < 20,
+    isTileWalkable: ({ x: _x, y: _y }: Position) => true,
+    getTile: ({ x: _x, y: _y }: Position) => null,
   } as GameMap;
 
   return {

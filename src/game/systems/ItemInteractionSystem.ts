@@ -236,7 +236,7 @@ export class ItemInteractionSystem implements System {
    */
   private processBehaviorSpawnContents(
     targetEntity: Entity,
-    entities: Entity[],
+    _entities: Entity[],
   ): void {
     const spawnComponent = getComponentIfExists(
       targetEntity,

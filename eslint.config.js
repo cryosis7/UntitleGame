@@ -24,7 +24,13 @@ export default [
         document: 'readonly',
         window: 'readonly',
         process: 'readonly',
-        global: 'readonly'
+        global: 'readonly',
+        HTMLDivElement: 'readonly',
+        HTMLInputElement: 'readonly',
+        HTMLElement: 'readonly',
+        crypto: 'readonly',
+        navigator: 'readonly',
+        setTimeout: 'readonly'
       }
     },
     plugins: {
@@ -35,7 +41,12 @@ export default [
     },
     rules: {
       'react/jsx-uses-react': 'off',
-      'react/react-in-jsx-scope': 'off'
+      'react/react-in-jsx-scope': 'off',
+      'no-unused-vars': ['error', { 
+        'argsIgnorePattern': '^_',
+        'varsIgnorePattern': '^_',
+        'destructuredArrayIgnorePattern': '^_'
+      }]
     },
     settings: {
       react: {
@@ -44,7 +55,16 @@ export default [
     }
   },
   {
-    files: ['**/*{test,spec}.{t,j}s?(x)'],
+    files: ['**/*Types.ts', '**/types.ts', '**/ComponentTypes.ts', '**/setupTests.ts', '**/*Component.ts'],
+    rules: {
+      'no-unused-vars': 'off'
+    }
+  },
+  {
+    files: ['**/*{test,spec}.{t,j}s?(x)', '**/mocks/**/*.ts'],
+    rules: {
+      'no-unused-vars': 'off'
+    },
     languageOptions: {
       globals: {
         describe: 'readonly',

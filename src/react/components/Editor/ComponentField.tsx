@@ -6,7 +6,7 @@ import type { PropertyValueSchema } from './ComponentSchemas';
 interface ComponentFieldProps {
   field: string;
   propertyValue: PropertyValueSchema;
-  setValue: (value: string | number) => void;
+  setValue: (_value: string | number) => void;
 }
 
 export const ComponentField: React.FC<ComponentFieldProps> = ({
