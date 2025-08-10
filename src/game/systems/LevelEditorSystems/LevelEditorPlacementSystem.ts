@@ -79,7 +79,7 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
     );
     if (selectedEntities.length > 1) {
       throw new Error(
-        'Multiple selected entities found in EntityPlacementSystem. Only one should be selected at a time.',
+        'Multiple selected entities found in LevelEditorPlacementSystem. Only one should be selected at a time.',
       );
     }
 

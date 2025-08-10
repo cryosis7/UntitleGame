@@ -143,8 +143,16 @@ export const removeComponent = (
 };
 
 export const removeComponentFromAllEntities = (type: ComponentType) => {
-  const entities = store.get(entitiesAtom);
-  entities.forEach((entity) => delete entity.components[type]);
+  store.set(entitiesAtom, (entities) => {
+    return entities.map((entity) => {
+      const existingComponents = { ...entity.components };
+      delete existingComponents[type];
+      return {
+        ...entity,
+        components: existingComponents,
+      };
+    });
+  });
 };
 
 /**
