@@ -1,23 +1,33 @@
-import type { Container, Spritesheet } from 'pixi.js';
+import type { Container, Spritesheet, Texture } from 'pixi.js';
 import { atom, createStore } from 'jotai';
 import { GameMap } from '../map/GameMap';
 import { ComponentType } from '../components';
 import { hasComponent } from '../components/ComponentOperations';
-import type { System } from '../systems/Framework/Systems';
+import type { BaseSystem } from '../systems/Framework/Systems';
 import type { Entity } from './ecsUtils';
 
 export const store = createStore();
 
 export const spritesheetsAtom = atom<Spritesheet[]>([]);
-export const getTexture = (textureName: string) => {
-  const spritesheets = store.get(spritesheetsAtom);
+export const getTextureAtom = atom((get) => (textureName: string) => {
+  const spritesheets = get(spritesheetsAtom);
   for (const spritesheet of spritesheets) {
     if (spritesheet.textures[textureName]) {
       return spritesheet.textures[textureName];
     }
   }
   return null;
-};
+});
+
+export const getAllTexturesAtom = atom(
+  (get): Record<string | number, Texture> => {
+    const spritesheets = get(spritesheetsAtom);
+    return spritesheets.reduce((acc, spritesheet) => {
+      return { ...acc, ...spritesheet.textures };
+    }, {});
+  },
+);
+
 export const addSpritesheetAtom = atom(
   null,
   (get, set, update: Spritesheet) => {
@@ -150,12 +160,6 @@ export const renderConfigAtom = atom<{
   },
 });
 
-interface MapConfig {
-  rows?: number;
-  cols?: number;
-  tileSize?: number;
-}
-
 export const getMapRenderConfigAtom = atom((get) => get(renderConfigAtom).map);
 export const getSidebarRenderConfigAtom = atom(
   (get) => get(renderConfigAtom).sidebar,
@@ -182,11 +186,23 @@ export const getContainersAtom = atom((get) => {
     sidebarContainer,
   };
 });
-export const getMapContainerAtom = atom(
+export const mapContainerAtom = atom(
   (get) => get(getMapRenderConfigAtom).rootContainer,
 );
-export const getSidebarContainerAtom = atom(
+export const sidebarContainerAtom = atom(
   (get) => get(getSidebarRenderConfigAtom).rootContainer,
+);
+export const getContainerBySectionAtom = atom(
+  (get) =>
+    (section: RenderSection): Container | null => {
+      switch (section) {
+        case 'map':
+        case 'game':
+          return get(mapContainerAtom);
+        case 'sidebar':
+          return get(sidebarContainerAtom);
+      }
+    },
 );
 
 export const getMapConfigAtom = atom(
@@ -219,23 +235,23 @@ export const setContainersAtom = atom(
   },
 );
 
-//TODO: Continue pulling changes from this commit: https://github.com/cryosis7/UntitleGame/commit/eb5c3b40b1ac3660ef389e1fa679c0fd2324f1c8#diff-252c13a77903ac6fbec7b43836c0cdd58027ae532e5bddb2946cb4aebed3f3d5
-//TODO: The above atoms were from the commit, but they need to be adapted to the new structure of the game.
-//TODO: The atoms below are the current ones to be replaced.
-//TODO: The game will still be using the old atoms, I haven't updated the references.
-
-export const mapConfigAtom = atom<MapConfig>();
-export const updateMapConfigAtom = atom(null, (get, set, update: MapConfig) => {
-  set(mapConfigAtom, { ...get(mapConfigAtom), ...update });
-});
-export const getTileSizeAtom = atom((get) => {
-  return get(mapConfigAtom)?.tileSize ?? 0;
-});
-
 export const entitiesAtom = atom<Entity[]>([]);
-export const systemsAtom = atom<System[]>([]);
-export const mapAtom = atom<GameMap>(new GameMap());
+export const systemsAtom = atom<BaseSystem[]>([]);
 export const playerAtom = atom((get) => {
   const entities = get(entitiesAtom);
   return entities.find((entity) => hasComponent(entity, ComponentType.Player));
+});
+
+interface MapConfig {
+  rows?: number;
+  cols?: number;
+}
+
+export const mapAtom = atom<GameMap>(new GameMap());
+export const mapConfigAtom = atom<MapConfig>();
+export const updateMapConfigAtom = atom(null, (get, set, config: MapConfig) => {
+  set(mapConfigAtom, {
+    ...get(mapConfigAtom),
+    ...config,
+  });
 });

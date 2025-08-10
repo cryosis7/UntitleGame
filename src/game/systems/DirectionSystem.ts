@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from './Framework/Systems';
+import type { BaseSystem, UpdateArgs } from './Framework/Systems';
 import { getEntitiesWithComponents } from '../utils/EntityUtils';
 import { ComponentType } from '../components/ComponentTypes';
 import {
@@ -6,7 +6,7 @@ import {
   setComponent,
 } from '../components/ComponentOperations';
 
-export class DirectionSystem implements System {
+export class DirectionSystem implements BaseSystem {
   update({ entities }: UpdateArgs): void {
     getEntitiesWithComponents(
       [ComponentType.Direction, ComponentType.Velocity],

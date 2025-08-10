@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from '../Framework/Systems';
+import type { BaseSystem, UpdateArgs } from '../Framework/Systems';
 import type { Entity } from '../../utils/ecsUtils';
 import type { Container } from 'pixi.js';
 import { Sprite } from 'pixi.js';
@@ -9,9 +9,9 @@ import type {
   InterfaceConfig,
   RenderSection} from '../../utils/Atoms';
 import {
+  getContainerBySectionAtom,
   getInterfaceConfigBySectionAtom,
-  getTexture,
-  getTileSizeAtom,
+  getTextureAtom,
   removeSprite,
   renderedEntities,
   setSprite,
@@ -29,23 +29,29 @@ type EntitySpriteMap = {
   [id: string]: { entity?: Entity; sprite?: Container };
 };
 
-export abstract class BaseRenderSystem implements System {
-  protected tileSize: number = store.get(getTileSizeAtom);
-
+export abstract class BaseRenderSystem implements BaseSystem {
   protected stage: Container;
   protected renderSectionAtomKey: RenderSection;
   protected interfaceConfig: InterfaceConfig;
 
   protected constructor(
-    container: Container,
     renderSectionAtomKey: RenderSection,
-    position: [number, number],
+    containerPosition: [number, number] = [0, 0],
   ) {
+    const container = store.get(getContainerBySectionAtom)(
+      renderSectionAtomKey,
+    );
+    if (!container) {
+      throw new Error(
+        `Container for section ${renderSectionAtomKey} not found`,
+      );
+    }
+
     this.stage = container;
     this.renderSectionAtomKey = renderSectionAtomKey;
 
     pixiApp.stage.addChild(container);
-    container.position.set(...position);
+    container.position.set(...containerPosition);
 
     this.interfaceConfig = store.get(getInterfaceConfigBySectionAtom)(
       this.renderSectionAtomKey,
@@ -187,7 +193,7 @@ export abstract class BaseRenderSystem implements System {
   };
 
   protected createSprite = (spriteComponent: SpriteComponent) => {
-    const texture = getTexture(spriteComponent.spriteName);
+    const texture = store.get(getTextureAtom)(spriteComponent.spriteName);
     if (texture === null) {
       throw Error(
         `No matching texture found for sprite: ${spriteComponent.spriteName}`,
@@ -195,7 +201,7 @@ export abstract class BaseRenderSystem implements System {
     }
 
     const sprite = new Sprite(texture);
-    sprite.setSize(this.tileSize);
+    sprite.setSize(this.interfaceConfig.tileSize);
     return sprite;
   };
 }

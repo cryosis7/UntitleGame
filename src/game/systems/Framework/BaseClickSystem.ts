@@ -1,7 +1,7 @@
-import type { System, UpdateArgs } from './Systems';
+import type { BaseSystem, UpdateArgs } from './Systems';
 import type { Container, FederatedPointerEvent, Point } from 'pixi.js';
 
-export abstract class BaseClickSystem implements System {
+export abstract class BaseClickSystem implements BaseSystem {
   constructor(container: Container) {
     container.eventMode = 'static';
     container.onclick = (event) => {

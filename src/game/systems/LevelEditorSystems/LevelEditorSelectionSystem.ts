@@ -3,7 +3,11 @@ import type { Position } from '../../map/GameMap';
 
 import type { FederatedPointerEvent, Point } from 'pixi.js';
 import { BaseClickSystem } from '../Framework/BaseClickSystem';
-import { getSidebarConfigAtom, store } from '../../utils/Atoms';
+import {
+  getSidebarConfigAtom,
+  sidebarContainerAtom,
+  store,
+} from '../../utils/Atoms';
 import type { UpdateArgs } from '../Framework/Systems';
 import { getEntitiesWithComponents } from '../../utils/EntityUtils';
 import { ComponentType, SelectedComponent } from '../../components';
@@ -11,6 +15,7 @@ import {
   getComponentAbsolute,
   hasComponent,
   removeComponent,
+  removeComponentFromAllEntities,
   setComponent,
 } from '../../components/ComponentOperations';
 
@@ -18,7 +23,16 @@ export class LevelEditorSelectionSystem extends BaseClickSystem {
   private clickedPosition?: Position;
   private hasChanged = false;
 
-  handleClick(event: FederatedPointerEvent, localPosition: Point) {
+  constructor() {
+    const sidebarContainer = store.get(sidebarContainerAtom);
+    if (!sidebarContainer) {
+      throw new Error('Sidebar container is not initialized');
+    }
+
+    super(sidebarContainer);
+  }
+
+  handleClick(_event: FederatedPointerEvent, localPosition: Point) {
     this.clickedPosition = screenToGrid(
       localPosition,
       store.get(getSidebarConfigAtom),
@@ -56,6 +70,7 @@ export class LevelEditorSelectionSystem extends BaseClickSystem {
         if (isSelected) {
           removeComponent(clickedEntity, ComponentType.Selected);
         } else {
+          removeComponentFromAllEntities(ComponentType.Selected);
           setComponent(clickedEntity, new SelectedComponent());
         }
       }

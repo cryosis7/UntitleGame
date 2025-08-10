@@ -1,15 +1,12 @@
 import type { UpdateArgs } from '../Framework/Systems';
 
 import { hasComponent } from '../../components/ComponentOperations';
-import { ComponentType } from '../../components/ComponentTypes';
-import { mapAtom, store } from '../../utils/Atoms';
+import { ComponentType } from '../../components';
 import { BaseRenderSystem } from './BaseRenderSystem';
 
 export class GameRenderSystem extends BaseRenderSystem {
   constructor() {
-    const map = store.get(mapAtom);
-    const spriteContainer = map.getSpriteContainer();
-    super(spriteContainer, 'game', [0, 0]);
+    super('game');
   }
 
   update({ entities }: UpdateArgs) {

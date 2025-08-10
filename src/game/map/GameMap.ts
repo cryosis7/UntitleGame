@@ -1,4 +1,3 @@
-import { Container } from 'pixi.js';
 import type { Entity } from '../utils/ecsUtils';
 import type { EntityTemplate } from '../utils/EntityFactory';
 import { createEntityFromTemplate } from '../utils/EntityFactory';
@@ -15,26 +14,24 @@ export class GameMap {
   private tiles: Entity[][]; //TODO: Convert to single array.
   public id: string;
   public hasChanged: boolean;
-  private pixiContainer: Container | null;
 
   constructor() {
     this.id = crypto.randomUUID();
     this.tiles = [];
     this.hasChanged = true;
-    this.pixiContainer = null;
   }
 
   init() {
     const mapConfig = store.get(mapConfigAtom);
-    if (mapConfig?.rows === undefined || mapConfig.cols === undefined) {
+
+    if (!mapConfig) {
+      throw new Error('Map config not found');
+    }
+    if (mapConfig.rows === undefined || mapConfig.cols === undefined) {
       throw new Error('Map config not configured');
     }
 
     this.tiles = [];
-
-    const container = new Container({
-      eventMode: 'static',
-    });
 
     for (let y = 0; y < mapConfig.rows; y++) {
       const row: Entity[] = [];
@@ -52,22 +49,12 @@ export class GameMap {
       }
       this.tiles.push(row);
     }
-    this.pixiContainer = container;
     this.hasChanged = true;
   }
 
   getAllEntities(): Entity[] {
     return this.tiles.flat();
   }
-
-  private createSpriteContainer(): Container {
-    return new Container();
-  }
-
-  public getSpriteContainer = (): Container => {
-    this.pixiContainer ??= this.createSpriteContainer();
-    return this.pixiContainer;
-  };
 
   isPositionInMap({ x, y }: Position): boolean {
     return (

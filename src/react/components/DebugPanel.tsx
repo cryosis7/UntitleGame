@@ -2,8 +2,8 @@ import type React from 'react';
 import { useAtomValue } from 'jotai';
 import { entitiesAtom } from '../../game/utils/Atoms';
 import type { Entity } from '../../game/utils/ecsUtils';
-import { ComponentType } from '../../game/components/ComponentTypes';
-import type { SpriteComponent } from '../../game/components/individualComponents/SpriteComponent';
+import type { SpriteComponent } from '../../game/components';
+import { ComponentType } from '../../game/components';
 
 export const DebugPanel: React.FC = () => {
   const entities = useAtomValue(entitiesAtom);
@@ -26,7 +26,10 @@ export const DebugPanel: React.FC = () => {
   );
 
   return (
-    <div className='border-blue' style={{ flexGrow: '1', overflow: 'auto', maxHeight: '100vh' }}>
+    <div
+      className='border-blue'
+      style={{ flexGrow: '1', overflow: 'auto', maxHeight: '100vh' }}
+    >
       <h2>Debug Panel</h2>
       {entities.map(getEntityHtml)}
     </div>

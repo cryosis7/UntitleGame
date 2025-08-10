@@ -142,6 +142,11 @@ export const removeComponent = (
   });
 };
 
+export const removeComponentFromAllEntities = (type: ComponentType) => {
+  const entities = store.get(entitiesAtom);
+  entities.forEach((entity) => delete entity.components[type]);
+};
+
 /**
  * Removes the components needed to place the item somewhere in the map.
  * @param entity

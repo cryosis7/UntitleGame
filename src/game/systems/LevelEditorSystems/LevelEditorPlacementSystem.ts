@@ -17,12 +17,22 @@ import {
 import { BaseClickSystem } from '../Framework/BaseClickSystem';
 import type { FederatedPointerEvent, Point } from 'pixi.js';
 import { partitionArray } from '../../../utils';
+import { mapContainerAtom, store } from '../../utils/Atoms';
 
 export class LevelEditorPlacementSystem extends BaseClickSystem {
   private readonly defaultSprite: string = 'grass';
   private hasChanged: boolean = false;
   private placementPositions: Position[] = [];
   private lastClickedPosition: Position | null = null;
+
+  constructor() {
+    const mapContainer = store.get(mapContainerAtom);
+    if (!mapContainer) {
+      throw new Error('Map container is not initialized');
+    }
+
+    super(mapContainer);
+  }
 
   handleClick(event: FederatedPointerEvent, localPosition: Point) {
     this.hasChanged = true;
