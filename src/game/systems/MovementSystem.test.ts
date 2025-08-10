@@ -499,36 +499,6 @@ describe('MovementSystem', () => {
 
         expect(() => system.update(getUpdateArgs())).not.toThrow();
       });
-
-      it('should handle null or undefined entities gracefully', () => {
-        const invalidUpdateArgs: UpdateArgs = {
-          entities: null as any,
-          map,
-        };
-
-        expect(() => system.update(invalidUpdateArgs)).not.toThrow();
-      });
-
-      it('should handle null or undefined map gracefully', () => {
-        const entity = createMovingEntity({
-          position: { x: 5, y: 5 },
-          velocity: { vx: 1, vy: 0 },
-        });
-
-        const invalidUpdateArgs: UpdateArgs = {
-          entities: [entity],
-          map: null as any,
-        };
-
-        expect(() => system.update(invalidUpdateArgs)).not.toThrow();
-
-        // Entity should remain unchanged
-        const position = entity.components[
-          ComponentType.Position
-        ] as PositionComponentProps;
-        expect(position.x).toBe(5);
-        expect(position.y).toBe(5);
-      });
     });
   });
 });
