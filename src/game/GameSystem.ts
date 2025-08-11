@@ -15,12 +15,12 @@ import { MovementSystem } from './systems/MovementSystem';
 import { PickupSystem } from './systems/PickupSystem';
 import { ItemInteractionSystem } from './systems/ItemInteractionSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
-import { EntityPlacementSystem } from './systems/LevelEditorSystems/EntityPlacementSystem';
+import { LevelEditorPlacementSystem } from './systems/LevelEditorSystems/LevelEditorPlacementSystem';
 import { PositionComponent } from './components';
 import { GameRenderSystem } from './systems/RenderSystems/GameRenderSystem';
 import { addEntities } from './utils/EntityUtils';
 import { DirectionSystem } from './systems/DirectionSystem';
-import { RenderSidebarSystem } from './systems/RenderSystems/RenderSidebarSystem';
+import { SidebarRenderSystem } from './systems/RenderSystems/SidebarRenderSystem';
 import { MapRenderSystem } from './systems/RenderSystems/MapRenderSystem';
 
 export const initiateEntities = () => {
@@ -46,11 +46,11 @@ export const initiateSystems = () => {
     new MovementSystem(),
     new PickupSystem(),
     new ItemInteractionSystem(),
-    new EntityPlacementSystem(),
+    new LevelEditorPlacementSystem(),
 
     new MapRenderSystem(),
     new GameRenderSystem(),
-    new RenderSidebarSystem(),
+    new SidebarRenderSystem(),
 
     new CleanUpSystem(),
   );

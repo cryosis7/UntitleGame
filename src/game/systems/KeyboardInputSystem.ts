@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from './Systems';
+import type { BaseSystem, UpdateArgs } from './Framework/Systems';
 import type { Entity } from '../utils/ecsUtils';
 import { getEntitiesWithComponent } from '../utils/EntityUtils';
 import {
@@ -8,7 +8,7 @@ import {
 import { ComponentType } from '../components/ComponentTypes';
 import { InteractingComponent, HandlingComponent } from '../components';
 
-export class KeyboardInputSystem implements System {
+export class KeyboardInputSystem implements BaseSystem {
   private keys: { [key: string]: boolean } = {};
 
   // Indicates if the state of the keys has changed since the last update

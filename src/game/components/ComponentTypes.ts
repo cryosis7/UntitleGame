@@ -41,6 +41,7 @@ import type {
   DirectionComponent,
   DirectionComponentProps,
 } from './individualComponents/DirectionComponent';
+import type { SelectedComponent } from './individualComponents/SelectedComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -59,6 +60,7 @@ export enum ComponentType {
   UsableItem = 'usableItem',
   InteractionBehavior = 'interactionBehavior',
   SpawnContents = 'spawnContents',
+  Selected = 'selected',
 }
 
 export type FullComponentDictionary = {
@@ -78,6 +80,7 @@ export type FullComponentDictionary = {
   [ComponentType.UsableItem]: UsableItemComponent;
   [ComponentType.InteractionBehavior]: InteractionBehaviorComponent;
   [ComponentType.SpawnContents]: SpawnContentsComponent;
+  [ComponentType.Selected]: SelectedComponent;
 };
 
 export type Component = FullComponentDictionary[keyof FullComponentDictionary];

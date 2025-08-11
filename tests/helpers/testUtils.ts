@@ -12,7 +12,7 @@ import {
   VelocityComponent,
 } from '../../src/game/components';
 import type { Entity } from '../../src/game/utils/ecsUtils';
-import type { UpdateArgs } from '../../src/game/systems/Systems';
+import type { UpdateArgs } from '../../src/game/systems/Framework/Systems';
 import { entitiesAtom, store } from '../../src/game/utils/Atoms';
 
 export function createStandardUpdateArgs(entities?: Entity[]): UpdateArgs {

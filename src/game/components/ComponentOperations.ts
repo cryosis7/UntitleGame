@@ -142,6 +142,19 @@ export const removeComponent = (
   });
 };
 
+export const removeComponentFromAllEntities = (type: ComponentType) => {
+  store.set(entitiesAtom, (entities) => {
+    return entities.map((entity) => {
+      const existingComponents = { ...entity.components };
+      delete existingComponents[type];
+      return {
+        ...entity,
+        components: existingComponents,
+      };
+    });
+  });
+};
+
 /**
  * Removes the components needed to place the item somewhere in the map.
  * @param entity

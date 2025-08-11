@@ -1,10 +1,10 @@
-import type { System, UpdateArgs } from './Systems';
+import type { BaseSystem, UpdateArgs } from './Framework/Systems';
 import { ComponentType } from '../components/ComponentTypes';
 import type { Entity } from '../utils/ecsUtils';
 import { getEntitiesWithComponent } from '../utils/EntityUtils';
 import { removeComponent } from '../components/ComponentOperations';
 
-export class CleanUpSystem implements System {
+export class CleanUpSystem implements BaseSystem {
   update({ entities }: UpdateArgs) {
     if (!entities) return;
 

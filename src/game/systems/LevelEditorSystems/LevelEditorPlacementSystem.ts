@@ -1,56 +1,66 @@
 import { screenToGrid } from '../../map/MappingUtils';
-import type { System, UpdateArgs } from '../Systems';
+import type { UpdateArgs } from '../Framework/Systems';
 import type { Position } from '../../map/GameMap';
 import type { Entity } from '../../utils/ecsUtils';
 import type { EntityTemplate } from '../../utils/EntityFactory';
 import { createEntityFromTemplate } from '../../utils/EntityFactory';
-import { getComponentIfExists } from '../../components/ComponentOperations';
-import { ComponentType } from '../../components/ComponentTypes';
-import { addEntities, removeEntities } from '../../utils/EntityUtils';
-import { mapAtom, store } from '../../utils/Atoms';
+import {
+  getComponentIfExists,
+  hasComponent,
+} from '../../components/ComponentOperations';
+import { ComponentType } from '../../components';
+import {
+  addEntities,
+  getEntitiesWithComponent,
+  removeEntities,
+} from '../../utils/EntityUtils';
+import { BaseClickSystem } from '../Framework/BaseClickSystem';
+import type { FederatedPointerEvent, Point } from 'pixi.js';
+import { partitionArray } from '../../../utils';
+import { mapContainerAtom, store } from '../../utils/Atoms';
 
-export class EntityPlacementSystem implements System {
-  private selectedItem: string;
+export class LevelEditorPlacementSystem extends BaseClickSystem {
+  private readonly defaultSprite: string = 'grass';
   private hasChanged: boolean = false;
   private placementPositions: Position[] = [];
   private lastClickedPosition: Position | null = null;
 
   constructor() {
-    this.selectedItem = 'yellow-tree-tall-bottom'; // Default item
+    const mapContainer = store.get(mapContainerAtom);
+    if (!mapContainer) {
+      throw new Error('Map container is not initialized');
+    }
 
-    const map = store.get(mapAtom);
-    map.getSpriteContainer().onclick = (event) => {
-      event.stopPropagation();
-      this.hasChanged = true;
+    super(mapContainer);
+  }
 
-      const clickedPosition = screenToGrid({
-        x: event.screenX,
-        y: event.screenY,
-      });
+  handleClick(event: FederatedPointerEvent, localPosition: Point) {
+    this.hasChanged = true;
 
-      // If shift key is pressed, draw a line between the last position and the clicked position
-      if (event.shiftKey && this.lastClickedPosition) {
-        const points = EntityPlacementSystem.getPointsBetween(
-          this.lastClickedPosition,
-          clickedPosition,
-        );
+    const gridPosition = screenToGrid(localPosition);
 
-        for (const point of points) {
-          if (
-            !this.placementPositions.some(
-              (pos) => pos.x === point.x && pos.y === point.y,
-            )
-          ) {
-            this.placementPositions.push(point);
-          }
+    // If shift key is pressed, draw a line between the last position and the clicked position
+    if (event.shiftKey && this.lastClickedPosition) {
+      const points = LevelEditorPlacementSystem.getPointsBetween(
+        this.lastClickedPosition,
+        gridPosition,
+      );
+
+      for (const point of points) {
+        if (
+          !this.placementPositions.some(
+            (pos) => pos.x === point.x && pos.y === point.y,
+          )
+        ) {
+          this.placementPositions.push(point);
         }
-        this.lastClickedPosition = clickedPosition;
-        return;
       }
+      this.lastClickedPosition = gridPosition;
+      return;
+    }
 
-      this.placementPositions.push(clickedPosition);
-      this.lastClickedPosition = clickedPosition;
-    };
+    this.placementPositions.push(gridPosition);
+    this.lastClickedPosition = gridPosition;
   }
 
   update({ entities }: UpdateArgs) {
@@ -58,16 +68,40 @@ export class EntityPlacementSystem implements System {
 
     const entitiesToAdd: Entity[] = [];
     const entitiesToRemove: string[] = [];
+
+    const [sidebarEntities, gameEntities] = partitionArray(entities, (entity) =>
+      hasComponent(entity, ComponentType.RenderInSidebar),
+    );
+
+    const selectedEntities = getEntitiesWithComponent(
+      ComponentType.Selected,
+      sidebarEntities,
+    );
+    if (selectedEntities.length > 1) {
+      throw new Error(
+        'Multiple selected entities found in LevelEditorPlacementSystem. Only one should be selected at a time.',
+      );
+    }
+
+    let selectedItem = this.defaultSprite;
+    if (selectedEntities.length > 0) {
+      const component = getComponentIfExists(
+        selectedEntities[0],
+        ComponentType.Sprite,
+      );
+      selectedItem = component?.spriteName ?? this.defaultSprite;
+    }
+
     for (const position of this.placementPositions) {
       const entityTemplate: EntityTemplate = {
         components: {
-          sprite: { sprite: this.selectedItem },
+          sprite: { sprite: selectedItem },
           position: position,
         },
       };
 
       // If there is already the same entity at the position, skip/remove it
-      const existingEntitiesAtPosition = entities.reduce((ids, entity) => {
+      const existingEntitiesAtPosition = gameEntities.reduce((ids, entity) => {
         const positionComponent = getComponentIfExists(
           entity,
           ComponentType.Position,
@@ -79,12 +113,13 @@ export class EntityPlacementSystem implements System {
         if (
           positionComponent?.x === position.x &&
           positionComponent?.y === position.y &&
-          spriteComponent?.spriteName === this.selectedItem
+          spriteComponent?.spriteName === selectedItem
         ) {
           ids.push(entity.id);
         }
         return ids;
       }, [] as string[]);
+
       if (existingEntitiesAtPosition.length !== 0) {
         if (this.placementPositions.length === 1) {
           // If this is a single click event, remove the existing entity.

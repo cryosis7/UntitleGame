@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from './Systems';
+import type { BaseSystem, UpdateArgs } from './Framework/Systems';
 import type { Entity } from '../utils/ecsUtils';
 import { ComponentType } from '../components/ComponentTypes';
 import {
@@ -30,7 +30,7 @@ import { getAdjacentPosition } from '../map/MappingUtils';
  * and entities that provide usable items. It processes capability matching,
  * item consumption, and interaction behaviors.
  */
-export class ItemInteractionSystem implements System {
+export class ItemInteractionSystem implements BaseSystem {
   update({ entities }: UpdateArgs): void {
     const interactingEntitiesCarryingItem = getEntitiesWithComponents(
       [

@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from './Systems';
+import type { BaseSystem, UpdateArgs } from './Framework/Systems';
 import type { Entity } from '../utils/ecsUtils';
 import {
   getEntitiesWithComponent,
@@ -12,7 +12,7 @@ import {
 import { ComponentType } from '../components/ComponentTypes';
 import { PositionComponent } from '../components';
 
-export class MovementSystem implements System {
+export class MovementSystem implements BaseSystem {
   update({ entities, map }: UpdateArgs) {
     if (!entities || !map) return;
 

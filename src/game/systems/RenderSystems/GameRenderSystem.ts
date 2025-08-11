@@ -1,4 +1,4 @@
-import type { UpdateArgs } from '../Systems';
+import type { UpdateArgs } from '../Framework/Systems';
 
 import { hasComponent } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components/ComponentTypes';

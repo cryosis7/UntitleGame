@@ -3,7 +3,13 @@
     "allow": [
       "Edit",
       "MultiEdit",
-      "Write"
+      "Write",
+      "Bash(find:*)",
+      "Bash(rg:*)",
+      "Bash(yarn:*)",
+      "Bash(grep:*)",
+      "Bash(git:*)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }

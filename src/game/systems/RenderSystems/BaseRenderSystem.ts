@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from '../Systems';
+import type { BaseSystem, UpdateArgs } from '../Framework/Systems';
 import type { Entity } from '../../utils/ecsUtils';
 import type { Container } from 'pixi.js';
 import { Sprite } from 'pixi.js';
@@ -26,7 +26,7 @@ type EntitySpriteMap = {
   [id: string]: { entity?: Entity; sprite?: Container };
 };
 
-export abstract class BaseRenderSystem implements System {
+export abstract class BaseRenderSystem implements BaseSystem {
   protected tileSize: number = store.get(getTileSizeAtom);
 
   protected stage: Container;
