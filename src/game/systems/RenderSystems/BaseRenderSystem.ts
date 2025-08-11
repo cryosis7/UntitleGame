@@ -5,10 +5,10 @@ import { Sprite } from 'pixi.js';
 import type { Position } from '../../map/GameMap';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
 import type { PositionComponent, SpriteComponent } from '../../components';
-import type { RenderSection } from '../../utils/Atoms';
+import type { InterfaceConfig, RenderSection } from '../../utils/Atoms';
 import {
-  getTexture,
-  getTileSizeAtom,
+  getInterfaceConfigBySectionAtom,
+  getTextureAtom,
   removeSprite,
   renderedEntities,
   setSprite,
@@ -27,7 +27,7 @@ type EntitySpriteMap = {
 };
 
 export abstract class BaseRenderSystem implements BaseSystem {
-  protected tileSize: number = store.get(getTileSizeAtom);
+  protected interfaceConfig: InterfaceConfig;
 
   protected stage: Container;
   protected renderSectionAtomKey: RenderSection;
@@ -39,6 +39,7 @@ export abstract class BaseRenderSystem implements BaseSystem {
   ) {
     this.stage = container;
     this.renderSectionAtomKey = renderSectionAtomKey;
+    this.interfaceConfig = store.get(getInterfaceConfigBySectionAtom)(renderSectionAtomKey);
 
     pixiApp.stage.addChild(container);
     container.position.set(...position);
@@ -137,7 +138,7 @@ export abstract class BaseRenderSystem implements BaseSystem {
         entity,
         ComponentType.Position,
       );
-      sprite.position.set(...gridToScreenAsTuple(positionComponent));
+      sprite.position.set(...gridToScreenAsTuple(positionComponent, this.interfaceConfig));
     });
   };
 
@@ -171,11 +172,12 @@ export abstract class BaseRenderSystem implements BaseSystem {
     position: Position,
     parent: Container,
   ) => {
-    child.position.set(...gridToScreenAsTuple(position));
+    child.position.set(...gridToScreenAsTuple(position, this.interfaceConfig));
     parent.addChild(child);
   };
 
   protected createSprite = (spriteComponent: SpriteComponent) => {
+    const getTexture = store.get(getTextureAtom);
     const texture = getTexture(spriteComponent.spriteName);
     if (texture === null) {
       throw Error(
@@ -184,7 +186,7 @@ export abstract class BaseRenderSystem implements BaseSystem {
     }
 
     const sprite = new Sprite(texture);
-    sprite.setSize(this.tileSize);
+    sprite.setSize(this.interfaceConfig.tileSize);
     return sprite;
   };
 }

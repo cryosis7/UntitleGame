@@ -10,12 +10,11 @@ export class SidebarRenderSystem extends BaseRenderSystem {
   private readonly sidebarWidth = 150;
 
   constructor() {
-    super('sidebar', [pixiApp.canvas.width - 150, 0]);
-
     const sidebarContainer = store.get(sidebarContainerAtom);
     if (!sidebarContainer) {
       throw new Error('Sidebar container not found');
     }
+    super(sidebarContainer, 'sidebar', [pixiApp.canvas.width - 150, 0]);
 
     sidebarContainer.setSize(this.sidebarWidth, pixiApp.canvas.height);
     sidebarContainer.addChild(
