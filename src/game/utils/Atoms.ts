@@ -255,3 +255,6 @@ export const updateMapConfigAtom = atom(null, (get, set, config: MapConfig) => {
     ...config,
   });
 });
+
+export type GameMode = 'game' | 'editor';
+export const currentGameModeAtom = atom<GameMode>('game');
