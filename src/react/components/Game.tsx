@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { initPixiApp, pixiApp, preload } from '../../game/Pixi';
 import {
   gameLoop,
+  initialiseContainers,
   initiateEntities,
   initiateSystems,
 } from '../../game/GameSystem';
@@ -25,15 +26,12 @@ export const Game: React.FC = () => {
       await initPixiApp(gameContainer);
       await preload();
 
-      // TODO:
-      // - Sort out the sprite sheets
-      // - Figure out the sidebar/sprite picker
-
-      updateMapConfig({ rows: 10, cols: 10, tileSize: 32 });
-    const map = store.get(mapAtom);
+      updateMapConfig({ rows: 10, cols: 10 });
+      const map = store.get(mapAtom);
       map.init();
 
       initiateEntities();
+      initialiseContainers();
       initiateSystems();
 
       pixiApp.ticker.add((time) => {

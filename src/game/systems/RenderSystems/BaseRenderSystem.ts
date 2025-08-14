@@ -1,4 +1,4 @@
-import type { System, UpdateArgs } from '../Systems';
+import type { BaseSystem, UpdateArgs } from '../Framework/Systems';
 import type { Entity } from '../../utils/ecsUtils';
 import type { Container } from 'pixi.js';
 import { Sprite } from 'pixi.js';
@@ -6,9 +6,11 @@ import type { Position } from '../../map/GameMap';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
 import type { PositionComponent, SpriteComponent } from '../../components';
 import type { RenderSection } from '../../components/individualComponents/RenderComponent';
+import type { InterfaceConfig } from '../../utils/Atoms';
 import {
-  getTexture,
-  getTileSizeAtom,
+  getContainerBySectionAtom,
+  getInterfaceConfigBySectionAtom,
+  getTextureAtom,
   removeSprite,
   renderedEntities,
   setSprite,
@@ -26,22 +28,33 @@ type EntitySpriteMap = {
   [id: string]: { entity?: Entity; sprite?: Container };
 };
 
-export abstract class BaseRenderSystem implements System {
-  protected tileSize: number = store.get(getTileSizeAtom);
-
+export abstract class BaseRenderSystem implements BaseSystem {
   protected stage: Container;
   protected renderSectionAtomKey: RenderSection;
+  protected interfaceConfig: InterfaceConfig;
 
   protected constructor(
-    container: Container,
     renderSectionAtomKey: RenderSection,
-    position: [number, number],
+    containerPosition: [number, number] = [0, 0],
   ) {
+    const container = store.get(getContainerBySectionAtom)(
+      renderSectionAtomKey,
+    );
+    if (!container) {
+      throw new Error(
+        `Container for section ${renderSectionAtomKey} not found`,
+      );
+    }
+
     this.stage = container;
     this.renderSectionAtomKey = renderSectionAtomKey;
 
     pixiApp.stage.addChild(container);
-    container.position.set(...position);
+    container.position.set(...containerPosition);
+
+    this.interfaceConfig = store.get(getInterfaceConfigBySectionAtom)(
+      this.renderSectionAtomKey,
+    );
   }
 
   update(updateArgs: UpdateArgs) {
@@ -137,7 +150,10 @@ export abstract class BaseRenderSystem implements System {
         entity,
         ComponentType.Position,
       );
-      sprite.position.set(...gridToScreenAsTuple(positionComponent));
+
+      sprite.position.set(
+        ...gridToScreenAsTuple(positionComponent, this.interfaceConfig),
+      );
     });
   };
 
@@ -171,12 +187,12 @@ export abstract class BaseRenderSystem implements System {
     position: Position,
     parent: Container,
   ) => {
-    child.position.set(...gridToScreenAsTuple(position));
+    child.position.set(...gridToScreenAsTuple(position, this.interfaceConfig));
     parent.addChild(child);
   };
 
   protected createSprite = (spriteComponent: SpriteComponent) => {
-    const texture = getTexture(spriteComponent.spriteName);
+    const texture = store.get(getTextureAtom)(spriteComponent.spriteName);
     if (texture === null) {
       throw Error(
         `No matching texture found for sprite: ${spriteComponent.spriteName}`,
@@ -184,7 +200,7 @@ export abstract class BaseRenderSystem implements System {
     }
 
     const sprite = new Sprite(texture);
-    sprite.setSize(this.tileSize);
+    sprite.setSize(this.interfaceConfig.tileSize);
     return sprite;
   };
 }

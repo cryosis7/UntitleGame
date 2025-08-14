@@ -8,3 +8,21 @@ export const capitaliseSentence = (str: string) => {
     .map((word) => capitalise(word))
     .join(' ');
 };
+
+export const partitionArray = <T>(
+  array: T[],
+  filter: (element: T) => boolean,
+): [T[], T[]] => {
+  const array1: T[] = [];
+  const array2: T[] = [];
+
+  for (const element of array) {
+    if (filter(element)) {
+      array1.push(element);
+    } else {
+      array2.push(element);
+    }
+  }
+
+  return [array1, array2];
+};

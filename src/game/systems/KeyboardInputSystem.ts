@@ -1,14 +1,17 @@
-import type { System, UpdateArgs } from './Systems';
+import type { BaseSystem, UpdateArgs } from './Framework/Systems';
 import type { Entity } from '../utils/ecsUtils';
 import { getEntitiesWithComponent } from '../utils/EntityUtils';
 import {
   getComponentIfExists,
   setComponent,
 } from '../components/ComponentOperations';
-import { ComponentType } from '../components/ComponentTypes';
-import { InteractingComponent, HandlingComponent } from '../components';
+import {
+  ComponentType,
+  HandlingComponent,
+  InteractingComponent,
+} from '../components';
 
-export class KeyboardInputSystem implements System {
+export class KeyboardInputSystem implements BaseSystem {
   private keys: { [key: string]: boolean } = {};
 
   // Indicates if the state of the keys has changed since the last update
@@ -25,8 +28,8 @@ export class KeyboardInputSystem implements System {
     });
   }
 
-  update({ entities, map }: UpdateArgs) {
-    if (entities.length === 0 || !map || !this.hasChanged) return;
+  update({ entities }: UpdateArgs) {
+    if (entities.length === 0 || !this.hasChanged) return;
 
     const playerEntities = getEntitiesWithComponent(
       ComponentType.Player,
@@ -64,7 +67,6 @@ export class KeyboardInputSystem implements System {
     if (this.keys['ArrowRight']) {
       velocityComponent.vx = 1;
     }
-
     setComponent(playerEntity, velocityComponent);
   }
 

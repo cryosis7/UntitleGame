@@ -1,24 +1,34 @@
-import type { Container, Spritesheet } from 'pixi.js';
+import type { Container, Spritesheet, Texture } from 'pixi.js';
 import { atom, createStore } from 'jotai';
 import { GameMap } from '../map/GameMap';
 import { ComponentType } from '../components';
 import { hasComponent } from '../components/ComponentOperations';
-import type { System } from '../systems/Systems';
+import type { BaseSystem } from '../systems/Framework/Systems';
 import type { Entity } from './ecsUtils';
 import type { RenderSection } from '../components/individualComponents/RenderComponent';
 
 export const store = createStore();
 
 export const spritesheetsAtom = atom<Spritesheet[]>([]);
-export const getTexture = (textureName: string) => {
-  const spritesheets = store.get(spritesheetsAtom);
+export const getTextureAtom = atom((get) => (textureName: string) => {
+  const spritesheets = get(spritesheetsAtom);
   for (const spritesheet of spritesheets) {
     if (spritesheet.textures[textureName]) {
       return spritesheet.textures[textureName];
     }
   }
   return null;
-};
+});
+
+export const getAllTexturesAtom = atom(
+  (get): Record<string | number, Texture> => {
+    const spritesheets = get(spritesheetsAtom);
+    return spritesheets.reduce((acc, spritesheet) => {
+      return { ...acc, ...spritesheet.textures };
+    }, {});
+  },
+);
+
 export const addSpritesheetAtom = atom(
   null,
   (get, set, update: Spritesheet) => {
@@ -126,24 +136,122 @@ export const removeGameSprite = atom(null, (get, set, entityId: string) => {
   set(removeSprite, { section: 'game', entityId });
 });
 
-interface MapConfig {
-  rows?: number;
-  cols?: number;
-  tileSize?: number;
+export interface InterfaceConfig {
+  tileSize: number;
+  gap: number;
 }
 
-export const mapConfigAtom = atom<MapConfig>();
-export const updateMapConfigAtom = atom(null, (get, set, update: MapConfig) => {
-  set(mapConfigAtom, { ...get(mapConfigAtom), ...update });
-});
-export const getTileSizeAtom = atom((get) => {
-  return get(mapConfigAtom)?.tileSize ?? 0;
+export interface RenderConfig {
+  interfaceConfig: InterfaceConfig;
+  rootContainer: Container | null;
+}
+
+export const renderConfigAtom = atom<{
+  map: RenderConfig;
+  sidebar: RenderConfig;
+}>({
+  map: {
+    interfaceConfig: { tileSize: 32, gap: 0 },
+    rootContainer: null,
+  },
+  sidebar: {
+    interfaceConfig: { tileSize: 32, gap: 4 },
+    rootContainer: null,
+  },
 });
 
+export const getMapRenderConfigAtom = atom((get) => get(renderConfigAtom).map);
+export const getSidebarRenderConfigAtom = atom(
+  (get) => get(renderConfigAtom).sidebar,
+);
+export const getInterfaceConfigBySectionAtom = atom(
+  (get) => (section: RenderSection) => {
+    switch (section) {
+      case 'map':
+      case 'game':
+        return get(getMapRenderConfigAtom).interfaceConfig;
+      case 'sidebar':
+        return get(getSidebarRenderConfigAtom).interfaceConfig;
+      default:
+        throw new Error(`Unknown render section: ${section}`);
+    }
+  },
+);
+
+export const getContainersAtom = atom((get) => {
+  const mapContainer = get(getMapRenderConfigAtom).rootContainer;
+  const sidebarContainer = get(getSidebarRenderConfigAtom).rootContainer;
+  return {
+    mapContainer,
+    sidebarContainer,
+  };
+});
+export const mapContainerAtom = atom(
+  (get) => get(getMapRenderConfigAtom).rootContainer,
+);
+export const sidebarContainerAtom = atom(
+  (get) => get(getSidebarRenderConfigAtom).rootContainer,
+);
+export const getContainerBySectionAtom = atom(
+  (get) =>
+    (section: RenderSection): Container | null => {
+      switch (section) {
+        case 'map':
+        case 'game':
+          return get(mapContainerAtom);
+        case 'sidebar':
+          return get(sidebarContainerAtom);
+      }
+    },
+);
+
+export const getMapConfigAtom = atom(
+  (get) => get(getMapRenderConfigAtom).interfaceConfig,
+);
+export const getSidebarConfigAtom = atom(
+  (get) => get(getSidebarRenderConfigAtom).interfaceConfig,
+);
+
+export const setContainersAtom = atom(
+  null,
+  (
+    get,
+    set,
+    {
+      mapContainer,
+      sidebarContainer,
+    }: { mapContainer: Container; sidebarContainer: Container },
+  ) => {
+    set(renderConfigAtom, {
+      map: {
+        ...get(getMapRenderConfigAtom),
+        rootContainer: mapContainer,
+      },
+      sidebar: {
+        ...get(getSidebarRenderConfigAtom),
+        rootContainer: sidebarContainer,
+      },
+    });
+  },
+);
+
 export const entitiesAtom = atom<Entity[]>([]);
-export const systemsAtom = atom<System[]>([]);
-export const mapAtom = atom<GameMap>(new GameMap());
+export const systemsAtom = atom<BaseSystem[]>([]);
 export const playerAtom = atom((get) => {
   const entities = get(entitiesAtom);
   return entities.find((entity) => hasComponent(entity, ComponentType.Player));
+});
+
+interface MapConfig {
+  rows?: number;
+  cols?: number;
+}
+
+export const mapAtom = atom<GameMap>(new GameMap());
+export const mapConfigAtom = atom<MapConfig>();
+export const updateMapConfigAtom = atom(null, (get, set, config: MapConfig) => {
+  set(mapConfigAtom, {
+    ...get(mapConfigAtom),
+    ...config,
+  });
 });

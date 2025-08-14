@@ -1,13 +1,11 @@
 import { BaseRenderSystem } from './BaseRenderSystem';
-import { mapAtom, store } from '../../utils/Atoms';
-import type { UpdateArgs } from '../Systems';
+import type { UpdateArgs } from '../Framework/Systems';
 import { getComponentIfExists } from '../../components/ComponentOperations';
-import { ComponentType } from '../../components/ComponentTypes';
+import { ComponentType } from '../../components';
 
 export class MapRenderSystem extends BaseRenderSystem {
   constructor() {
-    const map = store.get(mapAtom);
-    super(map.getSpriteContainer(), 'map', [0, 0]);
+    super('map');
   }
 
   update({ map }: UpdateArgs) {

@@ -5,9 +5,11 @@
       "Bash(rg:*)",
       "Bash(yarn:*)",
       "Bash(grep:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git:*)",
+      "Bash(cp:*)"
     ],
-    "deny": []
+    "deny": [
+      "bash(git push:*)"
+    ]
   }
 }
