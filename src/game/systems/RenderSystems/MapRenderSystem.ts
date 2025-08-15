@@ -13,18 +13,15 @@ export class MapRenderSystem extends BaseRenderSystem {
       return;
     }
     const entities = map.getAllEntities();
-    // Filter entities that should be rendered in the map section
     const mapEntities = entities.filter((entity) => {
-      const renderComponent = getComponentIfExists(entity, ComponentType.Render);
-      
-      if (!renderComponent) {
-        // If no render component, default to map rendering for map entities
-        return true;
-      }
-      
-      return renderComponent.section === 'map';
+      const renderComponent = getComponentIfExists(
+        entity,
+        ComponentType.Render,
+      );
+
+      return renderComponent?.section === 'map';
     });
-    
+
     this.updateStageAndPositions(mapEntities);
 
     map.hasChanged = false;

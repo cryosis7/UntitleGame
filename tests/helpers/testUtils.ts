@@ -6,6 +6,7 @@ import {
   PickableComponent,
   PlayerComponent,
   PositionComponent,
+  RenderComponent,
   RequiresItemComponent,
   SpriteComponent,
   UsableItemComponent,
@@ -40,6 +41,7 @@ export const ConvenienceComponentSets = {
     new PlayerComponent(),
     new PositionComponent(position),
     new VelocityComponent({ vx: 0, vy: 0 }),
+    new RenderComponent({ section: 'game' }),
   ],
 
   playerWithSprite: (position: Position = { x: 0, y: 0 }): Component[] => [
@@ -47,6 +49,7 @@ export const ConvenienceComponentSets = {
     new PositionComponent(position),
     new VelocityComponent({ vx: 0, vy: 0 }),
     new SpriteComponent({ sprite: 'player' }),
+    new RenderComponent({ section: 'game' }),
   ],
 
   item: (position: Position): Component[] => [

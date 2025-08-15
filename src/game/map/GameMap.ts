@@ -1,7 +1,7 @@
 import type { Entity } from '../utils/ecsUtils';
 import type { EntityTemplate } from '../utils/EntityFactory';
 import { createEntityFromTemplate } from '../utils/EntityFactory';
-import { ComponentType } from '../components/ComponentTypes';
+import { ComponentType } from '../components';
 import { hasComponent } from '../components/ComponentOperations';
 import { mapConfigAtom, store } from '../utils/Atoms';
 
@@ -41,6 +41,7 @@ export class GameMap {
           components: {
             [ComponentType.Sprite]: { sprite: isDirtTile ? 'dirt' : 'wall' },
             [ComponentType.Position]: { x, y },
+            [ComponentType.Render]: { section: 'map' },
             ...(isDirtTile ? { [ComponentType.Walkable]: {} } : {}),
           },
         };

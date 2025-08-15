@@ -7,6 +7,7 @@ import {
   ComponentType,
   MovableComponent,
   PickableComponent,
+  RenderComponent,
   VelocityComponent,
   WalkableComponent,
 } from '../../src/game/components';
@@ -106,6 +107,7 @@ describe('Movement Integration Test', () => {
       const wall = createEntity([
         { type: ComponentType.Position, x: 3, y: 2 },
         { type: ComponentType.Sprite, spriteName: 'wall' },
+        new RenderComponent({ section: 'game' }),
       ]);
 
       const movementSystem = new MovementSystem();
@@ -184,10 +186,12 @@ describe('Movement Integration Test', () => {
     const pickableItem = createEntity([
       { type: ComponentType.Position, x: 3, y: 2 },
       new PickableComponent(),
+      new RenderComponent({ section: 'game' }),
     ]);
     const walkableFloor = createEntity([
       { type: ComponentType.Position, x: 4, y: 2 },
       new WalkableComponent(),
+      new RenderComponent({ section: 'game' }),
     ]);
 
     const movementSystem = new MovementSystem();
@@ -240,6 +244,7 @@ describe('Movement Integration Test', () => {
         { type: ComponentType.Position, x: 3, y: 2 },
         new MovableComponent(),
         { type: ComponentType.Sprite, spriteName: 'box' },
+        new RenderComponent({ section: 'game' }),
       ]);
 
       const movementSystem = new MovementSystem();
@@ -274,10 +279,12 @@ describe('Movement Integration Test', () => {
         { type: ComponentType.Position, x: 3, y: 2 },
         new MovableComponent(),
         { type: ComponentType.Sprite, spriteName: 'box' },
+        new RenderComponent({ section: 'game' }),
       ]);
       const blockingWall = createEntity([
         { type: ComponentType.Position, x: 4, y: 2 },
         { type: ComponentType.Sprite, spriteName: 'wall' },
+        new RenderComponent({ section: 'game' }),
       ]);
 
       const movementSystem = new MovementSystem();
@@ -325,11 +332,13 @@ describe('Movement Integration Test', () => {
         { type: ComponentType.Position, x: 6, y: 5 },
         new MovableComponent(),
         { type: ComponentType.Sprite, spriteName: 'box' },
+        new RenderComponent({ section: 'game' }),
       ]);
       const movableBox2 = createEntity([
         { type: ComponentType.Position, x: 7, y: 5 },
         new MovableComponent(),
         { type: ComponentType.Sprite, spriteName: 'box' },
+        new RenderComponent({ section: 'game' }),
       ]);
 
       const movementSystem = new MovementSystem();

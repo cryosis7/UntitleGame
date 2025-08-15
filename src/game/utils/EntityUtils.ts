@@ -1,7 +1,11 @@
 import type { Position } from '../map/GameMap';
 import { ComponentType } from '../components/ComponentTypes';
 import type { Entity } from './ecsUtils';
-import { getComponentIfExists, hasAllComponents, hasComponent } from '../components/ComponentOperations';
+import {
+  getComponentIfExists,
+  hasAllComponents,
+  hasComponent,
+} from '../components/ComponentOperations';
 import { entitiesAtom, store } from './Atoms';
 import type { PositionComponent } from '../components';
 
@@ -28,8 +32,9 @@ export const getEntitiesAtPosition = (
 
 export const hasEntitiesAtPosition = (
   position: Position | PositionComponent,
+  entites: Entity[],
 ): boolean => {
-  return store.get(entitiesAtom).some((entity) => {
+  return entites.some((entity) => {
     const positionComponent = getComponentIfExists(
       entity,
       ComponentType.Position,

@@ -28,4 +28,4 @@ When documenting a feature, you will:
 4. **Save to ./docs Folder**: Always create or update documentation files in the ./docs directory with descriptive filenames (e.g., 'inventory-system.md', 'combat-mechanics.md').
 
 5. **Maintain Consistency**: Follow established documentation patterns in the ./docs folder if they exist. Keep language accessible to both technical and non-technical stakeholders.
-Avoid technical details like component properties, system algorithms, or code structure. Instead, focus on the player-facing functionality and the conceptual model of how the feature works from a user perspective. Your documentation should help someone understand what the feature does and how to interact with it, not how it's built.
+   Avoid technical details like component properties, system algorithms, or code structure. Instead, focus on the player-facing functionality and the conceptual model of how the feature works from a user perspective. Your documentation should help someone understand what the feature does and how to interact with it, not how it's built.

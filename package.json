@@ -16,7 +16,8 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "premerge": "yarn format && yarn lint:fix && yarn type-check && yarn test"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",

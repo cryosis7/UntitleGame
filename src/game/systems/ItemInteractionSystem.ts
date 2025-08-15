@@ -7,22 +7,25 @@ import {
   getEntity,
   removeEntities,
   removeEntity,
-  replaceEntity
+  replaceEntity,
 } from '../utils/EntityUtils';
 import {
   getComponentAbsolute,
   getComponentIfExists,
   removeComponent,
-  setComponent
+  setComponent,
 } from '../components/ComponentOperations';
 import {
   type InteractionBehaviorComponent,
   InteractionBehaviorType,
   PositionComponent,
   SpriteComponent,
-  type UsableItemComponent
+  type UsableItemComponent,
 } from '../components';
-import { createEntitiesFromTemplates, createEntity } from '../utils/EntityFactory';
+import {
+  createEntitiesFromTemplates,
+  createEntity,
+} from '../utils/EntityFactory';
 import { getAdjacentPosition } from '../map/MappingUtils';
 
 /**

@@ -26,7 +26,7 @@ import { MovementSystem } from './systems/MovementSystem';
 import { CleanUpSystem } from './systems/CleanUpSystem';
 import {
   PositionComponent,
-  RenderInSidebarComponent,
+  RenderComponent,
   SpriteComponent,
 } from './components';
 import { GameRenderSystem } from './systems/RenderSystems/GameRenderSystem';
@@ -69,7 +69,7 @@ const createSidebarEntities = () => {
 
     const entity = createEntity([
       new PositionComponent({ x, y }),
-      new RenderInSidebarComponent(),
+      new RenderComponent({ section: 'sidebar' }),
       new SpriteComponent({ sprite: textureName }),
     ]);
 

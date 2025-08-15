@@ -7,6 +7,7 @@ import type {
   DirectionComponentProps,
   InteractionBehaviorComponentProps,
   PositionComponentProps,
+  RenderComponentProps,
   RequiresItemComponentProps,
   SpawnContentsComponentProps,
   SpriteComponentProps,
@@ -18,6 +19,7 @@ import {
   ComponentType,
   InteractionBehaviorComponent,
   PositionComponent,
+  RenderComponent,
   RequiresItemComponent,
   SpawnContentsComponent,
   SpriteComponent,
@@ -101,6 +103,14 @@ function isValidSpawnContentsProps(
   );
 }
 
+function isValidRenderProps(obj: any): obj is RenderComponentProps {
+  return (
+    obj &&
+    typeof obj.section === 'string' &&
+    ['game', 'sidebar', 'map'].includes(obj.section)
+  );
+}
+
 export function isValidComponentProps(
   type: ComponentType,
   props: unknown,
@@ -125,6 +135,8 @@ export function isValidComponentProps(
       return isValidInteractionBehaviorProps(props);
     case ComponentType.SpawnContents:
       return isValidSpawnContentsProps(props);
+    case ComponentType.Render:
+      return isValidRenderProps(props);
 
     // Simple validation for the cases where no specific props are required
     default:
@@ -184,6 +196,8 @@ function createComponentsFromTemplate(template: EntityTemplate): Component[] {
         );
       case ComponentType.SpawnContents:
         return new SpawnContentsComponent(props as SpawnContentsComponentProps);
+      case ComponentType.Render:
+        return new RenderComponent(props as RenderComponentProps);
       default:
         if (Object.values(ComponentType).includes(type as ComponentType)) {
           return { type } as Component;

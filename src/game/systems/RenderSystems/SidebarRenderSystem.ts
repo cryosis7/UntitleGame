@@ -29,16 +29,13 @@ export class SidebarRenderSystem extends BaseRenderSystem {
   }
 
   update({ entities }: UpdateArgs) {
-    // Filter entities that should be rendered in the sidebar section
     const sidebarEntities = entities.filter((entity) => {
-      const renderComponent = getComponentIfExists(entity, ComponentType.Render);
-      
-      if (!renderComponent) {
-        // If no render component, don't render in sidebar
-        return false;
-      }
-      
-      return renderComponent.section === 'sidebar';
+      const renderComponent = getComponentIfExists(
+        entity,
+        ComponentType.Render,
+      );
+
+      return renderComponent?.section === 'sidebar';
     });
 
     this.updateStageAndPositions(sidebarEntities);

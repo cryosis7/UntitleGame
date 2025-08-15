@@ -9,7 +9,9 @@ Create a new file in `src/game/components/individualComponents/YourComponent.ts`
 ```typescript
 import { ComponentType } from '../ComponentTypes';
 
-export type YourComponentProps = { /* define your data structure */ };
+export type YourComponentProps = {
+  /* define your data structure */
+};
 
 export class YourComponent {
   type = ComponentType.YourComponent;
@@ -27,11 +29,13 @@ export class YourComponent {
 In `src/game/components/ComponentTypes.ts`:
 
 1. Add to `ComponentType` enum:
+
    ```typescript
    YourComponent = 'yourComponent',
    ```
 
 2. Add to `FullComponentDictionary` type:
+
    ```typescript
    [ComponentType.YourComponent]: YourComponent;
    ```
@@ -56,6 +60,7 @@ If your component has props, it requires props validation. Add to `src/game/util
 
 1. Import your component types
 2. Add validation function:
+
    ```typescript
    function isValidYourComponentProps(obj: any): obj is YourComponentProps {
      // Add validation logic for your props
@@ -64,6 +69,7 @@ If your component has props, it requires props validation. Add to `src/game/util
    ```
 
 3. Add case to `isValidComponentProps` switch:
+
    ```typescript
    case ComponentType.YourComponent:
      return isValidYourComponentProps(props);
