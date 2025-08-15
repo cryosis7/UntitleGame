@@ -9,10 +9,10 @@ import {
   store,
 } from '../../utils/Atoms';
 import type { UpdateArgs } from '../Framework/Systems';
-import { getEntitiesWithComponents } from '../../utils/EntityUtils';
 import { ComponentType, SelectedComponent } from '../../components';
 import {
   getComponentAbsolute,
+  hasAllComponents,
   hasComponent,
   removeComponent,
   removeComponentFromAllEntities,
@@ -48,16 +48,25 @@ export class LevelEditorSelectionSystem extends BaseClickSystem {
     const clickedPosition = this.clickedPosition; // Helps with TS linting
 
     if (clickedPosition !== undefined) {
-      const sideBarEntities = getEntitiesWithComponents(
-        [
-          ComponentType.RenderInSidebar,
-          ComponentType.Sprite,
-          ComponentType.Position,
-        ],
-        entities,
-      );
+      const sidebarEntities = entities.filter((entity) => {
+        if (
+          !hasAllComponents(
+            entity,
+            ComponentType.Render,
+            ComponentType.Sprite,
+            ComponentType.Position,
+          )
+        ) {
+          return false;
+        }
 
-      const clickedEntity = sideBarEntities.find((entity) => {
+        return (
+          getComponentAbsolute(entity, ComponentType.Render).section ===
+          'sidebar'
+        );
+      });
+
+      const clickedEntity = sidebarEntities.find((entity) => {
         const position = getComponentAbsolute(entity, ComponentType.Position);
         return (
           position.x === clickedPosition.x && position.y === clickedPosition.y

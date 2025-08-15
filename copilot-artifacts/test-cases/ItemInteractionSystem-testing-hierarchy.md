@@ -31,7 +31,7 @@ ItemInteractionSystem/
 │   │   └── Sequential Interactions
 │   ├── Validation Tests/
 │   │   ├── Capability Matching Validation
-│   │   ├── Position Validation  
+│   │   ├── Position Validation
 │   │   └── Direction Validation
 │   └── State Management Tests/
 │       ├── Entity State Changes
@@ -207,23 +207,27 @@ describe('Functional Area', () => {
 ### Test Fixture Organization
 
 #### Base Fixtures
+
 - **EmptyStore**: Clean ECS store for test isolation
 - **BasicEntities**: Standard entities with common components
 - **ComponentSets**: Reusable component configurations
 
 #### Interaction Fixtures
+
 - **InteractingEntity**: Entity with Interacting, CarriedItem, Position components
 - **UsableItem**: Item entity with UsableItem component and various capabilities
 - **TargetEntity**: Entity requiring specific capabilities for interaction
 
 #### Behavioral Fixtures
+
 - **TransformableEntity**: Entity with TRANSFORM interaction behavior
-- **RemovableEntity**: Entity with REMOVE interaction behavior  
+- **RemovableEntity**: Entity with REMOVE interaction behavior
 - **SpawnContainerEntity**: Entity with SPAWN_CONTENTS behavior and SpawnContents component
 
 ### Extensibility Patterns
 
 #### Adding New Interaction Behaviors
+
 1. Create new behavior test category under `Interaction Behaviors/`
 2. Follow existing behavior test structure:
    - Valid behavior tests
@@ -232,11 +236,13 @@ describe('Functional Area', () => {
 3. Add integration tests with existing behaviors
 
 #### Adding New Component Types
+
 1. Create test category under `Component Compatibility/`
 2. Test component interactions with existing systems
 3. Add edge cases for missing/invalid component scenarios
 
 #### Adding New Spatial Logic
+
 1. Extend `Spatial Interaction Logic/` category
 2. Test new spatial rules against existing validation
 3. Add boundary condition tests
@@ -247,18 +253,21 @@ describe('Functional Area', () => {
 
 ```typescript
 // Use EntityFactory for consistent entity creation
-const createTestInteractingEntity = (position: Position, carriedItemId: EntityId) => 
+const createTestInteractingEntity = (
+  position: Position,
+  carriedItemId: EntityId,
+) =>
   EntityFactory.createWithComponents({
     Position: position,
     Interacting: {},
-    CarriedItem: { item: carriedItemId }
+    CarriedItem: { item: carriedItemId },
   });
 
 // Use ComponentOperations for component management
 const setupItemCapabilities = (entityId: EntityId, capabilities: string[]) =>
   ComponentOperations.addComponent(entityId, 'UsableItem', {
     capabilities,
-    isConsumable: false
+    isConsumable: false,
   });
 ```
 
@@ -266,18 +275,27 @@ const setupItemCapabilities = (entityId: EntityId, capabilities: string[]) =>
 
 ```typescript
 // Validate entity state changes
-const verifyEntityTransformation = (originalId: EntityId, expectedSpriteId: string) => {
+const verifyEntityTransformation = (
+  originalId: EntityId,
+  expectedSpriteId: string,
+) => {
   const entity = ComponentOperations.getEntity(originalId);
   expect(entity).toBeDefined();
   expect(ComponentOperations.hasComponent(originalId, 'Sprite')).toBe(true);
-  expect(ComponentOperations.getComponent(originalId, 'Sprite')?.spriteId)
-    .toBe(expectedSpriteId);
+  expect(ComponentOperations.getComponent(originalId, 'Sprite')?.spriteId).toBe(
+    expectedSpriteId,
+  );
 };
 
 // Validate component cleanup
-const verifyComponentRemoval = (entityId: EntityId, componentTypes: string[]) => {
-  componentTypes.forEach(componentType => {
-    expect(ComponentOperations.hasComponent(entityId, componentType)).toBe(false);
+const verifyComponentRemoval = (
+  entityId: EntityId,
+  componentTypes: string[],
+) => {
+  componentTypes.forEach((componentType) => {
+    expect(ComponentOperations.hasComponent(entityId, componentType)).toBe(
+      false,
+    );
   });
 };
 ```
@@ -294,7 +312,7 @@ const verifyComponentRemoval = (entityId: EntityId, componentTypes: string[]) =>
 ### Coverage Requirements
 
 - **Critical Paths**: 100% coverage required
-- **Error Handling**: 95% coverage required  
+- **Error Handling**: 95% coverage required
 - **Edge Cases**: 80% coverage acceptable
 - **Performance**: Benchmark-based validation
 

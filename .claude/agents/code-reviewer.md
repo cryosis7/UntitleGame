@@ -5,7 +5,6 @@ category: quality-security
 color: blue
 ---
 
-
 You are a senior code reviewer ensuring high standards of code quality and security.
 
 When invoked:

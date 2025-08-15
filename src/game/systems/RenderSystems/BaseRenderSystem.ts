@@ -4,10 +4,13 @@ import type { Container } from 'pixi.js';
 import { Sprite } from 'pixi.js';
 import type { Position } from '../../map/GameMap';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
-import type { PositionComponent, SpriteComponent } from '../../components';
 import type {
-  InterfaceConfig,
-  RenderSection} from '../../utils/Atoms';
+  PositionComponent,
+  RenderSection,
+  SpriteComponent,
+} from '../../components';
+import { ComponentType } from '../../components';
+import type { InterfaceConfig } from '../../utils/Atoms';
 import {
   getContainerBySectionAtom,
   getInterfaceConfigBySectionAtom,
@@ -22,7 +25,6 @@ import {
   getComponentIfExists,
   hasAllComponents,
 } from '../../components/ComponentOperations';
-import { ComponentType } from '../../components/ComponentTypes';
 import { pixiApp } from '../../Pixi';
 
 type EntitySpriteMap = {

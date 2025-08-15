@@ -64,15 +64,18 @@ obstacles and creates new paths, and Spawn Contents enables discovery and reward
 To create objects that require items to interact with, engineers need to add specific components to entities:
 
 **Basic Interactive Object**:
+
 - Add a `RequiresItemComponent` with the required capabilities (e.g., `['unlock']`)
 - Add an `InteractionBehaviorComponent` specifying the behavior type (TRANSFORM, REMOVE, or SPAWN_CONTENTS)
 - Optionally specify allowed interaction directions (defaults to all four directions)
 
 **Items That Can Be Used**:
+
 - Add a `UsableItemComponent` with the item's capabilities (e.g., `['unlock', 'activate']`)
 - Set `isConsumable` to control whether the item is destroyed after use (defaults to true)
 
 **Advanced Configurations**:
+
 - For TRANSFORM behavior: specify `newSpriteId` to change the object's appearance
 - For SPAWN_CONTENTS behavior: add a `SpawnContentsComponent` with entity templates and optional spawn offset
 - Use `interactionDirections` to restrict which sides players can approach from
@@ -149,16 +152,19 @@ The system compares the capabilities of the currently carried item against the r
 The Item Interaction System includes several safety mechanisms to handle edge cases and maintain game stability:
 
 **Error Handling**:
+
 - Invalid item references are logged as errors and processing continues with other entities
 - Missing components are handled gracefully without crashing the system
 - Objects with missing required components for their behavior type are validated at creation time
 
 **Data Validation**:
+
 - TRANSFORM behavior requires a `newSpriteId` to be specified
 - SPAWN_CONTENTS behavior validates that entity templates are properly formatted
 - Empty spawn contents arrays are supported and handled correctly
 
 **State Management**:
+
 - Entities are properly cleaned up when removed or transformed
 - Component references are safely updated after successful interactions
 - The system maintains consistency even when multiple interactions occur simultaneously

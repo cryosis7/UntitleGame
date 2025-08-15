@@ -4,10 +4,7 @@ import type { Position } from '../../map/GameMap';
 import type { Entity } from '../../utils/ecsUtils';
 import type { EntityTemplate } from '../../utils/EntityFactory';
 import { createEntityFromTemplate } from '../../utils/EntityFactory';
-import {
-  getComponentIfExists,
-  hasComponent,
-} from '../../components/ComponentOperations';
+import { getComponentIfExists } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components';
 import {
   addEntities,
@@ -69,8 +66,15 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
     const entitiesToAdd: Entity[] = [];
     const entitiesToRemove: string[] = [];
 
-    const [sidebarEntities, gameEntities] = partitionArray(entities, (entity) =>
-      hasComponent(entity, ComponentType.RenderInSidebar),
+    const [sidebarEntities, gameEntities] = partitionArray(
+      entities,
+      (entity) => {
+        const renderComponent = getComponentIfExists(
+          entity,
+          ComponentType.Render,
+        );
+        return renderComponent?.section === 'sidebar';
+      },
     );
 
     const selectedEntities = getEntitiesWithComponent(
@@ -97,6 +101,7 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
         components: {
           sprite: { sprite: selectedItem },
           position: position,
+          render: { section: 'game' },
         },
       };
 

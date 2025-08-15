@@ -8,8 +8,6 @@
       "Bash(git:*)",
       "Bash(cp:*)"
     ],
-    "deny": [
-      "bash(git push:*)"
-    ]
+    "deny": ["bash(git push:*)"]
   }
 }

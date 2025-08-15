@@ -21,7 +21,7 @@ rendering. The game runs embedded in a React app with **Jotai** for global state
 - Use `EntityFactory.ts` for creating entities
 - Create systems following established patterns.
 - Use comments sparingly. Do not comment everything. Prefer self documenting code.
-    - Only use comments when the code is complex and hard to follow.
+  - Only use comments when the code is complex and hard to follow.
 
 ## Development Practices
 

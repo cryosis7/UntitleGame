@@ -23,6 +23,7 @@ tools:
 Your job is to inspect a file provided by the user to examine all possible logic paths that can be executed.
 
 Complete this by following these steps:
+
 1. Examine the supplied file to identify what it's purpose is.
 2. Document this in `copilot-artifacts/test-cases/{filename}`
 3. Identify all the public functions and methods in the file.

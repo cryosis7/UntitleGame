@@ -61,9 +61,9 @@ beforeEach(() => {
 
 ```typescript
 const createTestEntity = ({
-                            position = { x: 0, y: 0 },
-                            customProperty = 'default',
-                          }: {
+  position = { x: 0, y: 0 },
+  customProperty = 'default',
+}: {
   position?: PositionComponentProps;
   customProperty?: string;
 } = {}) => {

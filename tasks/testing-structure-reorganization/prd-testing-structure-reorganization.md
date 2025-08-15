@@ -33,35 +33,35 @@ that improves maintainability, discoverability, and testing effectiveness.
 - **Story**: When I need to add a unit test for a component or system, I want to place it adjacent to the source file so
   I can easily find and maintain it
 - **Acceptance Criteria**:
-    - Unit test files are located next to their corresponding source files
-    - File naming follows consistent pattern (`ComponentName.test.ts`)
-    - Test focuses on single component/system in isolation
+  - Unit test files are located next to their corresponding source files
+  - File naming follows consistent pattern (`ComponentName.test.ts`)
+  - Test focuses on single component/system in isolation
 
 ### As a Developer Writing Integration Tests
 
 - **Story**: When I need to test a complete game feature (like picking up a key and using it on a chest), I want a
   dedicated integration test directory so I can write comprehensive workflow tests
 - **Acceptance Criteria**:
-    - Integration tests are located in `tests/integration/` directory
-    - Tests cover complete feature workflows spanning multiple systems
-    - Tests use realistic game scenarios with proper setup
+  - Integration tests are located in `tests/integration/` directory
+  - Tests cover complete feature workflows spanning multiple systems
+  - Tests use realistic game scenarios with proper setup
 
 ### As a Developer Finding Existing Tests
 
 - **Story**: When I want to understand how a system is tested or add test cases, I want to quickly locate all relevant
   tests without searching multiple directories
 - **Acceptance Criteria**:
-    - Unit tests are immediately visible next to source code
-    - Integration tests are clearly categorized by feature
-    - No duplicate or overlapping test coverage across files
+  - Unit tests are immediately visible next to source code
+  - Integration tests are clearly categorized by feature
+  - No duplicate or overlapping test coverage across files
 
 ### As a Developer Maintaining Tests
 
 - **Story**: When code changes, I want to easily identify and update all related tests without missing any
 - **Acceptance Criteria**:
-    - Test location is predictable based on code structure
-    - Integration tests clearly document which systems they cover
-    - Test quality standards ensure maintainable test code
+  - Test location is predictable based on code structure
+  - Integration tests clearly document which systems they cover
+  - Test quality standards ensure maintainable test code
 
 ## Functional Requirements
 
@@ -161,19 +161,19 @@ src/
 #### Core Feature Workflows
 
 1. **Key-Chest Interaction Workflow**
-    - Player picks up key → Player moves to chest → Player uses key on chest → Chest opens
-    - Systems: PickupSystem, MovementSystem, ItemInteractionSystem
-    - Components: PositionComponent, InventoryComponent, InteractableComponent, PickableComponent
+   - Player picks up key → Player moves to chest → Player uses key on chest → Chest opens
+   - Systems: PickupSystem, MovementSystem, ItemInteractionSystem
+   - Components: PositionComponent, InventoryComponent, InteractableComponent, PickableComponent
 
 2. **Player Movement Workflow**
-    - Keyboard input received → Velocity updated → Position updated → Visual rendering updated
-    - Systems: KeyboardInputSystem, MovementSystem, GameRenderSystem
-    - Components: PositionComponent, VelocityComponent, RenderableComponent
+   - Keyboard input received → Velocity updated → Position updated → Visual rendering updated
+   - Systems: KeyboardInputSystem, MovementSystem, GameRenderSystem
+   - Components: PositionComponent, VelocityComponent, RenderableComponent
 
 3. **Item Collection Workflow**
-    - Player approaches item → Item detected in range → Item picked up → Player inventory updated
-    - Systems: MovementSystem, PickupSystem
-    - Components: PositionComponent, PickableComponent, InventoryComponent
+   - Player approaches item → Item detected in range → Item picked up → Player inventory updated
+   - Systems: MovementSystem, PickupSystem
+   - Components: PositionComponent, PickableComponent, InventoryComponent
 
 ### Test Quality Standards
 

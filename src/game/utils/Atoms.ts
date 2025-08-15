@@ -2,9 +2,13 @@ import type { Container, Spritesheet, Texture } from 'pixi.js';
 import { atom, createStore } from 'jotai';
 import { GameMap } from '../map/GameMap';
 import { ComponentType } from '../components';
-import { hasComponent } from '../components/ComponentOperations';
+import {
+  getComponentIfExists,
+  hasComponent,
+} from '../components/ComponentOperations';
 import type { BaseSystem } from '../systems/Framework/Systems';
 import type { Entity } from './ecsUtils';
+import type { RenderSection } from '../components/individualComponents/RenderComponent';
 
 export const store = createStore();
 
@@ -38,7 +42,6 @@ export const addSpritesheetAtom = atom(
   },
 );
 
-export type RenderSection = 'game' | 'sidebar' | 'map';
 export const renderedEntities = atom<
   Record<RenderSection, Record<string, Container>>
 >({
@@ -240,6 +243,34 @@ export const systemsAtom = atom<BaseSystem[]>([]);
 export const playerAtom = atom((get) => {
   const entities = get(entitiesAtom);
   return entities.find((entity) => hasComponent(entity, ComponentType.Player));
+});
+
+export const entitiesByRenderSectionAtom = atom((get) => {
+  const entities = get(entitiesAtom);
+  return (section: RenderSection): Entity[] => {
+    return entities.filter((entity) => {
+      const renderComponent = getComponentIfExists(
+        entity,
+        ComponentType.Render,
+      );
+      if (!renderComponent) {
+        return false;
+      }
+      return renderComponent.section === section;
+    });
+  };
+});
+
+export const gameEntitiesAtom = atom((get) => {
+  return get(entitiesByRenderSectionAtom)('game');
+});
+
+export const sidebarEntitiesAtom = atom((get) => {
+  return get(entitiesByRenderSectionAtom)('sidebar');
+});
+
+export const mapEntitiesAtom = atom((get) => {
+  return get(entitiesByRenderSectionAtom)('map');
 });
 
 interface MapConfig {

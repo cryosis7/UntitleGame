@@ -1,7 +1,5 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 This is a **React + TypeScript game** using **Entity Component System (ECS)** architecture with **Pixi.js** for
 rendering and **Jotai** for state management.
 
