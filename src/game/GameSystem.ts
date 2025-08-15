@@ -7,6 +7,7 @@ import {
   setContainersAtom,
   store,
   systemsAtom,
+  updateMapConfigAtom,
 } from './utils/Atoms';
 import { Container, type Ticker } from 'pixi.js';
 import {
@@ -21,23 +22,13 @@ import {
   Player,
 } from './templates/EntityTemplates';
 import { setComponent } from './components/ComponentOperations';
-import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
-import { MovementSystem } from './systems/MovementSystem';
-import { CleanUpSystem } from './systems/CleanUpSystem';
 import {
   PositionComponent,
   RenderComponent,
   SpriteComponent,
 } from './components';
-import { GameRenderSystem } from './systems/RenderSystems/GameRenderSystem';
 import { addEntities } from './utils/EntityUtils';
-import { DirectionSystem } from './systems/DirectionSystem';
-import { SidebarRenderSystem } from './systems/RenderSystems/SidebarRenderSystem';
-import { MapRenderSystem } from './systems/RenderSystems/MapRenderSystem';
-import { LevelEditorSelectionSystem } from './systems/LevelEditorSystems/LevelEditorSelectionSystem';
-import { LevelEditorPlacementSystem } from './systems/LevelEditorSystems/LevelEditorPlacementSystem';
-import { PickupSystem } from './systems/PickupSystem';
-import { ItemInteractionSystem } from './systems/ItemInteractionSystem';
+import type { SystemConfig } from './config/SystemConfigurations';
 
 export const initiateEntities = () => {
   const newEntities = createEntitiesFromTemplates(
@@ -90,24 +81,35 @@ export const initialiseContainers = () => {
   store.set(setContainersAtom, { mapContainer, sidebarContainer });
 };
 
-export const initiateSystems = () => {
+export const initiateSystems = (config: SystemConfig) => {
   const systems = store.get(systemsAtom);
-  systems.push(
-    new KeyboardInputSystem(),
-    new DirectionSystem(),
-    new MovementSystem(),
-    new PickupSystem(),
-    new ItemInteractionSystem(),
+  // Clear existing systems
+  systems.length = 0;
+  // Add new systems from config
+  systems.push(...config.systems.map(systemFactory => systemFactory()));
+};
 
-    new LevelEditorSelectionSystem(),
-    new LevelEditorPlacementSystem(),
+export const initializeGame = async (config: SystemConfig) => {
+  // Update map configuration if provided
+  if (config.mapConfig) {
+    store.set(updateMapConfigAtom, config.mapConfig);
+  }
+  
+  // Initialize map
+  const map = store.get(mapAtom);
+  map.init();
 
-    new MapRenderSystem(),
-    new GameRenderSystem(),
-    new SidebarRenderSystem(),
+  // Initialize entities (for game mode only, editor starts empty)
+  if (config.entities) {
+    const entities = config.entities();
+    addEntities(entities);
+  }
 
-    new CleanUpSystem(),
-  );
+  // Initialize containers
+  initialiseContainers();
+  
+  // Initialize systems
+  initiateSystems(config);
 };
 
 export const gameLoop = (ticker: Ticker) => {
