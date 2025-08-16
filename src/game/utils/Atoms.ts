@@ -4,7 +4,6 @@ import { GameMap } from '../map/GameMap';
 import { ComponentType } from '../components';
 import {
   getComponentIfExists,
-  hasComponent,
 } from '../components/ComponentOperations';
 import type { BaseSystem } from '../systems/Framework/Systems';
 import type { Entity } from './ecsUtils';
@@ -240,10 +239,6 @@ export const setContainersAtom = atom(
 
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<BaseSystem[]>([]);
-export const playerAtom = atom((get) => {
-  const entities = get(entitiesAtom);
-  return entities.find((entity) => hasComponent(entity, ComponentType.Player));
-});
 
 export const entitiesByRenderSectionAtom = atom((get) => {
   const entities = get(entitiesAtom);
