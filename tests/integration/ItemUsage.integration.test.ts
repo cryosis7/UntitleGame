@@ -22,7 +22,7 @@ import { ItemInteractionSystem } from '../../src/game/systems/ItemInteractionSys
 import {
   getEntitiesAtPosition,
   getEntity,
-  getPlayerEntity,
+  getEntitiesWithComponent,
 } from '../../src/game/utils/EntityUtils';
 import { entitiesAtom, mapAtom, store } from '../../src/game/utils/Atoms';
 import { GameMap } from '../../src/game/map/GameMap';
@@ -49,7 +49,9 @@ describe('Item Usage Integration Test', () => {
     });
 
     it('should move player to key position', () => {
-      let player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      let player = players[0];
       expect(player).toBeDefined();
       const positionComponent = getComponentAbsolute(
         player!,
@@ -61,7 +63,9 @@ describe('Item Usage Integration Test', () => {
       setComponent(player!, new VelocityComponent({ vx: 1, vy: 1 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      player = getPlayerEntity();
+      const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedPlayers).toHaveLength(1);
+      player = updatedPlayers[0];
       expect(player).toBeDefined();
       const playerPositionAfterMove = getComponentAbsolute(
         player!,
@@ -72,12 +76,16 @@ describe('Item Usage Integration Test', () => {
     });
 
     it('should pick up the key', () => {
-      let player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      let player = players[0];
       setComponent(player!, new HandlingComponent());
       pickupSystem.update(createStandardUpdateArgs());
 
       // Verify key was picked up
-      player = getPlayerEntity();
+      const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedPlayers).toHaveLength(1);
+      player = updatedPlayers[0];
       expect(player).toBeDefined();
       const carriedItemComponent = getComponentAbsolute(
         player!,
@@ -94,7 +102,9 @@ describe('Item Usage Integration Test', () => {
     });
 
     it('should remove handling component from player after pickup', () => {
-      const player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      const player = players[0];
       const handlingComponent = getComponentIfExists(
         player!,
         ComponentType.Handling,
@@ -103,13 +113,17 @@ describe('Item Usage Integration Test', () => {
     });
 
     it('should move player to chest position', () => {
-      let player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      let player = players[0];
 
       // Move right 4 tiles
       for (let i = 0; i < 4; i++) {
         setComponent(player!, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
-        player = getPlayerEntity();
+        const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedPlayers).toHaveLength(1);
+      player = updatedPlayers[0];
         expect(player).toBeDefined();
       }
 
@@ -117,7 +131,9 @@ describe('Item Usage Integration Test', () => {
       for (let i = 0; i < 3; i++) {
         setComponent(player!, new VelocityComponent({ vx: 0, vy: 1 }));
         movementSystem.update(createStandardUpdateArgs());
-        player = getPlayerEntity();
+        const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedPlayers).toHaveLength(1);
+      player = updatedPlayers[0];
         expect(player).toBeDefined();
       }
 
@@ -138,12 +154,16 @@ describe('Item Usage Integration Test', () => {
     });
 
     it('should use key to open chest', () => {
-      let player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      let player = players[0];
 
       setComponent(player!, new InteractingComponent());
       itemInteractionSystem.update(createStandardUpdateArgs());
 
-      player = getPlayerEntity();
+      const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedPlayers).toHaveLength(1);
+      player = updatedPlayers[0];
       expect(player).toBeDefined();
       expect(hasComponent(player!, ComponentType.Interacting)).toBeFalsy();
       expect(hasComponent(player!, ComponentType.CarriedItem)).toBeFalsy();

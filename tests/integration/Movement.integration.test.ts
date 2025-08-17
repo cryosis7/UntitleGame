@@ -19,7 +19,7 @@ import { createEntity } from '../../src/game/utils/EntityFactory';
 import { MovementSystem } from '../../src/game/systems/MovementSystem';
 import {
   getEntitiesAtPosition,
-  getPlayerEntity,
+  getEntitiesWithComponent,
 } from '../../src/game/utils/EntityUtils';
 import { entitiesAtom, mapAtom, store } from '../../src/game/utils/Atoms';
 import { GameMap } from '../../src/game/map/GameMap';
@@ -36,63 +36,84 @@ describe('Movement Integration Test', () => {
       store.set(entitiesAtom, [originalPlayer]);
       store.set(mapAtom, new GameMap());
 
-      const player = getPlayerEntity();
-      expect(player).toBeDefined();
-      const position = getComponentAbsolute(player!, ComponentType.Position);
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      const player = players[0];
+      const position = getComponentAbsolute(player, ComponentType.Position);
       expect(position.x).toBe(5);
       expect(position.y).toBe(5);
     });
 
     it('should move player right', () => {
-      let player = getPlayerEntity();
-      setComponent(player!, new VelocityComponent({ vx: 1, vy: 0 }));
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      let player = players[0];
+      setComponent(player, new VelocityComponent({ vx: 1, vy: 0 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      player = getPlayerEntity();
-      const position = getComponentAbsolute(player!, ComponentType.Position);
+      const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedPlayers).toHaveLength(1);
+      player = updatedPlayers[0];
+      const position = getComponentAbsolute(player, ComponentType.Position);
       expect(position.x).toBe(6);
       expect(position.y).toBe(5);
     });
 
     it('should move player down', () => {
-      let player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      let player = players[0];
       setComponent(player!, new VelocityComponent({ vx: 0, vy: 1 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      player = getPlayerEntity();
+      const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedPlayers).toHaveLength(1);
+      player = updatedPlayers[0];
       const position = getComponentAbsolute(player!, ComponentType.Position);
       expect(position.x).toBe(6);
       expect(position.y).toBe(6);
     });
 
     it('should move player left', () => {
-      let player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      let player = players[0];
       setComponent(player!, new VelocityComponent({ vx: -1, vy: 0 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      player = getPlayerEntity();
+      const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedPlayers).toHaveLength(1);
+      player = updatedPlayers[0];
       const position = getComponentAbsolute(player!, ComponentType.Position);
       expect(position.x).toBe(5);
       expect(position.y).toBe(6);
     });
 
     it('should move player up', () => {
-      let player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      let player = players[0];
       setComponent(player!, new VelocityComponent({ vx: 0, vy: -1 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      player = getPlayerEntity();
+      const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedPlayers).toHaveLength(1);
+      player = updatedPlayers[0];
       const position = getComponentAbsolute(player!, ComponentType.Position);
       expect(position.x).toBe(5);
       expect(position.y).toBe(5);
     });
 
     it('should reset velocity after movement', () => {
-      let player = getPlayerEntity();
+      const players = getEntitiesWithComponent(ComponentType.Player);
+      expect(players).toHaveLength(1);
+      let player = players[0];
       setComponent(player!, new VelocityComponent({ vx: 1, vy: 1 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      player = getPlayerEntity();
+      const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedPlayers).toHaveLength(1);
+      player = updatedPlayers[0];
       const velocity = getComponentAbsolute(player!, ComponentType.Velocity);
       expect(velocity.vx).toBe(0);
       expect(velocity.vy).toBe(0);
@@ -116,11 +137,15 @@ describe('Movement Integration Test', () => {
         store.set(entitiesAtom, [player, wall]);
         store.set(mapAtom, new GameMap());
 
-        let currentPlayer = getPlayerEntity();
+        const currentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(currentPlayers).toHaveLength(1);
+        let currentPlayer = currentPlayers[0];
         setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        currentPlayer = getPlayerEntity();
+        const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(updatedCurrentPlayers).toHaveLength(1);
+        currentPlayer = updatedCurrentPlayers[0];
         const position = getComponentAbsolute(
           currentPlayer!,
           ComponentType.Position,
@@ -148,12 +173,16 @@ describe('Movement Integration Test', () => {
         store.set(entitiesAtom, [player]);
         store.set(mapAtom, new GameMap());
 
-        let currentPlayer = getPlayerEntity();
+        const currentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(currentPlayers).toHaveLength(1);
+        let currentPlayer = currentPlayers[0];
 
         setComponent(currentPlayer!, new VelocityComponent({ vx: -1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        currentPlayer = getPlayerEntity();
+        const firstUpdatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(firstUpdatedPlayers).toHaveLength(1);
+        currentPlayer = firstUpdatedPlayers[0];
         let position = getComponentAbsolute(
           currentPlayer!,
           ComponentType.Position,
@@ -164,7 +193,9 @@ describe('Movement Integration Test', () => {
         setComponent(currentPlayer!, new VelocityComponent({ vx: 0, vy: -1 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        currentPlayer = getPlayerEntity();
+        const secondUpdatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(secondUpdatedPlayers).toHaveLength(1);
+        currentPlayer = secondUpdatedPlayers[0];
         position = getComponentAbsolute(currentPlayer!, ComponentType.Position);
         expect(position.x).toBe(0);
         expect(position.y).toBe(0);
@@ -200,11 +231,15 @@ describe('Movement Integration Test', () => {
       store.set(entitiesAtom, [player, pickableItem, walkableFloor]);
       store.set(mapAtom, new GameMap());
 
-      let currentPlayer = getPlayerEntity();
+      const currentPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(currentPlayers).toHaveLength(1);
+      let currentPlayer = currentPlayers[0];
       setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      currentPlayer = getPlayerEntity();
+      const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedCurrentPlayers).toHaveLength(1);
+      currentPlayer = updatedCurrentPlayers[0];
       const position = getComponentAbsolute(
         currentPlayer!,
         ComponentType.Position,
@@ -217,12 +252,16 @@ describe('Movement Integration Test', () => {
     });
 
     it('should allow movement onto walkable entities', () => {
-      let currentPlayer = getPlayerEntity();
+      const currentPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(currentPlayers).toHaveLength(1);
+      let currentPlayer = currentPlayers[0];
 
       setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      currentPlayer = getPlayerEntity();
+      const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+      expect(updatedCurrentPlayers).toHaveLength(1);
+      currentPlayer = updatedCurrentPlayers[0];
       const position = getComponentAbsolute(
         currentPlayer!,
         ComponentType.Position,
@@ -253,11 +292,15 @@ describe('Movement Integration Test', () => {
         store.set(entitiesAtom, [player, movableBox]);
         store.set(mapAtom, new GameMap());
 
-        let currentPlayer = getPlayerEntity();
+        const currentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(currentPlayers).toHaveLength(1);
+        let currentPlayer = currentPlayers[0];
         setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        currentPlayer = getPlayerEntity();
+        const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(updatedCurrentPlayers).toHaveLength(1);
+        currentPlayer = updatedCurrentPlayers[0];
         const playerPosition = getComponentAbsolute(
           currentPlayer!,
           ComponentType.Position,
@@ -293,7 +336,9 @@ describe('Movement Integration Test', () => {
         store.set(entitiesAtom, [player, movableBox, blockingWall]);
         store.set(mapAtom, new GameMap());
 
-        let currentPlayer = getPlayerEntity();
+        const currentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(currentPlayers).toHaveLength(1);
+        let currentPlayer = currentPlayers[0];
         const originalPosition = getComponentAbsolute(
           currentPlayer!,
           ComponentType.Position,
@@ -302,7 +347,9 @@ describe('Movement Integration Test', () => {
         setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        currentPlayer = getPlayerEntity();
+        const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(updatedCurrentPlayers).toHaveLength(1);
+        currentPlayer = updatedCurrentPlayers[0];
         const finalPosition = getComponentAbsolute(
           currentPlayer!,
           ComponentType.Position,
@@ -347,11 +394,15 @@ describe('Movement Integration Test', () => {
         store.set(entitiesAtom, [player, movableBox1, movableBox2]);
         store.set(mapAtom, new GameMap());
 
-        let currentPlayer = getPlayerEntity();
+        const currentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(currentPlayers).toHaveLength(1);
+        let currentPlayer = currentPlayers[0];
         setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        currentPlayer = getPlayerEntity();
+        const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        expect(updatedCurrentPlayers).toHaveLength(1);
+        currentPlayer = updatedCurrentPlayers[0];
         const playerPosition = getComponentAbsolute(
           currentPlayer!,
           ComponentType.Position,

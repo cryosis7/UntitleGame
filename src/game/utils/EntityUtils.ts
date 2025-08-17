@@ -61,14 +61,6 @@ export const getEntitiesWithComponents = (
   return entities.filter((entity) => hasAllComponents(entity, ...types));
 };
 
-export const getPlayerEntities = (entities?: Entity[]): Entity[] => {
-  return getEntitiesWithComponent(ComponentType.Player, entities);
-};
-
-export const getPlayerEntity = (entities?: Entity[]): Entity | undefined => {
-  const players = getPlayerEntities(entities);
-  return players.length === 1 ? players[0] : undefined;
-};
 
 export const addEntity = (entity: Entity) => {
   store.set(entitiesAtom, (entities) => [...entities, entity]);
