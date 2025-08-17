@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { vi, describe, it, expect } from 'vitest';
 import App from './App';
@@ -8,13 +8,15 @@ vi.mock('./react/components/Game', () => ({
 }));
 
 describe('App', () => {
-  it('should render the Game component for the root path', () => {
+  it('should render the Game component for the root path', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <App />
       </MemoryRouter>,
     );
-    expect(screen.getByText(/Mocked Game Component/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Mocked Game Component/i)).toBeInTheDocument();
+    });
   });
 
   it('should render "No Route Match" for an unknown route', () => {
