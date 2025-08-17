@@ -45,6 +45,7 @@ import type {
   RenderComponentProps,
 } from './individualComponents/RenderComponent';
 import type { SelectedComponent } from './individualComponents/SelectedComponent';
+import type { HoverHighlightComponent } from './individualComponents/HoverHighlightComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -64,6 +65,7 @@ export enum ComponentType {
   InteractionBehavior = 'interactionBehavior',
   SpawnContents = 'spawnContents',
   Selected = 'selected',
+  HoverHighlight = 'hoverHighlight',
 }
 
 export type FullComponentDictionary = {
@@ -84,6 +86,7 @@ export type FullComponentDictionary = {
   [ComponentType.InteractionBehavior]: InteractionBehaviorComponent;
   [ComponentType.SpawnContents]: SpawnContentsComponent;
   [ComponentType.Selected]: SelectedComponent;
+  [ComponentType.HoverHighlight]: HoverHighlightComponent;
 };
 
 export type Component = FullComponentDictionary[keyof FullComponentDictionary];

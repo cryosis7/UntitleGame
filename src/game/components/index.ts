@@ -2,6 +2,7 @@ export * from './ComponentTypes';
 export * from './individualComponents/CarriedItemComponent';
 export * from './individualComponents/DirectionComponent';
 export * from './individualComponents/HandlingComponent';
+export * from './individualComponents/HoverHighlightComponent';
 export * from './individualComponents/InteractingComponent';
 export * from './individualComponents/InteractionBehaviorComponent';
 export * from './individualComponents/MovableComponent';

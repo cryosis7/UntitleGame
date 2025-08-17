@@ -10,6 +10,8 @@ import { SidebarRenderSystem } from '../systems/RenderSystems/SidebarRenderSyste
 import { MapRenderSystem } from '../systems/RenderSystems/MapRenderSystem';
 import { LevelEditorSelectionSystem } from '../systems/LevelEditorSystems/LevelEditorSelectionSystem';
 import { LevelEditorPlacementSystem } from '../systems/LevelEditorSystems/LevelEditorPlacementSystem';
+import { LevelEditorHoverSystem } from '../systems/LevelEditorSystems/LevelEditorHoverSystem';
+import { HoverHighlightRenderSystem } from '../systems/RenderSystems/HoverHighlightRenderSystem';
 import { PickupSystem } from '../systems/PickupSystem';
 import { ItemInteractionSystem } from '../systems/ItemInteractionSystem';
 import { createEntity, createEntityFromTemplate } from '../utils/EntityFactory';
@@ -17,6 +19,7 @@ import {
   Beaker,
   Boulder,
   Chest,
+  HoverHighlight,
   Key,
   Player,
 } from '../templates/EntityTemplates';
@@ -67,6 +70,13 @@ const createSidebarEntities = () => {
   return sidebarEntities;
 };
 
+const createEditorEntities = () => {
+  const sidebarEntities = createSidebarEntities();
+  const hoverHighlightEntity = createEntityFromTemplate(HoverHighlight);
+  
+  return [...sidebarEntities, hoverHighlightEntity];
+};
+
 export interface SystemConfig {
   systemsFactory: (() => BaseSystem)[];
   entitiesFactory?: () => Entity[];
@@ -99,12 +109,14 @@ export const editorSystemConfig: SystemConfig = {
   systemsFactory: [
     () => new LevelEditorSelectionSystem(),
     () => new LevelEditorPlacementSystem(),
+    () => new LevelEditorHoverSystem(),
     () => new MapRenderSystem(),
     () => new GameRenderSystem(),
+    () => new HoverHighlightRenderSystem(),
     () => new SidebarRenderSystem(),
     () => new CleanUpSystem(),
   ],
-  entitiesFactory: createSidebarEntities,
+  entitiesFactory: createEditorEntities,
   mapConfig: {
     rows: 15,
     cols: 15,
