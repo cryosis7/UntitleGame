@@ -7,6 +7,7 @@ import { CleanUpSystem } from '../systems/CleanUpSystem';
 import { DirectionSystem } from '../systems/DirectionSystem';
 import { GameRenderSystem } from '../systems/RenderSystems/GameRenderSystem';
 import { SidebarRenderSystem } from '../systems/RenderSystems/SidebarRenderSystem';
+import { SidebarHighlightRenderSystem } from '../systems/RenderSystems/SidebarHighlightRenderSystem';
 import { MapRenderSystem } from '../systems/RenderSystems/MapRenderSystem';
 import { HUDRenderSystem } from '../systems/RenderSystems/HUDRenderSystem';
 import { LevelEditorSelectionSystem } from '../systems/LevelEditorSystems/LevelEditorSelectionSystem';
@@ -117,6 +118,7 @@ export const editorSystemConfig: SystemConfig = {
     () => new MapRenderSystem(),
     () => new GameRenderSystem(),
     () => new SidebarRenderSystem(),
+    () => new SidebarHighlightRenderSystem(),
     () => new HUDRenderSystem(),
     () => new CleanUpSystem(),
   ],
