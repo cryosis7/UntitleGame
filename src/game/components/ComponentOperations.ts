@@ -116,6 +116,21 @@ export const hasAnyComponent = (
   );
 };
 
+export const hasComponentValue = <T extends ComponentType>(
+  entity: Entity,
+  type: T,
+  value: Partial<Omit<FullComponentDictionary[T], 'type'>>,
+) => {
+  const component = getComponentIfExists(entity, type);
+  if (!component) {
+    return false;
+  }
+  return Object.entries(value).every(
+    ([key, expectedValue]) =>
+      component[key as keyof typeof component] === expectedValue,
+  );
+};
+
 /**
  * Removes a component(s) from an entity.
  * @param entity

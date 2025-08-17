@@ -13,6 +13,6 @@ rendering and **Jotai** for state management.
 
 ## Code Conventions
 
-- **Minimal comments**: Only comment complex code
-- **Self-documenting code** preferred over extensive commenting
+- **Minimal comments**: Do not use comments unless absolutely necessary
+- **Self-documenting code** Use descriptive variable and function names instead of comments
 - **Always use Yarn instead of npm**

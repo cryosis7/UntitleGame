@@ -17,13 +17,14 @@ export type Entity = {
  *
  * @returns {Position} The coordinates of an empty tile.
  */
-export const getEmptyPosition = (): Position => {
+export const getEmptyPosition = (
+  entities: Entity[] = store.get(entitiesAtom),
+): Position => {
   let x: number;
   let y: number;
   let isOccupied: boolean;
   const map = store.get(mapAtom);
-  const entities = store
-    .get(entitiesAtom)
+  const positionComponents = entities
     .filter((entity) => {
       return hasComponent(entity, ComponentType.Position);
     })
@@ -36,7 +37,7 @@ export const getEmptyPosition = (): Position => {
     y = Math.floor(Math.random() * 10);
     isOccupied =
       !map.isTileWalkable({ x, y }) ||
-      entities.some((entity) => {
+      positionComponents.some((entity) => {
         return entity.x === x && entity.y === y;
       });
   } while (isOccupied);

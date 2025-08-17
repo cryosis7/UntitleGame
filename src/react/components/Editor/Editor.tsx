@@ -1,16 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box, IconButton, Paper, Typography } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { EntityForm } from './EntityForm';
+import { initPixiApp, pixiApp, preload } from '../../../game/Pixi';
+import { gameLoop, initializeGame } from '../../../game/GameSystem';
+import { editorSystemConfig } from '../../../game/config/SystemConfigurations';
 
 export const Editor = () => {
   const [entityJson, setEntityJson] = useState<string | null>(null);
+  const gameContainerRef = useRef<HTMLDivElement | null>(null);
+  const hasInitialised = useRef(false);
 
-  const handleCopyToClipboard = () => {
+  const handleCopyToClipboard = async () => {
     if (entityJson) {
-      navigator.clipboard.writeText(entityJson);
+      await navigator.clipboard.writeText(entityJson);
     }
   };
+
+  useEffect(() => {
+    const gameContainer = gameContainerRef.current;
+    if (!gameContainer || hasInitialised.current) {
+      return;
+    }
+
+    (async () => {
+      hasInitialised.current = true;
+      await initPixiApp(gameContainer);
+      await preload();
+
+      await initializeGame(editorSystemConfig);
+
+      pixiApp.ticker.add((time) => {
+        gameLoop(time);
+      });
+    })();
+  }, []);
 
   return (
     <Box
@@ -33,11 +57,26 @@ export const Editor = () => {
         p={2}
       >
         <Box width='45%' p={2}>
-          <EntityForm setEntityJson={setEntityJson} />
+          <Paper elevation={2} sx={{ padding: 2 }}>
+            <Typography variant='h6' gutterBottom>
+              Level Editor
+            </Typography>
+            <div
+              ref={gameContainerRef}
+              style={{
+                width: '400px',
+                height: '400px',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+              }}
+            />
+          </Paper>
         </Box>
-        {entityJson && (
-          <Box width='45%' p={2}>
-            <Paper elevation={2} sx={{ padding: 2 }}>
+
+        <Box width='45%' p={2}>
+          <EntityForm setEntityJson={setEntityJson} />
+          {entityJson && (
+            <Paper elevation={2} sx={{ padding: 2, mt: 2 }}>
               <Box
                 display='flex'
                 alignItems='center'
@@ -52,8 +91,8 @@ export const Editor = () => {
                 <code>{entityJson}</code>
               </pre>
             </Paper>
-          </Box>
-        )}
+          )}
+        </Box>
       </Box>
     </Box>
   );
