@@ -1,83 +1,14 @@
-import type { Entity } from './utils/ecsUtils';
-import { getEmptyPosition } from './utils/ecsUtils';
 import {
   entitiesAtom,
-  getAllTexturesAtom,
   mapAtom,
   setContainersAtom,
   store,
   systemsAtom,
+  updateMapConfigAtom,
 } from './utils/Atoms';
 import { Container, type Ticker } from 'pixi.js';
-import {
-  createEntitiesFromTemplates,
-  createEntity,
-} from './utils/EntityFactory';
-import {
-  Beaker,
-  Boulder,
-  Chest,
-  Key,
-  Player,
-} from './templates/EntityTemplates';
-import { setComponent } from './components/ComponentOperations';
-import { KeyboardInputSystem } from './systems/KeyboardInputSystem';
-import { MovementSystem } from './systems/MovementSystem';
-import { CleanUpSystem } from './systems/CleanUpSystem';
-import {
-  PositionComponent,
-  RenderComponent,
-  SpriteComponent,
-} from './components';
-import { GameRenderSystem } from './systems/RenderSystems/GameRenderSystem';
 import { addEntities } from './utils/EntityUtils';
-import { DirectionSystem } from './systems/DirectionSystem';
-import { SidebarRenderSystem } from './systems/RenderSystems/SidebarRenderSystem';
-import { MapRenderSystem } from './systems/RenderSystems/MapRenderSystem';
-import { LevelEditorSelectionSystem } from './systems/LevelEditorSystems/LevelEditorSelectionSystem';
-import { LevelEditorPlacementSystem } from './systems/LevelEditorSystems/LevelEditorPlacementSystem';
-import { PickupSystem } from './systems/PickupSystem';
-import { ItemInteractionSystem } from './systems/ItemInteractionSystem';
-
-export const initiateEntities = () => {
-  const newEntities = createEntitiesFromTemplates(
-    Player,
-    Boulder,
-    Beaker,
-    Key,
-    Chest,
-  );
-  addEntities(newEntities);
-
-  newEntities.forEach((e) => {
-    setComponent(e, new PositionComponent(getEmptyPosition()));
-  });
-
-  addEntities(createSidebarEntities());
-};
-
-const createSidebarEntities = () => {
-  const textures = store.get(getAllTexturesAtom);
-
-  const entities: Entity[] = [];
-  const textureNames = Object.keys(textures);
-  const columns = 10;
-
-  textureNames.forEach((textureName, index) => {
-    const x = index % columns;
-    const y = Math.floor(index / columns);
-
-    const entity = createEntity([
-      new PositionComponent({ x, y }),
-      new RenderComponent({ section: 'sidebar' }),
-      new SpriteComponent({ sprite: textureName }),
-    ]);
-
-    entities.push(entity);
-  });
-
-  return entities;
-};
+import type { SystemConfig } from './config/SystemConfigurations';
 
 export const initialiseContainers = () => {
   const mapContainer = new Container({
@@ -90,24 +21,29 @@ export const initialiseContainers = () => {
   store.set(setContainersAtom, { mapContainer, sidebarContainer });
 };
 
-export const initiateSystems = () => {
+export const initiateSystems = (config: SystemConfig) => {
   const systems = store.get(systemsAtom);
+  systems.length = 0;
   systems.push(
-    new KeyboardInputSystem(),
-    new DirectionSystem(),
-    new MovementSystem(),
-    new PickupSystem(),
-    new ItemInteractionSystem(),
-
-    new LevelEditorSelectionSystem(),
-    new LevelEditorPlacementSystem(),
-
-    new MapRenderSystem(),
-    new GameRenderSystem(),
-    new SidebarRenderSystem(),
-
-    new CleanUpSystem(),
+    ...config.systemsFactory.map((systemFactory) => systemFactory()),
   );
+};
+
+export const initializeGame = async (config: SystemConfig) => {
+  if (config.mapConfig) {
+    store.set(updateMapConfigAtom, config.mapConfig);
+  }
+
+  const map = store.get(mapAtom);
+  map.init();
+
+  if (config.entitiesFactory) {
+    const entities = config.entitiesFactory();
+    addEntities(entities);
+  }
+
+  initialiseContainers();
+  initiateSystems(config);
 };
 
 export const gameLoop = (ticker: Ticker) => {
