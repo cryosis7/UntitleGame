@@ -35,12 +35,12 @@ export class KeyboardInputSystem implements BaseSystem {
       ComponentType.Player,
       entities,
     );
-    if (playerEntities.length !== 1) return;
-    const playerEntity = playerEntities[0];
 
-    this.handleMovement(playerEntity);
-    this.handleInteraction(playerEntity);
-    this.handlePickup(playerEntity);
+    for (const playerEntity of playerEntities) {
+      this.handleMovement(playerEntity);
+      this.handleInteraction(playerEntity);
+      this.handlePickup(playerEntity);
+    }
     this.hasChanged = false;
   }
 
