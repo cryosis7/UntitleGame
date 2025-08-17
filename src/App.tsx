@@ -1,12 +1,30 @@
-import { Game } from './react/components/Game';
 import './App.scss';
 import { Route, Routes } from 'react-router-dom';
 import { Provider } from 'jotai';
-import { Editor } from './react/components/Editor/Editor';
 import { Slide, ToastContainer } from 'react-toastify';
 import { store } from './game/utils/Atoms';
-import { DebugPanel } from './react/components/DebugPanel';
-import { AtomsDevTools } from './react/components/AtomsDevTools';
+import { lazy, Suspense } from 'react';
+
+const Game = lazy(() =>
+  import('./react/components/Game').then((module) => ({
+    default: module.Game,
+  })),
+);
+const Editor = lazy(() =>
+  import('./react/components/Editor/Editor').then((module) => ({
+    default: module.Editor,
+  })),
+);
+const DebugPanel = lazy(() =>
+  import('./react/components/DebugPanel').then((module) => ({
+    default: module.DebugPanel,
+  })),
+);
+const AtomsDevTools = lazy(() =>
+  import('./react/components/AtomsDevTools').then((module) => ({
+    default: module.AtomsDevTools,
+  })),
+);
 
 const App = () => {
   return (
@@ -15,7 +33,9 @@ const App = () => {
         path='/'
         element={
           <Provider store={store}>
-            <AtomsDevTools />
+            <Suspense fallback={<div>Loading...</div>}>
+              <AtomsDevTools />
+            </Suspense>
             <ToastContainer
               pauseOnFocusLoss
               pauseOnHover
@@ -25,14 +45,25 @@ const App = () => {
             />
             <div className='root'>
               <div className='game-container'>
-                <Game />
+                <Suspense fallback={<div>Loading game...</div>}>
+                  <Game />
+                </Suspense>
               </div>
-              <DebugPanel />
+              <Suspense fallback={<div>Loading debug panel...</div>}>
+                <DebugPanel />
+              </Suspense>
             </div>
           </Provider>
         }
       />
-      <Route path='/editor' element={<Editor />} />
+      <Route
+        path='/editor'
+        element={
+          <Suspense fallback={<div>Loading editor...</div>}>
+            <Editor />
+          </Suspense>
+        }
+      />
       <Route path='*' element={<div>No Route Match</div>} />
     </Routes>
   );
