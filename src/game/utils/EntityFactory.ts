@@ -17,6 +17,7 @@ import type {
 import {
   CarriedItemComponent,
   ComponentType,
+  HoverHighlightComponent,
   InteractionBehaviorComponent,
   PositionComponent,
   RenderComponent,
@@ -198,6 +199,8 @@ function createComponentsFromTemplate(template: EntityTemplate): Component[] {
         return new SpawnContentsComponent(props as SpawnContentsComponentProps);
       case ComponentType.Render:
         return new RenderComponent(props as RenderComponentProps);
+      case ComponentType.HoverHighlight:
+        return new HoverHighlightComponent(props as { isVisible: boolean });
       default:
         if (Object.values(ComponentType).includes(type as ComponentType)) {
           return { type } as Component;

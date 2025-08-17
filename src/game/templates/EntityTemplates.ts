@@ -88,3 +88,11 @@ export const Chest: EntityTemplate = {
     render: { section: 'game' },
   },
 };
+
+export const HoverHighlight: EntityTemplate = {
+  components: {
+    hoverHighlight: { isVisible: false },
+    render: { section: 'game' },
+    position: { x: 0, y: 0 },
+  },
+};

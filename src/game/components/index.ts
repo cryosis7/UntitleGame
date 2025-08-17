@@ -16,3 +16,4 @@ export * from './individualComponents/SpriteComponent';
 export * from './individualComponents/UsableItemComponent';
 export * from './individualComponents/VelocityComponent';
 export * from './individualComponents/WalkableComponent';
+export * from './individualComponents/HoverHighlightComponent';
