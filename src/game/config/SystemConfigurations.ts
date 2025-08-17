@@ -8,6 +8,7 @@ import { DirectionSystem } from '../systems/DirectionSystem';
 import { GameRenderSystem } from '../systems/RenderSystems/GameRenderSystem';
 import { SidebarRenderSystem } from '../systems/RenderSystems/SidebarRenderSystem';
 import { MapRenderSystem } from '../systems/RenderSystems/MapRenderSystem';
+import { HUDRenderSystem } from '../systems/RenderSystems/HUDRenderSystem';
 import { LevelEditorSelectionSystem } from '../systems/LevelEditorSystems/LevelEditorSelectionSystem';
 import { LevelEditorPlacementSystem } from '../systems/LevelEditorSystems/LevelEditorPlacementSystem';
 import { PickupSystem } from '../systems/PickupSystem';
@@ -67,6 +68,19 @@ const createSidebarEntities = () => {
   return sidebarEntities;
 };
 
+const createHudEntities = (): Entity[] => {
+  const hudEntities: Entity[] = [];
+
+  const hudEntity = createEntity([
+    new PositionComponent({ x: 1, y: 2 }),
+    new RenderComponent({ section: 'hud' }),
+    new SpriteComponent({ sprite: 'grass' }),
+  ]);
+
+  hudEntities.push(hudEntity);
+  return hudEntities;
+};
+
 export interface SystemConfig {
   systemsFactory: (() => BaseSystem)[];
   entitiesFactory?: () => Entity[];
@@ -86,9 +100,10 @@ export const gameSystemConfig: SystemConfig = {
     () => new MapRenderSystem(),
     () => new GameRenderSystem(),
     () => new SidebarRenderSystem(),
+    () => new HUDRenderSystem(),
     () => new CleanUpSystem(),
   ],
-  entitiesFactory: createGameEntities,
+  entitiesFactory: () => [...createGameEntities(), ...createHudEntities()],
   mapConfig: {
     rows: 10,
     cols: 10,
@@ -102,6 +117,7 @@ export const editorSystemConfig: SystemConfig = {
     () => new MapRenderSystem(),
     () => new GameRenderSystem(),
     () => new SidebarRenderSystem(),
+    () => new HUDRenderSystem(),
     () => new CleanUpSystem(),
   ],
   entitiesFactory: createSidebarEntities,

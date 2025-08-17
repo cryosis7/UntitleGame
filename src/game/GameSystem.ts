@@ -17,8 +17,15 @@ export const initialiseContainers = () => {
   const sidebarContainer = new Container({
     eventMode: 'static',
   });
+  const hudContainer = new Container({
+    eventMode: 'none',
+  });
 
-  store.set(setContainersAtom, { mapContainer, sidebarContainer });
+  store.set(setContainersAtom, {
+    mapContainer,
+    sidebarContainer,
+    hudContainer,
+  });
 };
 
 export const initiateSystems = (config: SystemConfig) => {

@@ -9,7 +9,8 @@
       "Bash(yarn:*)",
       "Bash(grep:*)",
       "Bash(git:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(gh:*)"
     ],
     "deny": []
   }

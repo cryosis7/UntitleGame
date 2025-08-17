@@ -7,6 +7,7 @@ import {
 import {
   getComponentIfExists,
   hasAnyComponent,
+  hasComponentValue,
   setComponent,
 } from '../components/ComponentOperations';
 import { ComponentType, PositionComponent } from '../components';
@@ -14,11 +15,9 @@ import { ComponentType, PositionComponent } from '../components';
 export class MovementSystem implements BaseSystem {
   update({ entities, map }: UpdateArgs) {
     const gameEntities = entities.filter((entity: Entity) => {
-      const renderComponent = getComponentIfExists(
-        entity,
-        ComponentType.Render,
-      );
-      return renderComponent?.section === 'game';
+      return hasComponentValue(entity, ComponentType.Render, {
+        section: 'game',
+      });
     });
 
     const resetVelocity = (entity: Entity) => {

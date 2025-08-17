@@ -1,21 +1,20 @@
 import type { UpdateArgs } from '../Framework/Systems';
-
-import { hasComponentValue } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components';
+import { hasComponentValue } from '../../components/ComponentOperations';
 import { BaseRenderSystem } from './BaseRenderSystem';
 
-export class GameRenderSystem extends BaseRenderSystem {
+export class HUDRenderSystem extends BaseRenderSystem {
   constructor() {
-    super('game');
+    super('hud', [0, 0]);
   }
 
   update({ entities }: UpdateArgs) {
-    const gameEntities = entities.filter((entity) => {
+    const hudEntities = entities.filter((entity) => {
       return hasComponentValue(entity, ComponentType.Render, {
-        section: 'game',
+        section: 'hud',
       });
     });
 
-    this.updateStageAndPositions(gameEntities);
+    this.updateStageAndPositions(hudEntities);
   }
 }

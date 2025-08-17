@@ -122,8 +122,8 @@ describe('Item Usage Integration Test', () => {
         setComponent(player!, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
         const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
-      expect(updatedPlayers).toHaveLength(1);
-      player = updatedPlayers[0];
+        expect(updatedPlayers).toHaveLength(1);
+        player = updatedPlayers[0];
         expect(player).toBeDefined();
       }
 
@@ -132,8 +132,8 @@ describe('Item Usage Integration Test', () => {
         setComponent(player!, new VelocityComponent({ vx: 0, vy: 1 }));
         movementSystem.update(createStandardUpdateArgs());
         const updatedPlayers = getEntitiesWithComponent(ComponentType.Player);
-      expect(updatedPlayers).toHaveLength(1);
-      player = updatedPlayers[0];
+        expect(updatedPlayers).toHaveLength(1);
+        player = updatedPlayers[0];
         expect(player).toBeDefined();
       }
 

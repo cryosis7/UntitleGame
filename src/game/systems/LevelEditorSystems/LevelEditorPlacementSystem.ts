@@ -4,7 +4,10 @@ import type { Position } from '../../map/GameMap';
 import type { Entity } from '../../utils/ecsUtils';
 import type { EntityTemplate } from '../../utils/EntityFactory';
 import { createEntityFromTemplate } from '../../utils/EntityFactory';
-import { getComponentIfExists } from '../../components/ComponentOperations';
+import {
+  getComponentIfExists,
+  hasComponentValue,
+} from '../../components/ComponentOperations';
 import { ComponentType } from '../../components';
 import {
   addEntities,
@@ -69,11 +72,9 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
     const [sidebarEntities, gameEntities] = partitionArray(
       entities,
       (entity) => {
-        const renderComponent = getComponentIfExists(
-          entity,
-          ComponentType.Render,
-        );
-        return renderComponent?.section === 'sidebar';
+        return hasComponentValue(entity, ComponentType.Render, {
+          section: 'sidebar',
+        });
       },
     );
 

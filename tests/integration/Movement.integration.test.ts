@@ -143,7 +143,9 @@ describe('Movement Integration Test', () => {
         setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        const updatedCurrentPlayers = getEntitiesWithComponent(
+          ComponentType.Player,
+        );
         expect(updatedCurrentPlayers).toHaveLength(1);
         currentPlayer = updatedCurrentPlayers[0];
         const position = getComponentAbsolute(
@@ -180,7 +182,9 @@ describe('Movement Integration Test', () => {
         setComponent(currentPlayer!, new VelocityComponent({ vx: -1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        const firstUpdatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+        const firstUpdatedPlayers = getEntitiesWithComponent(
+          ComponentType.Player,
+        );
         expect(firstUpdatedPlayers).toHaveLength(1);
         currentPlayer = firstUpdatedPlayers[0];
         let position = getComponentAbsolute(
@@ -193,7 +197,9 @@ describe('Movement Integration Test', () => {
         setComponent(currentPlayer!, new VelocityComponent({ vx: 0, vy: -1 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        const secondUpdatedPlayers = getEntitiesWithComponent(ComponentType.Player);
+        const secondUpdatedPlayers = getEntitiesWithComponent(
+          ComponentType.Player,
+        );
         expect(secondUpdatedPlayers).toHaveLength(1);
         currentPlayer = secondUpdatedPlayers[0];
         position = getComponentAbsolute(currentPlayer!, ComponentType.Position);
@@ -237,7 +243,9 @@ describe('Movement Integration Test', () => {
       setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+      const updatedCurrentPlayers = getEntitiesWithComponent(
+        ComponentType.Player,
+      );
       expect(updatedCurrentPlayers).toHaveLength(1);
       currentPlayer = updatedCurrentPlayers[0];
       const position = getComponentAbsolute(
@@ -259,7 +267,9 @@ describe('Movement Integration Test', () => {
       setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
       movementSystem.update(createStandardUpdateArgs());
 
-      const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+      const updatedCurrentPlayers = getEntitiesWithComponent(
+        ComponentType.Player,
+      );
       expect(updatedCurrentPlayers).toHaveLength(1);
       currentPlayer = updatedCurrentPlayers[0];
       const position = getComponentAbsolute(
@@ -298,7 +308,9 @@ describe('Movement Integration Test', () => {
         setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        const updatedCurrentPlayers = getEntitiesWithComponent(
+          ComponentType.Player,
+        );
         expect(updatedCurrentPlayers).toHaveLength(1);
         currentPlayer = updatedCurrentPlayers[0];
         const playerPosition = getComponentAbsolute(
@@ -347,7 +359,9 @@ describe('Movement Integration Test', () => {
         setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        const updatedCurrentPlayers = getEntitiesWithComponent(
+          ComponentType.Player,
+        );
         expect(updatedCurrentPlayers).toHaveLength(1);
         currentPlayer = updatedCurrentPlayers[0];
         const finalPosition = getComponentAbsolute(
@@ -400,7 +414,9 @@ describe('Movement Integration Test', () => {
         setComponent(currentPlayer!, new VelocityComponent({ vx: 1, vy: 0 }));
         movementSystem.update(createStandardUpdateArgs());
 
-        const updatedCurrentPlayers = getEntitiesWithComponent(ComponentType.Player);
+        const updatedCurrentPlayers = getEntitiesWithComponent(
+          ComponentType.Player,
+        );
         expect(updatedCurrentPlayers).toHaveLength(1);
         currentPlayer = updatedCurrentPlayers[0];
         const playerPosition = getComponentAbsolute(
