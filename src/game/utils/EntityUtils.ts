@@ -61,7 +61,6 @@ export const getEntitiesWithComponents = (
   return entities.filter((entity) => hasAllComponents(entity, ...types));
 };
 
-
 export const addEntity = (entity: Entity) => {
   store.set(entitiesAtom, (entities) => [...entities, entity]);
 };

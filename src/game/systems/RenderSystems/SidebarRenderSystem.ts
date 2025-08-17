@@ -2,7 +2,7 @@ import type { UpdateArgs } from '../Framework/Systems';
 import { Graphics } from 'pixi.js';
 import { pixiApp } from '../../Pixi';
 import { ComponentType } from '../../components';
-import { getComponentIfExists } from '../../components/ComponentOperations';
+import { hasComponentValue } from '../../components/ComponentOperations';
 import { BaseRenderSystem } from './BaseRenderSystem';
 import { sidebarContainerAtom, store } from '../../utils/Atoms';
 
@@ -30,12 +30,9 @@ export class SidebarRenderSystem extends BaseRenderSystem {
 
   update({ entities }: UpdateArgs) {
     const sidebarEntities = entities.filter((entity) => {
-      const renderComponent = getComponentIfExists(
-        entity,
-        ComponentType.Render,
-      );
-
-      return renderComponent?.section === 'sidebar';
+      return hasComponentValue(entity, ComponentType.Render, {
+        section: 'sidebar',
+      });
     });
 
     this.updateStageAndPositions(sidebarEntities);

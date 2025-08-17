@@ -1,6 +1,6 @@
 import { BaseRenderSystem } from './BaseRenderSystem';
 import type { UpdateArgs } from '../Framework/Systems';
-import { getComponentIfExists } from '../../components/ComponentOperations';
+import { hasComponentValue } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components';
 
 export class MapRenderSystem extends BaseRenderSystem {
@@ -14,12 +14,9 @@ export class MapRenderSystem extends BaseRenderSystem {
     }
     const entities = map.getAllEntities();
     const mapEntities = entities.filter((entity) => {
-      const renderComponent = getComponentIfExists(
-        entity,
-        ComponentType.Render,
-      );
-
-      return renderComponent?.section === 'map';
+      return hasComponentValue(entity, ComponentType.Render, {
+        section: 'map',
+      });
     });
 
     this.updateStageAndPositions(mapEntities);

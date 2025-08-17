@@ -2,9 +2,7 @@ import type { Container, Spritesheet, Texture } from 'pixi.js';
 import { atom, createStore } from 'jotai';
 import { GameMap } from '../map/GameMap';
 import { ComponentType } from '../components';
-import {
-  getComponentIfExists,
-} from '../components/ComponentOperations';
+import { hasComponentValue } from '../components/ComponentOperations';
 import type { BaseSystem } from '../systems/Framework/Systems';
 import type { Entity } from './ecsUtils';
 import type { RenderSection } from '../components/individualComponents/RenderComponent';
@@ -47,6 +45,7 @@ export const renderedEntities = atom<
   game: {},
   sidebar: {},
   map: {},
+  hud: {},
 });
 atom((get) => {
   return get(renderedEntities).sidebar;
@@ -151,6 +150,7 @@ export interface RenderConfig {
 export const renderConfigAtom = atom<{
   map: RenderConfig;
   sidebar: RenderConfig;
+  hud: RenderConfig;
 }>({
   map: {
     interfaceConfig: { tileSize: 32, gap: 0 },
@@ -160,12 +160,17 @@ export const renderConfigAtom = atom<{
     interfaceConfig: { tileSize: 32, gap: 4 },
     rootContainer: null,
   },
+  hud: {
+    interfaceConfig: { tileSize: 16, gap: 0 },
+    rootContainer: null,
+  },
 });
 
 export const getMapRenderConfigAtom = atom((get) => get(renderConfigAtom).map);
 export const getSidebarRenderConfigAtom = atom(
   (get) => get(renderConfigAtom).sidebar,
 );
+export const getHudRenderConfigAtom = atom((get) => get(renderConfigAtom).hud);
 export const getInterfaceConfigBySectionAtom = atom(
   (get) => (section: RenderSection) => {
     switch (section) {
@@ -174,6 +179,8 @@ export const getInterfaceConfigBySectionAtom = atom(
         return get(getMapRenderConfigAtom).interfaceConfig;
       case 'sidebar':
         return get(getSidebarRenderConfigAtom).interfaceConfig;
+      case 'hud':
+        return get(getHudRenderConfigAtom).interfaceConfig;
       default:
         throw new Error(`Unknown render section: ${section}`);
     }
@@ -183,9 +190,11 @@ export const getInterfaceConfigBySectionAtom = atom(
 export const getContainersAtom = atom((get) => {
   const mapContainer = get(getMapRenderConfigAtom).rootContainer;
   const sidebarContainer = get(getSidebarRenderConfigAtom).rootContainer;
+  const hudContainer = get(getHudRenderConfigAtom).rootContainer;
   return {
     mapContainer,
     sidebarContainer,
+    hudContainer,
   };
 });
 export const mapContainerAtom = atom(
@@ -193,6 +202,9 @@ export const mapContainerAtom = atom(
 );
 export const sidebarContainerAtom = atom(
   (get) => get(getSidebarRenderConfigAtom).rootContainer,
+);
+export const hudContainerAtom = atom(
+  (get) => get(getHudRenderConfigAtom).rootContainer,
 );
 export const getContainerBySectionAtom = atom(
   (get) =>
@@ -203,6 +215,8 @@ export const getContainerBySectionAtom = atom(
           return get(mapContainerAtom);
         case 'sidebar':
           return get(sidebarContainerAtom);
+        case 'hud':
+          return get(hudContainerAtom);
       }
     },
 );
@@ -222,7 +236,12 @@ export const setContainersAtom = atom(
     {
       mapContainer,
       sidebarContainer,
-    }: { mapContainer: Container; sidebarContainer: Container },
+      hudContainer,
+    }: {
+      mapContainer: Container;
+      sidebarContainer: Container;
+      hudContainer: Container;
+    },
   ) => {
     set(renderConfigAtom, {
       map: {
@@ -232,6 +251,10 @@ export const setContainersAtom = atom(
       sidebar: {
         ...get(getSidebarRenderConfigAtom),
         rootContainer: sidebarContainer,
+      },
+      hud: {
+        ...get(getHudRenderConfigAtom),
+        rootContainer: hudContainer,
       },
     });
   },
@@ -244,14 +267,7 @@ export const entitiesByRenderSectionAtom = atom((get) => {
   const entities = get(entitiesAtom);
   return (section: RenderSection): Entity[] => {
     return entities.filter((entity) => {
-      const renderComponent = getComponentIfExists(
-        entity,
-        ComponentType.Render,
-      );
-      if (!renderComponent) {
-        return false;
-      }
-      return renderComponent.section === section;
+      return hasComponentValue(entity, ComponentType.Render, { section });
     });
   };
 });
@@ -266,6 +282,10 @@ export const sidebarEntitiesAtom = atom((get) => {
 
 export const mapEntitiesAtom = atom((get) => {
   return get(entitiesByRenderSectionAtom)('map');
+});
+
+export const hudEntitiesAtom = atom((get) => {
+  return get(entitiesByRenderSectionAtom)('hud');
 });
 
 interface MapConfig {

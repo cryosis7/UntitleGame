@@ -14,6 +14,7 @@ import {
   getComponentAbsolute,
   hasAllComponents,
   hasComponent,
+  hasComponentValue,
   removeComponent,
   removeComponentFromAllEntities,
   setComponent,
@@ -60,10 +61,9 @@ export class LevelEditorSelectionSystem extends BaseClickSystem {
           return false;
         }
 
-        return (
-          getComponentAbsolute(entity, ComponentType.Render).section ===
-          'sidebar'
-        );
+        return hasComponentValue(entity, ComponentType.Render, {
+          section: 'sidebar',
+        });
       });
 
       const clickedEntity = sidebarEntities.find((entity) => {

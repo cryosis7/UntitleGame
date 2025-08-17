@@ -11,7 +11,10 @@ import {
   setComponent,
 } from '../components/ComponentOperations';
 import type { BaseSystem, UpdateArgs } from './Framework/Systems';
-import { getEntitiesAtPosition, getEntitiesWithComponent } from '../utils/EntityUtils';
+import {
+  getEntitiesAtPosition,
+  getEntitiesWithComponent,
+} from '../utils/EntityUtils';
 
 export class PickupSystem implements BaseSystem {
   update({ entities }: UpdateArgs) {
