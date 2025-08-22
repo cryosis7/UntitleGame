@@ -3,14 +3,15 @@ import { Graphics } from 'pixi.js';
 import { pixiApp } from '../../Pixi';
 import { ComponentType } from '../../components';
 import { hasComponentValue } from '../../components/ComponentOperations';
+import { RenderSection } from '../../components/individualComponents/RenderComponent';
 import { BaseRenderSystem } from './BaseRenderSystem';
-import { sidebarContainerAtom, store } from '../../utils/Atoms';
+import { sidebarContainerAtom, store } from '../../atoms';
 
 export class SidebarRenderSystem extends BaseRenderSystem {
   private readonly sidebarWidth = 150;
 
   constructor() {
-    super('sidebar', [pixiApp.canvas.width - 150, 0]);
+    super(RenderSection.Sidebar, [pixiApp.canvas.width - 150, 0]);
 
     const sidebarContainer = store.get(sidebarContainerAtom);
     if (!sidebarContainer) {
@@ -31,7 +32,7 @@ export class SidebarRenderSystem extends BaseRenderSystem {
   update({ entities }: UpdateArgs) {
     const sidebarEntities = entities.filter((entity) => {
       return hasComponentValue(entity, ComponentType.Render, {
-        section: 'sidebar',
+        section: RenderSection.Sidebar,
       });
     });
 

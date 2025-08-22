@@ -1,4 +1,4 @@
-import { entitiesAtom, store } from '../utils/Atoms';
+import { entitiesAtom, store } from '../atoms';
 import type { Entity } from '../utils/ecsUtils';
 import type { Component, FullComponentDictionary } from './ComponentTypes';
 import { ComponentType } from './ComponentTypes';

@@ -13,6 +13,11 @@ export default defineConfig({
       },
     }),
   ],
+  resolve: {
+    alias: {
+      '/atoms': '/src/atoms',
+    },
+  },
   server: {
     open: true,
   },

@@ -7,6 +7,7 @@ import { CleanUpSystem } from '../systems/CleanUpSystem';
 import { DirectionSystem } from '../systems/DirectionSystem';
 import { GameRenderSystem } from '../systems/RenderSystems/GameRenderSystem';
 import { SidebarRenderSystem } from '../systems/RenderSystems/SidebarRenderSystem';
+import { SidebarSelectionHighlightSystem } from '../systems/LevelEditorSystems/SidebarSelectionHighlightSystem';
 import { MapRenderSystem } from '../systems/RenderSystems/MapRenderSystem';
 import { HUDRenderSystem } from '../systems/RenderSystems/HUDRenderSystem';
 import { LevelEditorSelectionSystem } from '../systems/LevelEditorSystems/LevelEditorSelectionSystem';
@@ -24,9 +25,10 @@ import {
 import {
   PositionComponent,
   RenderComponent,
+  RenderSection,
   SpriteComponent,
 } from '../components';
-import { getAllTexturesAtom, store } from '../utils/Atoms';
+import { getAllTexturesAtom, store } from '../atoms';
 
 const createGameEntities = (): Entity[] => {
   const entitiesToCreate = [Player, Boulder, Beaker, Key, Chest];
@@ -59,7 +61,7 @@ const createSidebarEntities = () => {
 
     const entity = createEntity([
       new PositionComponent({ x, y }),
-      new RenderComponent({ section: 'sidebar' }),
+      new RenderComponent({ section: RenderSection.Sidebar }),
       new SpriteComponent({ sprite: textureName }),
     ]);
 
@@ -73,7 +75,7 @@ const createHudEntities = (): Entity[] => {
 
   const hudEntity = createEntity([
     new PositionComponent({ x: 1, y: 2 }),
-    new RenderComponent({ section: 'hud' }),
+    new RenderComponent({ section: RenderSection.Hud }),
     new SpriteComponent({ sprite: 'grass' }),
   ]);
 
@@ -118,6 +120,7 @@ export const editorSystemConfig: SystemConfig = {
     () => new GameRenderSystem(),
     () => new SidebarRenderSystem(),
     () => new HUDRenderSystem(),
+    () => new SidebarSelectionHighlightSystem(),
     () => new CleanUpSystem(),
   ],
   entitiesFactory: createSidebarEntities,

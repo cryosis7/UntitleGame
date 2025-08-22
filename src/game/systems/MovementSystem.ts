@@ -11,12 +11,13 @@ import {
   setComponent,
 } from '../components/ComponentOperations';
 import { ComponentType, PositionComponent } from '../components';
+import { RenderSection } from '../components/individualComponents/RenderComponent';
 
 export class MovementSystem implements BaseSystem {
   update({ entities, map }: UpdateArgs) {
     const gameEntities = entities.filter((entity: Entity) => {
       return hasComponentValue(entity, ComponentType.Render, {
-        section: 'game',
+        section: RenderSection.Game,
       });
     });
 

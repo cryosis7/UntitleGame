@@ -5,20 +5,25 @@ import {
   store,
   systemsAtom,
   updateMapConfigAtom,
-} from './utils/Atoms';
+} from './atoms';
 import { Container, type Ticker } from 'pixi.js';
 import { addEntities } from './utils/EntityUtils';
 import type { SystemConfig } from './config/SystemConfigurations';
+import { RenderSection } from './components';
+import type { BaseSystem } from './systems/Framework/Systems';
 
 export const initialiseContainers = () => {
   const mapContainer = new Container({
     eventMode: 'static',
+    label: RenderSection.Map,
   });
   const sidebarContainer = new Container({
     eventMode: 'static',
+    label: RenderSection.Sidebar,
   });
   const hudContainer = new Container({
     eventMode: 'none',
+    label: RenderSection.Hud,
   });
 
   store.set(setContainersAtom, {
@@ -56,7 +61,7 @@ export const initializeGame = async (config: SystemConfig) => {
 export const gameLoop = (ticker: Ticker) => {
   const systems = store.get(systemsAtom);
 
-  systems.forEach((system) => {
+  systems.forEach((system: BaseSystem) => {
     const map = store.get(mapAtom);
     const entities = store.get(entitiesAtom) ?? [];
 

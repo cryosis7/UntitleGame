@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useAtomValue } from 'jotai';
-import { entitiesAtom } from '../../game/utils/Atoms';
+import { entitiesAtom } from '../../game/atoms';
 import type { Entity } from '../../game/utils/ecsUtils';
 import type { SpriteComponent } from '../../game/components';
 import { ComponentType } from '../../game/components';

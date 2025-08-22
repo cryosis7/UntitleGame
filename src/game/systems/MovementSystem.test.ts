@@ -3,7 +3,6 @@ import { MovementSystem } from './MovementSystem';
 import { createEntity } from '../utils/EntityFactory';
 import type { Entity } from '../utils/ecsUtils';
 import type { UpdateArgs } from './Framework/Systems';
-import { entitiesAtom, store } from '../utils/Atoms';
 import type { GameMap, Position } from '../map/GameMap';
 import type {
   PositionComponentProps,
@@ -15,9 +14,11 @@ import {
   PickableComponent,
   PositionComponent,
   RenderComponent,
+  RenderSection,
   VelocityComponent,
 } from '../components';
 import { getEntity } from '../utils/EntityUtils';
+import { entitiesAtom, store } from '../atoms';
 
 describe('MovementSystem', () => {
   let system: MovementSystem;
@@ -49,7 +50,7 @@ describe('MovementSystem', () => {
     return createEntity([
       new PositionComponent(position),
       new VelocityComponent(velocity),
-      new RenderComponent({ section: 'game' }),
+      new RenderComponent({ section: RenderSection.Game }),
     ]);
   };
 
@@ -57,7 +58,7 @@ describe('MovementSystem', () => {
     return createEntity([
       new PositionComponent(position),
       new MovableComponent(),
-      new RenderComponent({ section: 'game' }),
+      new RenderComponent({ section: RenderSection.Game }),
     ]);
   };
 
@@ -65,7 +66,7 @@ describe('MovementSystem', () => {
     return createEntity([
       new PositionComponent(position),
       new PickableComponent(),
-      new RenderComponent({ section: 'game' }),
+      new RenderComponent({ section: RenderSection.Game }),
     ]);
   };
 
@@ -215,7 +216,7 @@ describe('MovementSystem', () => {
 
           const blockingEntity = createEntity([
             new PositionComponent({ x: 6, y: 5 }),
-            new RenderComponent({ section: 'game' }),
+            new RenderComponent({ section: RenderSection.Game }),
           ]);
 
           store.set(entitiesAtom, [movingEntity, blockingEntity]);
@@ -327,7 +328,7 @@ describe('MovementSystem', () => {
 
           const blockingEntity = createEntity([
             new PositionComponent({ x: 7, y: 5 }), // Blocks push target
-            new RenderComponent({ section: 'game' }),
+            new RenderComponent({ section: RenderSection.Game }),
           ]);
 
           store.set(entitiesAtom, [
@@ -481,7 +482,7 @@ describe('MovementSystem', () => {
             new PositionComponent({ x: 6, y: 5 }),
             new MovableComponent(),
             new PickableComponent(),
-            new RenderComponent({ section: 'game' }),
+            new RenderComponent({ section: RenderSection.Game }),
           ]);
 
           store.set(entitiesAtom, [movingEntity, targetEntity]);

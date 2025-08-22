@@ -1,5 +1,5 @@
-import type { InterfaceConfig } from '../utils/Atoms';
-import { getMapConfigAtom, store } from '../utils/Atoms';
+import type { SpriteConfig } from '../atoms';
+import { getMapConfigAtom, store } from '../atoms';
 import type { Position } from './GameMap';
 import type { Direction } from '../components';
 
@@ -11,7 +11,7 @@ import type { Direction } from '../components';
  */
 export const gridToScreen = (
   gridPosition: Position,
-  config: InterfaceConfig,
+  config: SpriteConfig,
 ): Position => {
   const { tileSize, gap } = config;
   return {
@@ -28,7 +28,7 @@ export const gridToScreen = (
  */
 export const gridToScreenAsTuple = (
   gridPosition: Position,
-  config: InterfaceConfig,
+  config: SpriteConfig,
 ): [number, number] => {
   const screenPosition = gridToScreen(gridPosition, config);
   return [screenPosition.x, screenPosition.y];
@@ -42,12 +42,12 @@ export const gridToScreenAsTuple = (
  * is provided, it defaults to the map configuration stored in the application state.
  *
  * @param {Position} screenPosition - The screen coordinate to convert.
- * @param {InterfaceConfig} [config=store.get(getMapConfigAtom)] - The configuration object containing tile size and gap.
+ * @param {SpriteConfig} [config=store.get(getMapConfigAtom)] - The configuration object containing tile size and gap.
  * @returns {Position} The calculated grid position.
  */
 export const screenToGrid = (
   screenPosition: Position,
-  config: InterfaceConfig = store.get(getMapConfigAtom),
+  config: SpriteConfig = store.get(getMapConfigAtom),
 ): Position => {
   const { tileSize, gap } = config;
   return {

@@ -1,8 +1,8 @@
 import type React from 'react';
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { capitaliseSentence } from '../../../utils';
+import { capitaliseSentence } from '../../../game/utils/UtilityFunctions';
 import type { EntitiesComponentsSchema } from './ComponentSchemas';
-import { ComponentType } from '../../../game/components/ComponentTypes';
+import { ComponentType } from '../../../game/components';
 
 interface ComponentSelectorProps {
   onAddComponent: (type: ComponentType) => void;

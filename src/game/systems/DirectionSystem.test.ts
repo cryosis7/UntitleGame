@@ -3,7 +3,7 @@ import { DirectionSystem } from './DirectionSystem';
 import { createEntity } from '../utils/EntityFactory';
 import type { Entity } from '../utils/ecsUtils';
 import type { UpdateArgs } from './Framework/Systems';
-import { entitiesAtom, store } from '../utils/Atoms';
+import { entitiesAtom, store } from '../atoms';
 import type { GameMap } from '../map/GameMap';
 import type {
   DirectionComponentProps,

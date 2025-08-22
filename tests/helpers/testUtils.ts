@@ -7,6 +7,7 @@ import {
   PlayerComponent,
   PositionComponent,
   RenderComponent,
+  RenderSection,
   RequiresItemComponent,
   SpriteComponent,
   UsableItemComponent,
@@ -14,7 +15,7 @@ import {
 } from '../../src/game/components';
 import type { Entity } from '../../src/game/utils/ecsUtils';
 import type { UpdateArgs } from '../../src/game/systems/Framework/Systems';
-import { entitiesAtom, store } from '../../src/game/utils/Atoms';
+import { entitiesAtom, store } from '../../src/game/atoms';
 
 export function createStandardUpdateArgs(entities?: Entity[]): UpdateArgs {
   entities = entities ?? store.get(entitiesAtom) ?? [];
@@ -41,7 +42,7 @@ export const ConvenienceComponentSets = {
     new PlayerComponent(),
     new PositionComponent(position),
     new VelocityComponent({ vx: 0, vy: 0 }),
-    new RenderComponent({ section: 'game' }),
+    new RenderComponent({ section: RenderSection.Game }),
   ],
 
   playerWithSprite: (position: Position = { x: 0, y: 0 }): Component[] => [
@@ -49,7 +50,7 @@ export const ConvenienceComponentSets = {
     new PositionComponent(position),
     new VelocityComponent({ vx: 0, vy: 0 }),
     new SpriteComponent({ sprite: 'player' }),
-    new RenderComponent({ section: 'game' }),
+    new RenderComponent({ section: RenderSection.Game }),
   ],
 
   item: (position: Position): Component[] => [

@@ -2,7 +2,6 @@ import type { BaseSystem, UpdateArgs } from '../Framework/Systems';
 import type { Entity } from '../../utils/ecsUtils';
 import type { Container } from 'pixi.js';
 import { Sprite } from 'pixi.js';
-import type { Position } from '../../map/GameMap';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
 import type {
   PositionComponent,
@@ -10,16 +9,16 @@ import type {
   SpriteComponent,
 } from '../../components';
 import { ComponentType } from '../../components';
-import type { InterfaceConfig } from '../../utils/Atoms';
+import type { SpriteConfig } from '../../atoms';
 import {
   getContainerBySectionAtom,
-  getInterfaceConfigBySectionAtom,
+  getSpriteConfigBySectionAtom,
   getTextureAtom,
   removeSprite,
   renderedEntities,
   setSprite,
   store,
-} from '../../utils/Atoms';
+} from '../../atoms';
 import {
   getComponentAbsolute,
   getComponentIfExists,
@@ -34,7 +33,7 @@ type EntitySpriteMap = {
 export abstract class BaseRenderSystem implements BaseSystem {
   protected stage: Container;
   protected renderSectionAtomKey: RenderSection;
-  protected interfaceConfig: InterfaceConfig;
+  protected spriteConfig: SpriteConfig;
 
   protected constructor(
     renderSectionAtomKey: RenderSection,
@@ -55,7 +54,7 @@ export abstract class BaseRenderSystem implements BaseSystem {
     pixiApp.stage.addChild(container);
     container.position.set(...containerPosition);
 
-    this.interfaceConfig = store.get(getInterfaceConfigBySectionAtom)(
+    this.spriteConfig = store.get(getSpriteConfigBySectionAtom)(
       this.renderSectionAtomKey,
     );
   }
@@ -155,7 +154,7 @@ export abstract class BaseRenderSystem implements BaseSystem {
       );
 
       sprite.position.set(
-        ...gridToScreenAsTuple(positionComponent, this.interfaceConfig),
+        ...gridToScreenAsTuple(positionComponent, this.spriteConfig),
       );
     });
   };
@@ -185,15 +184,6 @@ export abstract class BaseRenderSystem implements BaseSystem {
     );
   };
 
-  protected stageContainer = (
-    child: Container,
-    position: Position,
-    parent: Container,
-  ) => {
-    child.position.set(...gridToScreenAsTuple(position, this.interfaceConfig));
-    parent.addChild(child);
-  };
-
   protected createSprite = (spriteComponent: SpriteComponent) => {
     const texture = store.get(getTextureAtom)(spriteComponent.spriteName);
     if (texture === null) {
@@ -203,7 +193,7 @@ export abstract class BaseRenderSystem implements BaseSystem {
     }
 
     const sprite = new Sprite(texture);
-    sprite.setSize(this.interfaceConfig.tileSize);
+    sprite.setSize(this.spriteConfig.tileSize);
     return sprite;
   };
 }

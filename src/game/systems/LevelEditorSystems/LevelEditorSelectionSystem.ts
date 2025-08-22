@@ -3,11 +3,7 @@ import type { Position } from '../../map/GameMap';
 
 import type { FederatedPointerEvent, Point } from 'pixi.js';
 import { BaseClickSystem } from '../Framework/BaseClickSystem';
-import {
-  getSidebarConfigAtom,
-  sidebarContainerAtom,
-  store,
-} from '../../utils/Atoms';
+import { getSidebarConfigAtom, sidebarContainerAtom, store } from '../../atoms';
 import type { UpdateArgs } from '../Framework/Systems';
 import { ComponentType, SelectedComponent } from '../../components';
 import {
@@ -19,6 +15,7 @@ import {
   removeComponentFromAllEntities,
   setComponent,
 } from '../../components/ComponentOperations';
+import { RenderSection } from '../../components/';
 
 export class LevelEditorSelectionSystem extends BaseClickSystem {
   private clickedPosition?: Position;
@@ -62,7 +59,7 @@ export class LevelEditorSelectionSystem extends BaseClickSystem {
         }
 
         return hasComponentValue(entity, ComponentType.Render, {
-          section: 'sidebar',
+          section: RenderSection.Sidebar,
         });
       });
 

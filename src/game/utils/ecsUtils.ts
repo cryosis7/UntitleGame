@@ -5,7 +5,7 @@ import {
   getComponentIfExists,
   hasComponent,
 } from '../components/ComponentOperations';
-import { entitiesAtom, mapAtom, store } from './Atoms';
+import { entitiesAtom, mapAtom, store } from '../atoms';
 
 export type Entity = {
   id: string;

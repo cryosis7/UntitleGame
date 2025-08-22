@@ -1,10 +1,10 @@
 import type { BaseSystem, UpdateArgs } from './Framework/Systems';
 import { getEntitiesWithComponents } from '../utils/EntityUtils';
-import { ComponentType } from '../components/ComponentTypes';
 import {
   getComponentAbsolute,
   setComponent,
 } from '../components/ComponentOperations';
+import { ComponentType } from '../components';
 
 export class DirectionSystem implements BaseSystem {
   update({ entities }: UpdateArgs): void {
