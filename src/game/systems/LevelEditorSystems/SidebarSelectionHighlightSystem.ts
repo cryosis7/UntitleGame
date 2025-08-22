@@ -1,20 +1,24 @@
-import type { UpdateArgs } from '../Framework/Systems';
-import { Graphics } from 'pixi.js';
-import { ComponentType } from '../../components';
+import type { BaseSystem, UpdateArgs } from '../Framework/Systems';
+import { Container, Graphics } from 'pixi.js';
+import { ComponentType, RenderSection } from '../../components';
 import {
   getComponentIfExists,
   hasComponent,
   hasComponentValue,
 } from '../../components/ComponentOperations';
-import { BaseRenderSystem } from './BaseRenderSystem';
-import { pixiApp } from '../../Pixi';
 import { Position } from '../../map/GameMap';
 import { Entity } from '../../utils/ecsUtils';
 import { arePositionsEqual } from '../../utils/UtilityFunctions';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
+import type { InterfaceConfig } from '../../utils/Atoms';
+import {
+  getContainerBySectionAtom,
+  getInterfaceConfigBySectionAtom,
+  store,
+} from '../../utils/Atoms';
+import { pixiApp } from '../../Pixi';
 
-export class SidebarHighlightRenderSystem extends BaseRenderSystem {
-  private static readonly SIDEBAR_WIDTH = 150;
+export class SidebarSelectionHighlightSystem implements BaseSystem {
   private static readonly HIGHLIGHT_STROKE_WIDTH = 3;
   private static readonly HIGHLIGHT_COLOR = 0xffff00;
 
@@ -23,11 +27,27 @@ export class SidebarHighlightRenderSystem extends BaseRenderSystem {
     { entity: Entity; graphics?: Graphics; previousPosition?: Position }
   > = {};
 
+  protected stage: Container;
+  protected interfaceConfig: InterfaceConfig;
+
   constructor() {
-    super('sidebar', [
-      pixiApp.canvas.width - SidebarHighlightRenderSystem.SIDEBAR_WIDTH,
-      0,
-    ]);
+    const container = store.get(getContainerBySectionAtom)(
+      RenderSection.Sidebar,
+    );
+    if (!container) {
+      throw new Error('Container for section sidebar not found');
+    }
+
+    this.stage = container;
+    if (pixiApp.stage.getChildByLabel(RenderSection.Sidebar) === null) {
+      throw new Error(
+        'The SidebarSelectionHighlightSystem requires the sidebar render system to have been initialised first',
+      );
+    }
+
+    this.interfaceConfig = store.get(getInterfaceConfigBySectionAtom)(
+      RenderSection.Sidebar,
+    );
   }
 
   update({ entities }: UpdateArgs) {
@@ -37,7 +57,7 @@ export class SidebarHighlightRenderSystem extends BaseRenderSystem {
     for (const entity of entities) {
       if (
         hasComponentValue(entity, ComponentType.Render, {
-          section: 'sidebar',
+          section: RenderSection.Sidebar,
         }) &&
         hasComponent(entity, ComponentType.Selected)
       ) {
@@ -73,8 +93,7 @@ export class SidebarHighlightRenderSystem extends BaseRenderSystem {
           );
         }
 
-        const highlightGraphics =
-          graphics ?? this.createHighlightGraphics(position);
+        const highlightGraphics = graphics ?? this.createHighlightGraphics();
         if (!graphics) {
           this.stage.addChild(highlightGraphics);
           this.renderedEntities[entity.id].graphics = highlightGraphics;
@@ -93,17 +112,12 @@ export class SidebarHighlightRenderSystem extends BaseRenderSystem {
     );
   }
 
-  private createHighlightGraphics(position: Position): Graphics {
+  private createHighlightGraphics(): Graphics {
     return new Graphics()
-      .rect(
-        0,
-        0,
-        this.interfaceConfig.tileSize,
-        this.interfaceConfig.tileSize,
-      )
+      .rect(0, 0, this.interfaceConfig.tileSize, this.interfaceConfig.tileSize)
       .stroke({
-        width: SidebarHighlightRenderSystem.HIGHLIGHT_STROKE_WIDTH,
-        color: SidebarHighlightRenderSystem.HIGHLIGHT_COLOR,
+        width: SidebarSelectionHighlightSystem.HIGHLIGHT_STROKE_WIDTH,
+        color: SidebarSelectionHighlightSystem.HIGHLIGHT_COLOR,
       });
   }
 }

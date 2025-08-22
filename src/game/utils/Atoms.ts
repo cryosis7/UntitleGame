@@ -5,7 +5,7 @@ import { ComponentType } from '../components';
 import { hasComponentValue } from '../components/ComponentOperations';
 import type { BaseSystem } from '../systems/Framework/Systems';
 import type { Entity } from './ecsUtils';
-import type { RenderSection } from '../components/individualComponents/RenderComponent';
+import { RenderSection } from '../components/individualComponents/RenderComponent';
 
 export const store = createStore();
 
@@ -83,7 +83,7 @@ export const setSprite = atom(
 export const setMapSprite = atom(
   null,
   (get, set, { entityId, sprite }: { entityId: string; sprite: Container }) => {
-    set(setSprite, { section: 'map', entityId, sprite });
+    set(setSprite, { section: RenderSection.Map, entityId, sprite });
   },
 );
 
@@ -95,12 +95,12 @@ const getSprite = atom((get) => {
 });
 export const getSidebarSprite = atom((get) => {
   return (entityId: string): Container | undefined => {
-    return get(getSprite)('sidebar', entityId);
+    return get(getSprite)(RenderSection.Sidebar, entityId);
   };
 });
 export const getGameSprite = atom((get) => {
   return (entityId: string): Container | undefined => {
-    return get(getSprite)('game', entityId);
+    return get(getSprite)(RenderSection.Game, entityId);
   };
 });
 export const hasSidebarSprite = atom((get) => {
@@ -131,10 +131,10 @@ export const removeSprite = atom(
   },
 );
 export const removeSidebarSprite = atom(null, (get, set, entityId: string) => {
-  set(removeSprite, { section: 'sidebar', entityId });
+  set(removeSprite, { section: RenderSection.Sidebar, entityId });
 });
 export const removeGameSprite = atom(null, (get, set, entityId: string) => {
-  set(removeSprite, { section: 'game', entityId });
+  set(removeSprite, { section: RenderSection.Game, entityId });
 });
 
 export interface InterfaceConfig {
@@ -174,12 +174,12 @@ export const getHudRenderConfigAtom = atom((get) => get(renderConfigAtom).hud);
 export const getInterfaceConfigBySectionAtom = atom(
   (get) => (section: RenderSection) => {
     switch (section) {
-      case 'map':
-      case 'game':
+      case RenderSection.Map:
+      case RenderSection.Game:
         return get(getMapRenderConfigAtom).interfaceConfig;
-      case 'sidebar':
+      case RenderSection.Sidebar:
         return get(getSidebarRenderConfigAtom).interfaceConfig;
-      case 'hud':
+      case RenderSection.Hud:
         return get(getHudRenderConfigAtom).interfaceConfig;
       default:
         throw new Error(`Unknown render section: ${section}`);
@@ -210,12 +210,12 @@ export const getContainerBySectionAtom = atom(
   (get) =>
     (section: RenderSection): Container | null => {
       switch (section) {
-        case 'map':
-        case 'game':
+        case RenderSection.Map:
+        case RenderSection.Game:
           return get(mapContainerAtom);
-        case 'sidebar':
+        case RenderSection.Sidebar:
           return get(sidebarContainerAtom);
-        case 'hud':
+        case RenderSection.Hud:
           return get(hudContainerAtom);
       }
     },
@@ -273,19 +273,19 @@ export const entitiesByRenderSectionAtom = atom((get) => {
 });
 
 export const gameEntitiesAtom = atom((get) => {
-  return get(entitiesByRenderSectionAtom)('game');
+  return get(entitiesByRenderSectionAtom)(RenderSection.Game);
 });
 
 export const sidebarEntitiesAtom = atom((get) => {
-  return get(entitiesByRenderSectionAtom)('sidebar');
+  return get(entitiesByRenderSectionAtom)(RenderSection.Sidebar);
 });
 
 export const mapEntitiesAtom = atom((get) => {
-  return get(entitiesByRenderSectionAtom)('map');
+  return get(entitiesByRenderSectionAtom)(RenderSection.Map);
 });
 
 export const hudEntitiesAtom = atom((get) => {
-  return get(entitiesByRenderSectionAtom)('hud');
+  return get(entitiesByRenderSectionAtom)(RenderSection.Hud);
 });
 
 interface MapConfig {

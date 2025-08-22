@@ -19,6 +19,7 @@ import {
   removeComponentFromAllEntities,
   setComponent,
 } from '../../components/ComponentOperations';
+import { RenderSection } from '../../components/individualComponents/RenderComponent';
 
 export class LevelEditorSelectionSystem extends BaseClickSystem {
   private clickedPosition?: Position;
@@ -62,7 +63,7 @@ export class LevelEditorSelectionSystem extends BaseClickSystem {
         }
 
         return hasComponentValue(entity, ComponentType.Render, {
-          section: 'sidebar',
+          section: RenderSection.Sidebar,
         });
       });
 

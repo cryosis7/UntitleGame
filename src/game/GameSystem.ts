@@ -9,16 +9,20 @@ import {
 import { Container, type Ticker } from 'pixi.js';
 import { addEntities } from './utils/EntityUtils';
 import type { SystemConfig } from './config/SystemConfigurations';
+import { RenderSection } from './components';
 
 export const initialiseContainers = () => {
   const mapContainer = new Container({
     eventMode: 'static',
+    label: RenderSection.Map,
   });
   const sidebarContainer = new Container({
     eventMode: 'static',
+    label: RenderSection.Sidebar,
   });
   const hudContainer = new Container({
     eventMode: 'none',
+    label: RenderSection.Hud,
   });
 
   store.set(setContainersAtom, {

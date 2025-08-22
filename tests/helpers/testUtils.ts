@@ -7,6 +7,7 @@ import {
   PlayerComponent,
   PositionComponent,
   RenderComponent,
+  RenderSection,
   RequiresItemComponent,
   SpriteComponent,
   UsableItemComponent,
@@ -41,7 +42,7 @@ export const ConvenienceComponentSets = {
     new PlayerComponent(),
     new PositionComponent(position),
     new VelocityComponent({ vx: 0, vy: 0 }),
-    new RenderComponent({ section: 'game' }),
+    new RenderComponent({ section: RenderSection.Game }),
   ],
 
   playerWithSprite: (position: Position = { x: 0, y: 0 }): Component[] => [
@@ -49,7 +50,7 @@ export const ConvenienceComponentSets = {
     new PositionComponent(position),
     new VelocityComponent({ vx: 0, vy: 0 }),
     new SpriteComponent({ sprite: 'player' }),
-    new RenderComponent({ section: 'game' }),
+    new RenderComponent({ section: RenderSection.Game }),
   ],
 
   item: (position: Position): Component[] => [

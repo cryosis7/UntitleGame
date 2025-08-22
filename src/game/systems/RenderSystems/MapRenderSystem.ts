@@ -2,10 +2,11 @@ import { BaseRenderSystem } from './BaseRenderSystem';
 import type { UpdateArgs } from '../Framework/Systems';
 import { hasComponentValue } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components';
+import { RenderSection } from '../../components/individualComponents/RenderComponent';
 
 export class MapRenderSystem extends BaseRenderSystem {
   constructor() {
-    super('map');
+    super(RenderSection.Map);
   }
 
   update({ map }: UpdateArgs) {
@@ -15,7 +16,7 @@ export class MapRenderSystem extends BaseRenderSystem {
     const entities = map.getAllEntities();
     const mapEntities = entities.filter((entity) => {
       return hasComponentValue(entity, ComponentType.Render, {
-        section: 'map',
+        section: RenderSection.Map,
       });
     });
 

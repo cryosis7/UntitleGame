@@ -15,6 +15,7 @@ import {
   PickableComponent,
   PositionComponent,
   RenderComponent,
+  RenderSection,
   VelocityComponent,
 } from '../components';
 import { getEntity } from '../utils/EntityUtils';
@@ -49,7 +50,7 @@ describe('MovementSystem', () => {
     return createEntity([
       new PositionComponent(position),
       new VelocityComponent(velocity),
-      new RenderComponent({ section: 'game' }),
+      new RenderComponent({ section: RenderSection.Game }),
     ]);
   };
 
@@ -57,7 +58,7 @@ describe('MovementSystem', () => {
     return createEntity([
       new PositionComponent(position),
       new MovableComponent(),
-      new RenderComponent({ section: 'game' }),
+      new RenderComponent({ section: RenderSection.Game }),
     ]);
   };
 
@@ -65,7 +66,7 @@ describe('MovementSystem', () => {
     return createEntity([
       new PositionComponent(position),
       new PickableComponent(),
-      new RenderComponent({ section: 'game' }),
+      new RenderComponent({ section: RenderSection.Game }),
     ]);
   };
 
@@ -215,7 +216,7 @@ describe('MovementSystem', () => {
 
           const blockingEntity = createEntity([
             new PositionComponent({ x: 6, y: 5 }),
-            new RenderComponent({ section: 'game' }),
+            new RenderComponent({ section: RenderSection.Game }),
           ]);
 
           store.set(entitiesAtom, [movingEntity, blockingEntity]);
@@ -327,7 +328,7 @@ describe('MovementSystem', () => {
 
           const blockingEntity = createEntity([
             new PositionComponent({ x: 7, y: 5 }), // Blocks push target
-            new RenderComponent({ section: 'game' }),
+            new RenderComponent({ section: RenderSection.Game }),
           ]);
 
           store.set(entitiesAtom, [
@@ -481,7 +482,7 @@ describe('MovementSystem', () => {
             new PositionComponent({ x: 6, y: 5 }),
             new MovableComponent(),
             new PickableComponent(),
-            new RenderComponent({ section: 'game' }),
+            new RenderComponent({ section: RenderSection.Game }),
           ]);
 
           store.set(entitiesAtom, [movingEntity, targetEntity]);

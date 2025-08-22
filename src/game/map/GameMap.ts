@@ -4,6 +4,7 @@ import { createEntityFromTemplate } from '../utils/EntityFactory';
 import { ComponentType } from '../components';
 import { hasComponent } from '../components/ComponentOperations';
 import { mapConfigAtom, store } from '../utils/Atoms';
+import { RenderSection } from '../components/individualComponents/RenderComponent';
 
 export interface Position {
   x: number;
@@ -41,7 +42,7 @@ export class GameMap {
           components: {
             [ComponentType.Sprite]: { sprite: isDirtTile ? 'dirt' : 'wall' },
             [ComponentType.Position]: { x, y },
-            [ComponentType.Render]: { section: 'map' },
+            [ComponentType.Render]: { section: RenderSection.Map },
             ...(isDirtTile ? { [ComponentType.Walkable]: {} } : {}),
           },
         };

@@ -9,6 +9,7 @@ import {
   hasComponentValue,
 } from '../../components/ComponentOperations';
 import { ComponentType } from '../../components';
+import { RenderSection } from '../../components/individualComponents/RenderComponent';
 import {
   addEntities,
   getEntitiesWithComponent,
@@ -73,7 +74,7 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
       entities,
       (entity) => {
         return hasComponentValue(entity, ComponentType.Render, {
-          section: 'sidebar',
+          section: RenderSection.Sidebar,
         });
       },
     );
@@ -102,7 +103,7 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
         components: {
           sprite: { sprite: selectedItem },
           position: position,
-          render: { section: 'game' },
+          render: { section: RenderSection.Game },
         },
       };
 

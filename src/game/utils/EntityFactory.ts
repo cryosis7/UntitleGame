@@ -14,6 +14,7 @@ import type {
   UsableItemComponentProps,
   VelocityComponentProps,
 } from '../components';
+import { RenderSection } from '../components/individualComponents/RenderComponent';
 import {
   CarriedItemComponent,
   ComponentType,
@@ -107,7 +108,7 @@ function isValidRenderProps(obj: any): obj is RenderComponentProps {
   return (
     obj &&
     typeof obj.section === 'string' &&
-    ['game', 'sidebar', 'map'].includes(obj.section)
+    Object.values(RenderSection).includes(obj.section as RenderSection)
   );
 }
 
