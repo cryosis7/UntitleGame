@@ -25,10 +25,10 @@ import {
 import {
   PositionComponent,
   RenderComponent,
+  RenderSection,
   SpriteComponent,
 } from '../components';
-import { RenderSection } from '../components/individualComponents/RenderComponent';
-import { getAllTexturesAtom, store } from '../utils/Atoms';
+import { getAllTexturesAtom, store } from '../atoms';
 
 const createGameEntities = (): Entity[] => {
   const entitiesToCreate = [Player, Boulder, Beaker, Key, Chest];

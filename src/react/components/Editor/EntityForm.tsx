@@ -7,10 +7,7 @@ import type { EntitiesComponentsSchema } from './ComponentSchemas';
 import { DefaultComponentSchemas } from './ComponentSchemas';
 
 import type { EntityTemplate } from '../../../game/utils/EntityFactory';
-import type {
-  ComponentDictionary,
-  ComponentType,
-} from '../../../game/components/ComponentTypes';
+import { ComponentDictionary, ComponentType } from '../../../game/components';
 
 interface EntityFormProps {
   setEntityJson: (json: string | null) => void;

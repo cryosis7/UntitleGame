@@ -1,10 +1,9 @@
 import type { Entity } from '../utils/ecsUtils';
 import type { EntityTemplate } from '../utils/EntityFactory';
 import { createEntityFromTemplate } from '../utils/EntityFactory';
-import { ComponentType } from '../components';
+import { ComponentType, RenderSection } from '../components';
 import { hasComponent } from '../components/ComponentOperations';
-import { mapConfigAtom, store } from '../utils/Atoms';
-import { RenderSection } from '../components/individualComponents/RenderComponent';
+import { mapConfigAtom, store } from '../atoms';
 
 export interface Position {
   x: number;

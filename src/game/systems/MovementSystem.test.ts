@@ -3,7 +3,6 @@ import { MovementSystem } from './MovementSystem';
 import { createEntity } from '../utils/EntityFactory';
 import type { Entity } from '../utils/ecsUtils';
 import type { UpdateArgs } from './Framework/Systems';
-import { entitiesAtom, store } from '../utils/Atoms';
 import type { GameMap, Position } from '../map/GameMap';
 import type {
   PositionComponentProps,
@@ -19,6 +18,7 @@ import {
   VelocityComponent,
 } from '../components';
 import { getEntity } from '../utils/EntityUtils';
+import { entitiesAtom, store } from '../atoms';
 
 describe('MovementSystem', () => {
   let system: MovementSystem;

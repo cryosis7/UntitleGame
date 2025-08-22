@@ -10,13 +10,14 @@ import { Position } from '../../map/GameMap';
 import { Entity } from '../../utils/ecsUtils';
 import { arePositionsEqual } from '../../utils/UtilityFunctions';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
-import type { InterfaceConfig } from '../../utils/Atoms';
+
+import { pixiApp } from '../../Pixi';
 import {
   getContainerBySectionAtom,
-  getInterfaceConfigBySectionAtom,
+  getSpriteConfigBySectionAtom,
+  SpriteConfig,
   store,
-} from '../../utils/Atoms';
-import { pixiApp } from '../../Pixi';
+} from '../../atoms';
 
 export class SidebarSelectionHighlightSystem implements BaseSystem {
   private static readonly HIGHLIGHT_STROKE_WIDTH = 3;
@@ -28,7 +29,7 @@ export class SidebarSelectionHighlightSystem implements BaseSystem {
   > = {};
 
   protected stage: Container;
-  protected interfaceConfig: InterfaceConfig;
+  protected spriteConfig: SpriteConfig;
 
   constructor() {
     const container = store.get(getContainerBySectionAtom)(
@@ -45,7 +46,7 @@ export class SidebarSelectionHighlightSystem implements BaseSystem {
       );
     }
 
-    this.interfaceConfig = store.get(getInterfaceConfigBySectionAtom)(
+    this.spriteConfig = store.get(getSpriteConfigBySectionAtom)(
       RenderSection.Sidebar,
     );
   }
@@ -104,7 +105,7 @@ export class SidebarSelectionHighlightSystem implements BaseSystem {
           !arePositionsEqual(position, previousPosition)
         ) {
           highlightGraphics.position.set(
-            ...gridToScreenAsTuple(position, this.interfaceConfig),
+            ...gridToScreenAsTuple(position, this.spriteConfig),
           );
           this.renderedEntities[entity.id].previousPosition = position;
         }
@@ -114,7 +115,7 @@ export class SidebarSelectionHighlightSystem implements BaseSystem {
 
   private createHighlightGraphics(): Graphics {
     return new Graphics()
-      .rect(0, 0, this.interfaceConfig.tileSize, this.interfaceConfig.tileSize)
+      .rect(0, 0, this.spriteConfig.tileSize, this.spriteConfig.tileSize)
       .stroke({
         width: SidebarSelectionHighlightSystem.HIGHLIGHT_STROKE_WIDTH,
         color: SidebarSelectionHighlightSystem.HIGHLIGHT_COLOR,

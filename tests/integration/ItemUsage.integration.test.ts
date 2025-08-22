@@ -21,10 +21,10 @@ import { MovementSystem } from '../../src/game/systems/MovementSystem';
 import { ItemInteractionSystem } from '../../src/game/systems/ItemInteractionSystem';
 import {
   getEntitiesAtPosition,
-  getEntity,
   getEntitiesWithComponent,
+  getEntity,
 } from '../../src/game/utils/EntityUtils';
-import { entitiesAtom, mapAtom, store } from '../../src/game/utils/Atoms';
+import { entitiesAtom, mapAtom, store } from '../../src/game/atoms';
 import { GameMap } from '../../src/game/map/GameMap';
 
 describe('Item Usage Integration Test', () => {

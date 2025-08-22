@@ -5,7 +5,7 @@ import { ComponentType } from '../../components';
 import { hasComponentValue } from '../../components/ComponentOperations';
 import { RenderSection } from '../../components/individualComponents/RenderComponent';
 import { BaseRenderSystem } from './BaseRenderSystem';
-import { sidebarContainerAtom, store } from '../../utils/Atoms';
+import { sidebarContainerAtom, store } from '../../atoms';
 
 export class SidebarRenderSystem extends BaseRenderSystem {
   private readonly sidebarWidth = 150;

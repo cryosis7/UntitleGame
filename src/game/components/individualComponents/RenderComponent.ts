@@ -4,7 +4,7 @@ export enum RenderSection {
   Game = 'game',
   Sidebar = 'sidebar',
   Map = 'map',
-  Hud = 'hud'
+  Hud = 'hud',
 }
 
 export type RenderComponentProps = { section: RenderSection };

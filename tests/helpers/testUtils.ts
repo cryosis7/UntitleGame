@@ -15,7 +15,7 @@ import {
 } from '../../src/game/components';
 import type { Entity } from '../../src/game/utils/ecsUtils';
 import type { UpdateArgs } from '../../src/game/systems/Framework/Systems';
-import { entitiesAtom, store } from '../../src/game/utils/Atoms';
+import { entitiesAtom, store } from '../../src/game/atoms';
 
 export function createStandardUpdateArgs(entities?: Entity[]): UpdateArgs {
   entities = entities ?? store.get(entitiesAtom) ?? [];

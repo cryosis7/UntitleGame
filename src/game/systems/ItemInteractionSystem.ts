@@ -1,6 +1,5 @@
 import type { BaseSystem, UpdateArgs } from './Framework/Systems';
 import type { Entity } from '../utils/ecsUtils';
-import { ComponentType } from '../components/ComponentTypes';
 import {
   addEntities,
   getEntitiesWithComponents,
@@ -10,12 +9,7 @@ import {
   replaceEntity,
 } from '../utils/EntityUtils';
 import {
-  getComponentAbsolute,
-  getComponentIfExists,
-  removeComponent,
-  setComponent,
-} from '../components/ComponentOperations';
-import {
+  ComponentType,
   type InteractionBehaviorComponent,
   InteractionBehaviorType,
   PositionComponent,
@@ -27,6 +21,12 @@ import {
   createEntity,
 } from '../utils/EntityFactory';
 import { getAdjacentPosition } from '../map/MappingUtils';
+import {
+  getComponentAbsolute,
+  getComponentIfExists,
+  removeComponent,
+  setComponent,
+} from '../components/ComponentOperations';
 
 /**
  * ItemInteractionSystem handles interactions between entities that require items

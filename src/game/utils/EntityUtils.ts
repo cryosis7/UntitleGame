@@ -1,13 +1,12 @@
 import type { Position } from '../map/GameMap';
-import { ComponentType } from '../components/ComponentTypes';
 import type { Entity } from './ecsUtils';
+import { entitiesAtom, store } from '../atoms';
+import { ComponentType, type PositionComponent } from '../components';
 import {
   getComponentIfExists,
   hasAllComponents,
   hasComponent,
 } from '../components/ComponentOperations';
-import { entitiesAtom, store } from './Atoms';
-import type { PositionComponent } from '../components';
 
 /**
  * Returns all entities at a given position.

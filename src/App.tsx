@@ -2,7 +2,7 @@ import './App.scss';
 import { Route, Routes } from 'react-router-dom';
 import { Provider } from 'jotai';
 import { Slide, ToastContainer } from 'react-toastify';
-import { store } from './game/utils/Atoms';
+import { store } from './atoms';
 import { lazy, Suspense } from 'react';
 
 const Game = lazy(() =>

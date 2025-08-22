@@ -10,8 +10,6 @@
       "Bash(gh pr view:*)",
       "Bash(gh pr diff:*)"
     ],
-    "deny": [
-      "bash(git push:*)"
-    ]
+    "deny": ["bash(git push:*)"]
   }
 }

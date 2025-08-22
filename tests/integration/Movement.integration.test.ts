@@ -22,7 +22,7 @@ import {
   getEntitiesAtPosition,
   getEntitiesWithComponent,
 } from '../../src/game/utils/EntityUtils';
-import { entitiesAtom, mapAtom, store } from '../../src/game/utils/Atoms';
+import { entitiesAtom, mapAtom, store } from '../../src/game/atoms';
 import { GameMap } from '../../src/game/map/GameMap';
 
 describe('Movement Integration Test', () => {

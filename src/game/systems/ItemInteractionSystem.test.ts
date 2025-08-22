@@ -22,7 +22,7 @@ import {
   UsableItemComponent,
 } from '../components';
 import type { Entity } from '../utils/ecsUtils';
-import { entitiesAtom, store } from '../utils/Atoms';
+import { entitiesAtom, store } from '../atoms';
 import { GameMap, type Position } from '../map/GameMap';
 import type { UpdateArgs } from './Framework/Systems';
 import { getEntitiesAtPosition, getEntity } from '../utils/EntityUtils';

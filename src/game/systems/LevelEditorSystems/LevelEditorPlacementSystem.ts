@@ -8,8 +8,7 @@ import {
   getComponentIfExists,
   hasComponentValue,
 } from '../../components/ComponentOperations';
-import { ComponentType } from '../../components';
-import { RenderSection } from '../../components/individualComponents/RenderComponent';
+import { ComponentType, RenderSection } from '../../components';
 import {
   addEntities,
   getEntitiesWithComponent,
@@ -18,7 +17,7 @@ import {
 import { BaseClickSystem } from '../Framework/BaseClickSystem';
 import type { FederatedPointerEvent, Point } from 'pixi.js';
 import { partitionArray } from '../../utils/UtilityFunctions';
-import { mapContainerAtom, store } from '../../utils/Atoms';
+import { mapContainerAtom, store } from '../../atoms';
 
 export class LevelEditorPlacementSystem extends BaseClickSystem {
   private readonly defaultSprite: string = 'grass';
