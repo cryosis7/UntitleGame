@@ -6,8 +6,12 @@
       "Bash(yarn:*)",
       "Bash(grep:*)",
       "Bash(git:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)"
     ],
-    "deny": ["bash(git push:*)"]
+    "deny": [
+      "bash(git push:*)"
+    ]
   }
 }

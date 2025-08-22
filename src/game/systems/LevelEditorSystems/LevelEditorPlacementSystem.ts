@@ -16,7 +16,7 @@ import {
 } from '../../utils/EntityUtils';
 import { BaseClickSystem } from '../Framework/BaseClickSystem';
 import type { FederatedPointerEvent, Point } from 'pixi.js';
-import { partitionArray } from '../../../utils';
+import { partitionArray } from '../../utils/UtilityFunctions';
 import { mapContainerAtom, store } from '../../utils/Atoms';
 
 export class LevelEditorPlacementSystem extends BaseClickSystem {

@@ -2,7 +2,6 @@ import type { BaseSystem, UpdateArgs } from '../Framework/Systems';
 import type { Entity } from '../../utils/ecsUtils';
 import type { Container } from 'pixi.js';
 import { Sprite } from 'pixi.js';
-import type { Position } from '../../map/GameMap';
 import { gridToScreenAsTuple } from '../../map/MappingUtils';
 import type {
   PositionComponent,
@@ -183,15 +182,6 @@ export abstract class BaseRenderSystem implements BaseSystem {
       (!entity ||
         !hasAllComponents(entity, ComponentType.Sprite, ComponentType.Position))
     );
-  };
-
-  protected stageContainer = (
-    child: Container,
-    position: Position,
-    parent: Container,
-  ) => {
-    child.position.set(...gridToScreenAsTuple(position, this.interfaceConfig));
-    parent.addChild(child);
   };
 
   protected createSprite = (spriteComponent: SpriteComponent) => {

@@ -1,3 +1,6 @@
+import { Position } from '../map/GameMap';
+import { PositionComponent } from '../components';
+
 export const capitalise = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
@@ -25,4 +28,11 @@ export const partitionArray = <T>(
   }
 
   return [array1, array2];
+};
+
+export const arePositionsEqual = (
+  pos1: Position | PositionComponent,
+  pos2: Position | PositionComponent,
+): boolean => {
+  return pos1.x === pos2.x && pos1.y === pos2.y;
 };

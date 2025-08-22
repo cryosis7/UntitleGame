@@ -1,6 +1,6 @@
 import type React from 'react';
 import { TextField } from '@mui/material';
-import { capitaliseSentence } from '../../../utils';
+import { capitaliseSentence } from '../../../game/utils/UtilityFunctions';
 import type { PropertyValueSchema } from './ComponentSchemas';
 
 interface ComponentFieldProps {
