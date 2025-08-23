@@ -45,6 +45,7 @@ import type {
   RenderComponentProps,
 } from './individualComponents/RenderComponent';
 import type { SelectedComponent } from './individualComponents/SelectedComponent';
+import type { TilePreviewComponent } from './individualComponents/TilePreviewComponent';
 
 export enum ComponentType {
   Position = 'position',
@@ -64,6 +65,7 @@ export enum ComponentType {
   InteractionBehavior = 'interactionBehavior',
   SpawnContents = 'spawnContents',
   Selected = 'selected',
+  TilePreview = 'tilePreview',
 }
 
 export type FullComponentDictionary = {
@@ -84,6 +86,7 @@ export type FullComponentDictionary = {
   [ComponentType.InteractionBehavior]: InteractionBehaviorComponent;
   [ComponentType.SpawnContents]: SpawnContentsComponent;
   [ComponentType.Selected]: SelectedComponent;
+  [ComponentType.TilePreview]: TilePreviewComponent;
 };
 
 export type Component = FullComponentDictionary[keyof FullComponentDictionary];

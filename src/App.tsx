@@ -28,44 +28,51 @@ const AtomsDevTools = lazy(() =>
 
 const App = () => {
   return (
-    <Routes>
-      <Route
-        path='/'
-        element={
-          <Provider store={store}>
-            <Suspense fallback={<div>Loading...</div>}>
-              <AtomsDevTools />
-            </Suspense>
-            <ToastContainer
-              pauseOnFocusLoss
-              pauseOnHover
-              position='top-center'
-              transition={Slide}
-              autoClose={2000}
-            />
-            <div className='root'>
-              <div className='game-container'>
-                <Suspense fallback={<div>Loading game...</div>}>
-                  <Game />
+    <Provider store={store}>
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <>
+              <Suspense fallback={<div>Loading...</div>}>
+                <AtomsDevTools />
+              </Suspense>
+              <ToastContainer
+                pauseOnFocusLoss
+                pauseOnHover
+                position='top-center'
+                transition={Slide}
+                autoClose={2000}
+              />
+              <div className='root'>
+                <div className='game-container'>
+                  <Suspense fallback={<div>Loading game...</div>}>
+                    <Game />
+                  </Suspense>
+                </div>
+                <Suspense fallback={<div>Loading debug panel...</div>}>
+                  <DebugPanel />
                 </Suspense>
               </div>
+            </>
+          }
+        />
+        <Route
+          path='/editor'
+          element={
+            <>
+              <Suspense fallback={<div>Loading editor...</div>}>
+                <Editor />
+              </Suspense>
               <Suspense fallback={<div>Loading debug panel...</div>}>
                 <DebugPanel />
               </Suspense>
-            </div>
-          </Provider>
-        }
-      />
-      <Route
-        path='/editor'
-        element={
-          <Suspense fallback={<div>Loading editor...</div>}>
-            <Editor />
-          </Suspense>
-        }
-      />
-      <Route path='*' element={<div>No Route Match</div>} />
-    </Routes>
+            </>
+          }
+        />
+        <Route path='*' element={<div>No Route Match</div>} />
+      </Routes>
+    </Provider>
   );
 };
 

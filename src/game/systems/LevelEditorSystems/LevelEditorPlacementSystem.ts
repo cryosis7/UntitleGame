@@ -16,7 +16,10 @@ import {
 } from '../../utils/EntityUtils';
 import { BaseClickSystem } from '../Framework/BaseClickSystem';
 import type { FederatedPointerEvent, Point } from 'pixi.js';
-import { partitionArray } from '../../utils/UtilityFunctions';
+import {
+  arePositionsEqual,
+  partitionArray,
+} from '../../utils/UtilityFunctions';
 import { mapContainerAtom, store } from '../../atoms';
 
 export class LevelEditorPlacementSystem extends BaseClickSystem {
@@ -48,9 +51,7 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
 
       for (const point of points) {
         if (
-          !this.placementPositions.some(
-            (pos) => pos.x === point.x && pos.y === point.y,
-          )
+          !this.placementPositions.some((pos) => arePositionsEqual(pos, point))
         ) {
           this.placementPositions.push(point);
         }
@@ -108,6 +109,14 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
 
       // If there is already the same entity at the position, skip/remove it
       const existingEntitiesAtPosition = gameEntities.reduce((ids, entity) => {
+        const isTilePreview = getComponentIfExists(
+          entity,
+          ComponentType.TilePreview,
+        );
+        if (isTilePreview) {
+          return ids;
+        }
+
         const positionComponent = getComponentIfExists(
           entity,
           ComponentType.Position,
@@ -117,8 +126,8 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
           ComponentType.Sprite,
         );
         if (
-          positionComponent?.x === position.x &&
-          positionComponent?.y === position.y &&
+          positionComponent &&
+          arePositionsEqual(position, positionComponent) &&
           spriteComponent?.spriteName === selectedItem
         ) {
           ids.push(entity.id);

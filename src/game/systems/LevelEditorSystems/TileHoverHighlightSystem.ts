@@ -1,18 +1,33 @@
-import { gridToScreenAsTuple, screenToGrid } from '../../map/MappingUtils';
+import { screenToGrid } from '../../map/MappingUtils';
 import type { Position } from '../../map/GameMap';
 import { BaseMouseMoveSystem } from '../Framework/BaseMouseMoveSystem';
 import type { Point } from 'pixi.js';
-import { Graphics } from 'pixi.js';
 import { arePositionsEqual } from '../../utils/UtilityFunctions';
-import { getMapConfigAtom, mapContainerAtom, store } from '../../atoms';
+import { mapContainerAtom, store } from '../../atoms';
+import {
+  ComponentType,
+  PositionComponent,
+  RenderComponent,
+  RenderSection,
+  SpriteComponent,
+  TilePreviewComponent,
+} from '../../components';
+import { createEntity } from '../../utils/EntityFactory';
+import {
+  addEntity,
+  getEntitiesWithComponent,
+  getEntity,
+  removeEntity,
+} from '../../utils/EntityUtils';
+import {
+  getComponentAbsolute,
+  setComponent,
+} from '../../components/ComponentOperations';
 
 export class TileHoverHighlightSystem extends BaseMouseMoveSystem {
-  private static readonly HIGHLIGHT_STROKE_WIDTH = 2;
-  private static readonly HIGHLIGHT_COLOR = 0x00ff00;
-
   private currentHoverPosition: Position | null = null;
   private hasPositionChanged: boolean = false;
-  private tileHighlightGraphics: Graphics | null = null;
+  private previewEntityId: string | null = null;
 
   constructor() {
     const mapContainer = store.get(mapContainerAtom);
@@ -44,37 +59,79 @@ export class TileHoverHighlightSystem extends BaseMouseMoveSystem {
     if (!this.hasPositionChanged) return;
 
     if (this.currentHoverPosition === null) {
-      if (this.tileHighlightGraphics) {
-        this.stage.removeChild(this.tileHighlightGraphics);
-        this.tileHighlightGraphics.destroy();
-        this.tileHighlightGraphics = null;
+      if (this.previewEntityId) {
+        removeEntity(this.previewEntityId);
+        this.previewEntityId = null;
       }
       this.hasPositionChanged = false;
       return;
     }
 
-    const graphics =
-      this.tileHighlightGraphics ?? this.createHighlightGraphics();
-    if (!this.tileHighlightGraphics) {
-      this.stage.addChild(graphics);
-      this.tileHighlightGraphics = graphics;
+    const selectedSprite = this.getSelectedSprite();
+    if (!selectedSprite) {
+      if (this.previewEntityId) {
+        removeEntity(this.previewEntityId);
+        this.previewEntityId = null;
+      }
+      this.hasPositionChanged = false;
+      return;
     }
 
-    const mapConfig = store.get(getMapConfigAtom);
-    graphics.position.set(
-      ...gridToScreenAsTuple(this.currentHoverPosition, mapConfig),
-    );
+    if (!this.previewEntityId) {
+      const previewEntity = this.createPreviewEntity(
+        selectedSprite,
+        this.currentHoverPosition,
+      );
+      addEntity(previewEntity);
+      this.previewEntityId = previewEntity.id;
+    } else {
+      const previewEntity = getEntity(this.previewEntityId);
+      if (!previewEntity) {
+        throw new Error(
+          `Preview entity with ID ${this.previewEntityId} (sprite: ${selectedSprite}) not found`,
+        );
+      }
+
+      const positionComponent = getComponentAbsolute(
+        previewEntity,
+        ComponentType.Position,
+      );
+
+      if (!arePositionsEqual(positionComponent, this.currentHoverPosition)) {
+        setComponent(
+          previewEntity,
+          new PositionComponent(this.currentHoverPosition),
+        );
+      }
+    }
 
     this.hasPositionChanged = false;
   }
 
-  private createHighlightGraphics(): Graphics {
-    const mapConfig = store.get(getMapConfigAtom);
-    return new Graphics()
-      .rect(0, 0, mapConfig.tileSize, mapConfig.tileSize)
-      .stroke({
-        width: TileHoverHighlightSystem.HIGHLIGHT_STROKE_WIDTH,
-        color: TileHoverHighlightSystem.HIGHLIGHT_COLOR,
-      });
+  private getSelectedSprite() {
+    const selectedEntities = getEntitiesWithComponent(ComponentType.Selected);
+    if (selectedEntities.length === 0) return null;
+
+    if (selectedEntities.length > 1) {
+      console.warn(
+        'Multiple entities selected, using the first one for tile preview',
+      );
+    }
+
+    const selectedEntity = selectedEntities[0];
+    const spriteComponent = getComponentAbsolute(
+      selectedEntity,
+      ComponentType.Sprite,
+    );
+    return spriteComponent.spriteName;
+  }
+
+  private createPreviewEntity(spriteName: string, position: Position) {
+    return createEntity([
+      new TilePreviewComponent(),
+      new SpriteComponent({ sprite: spriteName }),
+      new PositionComponent(position),
+      new RenderComponent({ section: RenderSection.Game }),
+    ]);
   }
 }
