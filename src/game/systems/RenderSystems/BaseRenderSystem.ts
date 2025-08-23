@@ -132,6 +132,7 @@ export abstract class BaseRenderSystem implements BaseSystem {
         // 3. If the entity no longer exists in the game, remove it from the stage.
         if (this.shouldRemoveFromScreen(sprite, entity)) {
           this.stage.removeChild(sprite);
+          sprite.destroy();
           delete entitySpriteMap[entityId];
           store.set(removeSprite, {
             section: this.renderSectionAtomKey,

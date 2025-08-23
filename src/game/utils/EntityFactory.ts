@@ -24,6 +24,7 @@ import {
   RequiresItemComponent,
   SpawnContentsComponent,
   SpriteComponent,
+  TilePreviewComponent,
   UsableItemComponent,
   VelocityComponent,
 } from '../components';
@@ -199,6 +200,8 @@ function createComponentsFromTemplate(template: EntityTemplate): Component[] {
         return new SpawnContentsComponent(props as SpawnContentsComponentProps);
       case ComponentType.Render:
         return new RenderComponent(props as RenderComponentProps);
+      case ComponentType.TilePreview:
+        return new TilePreviewComponent();
       default:
         if (Object.values(ComponentType).includes(type as ComponentType)) {
           return { type } as Component;

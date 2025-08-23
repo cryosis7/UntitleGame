@@ -29,6 +29,7 @@ import {
   SpriteComponent,
 } from '../components';
 import { getAllTexturesAtom, store } from '../atoms';
+import { TileHoverHighlightSystem } from '../systems/LevelEditorSystems/TileHoverHighlightSystem';
 
 const createGameEntities = (): Entity[] => {
   const entitiesToCreate = [Player, Boulder, Beaker, Key, Chest];
@@ -121,6 +122,7 @@ export const editorSystemConfig: SystemConfig = {
     () => new SidebarRenderSystem(),
     () => new HUDRenderSystem(),
     () => new SidebarSelectionHighlightSystem(),
+    () => new TileHoverHighlightSystem(),
     () => new CleanUpSystem(),
   ],
   entitiesFactory: createSidebarEntities,

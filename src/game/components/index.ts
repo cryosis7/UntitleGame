@@ -14,5 +14,6 @@ export * from './individualComponents/SelectedComponent';
 export * from './individualComponents/SpawnContentsComponent';
 export * from './individualComponents/SpriteComponent';
 export * from './individualComponents/UsableItemComponent';
+export * from './individualComponents/TilePreviewComponent';
 export * from './individualComponents/VelocityComponent';
 export * from './individualComponents/WalkableComponent';
