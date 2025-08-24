@@ -76,7 +76,7 @@ export class MovementSystem implements BaseSystem {
             e,
             ComponentType.Movable,
             ComponentType.Pickable,
-            ComponentType.Walkable,
+            ComponentType.Scenery,
           );
         });
 

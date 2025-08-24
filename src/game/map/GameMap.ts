@@ -42,7 +42,7 @@ export class GameMap {
             [ComponentType.Sprite]: { sprite: isDirtTile ? 'dirt' : 'wall' },
             [ComponentType.Position]: { x, y },
             [ComponentType.Render]: { section: RenderSection.Map },
-            ...(isDirtTile ? { [ComponentType.Walkable]: {} } : {}),
+            ...(isDirtTile ? { [ComponentType.Scenery]: {} } : {}),
           },
         };
         const entity = createEntityFromTemplate(entityTemplate);
@@ -72,7 +72,7 @@ export class GameMap {
 
   isTileWalkable({ x, y }: Position): boolean {
     const tile = this.getTile({ x, y });
-    return tile ? hasComponent(tile, ComponentType.Walkable) : false;
+    return tile ? hasComponent(tile, ComponentType.Scenery) : false;
   }
 
   isValidPosition({ x, y }: Position): boolean {

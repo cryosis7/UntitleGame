@@ -23,7 +23,7 @@ The `GameMap` class handles:
 - `getAllEntities()` - Returns flattened array of all tile entities
 - `getTile({x, y})` - Retrieves entity at specific position
 - `isPositionInMap({x, y})` - Validates coordinates within bounds
-- `isTileWalkable({x, y})` - Checks if tile has Walkable component
+- `isTileWalkable({x, y})` - Checks if tile has Scenery component
 - `isValidPosition({x, y})` - Combines bounds and walkability checks
 
 ## Usage in the Codebase
@@ -42,7 +42,7 @@ The `init()` method creates a procedural map where:
 
 - Each tile is an Entity with Position, Sprite, and Render components
 - All tiles are currently dirt tiles (isDirtTile = true)
-- Dirt tiles include a Walkable component for movement
+- Dirt tiles include a Scenery component for movement
 - Tiles are rendered in the 'map' section
 
 The class serves as the foundational spatial system that other ECS systems rely on for position validation, collision detection, and rendering.

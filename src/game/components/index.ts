@@ -16,4 +16,4 @@ export * from './individualComponents/SpriteComponent';
 export * from './individualComponents/UsableItemComponent';
 export * from './individualComponents/TilePreviewComponent';
 export * from './individualComponents/VelocityComponent';
-export * from './individualComponents/WalkableComponent';
+export * from './individualComponents/SceneryComponent';

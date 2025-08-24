@@ -10,7 +10,7 @@ import {
   RenderComponent,
   RenderSection,
   VelocityComponent,
-  WalkableComponent,
+  SceneryComponent,
 } from '../../src/game/components';
 import {
   getComponentAbsolute,
@@ -228,7 +228,7 @@ describe('Movement Integration Test', () => {
     ]);
     const walkableFloor = createEntity([
       { type: ComponentType.Position, x: 4, y: 2 },
-      new WalkableComponent(),
+      new SceneryComponent(),
       new RenderComponent({ section: RenderSection.Game }),
     ]);
 

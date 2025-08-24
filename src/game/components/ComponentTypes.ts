@@ -19,7 +19,7 @@ import type {
 } from './individualComponents/CarriedItemComponent';
 import type { InteractingComponent } from './individualComponents/InteractingComponent';
 import type { HandlingComponent } from './individualComponents/HandlingComponent';
-import type { WalkableComponent } from './individualComponents/WalkableComponent';
+import type { SceneryComponent } from './individualComponents/SceneryComponent';
 import type {
   RequiresItemComponent,
   RequiresItemComponentProps,
@@ -58,7 +58,7 @@ export enum ComponentType {
   CarriedItem = 'carriedItem',
   Interacting = 'interacting',
   Handling = 'handling',
-  Walkable = 'walkable',
+  Scenery = 'scenery',
   Render = 'render',
   RequiresItem = 'requiresItem',
   UsableItem = 'usableItem',
@@ -79,7 +79,7 @@ export type FullComponentDictionary = {
   [ComponentType.CarriedItem]: CarriedItemComponent;
   [ComponentType.Interacting]: InteractingComponent;
   [ComponentType.Handling]: HandlingComponent;
-  [ComponentType.Walkable]: WalkableComponent;
+  [ComponentType.Scenery]: SceneryComponent;
   [ComponentType.Render]: RenderComponent;
   [ComponentType.RequiresItem]: RequiresItemComponent;
   [ComponentType.UsableItem]: UsableItemComponent;
