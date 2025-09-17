@@ -1,9 +1,8 @@
 import type { UpdateArgs } from '../Framework/Systems';
 import { Graphics } from 'pixi.js';
 import { pixiApp } from '../../Pixi';
-import { ComponentType } from '../../components';
+import { ComponentType, RenderSection } from '../../components';
 import { hasComponentValue } from '../../components/ComponentOperations';
-import { RenderSection } from '../../components/individualComponents/RenderComponent';
 import { BaseRenderSystem } from './BaseRenderSystem';
 import { sidebarContainerAtom, store } from '../../atoms';
 

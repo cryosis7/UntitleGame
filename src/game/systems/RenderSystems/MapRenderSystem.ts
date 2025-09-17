@@ -1,8 +1,7 @@
 import { BaseRenderSystem } from './BaseRenderSystem';
 import type { UpdateArgs } from '../Framework/Systems';
 import { hasComponentValue } from '../../components/ComponentOperations';
-import { ComponentType } from '../../components';
-import { RenderSection } from '../../components/individualComponents/RenderComponent';
+import { ComponentType, RenderSection } from '../../components';
 
 export class MapRenderSystem extends BaseRenderSystem {
   constructor() {

@@ -27,5 +27,5 @@ export const Editor: React.FC = () => {
     })();
   }, []);
 
-  return <div ref={containerRef} style={{ width: '500px', height: '500px' }} />;
+  return <div ref={containerRef} style={{ width: '750px', height: '500px' }} />;
 };

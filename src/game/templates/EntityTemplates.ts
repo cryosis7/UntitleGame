@@ -1,5 +1,4 @@
-import { InteractionBehaviorType } from '../components';
-import { RenderSection } from '../components/individualComponents/RenderComponent';
+import { InteractionBehaviorType, RenderSection } from '../components';
 import type { EntityTemplate } from '../utils/EntityFactory';
 
 export const Player: EntityTemplate = {

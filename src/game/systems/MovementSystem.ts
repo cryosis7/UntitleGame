@@ -10,8 +10,7 @@ import {
   hasComponentValue,
   setComponent,
 } from '../components/ComponentOperations';
-import { ComponentType, PositionComponent } from '../components';
-import { RenderSection } from '../components/individualComponents/RenderComponent';
+import { ComponentType, PositionComponent, RenderSection } from '../components';
 
 export class MovementSystem implements BaseSystem {
   update({ entities, map }: UpdateArgs) {

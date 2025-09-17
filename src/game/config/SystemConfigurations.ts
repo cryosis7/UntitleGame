@@ -127,7 +127,7 @@ export const editorSystemConfig: SystemConfig = {
   ],
   entitiesFactory: createSidebarEntities,
   mapConfig: {
-    rows: 15,
-    cols: 15,
+    rows: 20,
+    cols: 20,
   },
 };

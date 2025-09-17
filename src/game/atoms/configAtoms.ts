@@ -18,11 +18,11 @@ export const renderConfigAtom = atom<{
   hud: RenderConfig;
 }>({
   map: {
-    spriteConfig: { tileSize: 32, gap: 0 },
+    spriteConfig: { tileSize: 26, gap: 0 },
     rootContainer: null,
   },
   sidebar: {
-    spriteConfig: { tileSize: 32, gap: 4 },
+    spriteConfig: { tileSize: 26, gap: 4 },
     rootContainer: null,
   },
   hud: {
