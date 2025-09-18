@@ -7,23 +7,29 @@ import { BaseRenderSystem } from './BaseRenderSystem';
 import { sidebarContainerAtom, store } from '../../atoms';
 
 export class SidebarRenderSystem extends BaseRenderSystem {
-  private readonly sidebarWidth = 150;
+  private static readonly SIDEBAR_WIDTH = 200;
 
   constructor() {
-    super(RenderSection.Sidebar, [pixiApp.canvas.width - 150, 0]);
+    super(RenderSection.Sidebar, [
+      pixiApp.canvas.width - SidebarRenderSystem.SIDEBAR_WIDTH,
+      0,
+    ]);
 
     const sidebarContainer = store.get(sidebarContainerAtom);
     if (!sidebarContainer) {
       throw new Error('Sidebar container not found');
     }
 
-    sidebarContainer.setSize(this.sidebarWidth, pixiApp.canvas.height);
+    sidebarContainer.setSize(
+      SidebarRenderSystem.SIDEBAR_WIDTH,
+      pixiApp.canvas.height,
+    );
     sidebarContainer.addChild(
       new Graphics({
         x: 0,
         y: 0,
       })
-        .rect(0, 0, this.sidebarWidth, pixiApp.canvas.height)
+        .rect(0, 0, SidebarRenderSystem.SIDEBAR_WIDTH, pixiApp.canvas.height)
         .fill(0xd3d3d3),
     );
   }

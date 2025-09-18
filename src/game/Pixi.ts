@@ -1,9 +1,8 @@
 import type { SpriteSheetJson } from 'pixi.js';
 import { Application, Assets, Spritesheet, Texture } from 'pixi.js';
-import { basicSpritesheet } from '../assets/basicSpritesheet';
 import { addSpritesheetAtom, store } from './atoms';
+import { labFloor } from '../assets/labFloor';
 import { originalImages } from '../assets/originalImages';
-import { tinyTownData } from '../assets/tinyTownData';
 
 export const pixiApp = new Application();
 
@@ -20,8 +19,9 @@ export const initPixiApp = async (appContainer: HTMLDivElement) => {
 export const preload = async () => {
   const spritesheets: SpriteSheetJson[] = [
     originalImages,
-    basicSpritesheet,
-    tinyTownData,
+    labFloor,
+    // basicSpritesheet,
+    // tinyTownData,
   ];
 
   for (const spritesheetData of spritesheets) {
