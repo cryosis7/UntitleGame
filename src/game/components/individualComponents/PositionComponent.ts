@@ -2,6 +2,11 @@ import { ComponentType } from '../ComponentTypes';
 
 export type PositionComponentProps = { x: number; y: number };
 
+export interface Position {
+  x: number;
+  y: number;
+}
+
 export class PositionComponent {
   type = ComponentType.Position;
   x: number;

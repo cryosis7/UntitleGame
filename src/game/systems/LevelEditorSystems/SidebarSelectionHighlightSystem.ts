@@ -6,10 +6,10 @@ import {
   hasComponent,
   hasComponentValue,
 } from '../../components/ComponentOperations';
-import { Position } from '../../map/GameMap';
+import { Position } from '../../components/individualComponents/PositionComponent';
 import { Entity } from '../../utils/ecsUtils';
 import { arePositionsEqual } from '../../utils/UtilityFunctions';
-import { gridToScreenAsTuple } from '../../map/MappingUtils';
+import { gridToScreenAsTuple } from '../../utils/MappingUtils';
 
 import { pixiApp } from '../../Pixi';
 import {

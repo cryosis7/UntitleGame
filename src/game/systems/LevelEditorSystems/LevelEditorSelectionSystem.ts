@@ -1,9 +1,13 @@
-import { screenToGrid } from '../../map/MappingUtils';
-import type { Position } from '../../map/GameMap';
+import { screenToGrid } from '../../utils/MappingUtils';
+import type { Position } from '../../components/individualComponents/PositionComponent';
 
 import type { FederatedPointerEvent, Point } from 'pixi.js';
 import { BaseClickSystem } from '../Framework/BaseClickSystem';
-import { getSidebarConfigAtom, sidebarContainerAtom, store } from '../../atoms';
+import {
+  getSidebarSpriteConfigAtom,
+  sidebarContainerAtom,
+  store,
+} from '../../atoms';
 import type { UpdateArgs } from '../Framework/Systems';
 import { ComponentType, SelectedComponent } from '../../components';
 import {
@@ -33,7 +37,7 @@ export class LevelEditorSelectionSystem extends BaseClickSystem {
   handleClick(_event: FederatedPointerEvent, localPosition: Point) {
     this.clickedPosition = screenToGrid(
       localPosition,
-      store.get(getSidebarConfigAtom),
+      store.get(getSidebarSpriteConfigAtom),
     );
     this.hasChanged = true;
   }

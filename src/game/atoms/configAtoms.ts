@@ -89,10 +89,10 @@ export const getContainerBySectionAtom = atom(
     },
 );
 
-export const getMapConfigAtom = atom(
+export const getMapSpriteConfigAtom = atom(
   (get) => get(getMapRenderConfigAtom).spriteConfig,
 );
-export const getSidebarConfigAtom = atom(
+export const getSidebarSpriteConfigAtom = atom(
   (get) => get(getSidebarRenderConfigAtom).spriteConfig,
 );
 

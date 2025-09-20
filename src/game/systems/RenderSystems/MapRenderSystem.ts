@@ -1,26 +1,25 @@
 import { BaseRenderSystem } from './BaseRenderSystem';
-import type { UpdateArgs } from '../Framework/Systems';
-import { hasComponentValue } from '../../components/ComponentOperations';
-import { ComponentType, RenderSection } from '../../components';
+import { RenderSection } from '../../components';
+import {
+  hasMapUpdatedAtom,
+  mapEntitiesAtom,
+  setHasMapUpdatedAtom,
+  store,
+} from '../../atoms';
 
 export class MapRenderSystem extends BaseRenderSystem {
   constructor() {
     super(RenderSection.Map);
   }
 
-  update({ map }: UpdateArgs) {
-    if (!map.hasChanged) {
+  update() {
+    if (!store.get(hasMapUpdatedAtom)) {
       return;
     }
-    const entities = map.getAllEntities();
-    const mapEntities = entities.filter((entity) => {
-      return hasComponentValue(entity, ComponentType.Render, {
-        section: RenderSection.Map,
-      });
-    });
 
-    this.updateStageAndPositions(mapEntities);
+    const entities = store.get(mapEntitiesAtom);
+    this.updateStageAndPositions(entities);
 
-    map.hasChanged = false;
+    store.set(setHasMapUpdatedAtom, false);
   }
 }

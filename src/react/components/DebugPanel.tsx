@@ -1,12 +1,12 @@
 import type React from 'react';
 import { useAtomValue } from 'jotai';
-import { entitiesAtom } from '../../game/atoms';
+import { mapEntitiesAtom } from '../../game/atoms';
 import type { Entity } from '../../game/utils/ecsUtils';
 import type { SpriteComponent } from '../../game/components';
 import { ComponentType } from '../../game/components';
 
 export const DebugPanel: React.FC = () => {
-  const entities = useAtomValue(entitiesAtom);
+  const entities = useAtomValue(mapEntitiesAtom);
 
   const getEntityHtml = (entity: Entity) => (
     <div key={entity.id}>

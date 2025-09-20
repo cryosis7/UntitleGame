@@ -2,7 +2,10 @@ import { atom } from 'jotai';
 import type { Entity } from '../utils/ecsUtils';
 import type { BaseSystem } from '../systems/Framework/Systems';
 import { ComponentType, RenderSection } from '../components';
-import { hasComponentValue } from '../components/ComponentOperations';
+import {
+  getComponentIfExists,
+  hasComponentValue,
+} from '../components/ComponentOperations';
 
 export const entitiesAtom = atom<Entity[]>([]);
 export const systemsAtom = atom<BaseSystem[]>([]);
@@ -14,6 +17,26 @@ export const entitiesByRenderSectionAtom = atom((get) => {
       return hasComponentValue(entity, ComponentType.Render, { section });
     });
   };
+});
+
+export const entitiesDividedByRenderSectionAtom = atom((get) => {
+  const entities = get(entitiesAtom);
+  const sections: Record<RenderSection, Entity[]> = {
+    [RenderSection.Game]: [],
+    [RenderSection.Sidebar]: [],
+    [RenderSection.Map]: [],
+    [RenderSection.Hud]: [],
+  };
+
+  entities.forEach((entity) => {
+    const renderComponent = getComponentIfExists(entity, ComponentType.Render);
+    if (renderComponent) {
+      const section = renderComponent.section;
+      sections[section].push(entity);
+    }
+  });
+
+  return sections;
 });
 
 export const gameEntitiesAtom = atom((get) => {

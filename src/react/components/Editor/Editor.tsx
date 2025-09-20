@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useEffect, useRef } from 'react';
 import { initPixiApp, pixiApp, preload } from '../../../game/Pixi';
-import { gameLoop, initializeGame } from '../../../game/GameSystem';
+import { gameLoop, initialiseGame } from '../../../game/GameSystem';
 import { editorSystemConfig } from '../../../game/config/SystemConfigurations';
 
 export const Editor: React.FC = () => {
@@ -19,7 +19,7 @@ export const Editor: React.FC = () => {
       await initPixiApp(gameContainer);
       await preload();
 
-      await initializeGame(editorSystemConfig);
+      await initialiseGame(editorSystemConfig);
 
       pixiApp.ticker.add((time) => {
         gameLoop(time);

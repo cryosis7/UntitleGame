@@ -1,6 +1,6 @@
 import { ComponentType } from '../ComponentTypes';
 import type { EntityTemplate } from '../../utils/EntityFactory';
-import type { Position } from '../../map/GameMap';
+import type { Position } from './PositionComponent';
 
 export type SpawnContentsComponentProps = {
   contents: EntityTemplate[];

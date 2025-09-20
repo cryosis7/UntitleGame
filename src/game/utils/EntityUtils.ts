@@ -1,12 +1,8 @@
-import type { Position } from '../map/GameMap';
+import type { Position } from '../components/individualComponents/PositionComponent';
 import type { Entity } from './ecsUtils';
 import { entitiesAtom, store } from '../atoms';
 import { ComponentType, type PositionComponent } from '../components';
-import {
-  getComponentIfExists,
-  hasAllComponents,
-  hasComponent,
-} from '../components/ComponentOperations';
+import { getComponentIfExists, hasAllComponents, hasComponent } from '../components/ComponentOperations';
 
 /**
  * Returns all entities at a given position.
@@ -58,6 +54,14 @@ export const getEntitiesWithComponents = (
 ): Entity[] => {
   entities = entities ?? store.get(entitiesAtom);
   return entities.filter((entity) => hasAllComponents(entity, ...types));
+};
+
+export const getEntityById = (
+  entityId: string,
+  entities?: Entity[],
+): Entity | undefined => {
+  entities ??= store.get(entitiesAtom);
+  return entities.find((entity) => entity.id === entityId);
 };
 
 export const addEntity = (entity: Entity) => {

@@ -1,11 +1,12 @@
-import type { Position } from '../map/GameMap';
+import type { Position } from '../components/individualComponents/PositionComponent';
 import type { ComponentDictionary } from '../components';
 import { ComponentType } from '../components';
 import {
   getComponentIfExists,
   hasComponent,
 } from '../components/ComponentOperations';
-import { entitiesAtom, mapAtom, store } from '../atoms';
+import { entitiesAtom, store } from '../atoms';
+import { isLocationWalkable } from './MappingUtils';
 
 export type Entity = {
   id: string;
@@ -23,7 +24,6 @@ export const getEmptyPosition = (
   let x: number;
   let y: number;
   let isOccupied: boolean;
-  const map = store.get(mapAtom);
   const positionComponents = entities
     .filter((entity) => {
       return hasComponent(entity, ComponentType.Position);
@@ -36,7 +36,7 @@ export const getEmptyPosition = (
     x = Math.floor(Math.random() * 10);
     y = Math.floor(Math.random() * 10);
     isOccupied =
-      !map.isTileWalkable({ x, y }) ||
+      !isLocationWalkable({ x, y }) ||
       positionComponents.some((entity) => {
         return entity.x === x && entity.y === y;
       });

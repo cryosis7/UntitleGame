@@ -2,7 +2,7 @@ import type { BaseSystem, UpdateArgs } from '../Framework/Systems';
 import type { Entity } from '../../utils/ecsUtils';
 import type { Container } from 'pixi.js';
 import { Sprite } from 'pixi.js';
-import { gridToScreenAsTuple } from '../../map/MappingUtils';
+import { gridToScreenAsTuple } from '../../utils/MappingUtils';
 import type {
   PositionComponent,
   RenderSection,

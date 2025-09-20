@@ -1,4 +1,4 @@
-import type { BaseSystem, UpdateArgs } from './Framework/Systems';
+import type { BaseSystem } from './Framework/Systems';
 import type { Entity } from '../utils/ecsUtils';
 import {
   getEntitiesWithComponent,
@@ -7,18 +7,24 @@ import {
 import {
   getComponentIfExists,
   hasAnyComponent,
-  hasComponentValue,
   setComponent,
 } from '../components/ComponentOperations';
 import { ComponentType, PositionComponent, RenderSection } from '../components';
+import { isLocationWalkable, isPositionInMap } from '../utils/MappingUtils';
+import { Position } from '../components/individualComponents/PositionComponent';
+import { entitiesDividedByRenderSectionAtom, store } from '../atoms';
 
 export class MovementSystem implements BaseSystem {
-  update({ entities, map }: UpdateArgs) {
-    const gameEntities = entities.filter((entity: Entity) => {
-      return hasComponentValue(entity, ComponentType.Render, {
-        section: RenderSection.Game,
-      });
-    });
+  update() {
+    const entities = store.get(entitiesDividedByRenderSectionAtom);
+    const gameEntities = entities[RenderSection.Game];
+    const mapEntities = entities[RenderSection.Map];
+
+    const isValidPosition = (position: Position): boolean => {
+      return (
+        isPositionInMap(position) && isLocationWalkable(position, mapEntities)
+      );
+    };
 
     const resetVelocity = (entity: Entity) => {
       setComponent(entity, {
@@ -51,7 +57,7 @@ export class MovementSystem implements BaseSystem {
         y: positionComponent.y + velocityComponent.vy,
       };
 
-      if (!map.isValidPosition(newPosition)) {
+      if (!isValidPosition(newPosition)) {
         resetVelocity(entity);
         return;
       }
@@ -96,7 +102,7 @@ export class MovementSystem implements BaseSystem {
           };
 
           if (
-            !map.isValidPosition(movableEntitiesNewPosition) ||
+            !isValidPosition(movableEntitiesNewPosition) ||
             hasEntitiesAtPosition(movableEntitiesNewPosition, gameEntities)
           ) {
             resetVelocity(entity);

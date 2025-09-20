@@ -1,6 +1,6 @@
-import { screenToGrid } from '../../map/MappingUtils';
+import { screenToGrid } from '../../utils/MappingUtils';
 import type { UpdateArgs } from '../Framework/Systems';
-import type { Position } from '../../map/GameMap';
+import type { Position } from '../../components/individualComponents/PositionComponent';
 import type { Entity } from '../../utils/ecsUtils';
 import type { EntityTemplate } from '../../utils/EntityFactory';
 import { createEntityFromTemplate } from '../../utils/EntityFactory';
@@ -22,7 +22,7 @@ import {
 } from '../../utils/UtilityFunctions';
 import { mapContainerAtom, store } from '../../atoms';
 
-export class LevelEditorPlacementSystem extends BaseClickSystem {
+export class TileClickPlacementSystem extends BaseClickSystem {
   private readonly defaultSprite: string = 'grass';
   private hasChanged: boolean = false;
   private placementPositions: Position[] = [];
@@ -44,7 +44,7 @@ export class LevelEditorPlacementSystem extends BaseClickSystem {
 
     // If shift key is pressed, draw a line between the last position and the clicked position
     if (event.shiftKey && this.lastClickedPosition) {
-      const points = LevelEditorPlacementSystem.getPointsBetween(
+      const points = TileClickPlacementSystem.getPointsBetween(
         this.lastClickedPosition,
         gridPosition,
       );

@@ -1,5 +1,5 @@
-import { screenToGrid } from '../../map/MappingUtils';
-import type { Position } from '../../map/GameMap';
+import { screenToGrid } from '../../utils/MappingUtils';
+import type { Position } from '../../components/individualComponents/PositionComponent';
 import { BaseMouseMoveSystem } from '../Framework/BaseMouseMoveSystem';
 import type { Point } from 'pixi.js';
 import { arePositionsEqual } from '../../utils/UtilityFunctions';

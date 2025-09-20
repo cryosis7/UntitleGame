@@ -11,7 +11,7 @@ import { SidebarSelectionHighlightSystem } from '../systems/LevelEditorSystems/S
 import { MapRenderSystem } from '../systems/RenderSystems/MapRenderSystem';
 import { HUDRenderSystem } from '../systems/RenderSystems/HUDRenderSystem';
 import { LevelEditorSelectionSystem } from '../systems/LevelEditorSystems/LevelEditorSelectionSystem';
-import { LevelEditorPlacementSystem } from '../systems/LevelEditorSystems/LevelEditorPlacementSystem';
+import { TileClickPlacementSystem } from '../systems/LevelEditorSystems/TileClickPlacementSystem';
 import { PickupSystem } from '../systems/PickupSystem';
 import { ItemInteractionSystem } from '../systems/ItemInteractionSystem';
 import { createEntity, createEntityFromTemplate } from '../utils/EntityFactory';
@@ -28,8 +28,10 @@ import {
   RenderSection,
   SpriteComponent,
 } from '../components';
-import { getAllTexturesAtom, store } from '../atoms';
+import { getAllTexturesAtom, MapConfig, store } from '../atoms';
 import { TileHoverHighlightSystem } from '../systems/LevelEditorSystems/TileHoverHighlightSystem';
+import { TileDragPlacementSystem } from '../systems/LevelEditorSystems/TileDragPlacementSystem';
+import { createMapTiles } from '../utils/MappingUtils';
 
 const createGameEntities = (): Entity[] => {
   const entitiesToCreate = [Player, Boulder, Beaker, Key, Chest];
@@ -87,10 +89,7 @@ const createHudEntities = (): Entity[] => {
 export interface SystemConfig {
   systemsFactory: (() => BaseSystem)[];
   entitiesFactory?: () => Entity[];
-  mapConfig?: {
-    rows?: number;
-    cols?: number;
-  };
+  mapConfig: MapConfig;
 }
 
 export const gameSystemConfig: SystemConfig = {
@@ -116,7 +115,8 @@ export const gameSystemConfig: SystemConfig = {
 export const editorSystemConfig: SystemConfig = {
   systemsFactory: [
     () => new LevelEditorSelectionSystem(),
-    () => new LevelEditorPlacementSystem(),
+    () => new TileClickPlacementSystem(),
+    () => new TileDragPlacementSystem(),
     () => new MapRenderSystem(),
     () => new GameRenderSystem(),
     () => new SidebarRenderSystem(),
@@ -125,7 +125,7 @@ export const editorSystemConfig: SystemConfig = {
     () => new TileHoverHighlightSystem(),
     () => new CleanUpSystem(),
   ],
-  entitiesFactory: createSidebarEntities,
+  entitiesFactory: () => [...createMapTiles(), ...createSidebarEntities()],
   mapConfig: {
     rows: 20,
     cols: 20,

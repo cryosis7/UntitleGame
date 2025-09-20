@@ -1,5 +1,4 @@
-import { Position } from '../map/GameMap';
-import { PositionComponent } from '../components';
+import { Position, PositionComponent } from '../components';
 
 export const capitalise = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
