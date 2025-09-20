@@ -2,9 +2,13 @@ import type React from 'react';
 import { useEffect, useRef } from 'react';
 import { initPixiApp, pixiApp, preload } from '../../game/Pixi';
 import { gameLoop, initialiseGame } from '../../game/GameSystem';
-import { gameSystemConfig } from '../../game/config/SystemConfigurations';
+import { SystemConfig } from '../../game/config/SystemConfigurations';
 
-export const Game: React.FC = () => {
+interface GameProps {
+  systemConfig: SystemConfig;
+}
+
+export const Game: React.FC<GameProps> = ({ systemConfig }: GameProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const hasInitialised = useRef(false);
 
@@ -19,7 +23,7 @@ export const Game: React.FC = () => {
       await initPixiApp(gameContainer);
       await preload();
 
-      await initialiseGame(gameSystemConfig);
+      await initialiseGame(systemConfig);
 
       pixiApp.ticker.add((time) => {
         gameLoop(time);
@@ -27,5 +31,5 @@ export const Game: React.FC = () => {
     })();
   }, []);
 
-  return <div ref={containerRef} style={{ width: '500px', height: '500px' }} />;
+  return <div ref={containerRef} style={{ width: '750px', height: '500px' }} />;
 };

@@ -1,30 +1,12 @@
-import './App.scss';
+// import './App.scss';
 import { Route, Routes } from 'react-router-dom';
 import { Provider } from 'jotai';
 import { Slide, ToastContainer } from 'react-toastify';
 import { store } from './atoms';
-import { lazy, Suspense } from 'react';
-
-const Game = lazy(() =>
-  import('./react/components/Game').then((module) => ({
-    default: module.Game,
-  })),
-);
-const Editor = lazy(() =>
-  import('./react/components/Editor/Editor').then((module) => ({
-    default: module.Editor,
-  })),
-);
-const DebugPanel = lazy(() =>
-  import('./react/components/DebugPanel').then((module) => ({
-    default: module.DebugPanel,
-  })),
-);
-const AtomsDevTools = lazy(() =>
-  import('./react/components/AtomsDevTools').then((module) => ({
-    default: module.AtomsDevTools,
-  })),
-);
+import { gameSystemConfig } from './game/config/SystemConfigurations';
+import { Game } from './react/components/Game';
+import { DebugPanel } from './react/components/DebugPanel';
+import Editor from './react/components/Editor/Editor';
 
 const App = () => {
   return (
@@ -34,9 +16,6 @@ const App = () => {
           path='/'
           element={
             <>
-              <Suspense fallback={<div>Loading...</div>}>
-                <AtomsDevTools />
-              </Suspense>
               <ToastContainer
                 pauseOnFocusLoss
                 pauseOnHover
@@ -46,30 +25,14 @@ const App = () => {
               />
               <div className='root'>
                 <div className='game-container'>
-                  <Suspense fallback={<div>Loading game...</div>}>
-                    <Game />
-                  </Suspense>
+                  <Game systemConfig={gameSystemConfig} />
                 </div>
-                <Suspense fallback={<div>Loading debug panel...</div>}>
-                  <DebugPanel />
-                </Suspense>
+                <DebugPanel />
               </div>
             </>
           }
         />
-        <Route
-          path='/editor'
-          element={
-            <>
-              <Suspense fallback={<div>Loading editor...</div>}>
-                <Editor />
-              </Suspense>
-              <Suspense fallback={<div>Loading debug panel...</div>}>
-                <DebugPanel />
-              </Suspense>
-            </>
-          }
-        />
+        <Route path='/editor' element={<Editor />} />
         <Route path='*' element={<div>No Route Match</div>} />
       </Routes>
     </Provider>
