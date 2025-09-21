@@ -3,6 +3,7 @@ import { Application, Assets, Spritesheet, Texture } from 'pixi.js';
 import { addSpritesheetAtom, store } from './atoms';
 import { labFloor } from '../assets/labFloor';
 import { originalImages } from '../assets/originalImages';
+import { basicSpritesheet } from '../assets/basicSpritesheet';
 
 export const pixiApp = new Application();
 
@@ -20,7 +21,7 @@ export const preload = async () => {
   const spritesheets: SpriteSheetJson[] = [
     originalImages,
     labFloor,
-    // basicSpritesheet,
+    basicSpritesheet,
     // tinyTownData,
   ];
 

@@ -221,7 +221,7 @@ export class ItemInteractionSystem implements BaseSystem {
 
     setComponent(
       replacementEntity,
-      new SpriteComponent({ sprite: behaviorComponent.newSpriteId }),
+      new SpriteComponent({ spriteName: behaviorComponent.newSpriteId }),
     );
     removeComponent(replacementEntity, ComponentType.RequiresItem);
     removeComponent(replacementEntity, ComponentType.InteractionBehavior);

@@ -1,13 +1,9 @@
 import { screenToGrid } from '../../utils/MappingUtils';
-import type { UpdateArgs } from '../Framework/Systems';
 import type { Position } from '../../components/individualComponents/PositionComponent';
 import type { Entity } from '../../utils/ecsUtils';
 import type { EntityTemplate } from '../../utils/EntityFactory';
 import { createEntityFromTemplate } from '../../utils/EntityFactory';
-import {
-  getComponentIfExists,
-  hasComponentValue,
-} from '../../components/ComponentOperations';
+import { getComponentIfExists } from '../../components/ComponentOperations';
 import { ComponentType, RenderSection } from '../../components';
 import {
   addEntities,
@@ -16,11 +12,14 @@ import {
 } from '../../utils/EntityUtils';
 import { BaseClickSystem } from '../Framework/BaseClickSystem';
 import type { FederatedPointerEvent, Point } from 'pixi.js';
+import { arePositionsEqual } from '../../utils/UtilityFunctions';
 import {
-  arePositionsEqual,
-  partitionArray,
-} from '../../utils/UtilityFunctions';
-import { mapContainerAtom, store } from '../../atoms';
+  entitiesDividedByRenderSectionAtom,
+  mapContainerAtom,
+  setHasMapUpdatedAtom,
+  store,
+} from '../../atoms';
+import { editorComponentPropertiesAtom } from '../../atoms/editorComponentPropertiesAtom';
 
 export class TileClickPlacementSystem extends BaseClickSystem {
   private readonly defaultSprite: string = 'grass';
@@ -64,20 +63,15 @@ export class TileClickPlacementSystem extends BaseClickSystem {
     this.lastClickedPosition = gridPosition;
   }
 
-  update({ entities }: UpdateArgs) {
+  update() {
     if (!this.hasChanged) return;
 
     const entitiesToAdd: Entity[] = [];
     const entitiesToRemove: string[] = [];
 
-    const [sidebarEntities, gameEntities] = partitionArray(
-      entities,
-      (entity) => {
-        return hasComponentValue(entity, ComponentType.Render, {
-          section: RenderSection.Sidebar,
-        });
-      },
-    );
+    const entities = store.get(entitiesDividedByRenderSectionAtom);
+    const sidebarEntities = entities.sidebar;
+    const gameEntities = entities.game;
 
     const selectedEntities = getEntitiesWithComponent(
       ComponentType.Selected,
@@ -98,12 +92,16 @@ export class TileClickPlacementSystem extends BaseClickSystem {
       selectedItem = component?.spriteName ?? this.defaultSprite;
     }
 
+    const renderSectionToUse = store.get(editorComponentPropertiesAtom).mapLayer
+      ? RenderSection.Map
+      : RenderSection.Game;
+
     for (const position of this.placementPositions) {
       const entityTemplate: EntityTemplate = {
         components: {
-          sprite: { sprite: selectedItem },
+          sprite: { spriteName: selectedItem },
           position: position,
-          render: { section: RenderSection.Game },
+          render: { section: renderSectionToUse },
         },
       };
 
@@ -148,6 +146,9 @@ export class TileClickPlacementSystem extends BaseClickSystem {
       entitiesToAdd.push(createEntityFromTemplate(entityTemplate));
     }
 
+    if (renderSectionToUse === RenderSection.Map) {
+      store.set(setHasMapUpdatedAtom, true);
+    }
     addEntities(entitiesToAdd);
     removeEntities(entitiesToRemove);
 

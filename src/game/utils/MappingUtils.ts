@@ -124,7 +124,7 @@ export const createTileEntity = (x: number, y: number): Entity => {
   const isDirtTile = Math.random() < 1;
   const entityTemplate: EntityTemplate = {
     components: {
-      [ComponentType.Sprite]: { sprite: isDirtTile ? 'dirt' : 'wall' },
+      [ComponentType.Sprite]: { spriteName: isDirtTile ? 'tile9B' : 'wall' },
       [ComponentType.Position]: { x, y },
       [ComponentType.Render]: { section: RenderSection.Map },
       ...(isDirtTile ? { [ComponentType.Walkable]: {} } : {}),

@@ -129,7 +129,7 @@ export class TileHoverHighlightSystem extends BaseMouseMoveSystem {
   private createPreviewEntity(spriteName: string, position: Position) {
     return createEntity([
       new TilePreviewComponent(),
-      new SpriteComponent({ sprite: spriteName }),
+      new SpriteComponent({ spriteName: spriteName }),
       new PositionComponent(position),
       new RenderComponent({ section: RenderSection.Game }),
     ]);

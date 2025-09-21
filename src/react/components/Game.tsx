@@ -31,5 +31,7 @@ export const Game: React.FC<GameProps> = ({ systemConfig }: GameProps) => {
     })();
   }, []);
 
-  return <div ref={containerRef} style={{ width: '750px', height: '500px' }} />;
+  return (
+    <div ref={containerRef} style={{ width: '1000px', height: '1000px' }} />
+  );
 };

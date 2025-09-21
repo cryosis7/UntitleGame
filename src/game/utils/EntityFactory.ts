@@ -14,7 +14,6 @@ import type {
   UsableItemComponentProps,
   VelocityComponentProps,
 } from '../components';
-import { RenderSection } from '../components/individualComponents/RenderComponent';
 import {
   CarriedItemComponent,
   ComponentType,
@@ -28,6 +27,7 @@ import {
   UsableItemComponent,
   VelocityComponent,
 } from '../components';
+import { RenderSection } from '../components/individualComponents/RenderComponent';
 
 export type ComponentsTemplate = Partial<{
   [type in ComponentType]: ComponentProps;
@@ -41,7 +41,7 @@ function isValidPositionProps(obj: any): obj is PositionComponentProps {
 }
 
 function isValidSpriteProps(obj: any): obj is SpriteComponentProps {
-  return obj && typeof obj.sprite === 'string';
+  return obj && typeof obj.spriteName === 'string';
 }
 
 function isValidVelocityProps(obj: any): obj is VelocityComponentProps {
@@ -235,3 +235,16 @@ export const createEntityFromTemplate = (template: EntityTemplate): Entity => {
 export const createEntitiesFromTemplates = (
   ...templates: EntityTemplate[]
 ): Entity[] => templates.map(createEntityFromTemplate);
+
+export const createTemplateFromEntity = (entity: Entity): EntityTemplate => {
+  const components: ComponentsTemplate = {};
+
+  Object.values(entity.components).map((component) => {
+    const type = component.type;
+    const props = { ...component } as ComponentProps;
+    delete (props as any).type;
+    components[type] = props;
+  });
+
+  return { components };
+};

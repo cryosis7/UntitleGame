@@ -3,7 +3,7 @@ import type { EntityTemplate } from '../utils/EntityFactory';
 
 export const Player: EntityTemplate = {
   components: {
-    sprite: { sprite: 'player' },
+    sprite: { spriteName: 'player' },
     player: {},
     velocity: { vx: 0, vy: 0 },
     direction: { direction: 'down' },
@@ -13,7 +13,7 @@ export const Player: EntityTemplate = {
 
 export const Boulder: EntityTemplate = {
   components: {
-    sprite: { sprite: 'boulder' },
+    sprite: { spriteName: 'boulder' },
     movable: {},
     render: { section: RenderSection.Game },
   },
@@ -21,7 +21,7 @@ export const Boulder: EntityTemplate = {
 
 export const Beaker: EntityTemplate = {
   components: {
-    sprite: { sprite: 'bottle_blue' },
+    sprite: { spriteName: 'bottle_blue' },
     pickable: {},
     render: { section: RenderSection.Game },
   },
@@ -29,7 +29,7 @@ export const Beaker: EntityTemplate = {
 
 export const Key: EntityTemplate = {
   components: {
-    sprite: { sprite: 'key_gold' },
+    sprite: { spriteName: 'key_gold' },
     pickable: {},
     usableItem: {
       capabilities: ['unlock'],
@@ -41,7 +41,7 @@ export const Key: EntityTemplate = {
 
 export const Door: EntityTemplate = {
   components: {
-    sprite: { sprite: 'boulder' },
+    sprite: { spriteName: 'boulder' },
     requiresItem: {
       requiredCapabilities: ['unlock'],
       isActive: true,
@@ -57,7 +57,7 @@ export const Door: EntityTemplate = {
 
 export const Chest: EntityTemplate = {
   components: {
-    sprite: { sprite: 'chest_closed' },
+    sprite: { spriteName: 'chest_closed' },
     requiresItem: {
       requiredCapabilities: ['unlock'],
       isActive: true,
@@ -70,14 +70,14 @@ export const Chest: EntityTemplate = {
       contents: [
         {
           components: {
-            sprite: { sprite: 'bottle_blue' },
+            sprite: { spriteName: 'bottle_blue' },
             render: { section: RenderSection.Game },
             pickable: {},
           },
         },
         {
           components: {
-            sprite: { sprite: 'bottle_red' },
+            sprite: { spriteName: 'bottle_red' },
             render: { section: RenderSection.Game },
             pickable: {},
           },

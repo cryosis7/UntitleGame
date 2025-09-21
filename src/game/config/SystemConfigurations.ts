@@ -65,7 +65,7 @@ const createSidebarEntities = () => {
     const entity = createEntity([
       new PositionComponent({ x, y }),
       new RenderComponent({ section: RenderSection.Sidebar }),
-      new SpriteComponent({ sprite: textureName }),
+      new SpriteComponent({ spriteName: textureName }),
     ]);
 
     sidebarEntities.push(entity);
@@ -79,7 +79,7 @@ const createHudEntities = (): Entity[] => {
   const hudEntity = createEntity([
     new PositionComponent({ x: 1, y: 2 }),
     new RenderComponent({ section: RenderSection.Hud }),
-    new SpriteComponent({ sprite: 'grass' }),
+    new SpriteComponent({ spriteName: 'grass' }),
   ]);
 
   hudEntities.push(hudEntity);
@@ -127,7 +127,7 @@ export const editorSystemConfig: SystemConfig = {
   ],
   entitiesFactory: () => [...createMapTiles(), ...createSidebarEntities()],
   mapConfig: {
-    rows: 20,
-    cols: 20,
+    rows: 10,
+    cols: 10,
   },
 };

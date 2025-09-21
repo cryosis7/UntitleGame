@@ -11,6 +11,10 @@ export const capitaliseSentence = (str: string) => {
     .join(' ');
 };
 
+export const asTitle = (str: string) => {
+  return capitalise(str.replace(/([A-Z])/g, ' $1'));
+};
+
 export const partitionArray = <T>(
   array: T[],
   filter: (element: T) => boolean,

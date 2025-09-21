@@ -1,4 +1,4 @@
-// import './App.scss';
+import './App.scss';
 import { Route, Routes } from 'react-router-dom';
 import { Provider } from 'jotai';
 import { Slide, ToastContainer } from 'react-toastify';

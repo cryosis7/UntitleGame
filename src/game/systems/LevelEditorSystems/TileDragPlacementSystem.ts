@@ -28,6 +28,7 @@ import {
 import { createEntity } from '../../utils/EntityFactory';
 import type { Container, FederatedPointerEvent } from 'pixi.js';
 import { screenToGrid } from '../../utils/MappingUtils';
+import { editorComponentPropertiesAtom } from '../../atoms/editorComponentPropertiesAtom';
 
 export class TileDragPlacementSystem implements BaseSystem {
   private readonly container: Container;
@@ -114,12 +115,18 @@ export class TileDragPlacementSystem implements BaseSystem {
 
     this.previewEntities.forEach(removeEntity);
     const positionsToCover = this.getPositionsInRectangle(start, current);
+    const renderSectionToUse = store.get(editorComponentPropertiesAtom).mapLayer
+      ? RenderSection.Map
+      : RenderSection.Game;
+
     const newPreviewEntities = positionsToCover.map((pos) =>
-      this.createPreviewEntity(selectedSprite, pos),
+      this.createPreviewEntity(selectedSprite, pos, renderSectionToUse),
     );
 
     addEntities(newPreviewEntities);
-    store.set(setHasMapUpdatedAtom, true);
+    if (renderSectionToUse === RenderSection.Map) {
+      store.set(setHasMapUpdatedAtom, true);
+    }
     this.previewEntities = newPreviewEntities.map((e) => e.id);
 
     this.hasDragChanged = false;
@@ -191,12 +198,16 @@ export class TileDragPlacementSystem implements BaseSystem {
     return positions;
   }
 
-  private createPreviewEntity(spriteName: string, position: Position) {
+  private createPreviewEntity(
+    spriteName: string,
+    position: Position,
+    renderSection: RenderSection,
+  ) {
     return createEntity([
       new TilePreviewComponent(),
-      new SpriteComponent({ sprite: spriteName }),
+      new SpriteComponent({ spriteName: spriteName }),
       new PositionComponent(position),
-      new RenderComponent({ section: RenderSection.Map }),
+      new RenderComponent({ section: renderSection }),
     ]);
   }
 }
